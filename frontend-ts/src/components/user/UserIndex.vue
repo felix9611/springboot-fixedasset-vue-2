@@ -2,9 +2,9 @@
     <div>用户主页</div>
 </template>
 
-<script>
+<script lang="ts">
     export default {
-        name: "UserIndex"
+        name: 'UserIndex'
     }
 </script>
 
