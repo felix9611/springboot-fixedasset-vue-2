@@ -222,15 +222,17 @@
         </el-dialog>
     </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../../axios'
+
+export default Vue.extend({
         name: 'AssetList',
         data() {
+            const searchForm: any = {}
+            const editForm: any = {}
             return {
-                searchForm: {
-                    page: 1,
-                    limit: 10
-                },
+                searchForm,
                 delBtlStatu: true,
                 sumTotal: 0,
                 total: 0,
@@ -238,10 +240,7 @@ export default {
                 current: 1,
 
                 dialogVisible: false,
-                editForm: {
-                    id: 0
-                },
-
+                editForm,
                 tableData: [],
                 placeItem: [],
                 typeItem: [],
@@ -271,94 +270,93 @@ export default {
         },
         methods: {
           getTotalCost() {
-            this.$axios.get(
+            axios.get(
               '/asset/assetList/getTotalSum'
             ).then(
-              res => {
+              (res: any) => {
                 this.sumTotal = res.data.data
               }
             )
           },
           getAlldept() {
-            this.$axios.get(
+            axios.get(
               '/base/department/getAll'
             ).then(
-              res => {
+              (res: any) => {
                 this.deptItem = res.data.data
               }
             )
           },
           getAllType() {
-            this.$axios.get(
+            axios.get(
               '/base/asset_type/getAll'
             ).then(
-              res => {
+              (res: any) => {
                 this.typeItem = res.data.data
               }
             )
           },
           getAllPlace() {
-                this.$axios.get(
+                axios.get(
                     '/base/location/getAll'
                 ).then(
-                    res => {
+                    (res: any) => {
                         // console.log(res.data.data)
                         this.placeItem = res.data.data
                     }
                 )
             },
             assetAllList() {
-                this.$axios.post(
-                '/asset/assetList/listAll',
-                this.searchForm
-              ).then(
-                res => {
-                  this.tableData = res.data.data.records
-                  this.size = res.data.data.size
-                  this.current = res.data.data.current
-                  this.total = res.data.data.total
-              })
+                axios.post(
+                    '/asset/assetList/listAll',
+                    this.searchForm
+                ).then(
+                    (res: any) => {
+                    this.tableData = res.data.data.records
+                    this.size = res.data.data.size
+                    this.current = res.data.data.current
+                    this.total = res.data.data.total
+                })
             },
-            toggleSelection(rows) {
+            toggleSelection(rows: any) {
                 if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
+                    rows.forEach((row: any) => {
+                        const multipleTable: any = this.$refs.multipleTable
+                        multipleTable.toggleRowSelection(row);
                     });
                 } else {
-                    this.$refs.multipleTable.clearSelection();
+                    const multipleTable: any = this.$refs.multipleTable
+                    multipleTable.clearSelection();
                 }
             },
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-
-                this.delBtlStatu = val.length == 0
-            },
-
-            handleSizeChange(val) {
+            handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.assetAllList()
             },
-            handleCurrentChange(val) {
+            handleCurrentChange(val: number) {
                 this.searchForm.page = val
                 this.assetAllList()
             },
 
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
             },
             handleClose() {
                 this.resetForm('editForm')
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.validate((valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
-                        this.$axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then(res => {
+                        axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                            .then((res: any) => {
                                 this.assetAllList()
                                 this.$notify({
+                                    title: '',
                                     showClose: true,
                                     message: '恭喜你，Action成功',
                                     type: 'success',
@@ -371,17 +369,18 @@ export default {
                     }
                 });
             },
-            editHandle(id) {
-                this.$axios.get('/asset/assetList/' + id).then(res => {
+            editHandle(id: number) {
+                axios.get(`/asset/assetList/${id}`).then((res: any) => {
                     console.log(this.placeItem)
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
             },
-            delItem(id) {
-                this.$axios.delete('/asset/assetList/remove/'+ id).then(res => {
+            delItem(id: number) {
+                axios.delete(`/asset/assetList/remove/${id}`).then(res => {
                     this.assetAllList()
                     this.$notify({
+                        title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
@@ -389,8 +388,8 @@ export default {
                 })
             }
         }
-    }
-</script> -->
+})
+</script>
 
 <style scoped>
 

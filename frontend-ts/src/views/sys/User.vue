@@ -18,11 +18,6 @@
                 <el-form-item>
                     <el-button type="primary" @click="dialogVisible = true" v-if="hasAuth('sys:user:save')">Add</el-button>
                 </el-form-item>
-                <el-form-item>
-                    <el-popconfirm title="这是确定批量删除吗？" @onConfirm="delHandle(null)">
-                        <el-button type="danger" slot="reference" :disabled="delBtlStatu" v-if="hasAuth('sys:user:delete')">批量删除</el-button>
-                    </el-popconfirm>
-                </el-form-item>
             </el-form>
         </div>
 
@@ -99,12 +94,6 @@
 
                     <el-button type="text" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
-
-                    <template>
-                        <el-popconfirm title="这是一段内容确定删除吗？" @onConfirm="delHandle(scope.row.id)">
-                            <el-button type="text" slot="reference">Remove</el-button>
-                        </el-popconfirm>
-                    </template>
 
                 </template>
             </el-table-column>
@@ -185,12 +174,19 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "User",
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../axios'
+
+export default Vue.extend({
+        name: 'User',
         data() {
+            const roleForm: any = {}
+            const editForm: any = {}
+            const multipleSelection: any = []
+            const searchForm: any = {}
             return {
-                searchForm: {},
+                searchForm,
                 delBtlStatu: true,
 
                 total: 0,
@@ -198,32 +194,30 @@
                 current: 1,
 
                 dialogVisible: false,
-                editForm: {
-
-                },
+                editForm,
 
                 tableData: [],
 
                 editFormRules: {
                     username: [
-                        {required: true, message: '请输入用户名称', trigger: 'blur'}
+                        {required: true, message: 'Please entry username', trigger: 'blur'}
                     ],
                     email: [
-                        {required: true, message: '请输入邮箱', trigger: 'blur'}
+                        {required: true, message: 'Please entry email', trigger: 'blur'}
                     ],
                     statu: [
-                        {required: true, message: '请选择状态', trigger: 'blur'}
+                        {required: true, message: 'Please select statu', trigger: 'blur'}
                     ]
                 },
 
-                multipleSelection: [],
+                multipleSelection,
 
                 roleDialogFormVisible: false,
                 defaultProps: {
                     children: 'children',
                     label: 'name'
                 },
-                roleForm: {},
+                roleForm,
                 roleTreeData:  [],
                 treeCheckedKeys: [],
                 checkStrictly: true
@@ -235,36 +229,39 @@
         },
         methods: {
             getRoleList() {
-                this.$axios.get("/sys/role/list").then(res => {
+                axios.get('/sys/role/list').then((res: any) => {
                     this.roleTreeData = res.data.data.records
                 })
             },
-            toggleSelection(rows) {
+            toggleSelection(rows: any) {
                 if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
+                    rows.forEach((row: any) => {
+                        const multipleTable: any = this.$refs.multipleTable
+                        multipleTable.toggleRowSelection(row);
                     });
                 } else {
-                    this.$refs.multipleTable.clearSelection();
+                    const refs: any = this.$refs
+                    refs.multipleTable.clearSelection();
                 }
             },
-            handleSelectionChange(val) {
+            handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
             },
 
-            handleSizeChange(val) {
+            handleSizeChange(val: number) {
                 this.size = val
                 this.getUserList()
             },
-            handleCurrentChange(val) {
+            handleCurrentChange(val: number) {
                 this.current = val
                 this.getUserList()
             },
 
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
             },
@@ -273,13 +270,13 @@
             },
 
             getUserList() {
-                this.$axios.get("/sys/user/list", {
+                axios.get("/sys/user/list", {
                     params: {
                         username: this.searchForm.username,
                         current: this.current,
                         size: this.size
                     }
-                }).then(res => {
+                }).then((res: any) => {
                     this.tableData = res.data.data.records
                     this.size = res.data.data.size
                     this.current = res.data.data.current
@@ -287,13 +284,15 @@
                 })
             },
 
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName: string) {
+                const formNames :any = this.$refs[formName]
+                formNames.validate((valid: any) => {
                     if (valid) {
-                        this.$axios.post('/sys/user/' + (this.editForm.id?'update' : 'save'), this.editForm)
-                            .then(res => {
+                        axios.post('/sys/user/' + (this.editForm.id?'update' : 'save'), this.editForm)
+                            .then((res: any) => {
                                 this.getUserList()
                                 this.$notify({
+                                    title: '',
                                     showClose: true,
                                     message: '恭喜你，Action成功',
                                     type: 'success',
@@ -306,56 +305,59 @@
                     }
                 });
             },
-            editHandle(id) {
-                this.$axios.get('/sys/user/info/' + id).then(res => {
+            editHandle(id: number) {
+                axios.get('/sys/user/info/' + id).then((res: any) => {
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
             },
-            delHandle(id) {
+            /* delHandle(id: number) {
 
                 var ids = []
 
                 if (id) {
                     ids.push(id)
                 } else {
-                    this.multipleSelection.forEach(row => {
+                    this.multipleSelection.forEach((row: any) => {
                         ids.push(row.id)
                     })
                 }
 
 
-                this.$axios.post("/sys/user/delete", ids).then(res => {
+                axios.post("/sys/user/delete", ids).then((res: any) => {
                     this.getUserList()
                     this.$notify({
+                        title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
                     });
                 })
-            },
+            }, */
 
-            roleHandle (id) {
+            roleHandle (id: number) {
                 this.getRoleList()
                 this.roleDialogFormVisible = true
 
-                this.$axios.get('/sys/user/info/' + id).then(res => {
+                axios.get('/sys/user/info/' + id).then((res: any) => {
                     this.roleForm = res.data.data
 
-                    let roleIds = []
-                    res.data.data.sysRoles.forEach(row => {
+                    let roleIds: any = []
+                    res.data.data.sysRoles.forEach((row: any) => {
                         roleIds.push(row.id)
                     })
-
-                    this.$refs.roleTree.setCheckedKeys(roleIds)
+                    const refs: any =this.$refs
+                    refs.roleTree.setCheckedKeys(roleIds)
                 })
             },
             submitRoleHandle(formName) {
-                var roleIds = this.$refs.roleTree.getCheckedKeys()
+                const refs: any = this.$refs
+                const roleIds = refs.roleTree.getCheckedKeys()
 
-                this.$axios.post('/sys/user/role/' + this.roleForm.id, roleIds).then(res => {
+                axios.post('/sys/user/role/' + this.roleForm.id, roleIds).then((res: any) => {
                     this.getUserList()
                     this.$notify({
+                        title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
@@ -371,18 +373,23 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$axios.post("/sys/user/repass", id).then(res => {
+                    axios.post("/sys/user/repass", id).then((res: any) => {
                         this.getUserList()
                         this.$notify({
+                            title: '',
                             showClose: true,
                             message: '恭喜你，Action成功',
                             type: 'success'
                         });
                     })
                 })
+            },
+            hasAuth(perm: string) {
+                var authority = this.$store.state.permList
+                return authority.indexOf(perm) > -1
             }
         }
-    }
+})
 </script>
 
 <style scoped>

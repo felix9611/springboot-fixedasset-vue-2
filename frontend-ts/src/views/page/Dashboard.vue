@@ -97,10 +97,13 @@
     </div>
 </template>
 
-<script>
-import Schart from 'vue-schart';
+<script lang="ts">
+import Schart from 'vue-schart'
 import bus from '../../components/common/bus';
-export default {
+import Vue from 'vue'
+import axios from '../../axios'
+
+export default Vue.extend({
     name: 'dashboard',
     data() {
         return {
@@ -170,13 +173,13 @@ export default {
     methods: {
         changeDate() {
             const now = new Date().getTime();
-            this.data.forEach((item, index) => {
+            this.data.forEach((item: any, index: any) => {
                 const date = new Date(now - (6 - index) * 86400000);
                 item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
             });
         }
     }
-};
+})
 </script>
 
 

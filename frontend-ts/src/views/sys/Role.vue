@@ -163,12 +163,18 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "Role",
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../axios'
+
+export default Vue.extend({
+        name: 'Role',
         data() {
+            const permForm: any = {}
+            const searchForm: any = {}
+            const editForm: any = {}
             return {
-                searchForm: {},
+                searchForm,
                 delBtlStatu: true,
 
                 total: 0,
@@ -176,7 +182,7 @@
                 current: 1,
 
                 dialogVisible: false,
-                editForm: {},
+                editForm,
 
                 tableData: [],
 
@@ -195,7 +201,7 @@
                 multipleSelection: [],
 
                 permDialogVisible: false,
-                permForm: {},
+                permForm,
                 defaultProps: {
                     children: 'children',
                     label: 'name'
@@ -206,36 +212,39 @@
         created() {
             this.getRoleList()
 
-            this.$axios.get('/sys/menu/list').then(res => {
+            axios.get('/sys/menu/list').then((res: any) => {
                 this.permTreeData = res.data.data
             })
         },
         methods: {
-            toggleSelection(rows) {
+            toggleSelection(rows: any) {
                 if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
+                    rows.forEach((row: any) => {
+                        const multipleTable: any = this.$refs.multipleTable
+                        multipleTable.toggleRowSelection(row);
                     });
                 } else {
-                    this.$refs.multipleTable.clearSelection();
+                    const multipleTable: any = this.$refs.multipleTable
+                    multipleTable.clearSelection();
                 }
             },
-            handleSelectionChange(val) {
+            handleSelectionChange(val: any) {
                 this.multipleSelection = val;
                 this.delBtlStatu = val.length == 0
             },
 
-            handleSizeChange(val) {
+            handleSizeChange(val: number) {
                 this.size = val
                 this.getRoleList()
             },
-            handleCurrentChange(val) {
+            handleCurrentChange(val: number) {
                 this.current = val
                 this.getRoleList()
             },
 
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs[formName].resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
             },
@@ -244,7 +253,7 @@
             },
 
             getRoleList() {
-                this.$axios.get("/sys/role/list", {
+                axios.get('/sys/role/list', {
                     params: {
                         name: this.searchForm.name,
                         current: this.current,
@@ -258,13 +267,15 @@
                 })
             },
 
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.validate((valid) => {
                     if (valid) {
-                        this.$axios.post('/sys/role/' + (this.editForm.id ? 'update' : 'save'), this.editForm)
+                        axios.post('/sys/role/' + (this.editForm.id ? 'update' : 'save'), this.editForm)
                             .then(res => {
                                 this.getRoleList()
                                 this.$notify({
+                                    title: '',
                                     showClose: true,
                                     message: '恭喜你，Action成功',
                                     type: 'success'
@@ -278,50 +289,53 @@
                     }
                 });
             },
-            editHandle(id) {
-                this.$axios.get('/sys/role/info/' + id).then(res => {
+            editHandle(id: number) {
+                axios.get('/sys/role/info/' + id).then((res: any) => {
                     this.editForm = res.data.data
 
                     this.dialogVisible = true
                 })
             },
-            delHandle(id) {
+            /* delHandle(id) {
 
                 var ids = []
 
                 if (id) {
                     ids.push(id)
                 } else {
-                    this.multipleSelection.forEach(row => {
+                    this.multipleSelection.forEach((row: any) => {
                         ids.push(row.id)
                     })
                 }
 
-                this.$axios.post("/sys/role/delete", ids).then(res => {
+                axios.post('/sys/role/delete', ids).then((res: any) => {
                     this.getRoleList()
                     this.$notify({
+                        title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
                     });
                 })
-            },
-            permHandle(id) {
+            }, */
+            permHandle(id: number) {
                 this.permDialogVisible = true
 
-                this.$axios.get("/sys/role/info/" + id).then(res => {
-
-                    this.$refs.permTree.setCheckedKeys(res.data.data.menuIds)
+                axios.get(`/sys/role/info/${id}`).then((res: any) => {
+                    const permTree: any = this.$refs.permTree
+                    permTree.setCheckedKeys(res.data.data.menuIds)
                     this.permForm = res.data.data
                 })
             },
 
-            submitPermFormHandle(formName) {
-                var menuIds = this.$refs.permTree.getCheckedKeys()
+            submitPermFormHandle(formName: string) {
+                const permTree: any = this.$refs.permTree
+                const menuIds = permTree.getCheckedKeys()
 
-                this.$axios.post('/sys/role/perm/' + this.permForm.id, menuIds).then(res => {
+                axios.post(`/sys/role/perm/${this.permForm.id}`, menuIds).then(res => {
                     this.getRoleList()
                     this.$notify({
+                        title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
@@ -331,7 +345,7 @@
                 })
             }
         }
-    }
+})
 </script>
 
 <style scoped>

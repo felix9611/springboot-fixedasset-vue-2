@@ -93,9 +93,12 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "ActionLog",
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../../axios'
+
+export default Vue.extend({
+        name: 'ActionLog',
         data() {
             return {
                 searchForm: {
@@ -120,8 +123,8 @@
                     label: 'name'
                 },
                 treeCheckedKeys: [],
-                checkStrictly: true
-
+                checkStrictly: true,
+                multipleSelection: []
             }
         },
         created() {
@@ -129,38 +132,40 @@
         },
         methods: {
             getAllRecord() {
-              this.$axios.post('/base/action/listAll', this.searchForm).then(res => {
+              axios.post('/base/action/listAll', this.searchForm).then(res => {
                 this.tableData = res.data.data.records
                   this.size = res.data.data.size
                   this.current = res.data.data.current
                   this.total = res.data.data.total
               })
             },
-            toggleSelection(rows) {
+            toggleSelection(rows: any) {
                 if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
+                    rows.forEach((row: any) => {
+                        const refs: any = this.$refs.multipleTable
+                        refs.toggleRowSelection(row);
                     });
                 } else {
-                    this.$refs.multipleTable.clearSelection();
+                    const refs: any = this.$refs.multipleTable
+                    refs.clearSelection();
                 }
             },
-            handleSelectionChange(val) {
+            handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
             },
 
-            handleSizeChange(val) {
+            handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.getAllRecord()
             },
-            handleCurrentChange(val) {
+            handleCurrentChange(val: number) {
                 this.searchForm.page = val
                 this.getAllRecord()
             }
         }
-    }
+})
 </script>
 
 <style scoped>

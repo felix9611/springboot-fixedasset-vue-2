@@ -155,15 +155,17 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "Meun",
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../axios'
+
+export default Vue.extend({
+        name: 'Meun',
         data () {
+            const editForm: any = {}
             return {
                 dialogVisible: false,
-                editForm: {
-
-                },
+                editForm,
                 editFormRules: {
                     parentId: [
                         {required: true, message: '请选择上级菜单', trigger: 'blur'}
@@ -192,17 +194,19 @@
         },
         methods: {
             getMenuTree() {
-                this.$axios.get("/sys/menu/list").then(res => {
+                axios.get('/sys/menu/list').then((res: any) => {
                     this.tableData = res.data.data
                 })
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.validate((valid: any) => {
                     if (valid) {
-                        this.$axios.post('/sys/menu/' + (this.editForm.id?'update' : 'save'), this.editForm)
-                            .then(res => {
+                        axios.post('/sys/menu/' + (this.editForm.id?'update' : 'save'), this.editForm)
+                            .then((res: any) => {
                                 this.getMenuTree()
                                 this.$notify({
+                                    title: '',
                                     showClose: true,
                                     message: '恭喜你，Action成功',
                                     type: 'success'
@@ -215,27 +219,29 @@
                     }
                 });
             },
-            editHandle(id) {
-                this.$axios.get('/sys/menu/info/' + id).then(res => {
+            editHandle(id: number) {
+                axios.get(`/sys/menu/info/${id}`).then((res: any) => {
                     this.editForm = res.data.data
 
                     this.dialogVisible = true
                 })
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
             },
             handleClose() {
                 this.resetForm('editForm')
             },
-            delHandle(id) {
+            delHandle(id: number) {
 
-                this.$axios.post("/sys/menu/delete/" + id).then(res => {
+                axios.post(`/sys/menu/delete/${id}`).then(res => {
                     this.getMenuTree()
                     if(res.data.code === 200) {
                         this.$notify({
+                            title: '',
                             showClose: true,
                             message: '恭喜你，Action成功',
                             type: 'success'
@@ -245,7 +251,7 @@
                 })
             }
         }
-    }
+})
 </script>
 
 <style scoped>
