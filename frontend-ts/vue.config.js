@@ -14,7 +14,7 @@ module.exports = {
         proxy: {
             [process.env.VUE_APP_BASE_API]: {
                 //后端服务地址和端口
-                target: 'http://localhost:8081',
+                target: 'http://localhost:8350',
                 //是否跨域
                 changeOrigin: true,
                 pathRewrite: {

@@ -100,17 +100,6 @@
                     <el-input type="textarea" v-model="editForm.deptOtherName"></el-input>
                 </el-form-item>
 
-                <!-- <el-form-item label="Test">
-                    <el-select v-model="value" placeholder="Select">
-                        <el-option
-                        v-for="item in placeItem"
-                        :key="item.id"
-                        :label="item.placeName"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item> -->
-
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="resetForm('editForm')">Cancel</el-button>
@@ -120,32 +109,14 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "Department",
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../../axios'
+
+export default Vue.extend({
+        name: 'Department',
         data() {
             return {
-                // test 
-                options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                    }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                    }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                    }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                    }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                    }],
-                value: '',
-
-
-
                 searchForm: {
                     limit: 10,
                     page: 1
@@ -158,8 +129,10 @@
 
                 dialogVisible: false,
                 editForm: {
-                    id: null,
-                    deptCode: null,
+                    id: 0,
+                    deptCode: '',
+                    deptName: '',
+                    deptOtherName: null
                 },
 
                 tableData: [],
@@ -187,71 +160,69 @@
         },
         created() {
             this.deptAllList()
-            this.getAllPlace()
         },
         methods: {
-            /* getAllPlace() {
-                this.$axios.get(
-                    '/base/location/getAll'
-                ).then(
-                    res => {
-                        // console.log(res.data.data)
-                        this.placeItem = res.data.data
-                    }
-                )
-            }, */
             deptAllList() {
-              this.$axios.post(
+              axios.post(
                 '/base/department/listAll',
                 this.searchForm
               ).then(
-                res => {
+                (res: any) => {
                   this.tableData = res.data.data.records
                   this.size = res.data.data.size
                   this.current = res.data.data.current
                   this.total = res.data.data.total
               })
             },
-            toggleSelection(rows) {
+            toggleSelection(rows: any) {
+                const multipleTable: any = this.$refs.multipleTable
                 if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
+                    rows.forEach((row: any) => {
+                        multipleTable.toggleRowSelection(row);
                     });
                 } else {
-                    this.$refs.multipleTable.clearSelection();
+                    multipleTable.clearSelection();
                 }
             },
-            handleSelectionChange(val) {
+            handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
             },
 
-            handleSizeChange(val) {
+            handleSizeChange(val: any) {
                 this.searchForm.limit = val
                 this.deptAllList()
             },
-            handleCurrentChange(val) {
+            handleCurrentChange(val: any) {
                 this.searchForm.page = val
                 this.deptAllList()
             },
 
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm(formName: string) {
+                const ref: any = this.$refs[formName]
+                ref.resetFields();
                 this.dialogVisible = false
-                this.editForm = {}
+                this.editForm = {
+                    id: 0,
+                    deptCode: '',
+                    deptName: '',
+                    deptOtherName: null
+                }
             },
             handleClose() {
                 this.resetForm('editForm')
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName: string) {
+                const validData: any = this.$refs[formName]
+                validData.validate((valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
-                        this.$axios.post('/base/department/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then(res => {
+                        axios.post('/base/department/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                            .then((res: any) => {
                                 this.deptAllList()
                                 this.$notify({
+                                    title: 'Msg',
                                     showClose: true,
                                     message: '恭喜你，Action成功',
                                     type: 'success',
@@ -260,21 +231,22 @@
                                 this.dialogVisible = false
                             })
                     } else {
-                        return false;
+                         return false;
                     }
                 });
             },
-            editHandle(id) {
-                this.$axios.get('/base/department/' + id).then(res => {
+            editHandle(id: number) {
+                axios.get('/base/department/' + id).then((res: any) => {
                     console.log(this.placeItem)
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
             },
-            delItem(id) {
-                this.$axios.delete('/base/department/remove/'+ id).then(res => {
+            delItem(id: number) {
+                axios.delete('/base/department/remove/'+ id).then((res: any) => {
                     this.deptAllList()
                     this.$notify({
+                        title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
@@ -282,7 +254,7 @@
                 })
             }
         }
-    }
+})
 </script>
 
 <style scoped>

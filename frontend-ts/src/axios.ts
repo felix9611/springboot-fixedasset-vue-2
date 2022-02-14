@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig , AxiosResponse } from 'axios'
 import router from './router'
 import { Notification } from 'element-ui';
 
-axios.defaults.baseURL = "http://localhost:8081"
+axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 
 const request = axios.create({
     timeout: 5000,

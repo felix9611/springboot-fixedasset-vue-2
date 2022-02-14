@@ -5,7 +5,7 @@
                 <el-form-item>
                     <el-input
                             v-model="searchForm.username"
-                            placeholder="用户名"
+                            placeholder="Username"
                             clearable
                     >
                     </el-input>
