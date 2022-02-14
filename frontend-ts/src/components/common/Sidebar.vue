@@ -52,9 +52,10 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import bus from './bus'
-export default {
+export default Vue.extend({
     data() {
         return {
             collapse: false
@@ -78,7 +79,7 @@ export default {
             bus.$emit('collapse-content', msg);
         });
     }
-};
+})
 </script>
 
 <style scoped>

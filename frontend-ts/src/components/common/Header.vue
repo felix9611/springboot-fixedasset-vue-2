@@ -33,9 +33,11 @@
         </div>
     </div>
 </template>
-<script>
-import bus from './bus';
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../axios'
+import bus from './bus'
+export default Vue.extend({
     data() {
         return {
             collapse: false,
@@ -60,14 +62,14 @@ export default {
     },
     methods: {
         getUserInfo() {
-            this.$axios.get("/sys/userInfo").then(res => {
+            axios.get("/sys/userInfo").then(res => {
                 this.userInfo = res.data.data
             })
         },
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
-                this.$axios.post('/logout').then(res => {
+                axios.post('/logout').then(res => {
                     localStorage.clear()
                     sessionStorage.clear()
                     this.$store.commit("resetState")
@@ -91,23 +93,23 @@ export default {
             if (this.fullscreen) {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
-                } else if (document.webkitCancelFullScreen) {
-                    document.webkitCancelFullScreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
+                } else if (document['webkitCancelFullScreen']) {
+                    document['webkitCancelFullScreen']();
+                } else if (document['mozCancelFullScreen']) {
+                    document['mozCancelFullScreen']();
+                } else if (document['msExitFullscreen']) {
+                    document['msExitFullscreen']();
                 }
             } else {
                 if (element.requestFullscreen) {
                     element.requestFullscreen();
-                } else if (element.webkitRequestFullScreen) {
-                    element.webkitRequestFullScreen();
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if (element.msRequestFullscreen) {
+                } else if (element['webkitRequestFullScreen']) {
+                    element['webkitRequestFullScreen']();
+                } else if (element['mozRequestFullScreen']) {
+                    element['mozRequestFullScreen']();
+                } else if (element['msRequestFullscreen']) {
                     // IE11
-                    element.msRequestFullscreen();
+                    element['msRequestFullscreen']();
                 }
             }
             this.fullscreen = !this.fullscreen;
@@ -118,7 +120,7 @@ export default {
             this.collapseChage();
         }
     }
-};
+})
 </script>
 <style scoped>
 .header {

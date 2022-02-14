@@ -106,14 +106,18 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "Department",
+<script lang="ts">
+import Vue from 'vue'
+import axios from '../../../axios'
+
+export default Vue.extend({
+        name: 'Department',
         data() {
             return {
                 searchForm: {
                     limit: 10,
-                    page: 1
+                    page: 1,
+                    placeName: ''
                 },
                 delBtlStatu: true,
 
@@ -123,7 +127,11 @@
 
                 dialogVisible: false,
                 editForm: {
-                    id: null
+                    id: 0,
+                    placeName: '',
+                    placeCode: '',
+                    remark: '',
+                    placeOtherName: null
                 },
 
                 tableData: [],
@@ -153,11 +161,11 @@
         },
         methods: {
             placeAllList() {
-              this.$axios.post(
+              axios.post(
                 '/base/location/listAll',
                 this.searchForm
               ).then(
-                res => {
+                (res: any) => {
                   this.tableData = res.data.data.records
                   this.size = res.data.data.size
                   this.current = res.data.data.current
@@ -165,46 +173,57 @@
                 }
               )
             },
-            toggleSelection(rows) {
+            toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
+                        const multipleTable: any = this.$refs.multipleTable
+                        multipleTable.toggleRowSelection(row);
                     });
                 } else {
-                    this.$refs.multipleTable.clearSelection();
+                    const multipleTable: any = this.$refs.multipleTable
+                    multipleTable.clearSelection();
                 }
             },
-            handleSelectionChange(val) {
+            handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
             },
 
-            handleSizeChange(val) {
+            handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.placeAllList()
             },
-            handleCurrentChange(val) {
+            handleCurrentChange(val: number) {
                 this.searchForm.page = val
                 this.placeAllList()
             },
 
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.resetFields();
                 this.dialogVisible = false
-                this.editForm = {}
+                this.editForm = {
+                    id: 0,
+                    placeName: '',
+                    placeCode: '',
+                    remark: '',
+                    placeOtherName: null
+                }
             },
             handleClose() {
                 this.resetForm('editForm')
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.validate((valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
-                        this.$axios.post('/base/location/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                        axios.post('/base/location/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                             .then(res => {
                                 this.placeAllList()
                                 this.$notify({
+                                    title: '',
                                     showClose: true,
                                     message: '恭喜你，Action成功',
                                     type: 'success',
@@ -217,17 +236,18 @@
                     }
                 });
             },
-            editHandle(id) {
-                this.$axios.get('/base/location/' + id).then(res => {
+            editHandle(id: number) {
+                axios.get('/base/location/' + id).then(res => {
                     console.log(res.data.data)
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
             },
-            delItem(id) {
-                this.$axios.delete('/base/location/remove/'+ id).then(res => {
+            delItem(id: number) {
+                axios.delete('/base/location/remove/'+ id).then(res => {
                     this.placeAllList()
                     this.$notify({
+                        title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
@@ -235,7 +255,7 @@
                 })
             }
         }
-    }
+})
 </script>
 
 <style scoped>

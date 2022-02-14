@@ -22,22 +22,24 @@
     </div>
 </template>
 
-<script>
-    import bus from './bus';
-    export default {
+<script lang="ts">
+import Vue from 'vue'
+import bus from './bus'
+export default Vue.extend({
         data() {
+            const tagsList: any = []
             return {
-                tagsList: []
+                tagsList
             }
         },
         methods: {
-            isActive(path) {
+            isActive(path: any) {
                 return path === this.$route.fullPath;
             },
             // 关闭单个标签
-            closeTags(index) {
-                const delItem = this.tagsList.splice(index, 1)[0];
-                const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
+            closeTags(index: any) {
+                const delItem: any = this.tagsList.splice(index, 1)[0];
+                const item: any = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
                 if (item) {
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
                 }else{
@@ -51,14 +53,14 @@
             },
             // 关闭其他标签
             closeOther(){
-                const curItem = this.tagsList.filter(item => {
+                const curItem = this.tagsList.filter((item: any) => {
                     return item.path === this.$route.fullPath;
                 })
                 this.tagsList = curItem;
             },
             // 设置标签
             setTags(route){
-                const isExist = this.tagsList.some(item => {
+                const isExist = this.tagsList.some((item: any) => {
                     return item.path === route.fullPath;
                 })
                 if(!isExist){
@@ -79,7 +81,8 @@
         },
         computed: {
             showTags() {
-                return this.tagsList.length > 0;
+                const tagsList: any = this.tagsList
+                return tagsList.length > 0;
             }
         },
         watch:{
@@ -92,12 +95,14 @@
             // 监听关闭当前页面的标签页
             bus.$on('close_current_tags', () => {
                 for (let i = 0, len = this.tagsList.length; i < len; i++) {
-                    const item = this.tagsList[i];
+                    const item: any = this.tagsList[i];
                     if(item.path === this.$route.fullPath){
                         if(i < len - 1){
-                            this.$router.push(this.tagsList[i+1].path);
+                            const itemPath: any = this.tagsList[i-1];
+                            this.$router.push(itemPath.path);
                         }else if(i > 0){
-                            this.$router.push(this.tagsList[i-1].path);
+                            const itemPath: any = this.tagsList[i-1];
+                            this.$router.push(itemPath.path);
                         }else{
                             this.$router.push('/');
                         }
@@ -107,7 +112,7 @@
                 }
             })
         }
-    }
+})
 
 </script>
 
