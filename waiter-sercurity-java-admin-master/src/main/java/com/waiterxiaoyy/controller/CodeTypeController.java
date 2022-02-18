@@ -32,10 +32,9 @@ public class CodeTypeController extends BaseController {
         return Result.succ(codeTypeService.getById(id));
     }
 
-    @PostMapping("getAllValue")
+    @PostMapping("/getAllValue")
     public Result getAllValue(@RequestBody CodeType codeType) {
-        codeTypeService.getAllList(codeType);
-        return Result.succ(codeType);
+        return Result.succ(codeTypeService.getAllList(codeType));
     }
     @DeleteMapping("/remove/{id}")
     public Result remove(@PathVariable("id") Long id) {

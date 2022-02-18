@@ -115,10 +115,10 @@
                 <el-form-item label="Status" prop="status" label-width="100px">
                     <el-select v-model="editForm.status" placeholder="Select" filterable>
                         <el-option
-                        v-for="item in statusItem"
-                        :key="item.status"
-                        :label="item.status"
-                        :value="item.status">
+                        v-for="item in statusItemNew"
+                        :key="item.valueName"
+                        :label="item.valueName"
+                        :value="item.valueName">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -149,6 +149,7 @@ export default Vue.extend({
             }
             const editForm: any = {}
             return {
+                statusItemNew: [],
                 statusItem: [
                     { status: 'Exist' },
                     { status: 'Not Exist' },
@@ -193,6 +194,7 @@ export default Vue.extend({
             this.stockTakeItemList()
             this.getAllstockTakeList()
             this.getAllPlace()
+            this.getAllValueCode()
         },
         methods: {
           getAllPlace() {
@@ -216,6 +218,15 @@ export default Vue.extend({
                     this.current = res.data.data.current
                     this.total = res.data.data.total
               })
+          },
+          getAllValueCode() {
+              axios.post(
+                    '/base/code_type/getAllValue',
+                    { type: 'StockTake' }
+                ).then(
+                    (res: any) => {
+                        this.statusItemNew = res.data.data
+                    })
           },
           getAllstockTakeList() {
                 axios.get(
