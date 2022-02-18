@@ -213,10 +213,10 @@ export default Vue.extend({
             },
             submitForm(formName: string) {
                 const refs: any = this.$refs[formName]
-                refs.validate((valid: any) => {
+                refs.validate(async (valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
-                        axios.post('/base/asset_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                        await axios.post('/base/asset_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                             .then((res: any) => {
                                 this.typeAllList()
                                 this.$notify({
@@ -233,15 +233,15 @@ export default Vue.extend({
                     }
                 });
             },
-            editHandle(id: number) {
-                axios.get('/base/asset_type/' + id).then(res => {
+            async editHandle(id: number) {
+                await axios.get('/base/asset_type/' + id).then(res => {
                     console.log(this.placeItem)
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
             },
-            delItem(id: number) {
-                axios.delete('/base/asset_type/remove/'+ id).then((res: any) => {
+            async delItem(id: number) {
+                await axios.delete('/base/asset_type/remove/'+ id).then((res: any) => {
                     this.typeAllList()
                     this.$notify({
                         title: '',

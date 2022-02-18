@@ -2,7 +2,7 @@
     <div class="login" :style="'background-image:url(' + Background + ');'">
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px"
                  class="login-form">
-            <h3 class="title">WaiterXiaoYY权限系统</h3>
+            <h3 class="title">Fixed Asset</h3>
             <el-form-item prop="username">
                 <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
                     <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon"/>
@@ -13,13 +13,13 @@
                         v-model="loginForm.password"
                         type="password"
                         auto-complete="off"
-                        placeholder="密码"
+                        placeholder="Paasword"
                 >
                     <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>
                 </el-input>
             </el-form-item>
             <el-form-item prop="code">
-                <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%">
+                <el-input v-model="loginForm.code" auto-complete="off" placeholder="Captcha Code" style="width: 63%">
                     <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/>
                 </el-input>
                 <div class="login-code">
@@ -32,13 +32,13 @@
       </el-checkbox> -->
             <el-form-item style="width: 100%">
                 <el-button :loading="loading" size="medium" type="primary" style="width: 100%" @click="submitForm('loginForm')">
-                    <span v-if="!loading">登 录</span>
-                    <span v-else>登 录 中...</span>
+                    <span v-if="!loading">Login</span>
+                    <span v-else>Now Login...</span>
                 </el-button>
             </el-form-item>
             <el-form-item style="width: 100%">
                 <el-button size="medium"  style="width: 100%" @click="resetForm('loginForm')">
-                    <span>重 置</span>
+                    <span>Reset</span>
                 </el-button>
             </el-form-item>
         </el-form>

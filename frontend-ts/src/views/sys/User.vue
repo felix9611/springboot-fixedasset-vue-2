@@ -45,12 +45,12 @@
 
             <el-table-column
                     prop="username"
-                    label="用户名"
+                    label="Username"
                     width="120">
             </el-table-column>
             <el-table-column
                     prop="code"
-                    label="角色名称">
+                    label="Role Name">
                 <template slot-scope="scope">
                     <el-tag size="small" type="info" v-for="item in scope.row.sysRoles" :key="item">{{item.name}}</el-tag>
                 </template>
@@ -58,11 +58,11 @@
             </el-table-column>
             <el-table-column
                     prop="email"
-                    label="邮箱">
+                    label="Email">
             </el-table-column>
             <el-table-column
                     prop="phone"
-                    label="手机号">
+                    label="Phone">
             </el-table-column>
 
             <el-table-column
@@ -77,7 +77,7 @@
             <el-table-column
                     prop="created"
                     width="200"
-                    label="创建时间"
+                    label="Created At"
             >
             </el-table-column>
             <el-table-column
@@ -86,7 +86,7 @@
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button type="text" @click="roleHandle(scope.row.id)">分配角色</el-button>
+                    <el-button type="text" @click="roleHandle(scope.row.id)">Assigning Roles</el-button>
                     <el-divider direction="vertical"></el-divider>
 
                     <el-button type="text" @click="repassHandle(scope.row.id, scope.row.username)">Reset Password</el-button>
@@ -113,7 +113,7 @@
 
         <!--新增对话框-->
         <el-dialog
-                title="提示"
+                title="Form"
                 :visible.sync="dialogVisible"
                 width="600px"
                 :before-close="handleClose">
@@ -166,8 +166,8 @@
             </el-form>
 
             <div slot="footer" class="dialog-footer">
-                <el-button @click="roleDialogFormVisible=false">取 消</el-button>
-                <el-button type="primary" @click="submitRoleHandle('roleForm')">确 定</el-button>
+                <el-button @click="roleDialogFormVisible=false">Cancel</el-button>
+                <el-button type="primary" @click="submitRoleHandle('roleForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
             </div>
         </el-dialog>
 

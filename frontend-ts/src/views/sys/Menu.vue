@@ -2,7 +2,7 @@
     <div class="container">
         <!--Action栏 begin-->
         <div class="handle-box">
-            <el-button type="primary" icon="el-icon-plus" class="mr10" @click="dialogVisible = true">新增</el-button>
+            <el-button type="primary" icon="el-icon-plus" class="mr10" @click="dialogVisible = true">Add</el-button>
         </div>
         <!--Action栏 end-->
 
@@ -17,51 +17,51 @@
 
             <el-table-column
                     prop="name"
-                    label="名称"
+                    label="Name"
                     sortable
                     width="180">
             </el-table-column>
             <el-table-column
                     prop="perms"
-                    label="权限编码"
+                    label="Perms Code"
                     sortable
                     width="180">
             </el-table-column>
 
             <el-table-column
                     prop="icon"
-                    label="图标">
+                    label="Icon">
             </el-table-column>
 
             <el-table-column
                     prop="type"
-                    label="类型">
+                    label="Type">
                 <template slot-scope="scope">
-                    <el-tag size="small" v-if="scope.row.type === 0">目录</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.type === 1" type="success">菜单</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.type === 2" type="info">按钮</el-tag>
+                    <el-tag size="small" v-if="scope.row.type === 0">Meun</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.type === 1" type="success">Item</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.type === 2" type="info">Button</el-tag>
                 </template>
 
             </el-table-column>
 
             <el-table-column
                     prop="path"
-                    label="菜单URL">
+                    label="Meun URL">
             </el-table-column>
             <el-table-column
                     prop="component"
-                    label="菜单组件">
+                    label="Component">
             </el-table-column>
             <el-table-column
                     prop="orderNum"
-                    label="排序号">
+                    label="Order No.">
             </el-table-column>
             <el-table-column
                     prop="statu"
-                    label="状态">
+                    label="Status">
                 <template slot-scope="scope">
-                    <el-tag size="small" v-if="scope.row.statu === 1" type="success">正常</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.statu === 0" type="danger">禁用</el-tag>
+                    <el-tag size="small" v-if="scope.row.statu === 1" type="success">Active</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.statu === 0" type="danger">Stop</el-tag>
                 </template>
 
             </el-table-column>
@@ -70,12 +70,12 @@
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button type="text" @click="editHandle(scope.row.id)">编辑</el-button>
+                    <el-button type="text" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
 
                     <template>
-                        <el-popconfirm title="这是一段内容确定删除吗？" confirm-button-text="确认" cancel-button-text="取消" @onConfirm="delHandle(scope.row.id)">
-                            <el-button type="text" slot="reference">删除</el-button>
+                        <el-popconfirm title="Is this a piece of content to delete?" confirm-button-text="Confirm" cancel-button-text="Cancel" @onConfirm="delHandle(scope.row.id)">
+                            <el-button type="text" slot="reference">Remove</el-button>
                         </el-popconfirm>
                     </template>
 
@@ -86,15 +86,15 @@
 
         <!--新增对话框-->
         <el-dialog
-                title="提示"
+                title="Form"
                 :visible.sync="dialogVisible"
                 width="600px"
                 :before-close="handleClose">
 
             <el-form :model="editForm" :rules="editFormRules" ref="editForm" label-width="100px" class="demo-editForm">
 
-                <el-form-item label="上级菜单" prop="parentId">
-                    <el-select v-model="editForm.parentId" placeholder="请选择上级菜单">
+                <el-form-item label="Parent Id" prop="parentId">
+                    <el-select v-model="editForm.parentId" placeholder="Please select the parent menu ">
                         <template v-for="item in tableData">
                             <el-option :label="item.name" :value="item.id"></el-option>
                             <template v-for="child in item.children">
@@ -106,42 +106,42 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="菜单名称" prop="name" label-width="100px">
+                <el-form-item label="Meun Name" prop="name" label-width="100px">
                     <el-input v-model="editForm.name" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="权限编码" prop="perms" label-width="100px">
+                <el-form-item label="Perms Code" prop="perms" label-width="100px">
                     <el-input v-model="editForm.perms" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="图标" prop="icon" label-width="100px">
+                <el-form-item label="Icon" prop="icon" label-width="100px">
                     <el-input v-model="editForm.icon" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="菜单URL" prop="path" label-width="100px">
+                <el-form-item label="Meun URL" prop="path" label-width="100px">
                     <el-input v-model="editForm.path" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="菜单组件" prop="component" label-width="100px">
+                <el-form-item label="Component" prop="component" label-width="100px">
                     <el-input v-model="editForm.component" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="类型" prop="type" label-width="100px">
+                <el-form-item label="Type" prop="type" label-width="100px">
                     <el-radio-group v-model="editForm.type">
-                        <el-radio :label=0>目录</el-radio>
-                        <el-radio :label=1>菜单</el-radio>
-                        <el-radio :label=2>按钮</el-radio>
+                        <el-radio :label=0>Meun</el-radio>
+                        <el-radio :label=1>Item</el-radio>
+                        <el-radio :label=2>Button</el-radio>
                     </el-radio-group>
                 </el-form-item>
 
-                <el-form-item label="状态" prop="statu" label-width="100px">
+                <el-form-item label="Status" prop="statu" label-width="100px">
                     <el-radio-group v-model="editForm.statu">
-                        <el-radio :label=0>禁用</el-radio>
-                        <el-radio :label=1>正常</el-radio>
+                        <el-radio :label=0>Stop</el-radio>
+                        <el-radio :label=1>Active</el-radio>
                     </el-radio-group>
                 </el-form-item>
 
-                <el-form-item label="排序号" prop="orderNum" label-width="100px">
-                    <el-input-number v-model="editForm.orderNum" :min="1" label="排序号">1</el-input-number>
+                <el-form-item label="Order Num" prop="orderNum" label-width="100px">
+                    <el-input-number v-model="editForm.orderNum" :min="1" label="Order Num">1</el-input-number>
                 </el-form-item>
 
 

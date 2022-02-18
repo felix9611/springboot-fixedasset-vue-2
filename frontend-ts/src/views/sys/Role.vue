@@ -5,22 +5,22 @@
                 <el-form-item>
                     <el-input
                             v-model="searchForm.name"
-                            placeholder="名称"
+                            placeholder="Name"
                             clearable
                     >
                     </el-input>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button @click="getRoleList">搜索</el-button>
+                    <el-button @click="getRoleList">Find</el-button>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="dialogVisible = true">新增</el-button>
+                    <el-button type="primary" @click="dialogVisible = true">Add</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-popconfirm title="这是确定批量删除吗？" @confirm="delHandle(null)">
-                        <el-button type="danger" slot="reference" :disabled="delBtlStatu">批量删除</el-button>
+                    <el-popconfirm title="Is this sure to delete in bulk? ？" @confirm="delHandle(null)">
+                        <el-button type="danger" slot="reference" :disabled="delBtlStatu">Bulk Delete</el-button>
                     </el-popconfirm>
                 </el-form-item>
             </el-form>
@@ -43,26 +43,26 @@
 
             <el-table-column
                     prop="name"
-                    label="名称"
+                    label="Name"
                     width="120">
             </el-table-column>
             <el-table-column
                     prop="code"
-                    label="唯一编码"
+                    label="Unique Code"
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
                     prop="remark"
-                    label="描述"
+                    label="Remark"
                     show-overflow-tooltip>
             </el-table-column>
 
             <el-table-column
                     prop="statu"
-                    label="状态">
+                    label="Status">
                 <template slot-scope="scope">
-                    <el-tag size="small" v-if="scope.row.statu === 1" type="success">正常</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.statu === 0" type="danger">禁用</el-tag>
+                    <el-tag size="small" v-if="scope.row.statu === 1" type="success">Active</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.statu === 0" type="danger">Stop</el-tag>
                 </template>
 
             </el-table-column>
@@ -71,15 +71,15 @@
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button type="text" @click="permHandle(scope.row.id)">分配权限</el-button>
+                    <el-button type="text" @click="permHandle(scope.row.id)">Assign Permissions</el-button>
                     <el-divider direction="vertical"></el-divider>
 
-                    <el-button type="text" @click="editHandle(scope.row.id)">编辑</el-button>
+                    <el-button type="text" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
 
                     <template>
-                        <el-popconfirm title="这是一段内容确定删除吗？" @onConfirm="delHandle(scope.row.id)">
-                            <el-button type="text" slot="reference">删除</el-button>
+                        <el-popconfirm title="Is this a piece of content to delete? ？" @onConfirm="delHandle(scope.row.id)">
+                            <el-button type="text" slot="reference">Delete</el-button>
                         </el-popconfirm>
                     </template>
 
@@ -102,42 +102,42 @@
 
         <!--新增对话框-->
         <el-dialog
-                title="提示"
+                title="Form"
                 :visible.sync="dialogVisible"
                 width="600px"
                 :before-close="handleClose">
 
             <el-form :model="editForm" :rules="editFormRules" ref="editForm" label-width="100px" class="demo-editForm">
 
-                <el-form-item label="角色名称" prop="name" label-width="100px">
+                <el-form-item label="Role Name" prop="name" label-width="100px">
                     <el-input v-model="editForm.name" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="唯一编码" prop="code" label-width="100px">
+                <el-form-item label="Unique Code" prop="code" label-width="100px">
                     <el-input v-model="editForm.code" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="描述" prop="remark" label-width="100px">
+                <el-form-item label="Remark" prop="remark" label-width="100px">
                     <el-input v-model="editForm.remark" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="状态" prop="statu" label-width="100px">
+                <el-form-item label="Status" prop="statu" label-width="100px">
                     <el-radio-group v-model="editForm.statu">
-                        <el-radio :label=0>禁用</el-radio>
-                        <el-radio :label=1>正常</el-radio>
+                        <el-radio :label=0>Stop</el-radio>
+                        <el-radio :label=1>Active</el-radio>
                     </el-radio-group>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('editForm')">立即创建</el-button>
-                    <el-button @click="resetForm('editForm')">重置</el-button>
+                    <el-button type="primary" @click="submitForm('editForm')"> {{ editForm.id? 'Update': 'Create' }}</el-button>
+                    <el-button @click="resetForm('editForm')">Reset</el-button>
                 </el-form-item>
             </el-form>
 
         </el-dialog>
 
         <el-dialog
-                title="分配权限"
+                title="Assign Permissions"
                 :visible.sync="permDialogVisible"
                 width="600px">
 
@@ -156,8 +156,8 @@
             </el-form>
 
             <span slot="footer" class="dialog-footer">
-			    <el-button @click="permDialogVisible = false">取 消</el-button>
-			    <el-button type="primary" @click="submitPermFormHandle('permForm')">确 定</el-button>
+			    <el-button @click="permDialogVisible = false">Cancel</el-button>
+			    <el-button type="primary" @click="submitPermFormHandle('permForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
 			</span>
         </el-dialog>
     </div>

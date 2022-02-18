@@ -10,7 +10,7 @@ module.exports = {
     // webpack-dev-server 相关配置
     devServer: {
         host: 'localhost',
-        port: 8350,
+        port: 8080,
         proxy: {
             [process.env.VUE_APP_BASE_API]: {
                 //后端服务地址和端口
