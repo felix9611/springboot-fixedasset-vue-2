@@ -23,8 +23,13 @@ public class CodeTypeController extends BaseController {
 
     @PostMapping("/update")
     public Result update(@RequestBody CodeType codeType) {
-        codeTypeService.createOne(codeType);
+        codeTypeService.updateOne(codeType);
         return Result.succ(codeType);
+    }
+
+    @GetMapping("/{id}")
+    public Result getOne(@PathVariable("id") Long id) {
+        return Result.succ(codeTypeService.getById(id));
     }
 
     @PostMapping("getAllValue")
@@ -42,8 +47,8 @@ public class CodeTypeController extends BaseController {
         Page page = new Page(codeType.getPage(), codeType.getLimit());
         LambdaQueryWrapper<CodeType> queryWrapper = Wrappers.lambdaQuery();
 
-        if(!StringUtils.isEmpty(codeType.getTypes())) {
-            queryWrapper.like(CodeType::getTypes, codeType.getTypes());
+        if(!StringUtils.isEmpty(codeType.getType())) {
+            queryWrapper.like(CodeType::getType, codeType.getType());
         }
 
         if(!StringUtils.isEmpty(codeType.getValueCode())) {

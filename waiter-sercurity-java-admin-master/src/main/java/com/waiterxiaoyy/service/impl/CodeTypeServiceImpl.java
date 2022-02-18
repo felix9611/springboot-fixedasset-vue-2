@@ -27,7 +27,7 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
 
     public List<CodeType> getAllList(CodeType codeType) {
         LambdaQueryWrapper<CodeType> queryWrapper = queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(CodeType::getTypes, codeType.getTypes());
+        queryWrapper.eq(CodeType::getType, codeType.getType());
         return codeTypeMapper.selectList(queryWrapper);
     }
 

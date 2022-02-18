@@ -121,14 +121,13 @@ import Vue from 'vue'
 import axios from '../../../axios'
 
 export default Vue.extend({
-        name: "Department",
+        name: 'CodeType',
         data() {
+            const editForm: any = {}
+            const searchForm: any = {}
             return {
                 test: 0,
-                searchForm: {
-                    page: 1,
-                    limit: 10
-                },
+                searchForm,
                 delBtlStatu: true,
 
                 total: 0,
@@ -136,12 +135,7 @@ export default Vue.extend({
                 current: 1,
 
                 dialogVisible: false,
-                editForm: {
-                    id: 0,
-                    typeName: '',
-                    typeCode: '',
-                    typeOtherName: null
-                },
+                editForm,
 
                 tableData: [],
                 placeItem: [],
