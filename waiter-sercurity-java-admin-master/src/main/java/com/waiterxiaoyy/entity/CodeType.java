@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Data
 @TableName("code_type")
 public class CodeType extends BaseEntity {
-    @TableField("value_code")
-    private String types;
+    @TableField("type")
+    private String type;
 
     @TableField("value_code")
     private String valueCode;

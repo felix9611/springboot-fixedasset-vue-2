@@ -5,15 +5,15 @@
             <el-form :inline="true">
                 <el-form-item>
                     <el-input
-                            v-model="searchForm.typeCode"
-                            placeholder="Type Code"
+                            v-model="searchForm.type"
+                            placeholder="Type"
                             clearable
                     >
                     </el-input>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button @click="typeAllList">Find</el-button>
+                    <el-button @click="codeTypeAllList">Find</el-button>
                 </el-form-item>
 
                 <el-form-item>
@@ -31,13 +31,18 @@
                 stripe
                 @selection-change="handleSelectionChange">
             <el-table-column
-                    prop="typeCode"
-                    label="Type Code"
-                    width="120">
+              prop="type"
+              label="Type"
+              width="120">
             </el-table-column>
             <el-table-column
-              prop="typeName"
-              label="Type Name"
+              prop="valueCode"
+              label="Value Code"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="valueName"
+              label="Value Name"
               width="200">
             </el-table-column>
             <el-table-column
@@ -91,15 +96,15 @@
 
             <el-form :model="editForm" :rules="editFormRules" ref="editForm">
 
-                <el-form-item label="Type Code"  prop="typeCode" label-width="100px">
-                    <el-input v-model="editForm.typeCode" autocomplete="off"></el-input>
+                <el-form-item label="Type"  prop="type" label-width="100px">
+                    <el-input v-model="editForm.type" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Type Name"  prop="typeName" label-width="100px">
-                    <el-input v-model="editForm.typeName" autocomplete="off"></el-input>
+                <el-form-item label="Value Code"  prop="valueCode" label-width="100px">
+                    <el-input v-model="editForm.valueCode" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="Other Name"  prop="typeOtherName" label-width="100px">
-                    <el-input type="textarea" v-model="editForm.typeOtherName"></el-input>
+                <el-form-item label="Value Name"  prop="valueName" label-width="100px">
+                    <el-input v-model="editForm.valueName" autocomplete="off"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -157,12 +162,12 @@ export default Vue.extend({
             }
         },
         created() {
-            this.typeAllList()
+            this.codeTypeAllList()
         },
         methods: {
-            typeAllList() {
-                axios.post(
-                '/base/asset_type/listAll',
+            codeTypeAllList() {
+              axios.post(
+                '/base/code_type/listAll',
                 this.searchForm
               ).then(
                 (res: any) => {
@@ -190,11 +195,11 @@ export default Vue.extend({
             },
             handleSizeChange(val: number) {
                 this.searchForm.limit = val
-                this.typeAllList()
+                this.codeTypeAllList()
             },
             handleCurrentChange(val: number) {
                 this.searchForm.page = val
-                this.typeAllList()
+                this.codeTypeAllList()
             },
 
             resetForm(formName: string) {
@@ -216,9 +221,9 @@ export default Vue.extend({
                 refs.validate((valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
-                        axios.post('/base/asset_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                        axios.post('/base/code_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                             .then((res: any) => {
-                                this.typeAllList()
+                                this.codeTypeAllList()
                                 this.$notify({
                                     title: '',
                                     showClose: true,
@@ -234,15 +239,15 @@ export default Vue.extend({
                 });
             },
             editHandle(id: number) {
-                axios.get('/base/asset_type/' + id).then(res => {
+                axios.get('/base/code_type/' + id).then(res => {
                     console.log(this.placeItem)
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
             },
             delItem(id: number) {
-                axios.delete('/base/asset_type/remove/'+ id).then((res: any) => {
-                    this.typeAllList()
+                axios.delete('/base/code_type/remove/'+ id).then((res: any) => {
+                    this.codeTypeAllList()
                     this.$notify({
                         title: '',
                         showClose: true,
