@@ -4,7 +4,7 @@
                  class="login-form">
             <h3 class="title">Fixed Asset</h3>
             <el-form-item prop="username">
-                <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+                <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="Username">
                     <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon"/>
                 </el-input>
             </el-form-item>

@@ -9,6 +9,9 @@ module.exports = {
 
     // webpack-dev-server 相关配置
     devServer: {
+        allowedHosts: [
+            'localhost/fixedasset-vue'
+        ],
         host: 'localhost',
         port: 8080,
         proxy: {

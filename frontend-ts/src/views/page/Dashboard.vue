@@ -11,13 +11,13 @@
                         </div>
                     </div>
                     <div class="user-info-list">
-                        <span  style="margin: 0px;">作者简介：大二搬砖</span>
+                        <span  style="margin: 0px;">Felix</span>
                     </div>
                     <!-- <div class="user-info-list">
                         <span style="margin: 0px;">区块链技术QQ沟通群：532650517</span>
                     </div> -->
                 </el-card>
-                <el-card shadow="hover" style="height:252px;">
+                <!--<el-card shadow="hover" style="height:252px;">
                     <div slot="header" class="clearfix">
                         <span>语言详情</span>
                     </div>
@@ -27,9 +27,9 @@
                     <el-progress :percentage="23.7"></el-progress>
                     Java
                     <el-progress :percentage="55" color="#f56c6c"></el-progress>
-                </el-card>
+                </el-card>-->
             </el-col>
-            <el-col :span="16">
+            <!--<el-col :span="16">
                 <el-row :gutter="20" class="mgb20">
                     <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
@@ -92,7 +92,7 @@
                         </el-table-column>
                     </el-table>
                 </el-card>
-            </el-col>
+            </el-col>-->
         </el-row>
     </div>
 </template>
