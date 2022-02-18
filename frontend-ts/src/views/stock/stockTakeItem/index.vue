@@ -34,7 +34,7 @@
             <el-table-column
               prop="assetCode"
               label="Asset Code"
-              width="200">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="assetName"
@@ -42,14 +42,24 @@
               width="200">
             </el-table-column>
             <el-table-column
+              prop="placeCode"
+              label="Place Code"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="placeName"
+              label="Place Name"
+              width="200">
+            </el-table-column>
+            <el-table-column
               prop="status"
               label="Status"
-              width="300">
+              width="200">
             </el-table-column>
             <el-table-column
               prop="remark"
               label="Remark"
-              width="300">
+              width="270">
             </el-table-column>
             <el-table-column
               prop="checkTime"
@@ -59,7 +69,7 @@
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="200px"
+                    width="150px"
                     label="Action">
 
                 <template slot-scope="scope">
@@ -209,7 +219,7 @@ export default Vue.extend({
           },
           getAllstockTakeList() {
                 axios.get(
-                    '/stock/stock_take/getAll'
+                    '/stock/stock_take/getAllST'
                 ).then(
                     (res: any) => {
                         // console.log(res.data.data)

@@ -200,12 +200,7 @@ export default Vue.extend({
                 const refs: any = this.$refs[formName]
                 refs.resetFields();
                 this.dialogVisible = false
-                this.editForm = {
-                    id: 0,
-                    typeName: '',
-                    typeCode: '',
-                    typeOtherName: null
-                }
+                this.editForm = {}
             },
             handleClose() {
                 this.resetForm('editForm')

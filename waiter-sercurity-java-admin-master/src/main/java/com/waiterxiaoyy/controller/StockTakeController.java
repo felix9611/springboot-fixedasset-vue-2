@@ -44,7 +44,7 @@ public class StockTakeController extends BaseController {
         return Result.succ(id);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAllST")
     public Result getAll() {
         return Result.succ(stockTakeService.getAllActive());
     }
