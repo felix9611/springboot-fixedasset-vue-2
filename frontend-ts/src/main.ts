@@ -32,7 +32,7 @@ const i18n = new VueI18n({
     locale: 'en',
     messages
 })
-
+process.env.VUE_APP_HTTPS = 'http://localhost/fixedasset-vue'
 new Vue({
     router,
     i18n,

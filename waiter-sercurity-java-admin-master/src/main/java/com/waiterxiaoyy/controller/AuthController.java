@@ -5,6 +5,7 @@ import com.google.code.kaptcha.Producer;
 import com.waiterxiaoyy.common.lang.Const;
 import com.waiterxiaoyy.common.lang.Result;
 import com.waiterxiaoyy.entity.SysUser;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,10 +45,12 @@ public class AuthController extends BaseController {
 
         ImageIO.write(image, "jpg", outputStream);
 
-        BASE64Encoder encoder = new BASE64Encoder();
+        Base64 base64 = new Base64();
         String str = "data:image/jpeg;base64,";
 
-        String base64Img = str +encoder.encode(outputStream.toByteArray());
+        String base64Img = str + base64.encodeBase64String(outputStream.toByteArray());
+
+
 
         redisUtil.hset(Const.CAPTCHA_KEY, key, code, 120 );
 

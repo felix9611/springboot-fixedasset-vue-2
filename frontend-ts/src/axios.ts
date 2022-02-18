@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig , AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig , AxiosResponse, AxiosError } from 'axios'
 import router from './router'
 import { Notification } from 'element-ui';
 
@@ -28,18 +28,17 @@ request.interceptors.response.use((response: any) => {
             message: res.msg
         })
     }
-}, (error: any) => {
+    }, (error: AxiosError) => {
+        if (error.response && error.response.data) {
+            error.message = error.response.data.msg
+        }
+        // 没有权限
+        if (error.response && error.response.status === 401) {
+            router.push("/login")
+        }
+        Notification.error(error.message)
+        return Promise.reject(error)
 
-    if (error.response.data) {
-        error.massage = error.response.data.msg
-    }
-    // 没有权限
-    if (error.response.status === 401) {
-        router.push("/login")
-    }
-    Notification.error(error.massage)
-    return Promise.reject(error)
-
-})
+    })
 
 export default request
