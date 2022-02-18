@@ -4,7 +4,10 @@
     </div>
 </template>
 <script lang="ts">
-    export default {
+import Vue from 'vue'
+import axios from './axios'
+
+export default Vue.extend({
         name: 'app',
         data() {
             return {}
@@ -15,7 +18,7 @@
         created() {
         },
         watch: {},
-    }
+})
 </script>
 <style>
     @import "./assets/css/main.css";

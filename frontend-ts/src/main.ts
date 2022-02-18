@@ -7,6 +7,8 @@ import ElementUI from 'element-ui'
 import VueI18n from 'vue-i18n'
 import axios from './axios'
 import { messages } from './components/common/i18n'
+import locale from 'element-ui/lib/locale/lang/en'
+import VJsoneditor from 'v-jsoneditor'
 
 import './assets/css/theme-green/index.css'
 
@@ -20,17 +22,16 @@ import 'babel-polyfill'
 // Vue.use(uploader);
 Vue.prototype.$axios = axios
 
-Vue.config.productionTip = false;
-Vue.use(VueI18n);
-Vue.use(ElementUI, {
-    size: 'small'
-});
+Vue.config.productionTip = false
+Vue.use(VJsoneditor)
+Vue.use(VueI18n)
+Vue.use(ElementUI, { locale })
 
 // require('./mock.js')
 const i18n = new VueI18n({
     locale: 'en',
     messages
-});
+})
 
 new Vue({
     router,

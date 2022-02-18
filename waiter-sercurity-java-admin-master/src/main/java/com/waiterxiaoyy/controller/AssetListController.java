@@ -71,4 +71,10 @@ public class AssetListController extends BaseController {
         assetListService.remove(id);
         return Result.succ(id);
     }
+
+    @PostMapping("/findAsset")
+    public Result findAsset(@RequestBody AssetList assetList) {
+        AssetList assetList1 = assetListService.findOne(assetList);
+        return Result.succ(assetList1);
+    }
 }

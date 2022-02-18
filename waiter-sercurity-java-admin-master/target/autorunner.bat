@@ -1,3 +1,3 @@
 @echo off
-java -jar fixedmanager.jar
+java -jar fixedmanager-vue.jar
 pause

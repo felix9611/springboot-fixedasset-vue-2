@@ -3,8 +3,10 @@ package com.waiterxiaoyy.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 
 @Data
 @TableName("department")
@@ -17,6 +19,7 @@ public class Department extends BaseEntity {
     private String deptName;
 
     @TableField("dept_other_name")
+    // @Type(type = "json")
     private String deptOtherName;
 
     @TableField("dept_remark")

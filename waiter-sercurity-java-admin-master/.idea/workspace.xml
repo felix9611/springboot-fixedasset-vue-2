@@ -4,7 +4,54 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab118d93-b8d4-4b5f-952b-9bb58e5ca517" name="Default Changelist" comment="" />
+    <list default="true" id="ab118d93-b8d4-4b5f-952b-9bb58e5ca517" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/CodeTypeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/StockTakeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/StockTakeItemController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/dto/StockTakeFormListDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/dto/StockTakeItemListDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/CodeType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/StockTakeItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/CodeTypeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/StockTakeItemMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/StockTakeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/CodeTypeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/StockTakeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/CodeTypeServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/StockTakeItemServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/StockTakeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/components/SvgIcon/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/components/SvgIcon/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/components/page/404.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/components/page/404.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/components/page/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/components/page/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/mock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/asset/assetList/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/asset/assetList/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/base/assetType/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/base/assetType/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/base/department/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/base/department/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/base/location/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/base/location/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/sys/Menu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/sys/Menu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AssetListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AssetListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/Department.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/AssetListService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/AssetListService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetListServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetListServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/autorunner.bat" beforeDir="false" afterPath="$PROJECT_DIR$/target/autorunner.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/Department.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/Department.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/fixedmanager.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/fixedmanager.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +64,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -34,6 +84,7 @@
     </option>
   </component>
   <component name="ProjectId" id="23zm0wpXQRLll6a74l73cfksVRy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -43,6 +94,7 @@
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />

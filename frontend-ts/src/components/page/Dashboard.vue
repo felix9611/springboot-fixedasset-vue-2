@@ -98,9 +98,10 @@
 </template>
 
 <script>
-import Schart from 'vue-schart';
-import bus from '../common/bus';
-export default {
+import Schart from 'vue-schart'
+import Vue from 'vue'
+import bus from '../common/bus'
+export default Vue.extend({
     name: 'dashboard',
     data() {
         return {
@@ -184,7 +185,7 @@ export default {
             });
         }
     }
-};
+})
 </script>
 
 

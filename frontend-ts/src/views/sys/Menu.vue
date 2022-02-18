@@ -146,8 +146,8 @@
 
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('editForm')">立即创建</el-button>
-                    <el-button @click="resetForm('editForm')">重置</el-button>
+                    <el-button type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
+                    <el-button @click="resetForm('editForm')">Reset</el-button>
                 </el-form-item>
             </el-form>
 

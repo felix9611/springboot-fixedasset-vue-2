@@ -11,14 +11,15 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
   methods: {
       goBack(){
           this.$router.go(-1);
       }
   }
-}
+})
 </script>
 
 

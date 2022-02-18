@@ -217,7 +217,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="resetForm('editForm')">Cancel</el-button>
-                <el-button type="primary" @click="submitForm('editForm')">OK</el-button>
+                <el-button type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -229,7 +229,10 @@ import axios from '../../../axios'
 export default Vue.extend({
         name: 'AssetList',
         data() {
-            const searchForm: any = {}
+            const searchForm: any = {
+                limit: 10,
+                page: 1
+            }
             const editForm: any = {}
             return {
                 searchForm,
@@ -257,8 +260,8 @@ export default Vue.extend({
                     label: 'name'
                 },
                 treeCheckedKeys: [],
-                checkStrictly: true
-
+                checkStrictly: true,
+                multipleSelection: []
             }
         },
         created() {
@@ -328,6 +331,11 @@ export default Vue.extend({
                     const multipleTable: any = this.$refs.multipleTable
                     multipleTable.clearSelection();
                 }
+            },
+            handleSelectionChange(val: any) {
+                this.multipleSelection = val;
+
+                this.delBtlStatu = val.length == 0
             },
             handleSizeChange(val: number) {
                 this.searchForm.limit = val

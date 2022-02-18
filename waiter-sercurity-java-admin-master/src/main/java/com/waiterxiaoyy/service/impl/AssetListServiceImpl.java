@@ -81,6 +81,13 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         this.createdAction(actionRecord);
     }
 
+    public AssetList findOne(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
+        queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
+        return assetListMapper.selectOne(queryWrapper);
+    }
+
     public String getNewAssetCode() {
         LambdaQueryWrapper<AssetList> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.select(AssetList::getAssetCode);

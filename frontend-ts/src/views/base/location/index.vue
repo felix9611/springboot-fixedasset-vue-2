@@ -99,8 +99,8 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
                 <el-button @click="resetForm('editForm')">Cancel</el-button>
-                <el-button type="primary" @click="submitForm('editForm')">OK</el-button>
             </div>
         </el-dialog>
     </div>

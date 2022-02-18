@@ -56,6 +56,8 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         assetTypeMapper.updateById(assetType);
     }
 
+
+
     public List<AssetType> getAll() {
         return assetTypeMapper.getALL();
     }

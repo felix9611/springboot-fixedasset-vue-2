@@ -5,11 +5,12 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 // doc: https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage
 import { isExternal } from '@/utils/validate'
 
-export default {
+export default Vue.extend({
   name: 'SvgIcon',
   props: {
     iconClass: {
@@ -42,7 +43,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style scoped>
