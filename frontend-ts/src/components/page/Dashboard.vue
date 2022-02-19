@@ -3,21 +3,17 @@
         <el-row :gutter="20">
             <el-col :span="8">
                 <el-card shadow="hover" class="mgb20" style="height:252px;">
-                    <div class="user-info">
-                        <img src="../../assets/img/avatar.jpg" class="user-avator" alt />
-                        <div class="user-info-cont">
-                            <div class="user-info-name">{{name}}</div>
-                            <div>{{role}}</div>
-                        </div>
-                    </div>
                     <div class="user-info-list">
-                        <span  style="margin: 0px;">作者简介：只做了一点微小的事</span>
+                        <span  style="margin: 0px;">Felix</span>
+                    </div>
+                    <div>
+                        FixedAsset - Springboot MVC X VUE 2.0
                     </div>
                     <!-- <div class="user-info-list">
                         <span style="margin: 0px;">区块链技术QQ沟通群：532650517</span>
                     </div> -->
                 </el-card>
-                <el-card shadow="hover" style="height:252px;">
+                <!--<el-card shadow="hover" style="height:252px;">
                     <div slot="header" class="clearfix">
                         <span>语言详情</span>
                     </div>
@@ -27,9 +23,9 @@
                     <el-progress :percentage="23.7"></el-progress>
                     Java
                     <el-progress :percentage="55" color="#f56c6c"></el-progress>
-                </el-card>
+                </el-card>-->
             </el-col>
-            <el-col :span="16">
+            <!--<el-col :span="16">
                 <el-row :gutter="20" class="mgb20">
                     <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
@@ -92,15 +88,17 @@
                         </el-table-column>
                     </el-table>
                 </el-card>
-            </el-col>
+            </el-col>-->
         </el-row>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import Schart from 'vue-schart'
+import bus from '../../components/common/bus';
 import Vue from 'vue'
-import bus from '../common/bus'
+import axios from '../../axios'
+
 export default Vue.extend({
     name: 'dashboard',
     data() {
@@ -108,7 +106,7 @@ export default Vue.extend({
             name: localStorage.getItem('ms_username'),
             todoList: [
                 {
-                    title: '路由管理、动态路由、标签页管理、登录页',
+                    title: '路由管理、动态路由、标签页管理',
                     status: true
                 },
                 {
@@ -116,20 +114,12 @@ export default Vue.extend({
                     status: true
                 },
                 {
-                    title: '基于redis的缓存，基于kaptcha的验证码设计',
+                    title: '用户权限分配',
                     status: true
                 },
                 {
                     title: '菜单管理、用户管理、角色管理',
                     status: true
-                },
-                {
-                    title: '后端采用SpringBoot+SpringSecurity+redis+jwt+Mybatis-Plus+Mysql',
-                    status: false
-                },
-                {
-                    title: '前端采用Vue+axios+Element-UI',
-                    status: false
                 },
                 {
                     title: '基于此权限系统进一步开发后台管理系统',
@@ -179,7 +169,7 @@ export default Vue.extend({
     methods: {
         changeDate() {
             const now = new Date().getTime();
-            this.data.forEach((item, index) => {
+            this.data.forEach((item: any, index: any) => {
                 const date = new Date(now - (6 - index) * 86400000);
                 item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
             });

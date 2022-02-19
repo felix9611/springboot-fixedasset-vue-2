@@ -14,12 +14,12 @@ const routes = [
     {
         path: '/',
         component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),
-        meta: { title: '首页' },
+        meta: { title: 'Index' },
         children: [
             {
                 path: '/dashboard',
                 component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
-                meta: { title: '首页' }
+                meta: { title: 'Index' }
             },
             {
                 path: '/404',

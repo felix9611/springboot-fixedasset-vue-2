@@ -3,15 +3,11 @@
         <el-row :gutter="20">
             <el-col :span="8">
                 <el-card shadow="hover" class="mgb20" style="height:252px;">
-                    <div class="user-info">
-                        <img src="../../assets/img/avatar.jpg" class="user-avator" alt />
-                        <div class="user-info-cont">
-                            <div class="user-info-name">{{name}}</div>
-                            <div>{{role}}</div>
-                        </div>
-                    </div>
                     <div class="user-info-list">
                         <span  style="margin: 0px;">Felix</span>
+                    </div>
+                    <div>
+                        FixedAsset - Springboot MVC X VUE 2.0
                     </div>
                     <!-- <div class="user-info-list">
                         <span style="margin: 0px;">区块链技术QQ沟通群：532650517</span>

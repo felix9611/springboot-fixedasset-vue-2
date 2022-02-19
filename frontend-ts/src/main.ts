@@ -17,10 +17,14 @@ import './assets/icons'
 import './components/common/directives'
 
 import 'babel-polyfill'
+
+import VueHtml2pdf from 'vue-html2pdf'
 // import uploader from 'vue-simple-uploader'
 
 // Vue.use(uploader);
 Vue.prototype.$axios = axios
+Vue.prototype.$html2Pdf = VueHtml2pdf
+Vue.use(VueHtml2pdf)
 
 Vue.config.productionTip = false
 Vue.use(VJsoneditor)
