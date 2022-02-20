@@ -75,6 +75,7 @@ import autoTable from 'jspdf-autotable'
 import Vue from 'vue'
 import axios from '../../../../axios'
 import html2canvas from 'html2canvas'
+import moment from 'moment'
 
 export default Vue.extend({
         name: 'AssetList',
@@ -95,15 +96,7 @@ export default Vue.extend({
                 dialogVisible: false,
                 editForm,
                 tableData: [],
-                placeItem: [],
-                typeItem: [],
-                deptItem: [],
 
-                editFormRules: {
-                    deptCode: [
-                        {required: true, message: 'Department Code cannot blank!', trigger: 'blur'}
-                    ]
-                },
                 roleDialogFormVisible: false,
                 defaultProps: {
                     children: 'children',
@@ -137,7 +130,12 @@ export default Vue.extend({
             doc.addFont('NotoSansCJKjp-Regular.ttf', 'NotoSansCJKjp', 'normal')
             doc.setFont('NotoSansCJKjp')
 
+            const nowTime = moment().format('DD-MM-YYYY HH:mm')
+            doc.text(`Download At: ${nowTime}`, 40, 30)
+            doc.text(`Total Cost: $${this.sumTotal}`, 40, 50)
+
             autoTable(doc, {
+                startY: 60,
                 columns,
                 body,
                 styles: {

@@ -92,7 +92,7 @@ import axios from '../../../../axios'
 import { columns } from './pdfColumns'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
-
+import moment from 'moment'
 export default Vue.extend({
         name: 'Stocktake',
         data() {
@@ -122,20 +122,8 @@ export default Vue.extend({
                 dialogVisible: false,
                 editForm,
                 tableData: [],
-                placeItem: [],
-                typeItem: [],
-                deptItem: [],
                 stockTakeList: [],
                 mainStockTake,
-
-                editFormRules: {
-                    assetCode: [
-                        { required: true, message: 'Asset Code cannot blank!', trigger: 'blur' }
-                    ],
-                    /* actionPlace: [
-                        {required: true, message: 'Action Place must choose!', trigger: 'blur'}
-                    ] */
-                },
                 roleDialogFormVisible: false,
                 defaultProps: {
                     children: 'children',
@@ -168,9 +156,12 @@ export default Vue.extend({
                 const doc = new jsPDF('p', 'pt', 'a4', true)
                 let body: any = this.tableData
                 
-                doc.text(`Action Name: ${this.mainStockTake.actionName}`, 40, 30, { })
-                doc.text(`Start Time: ${this.mainStockTake.createdAt}`, 250, 30)
-                doc.text(`Finished Time: ${this.mainStockTake.finishTime}`, 250, 50)
+                const finishedTime = moment(this.mainStockTake.finishTime).format('DD-MM-YYYY HH:mm:ss')
+                const startTime = moment(this.mainStockTake.startTime).format('DD-MM-YYYY HH:mm:ss')
+
+                doc.text(`Action Name: ${this.mainStockTake.actionName}`, 40, 30)
+                doc.text(`Start Time: ${startTime}`, 250, 30)
+                doc.text(`Finished Time: ${finishedTime}`, 250, 50)
                 doc.addFont('NotoSansCJKjp-Regular.ttf', 'NotoSansCJKjp', 'normal')
                 doc.setFont('NotoSansCJKjp')
                 autoTable(doc, {
