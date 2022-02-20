@@ -13,6 +13,8 @@ public interface StockTakeService extends IService<StockTake> {
 
     List<StockTake> getAllActive();
 
+    List<StockTake> getAllActiveFinish();
+
     void remove(Long id);
 
     Page<StockTakeFormListDTO> newPage(Page page, LambdaQueryWrapper<StockTake> queryWrapper);

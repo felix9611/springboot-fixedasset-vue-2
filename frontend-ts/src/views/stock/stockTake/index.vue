@@ -31,24 +31,29 @@
                 @selection-change="handleSelectionChange">
             <el-table-column
               prop="actionName"
-              label="Action Code"
+              label="Action Name"
               width="200">
             </el-table-column>
             <el-table-column
-              prop="placeCode"
-              label="Place Code"
-              width="200">
-            </el-table-column>
-            <el-table-column
-              prop="placeName"
-              label="Place Name"
-              width="200">
+                    prop="statu"
+                    label="Status">
+                <template slot-scope="scope">
+                    <el-tag size="small" v-if="scope.row.active === 1" type="success">In Progress</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.active === 0" type="danger">Finished</el-tag>
+                </template>
+
             </el-table-column>
             
             <el-table-column
               prop="createdAt"
               width="200"
               label="Created At"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="finishTime"
+              width="200"
+              label="Finished At"
             >
             </el-table-column>
             <el-table-column

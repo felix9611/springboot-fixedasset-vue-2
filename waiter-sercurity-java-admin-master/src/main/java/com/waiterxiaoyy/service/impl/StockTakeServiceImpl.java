@@ -48,9 +48,14 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
         return stockTakeMapper.getALL();
     }
 
+    public List<StockTake> getAllActiveFinish() {
+        return stockTakeMapper.getALLFinished();
+    }
+
     public void remove(Long id) {
         stockTake.setId(id);
         stockTake.setActive(0);
+        stockTake.setFinishTime(LocalDateTime.now());
         stockTakeMapper.updateById(stockTake);
 
         actionRecord.setActionName("Stop Stock take");

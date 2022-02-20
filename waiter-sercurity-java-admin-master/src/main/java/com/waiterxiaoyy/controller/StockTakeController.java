@@ -32,11 +32,16 @@ public class StockTakeController extends BaseController {
             queryWrapper.like(StockTake::getActionName, stockTake.getActionName());
         }
 
-        queryWrapper.eq(StockTake::getActive, 1);
+        // queryWrapper.eq(StockTake::getActive, 1);
 
         Page<StockTakeFormListDTO> iPage = stockTakeService.newPage(page, queryWrapper);
         return Result.succ(iPage);
     }
+    @GetMapping("/{id}")
+    public Result getOne(@PathVariable("id") Long id) {
+        return Result.succ(stockTakeService.getById(id));
+    }
+
 
     @DeleteMapping("/remove/{id}")
     public  Result remove(@PathVariable("id") Long id) {
@@ -48,4 +53,10 @@ public class StockTakeController extends BaseController {
     public Result getAll() {
         return Result.succ(stockTakeService.getAllActive());
     }
+
+    @GetMapping("/getAllFinishedST")
+    public Result getAllFinished() {
+        return Result.succ(stockTakeService.getAllActiveFinish());
+    }
+
 }
