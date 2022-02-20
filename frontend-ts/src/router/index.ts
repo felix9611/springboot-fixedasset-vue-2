@@ -26,12 +26,17 @@ const routes = [
                 component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),
                 meta: { title: '404' }
             },
+            {
+                path: '/userindex',
+                component: () => import(/* webpackChunkName: "dashboard" */ '../views/userindex/index.vue'),
+                meta: { title: 'My Account' }
+            }
         ]
     },
     {
         path: '/login',
         component: () => import(/* webpackChunkName: "dashboard" */ '../views/Login.vue'),
-        meta: { title: '登录' }
+        meta: { title: 'Login' }
     }
 ]
 const router = new Router({
