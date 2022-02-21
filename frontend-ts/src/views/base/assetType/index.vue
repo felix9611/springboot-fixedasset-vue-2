@@ -1,6 +1,8 @@
 <template>
     <div class="container">
-        
+        <!--<div class="handle-box">
+            <input type="file" @change="uploadExcel" />
+        </div>-->
         <div class="handle-box">
             <el-form :inline="true">
                 <el-form-item>
@@ -119,6 +121,7 @@ export default Vue.extend({
         name: "Department",
         data() {
             return {
+                file: null,
                 test: 0,
                 searchForm: {
                     page: 1,
@@ -227,6 +230,7 @@ export default Vue.extend({
                                 });
 
                                 this.dialogVisible = false
+                                this.handleClose()
                             })
                     } else {
                         return false;

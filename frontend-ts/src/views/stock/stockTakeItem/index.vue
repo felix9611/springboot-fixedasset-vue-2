@@ -287,11 +287,15 @@ export default Vue.extend({
                           }
                       ).then(
                           (res: any) => {
-                              this.editForm.stockTakeId = this.searchForm.stockTakeId
-                              if (res.data && res.data.data && this.editForm.placeId === res.data.data.placeId) {
-                                  this.editForm.assetId = res.data.data.id
-                                  axios.post('/stock/stock_take/item/save', this.editForm)
-                                    .then((res: any) => {
+                              const stockTakeId = this.searchForm.stockTakeId
+                              if (this.editForm.placeId === Number(res.data.data.placeId)) {
+                                const assetId = res.data.data.id
+                                        
+                                axios.post('/stock/stock_take/item/save', { 
+                                    ...this.editForm, 
+                                    stockTakeId, 
+                                    assetId 
+                                }).then((res: any) => {
                                         this.stockTakeItemList()
                                         this.$notify({
                                             title: '',
@@ -302,9 +306,10 @@ export default Vue.extend({
                                         this.handleClose()
                                     })
                                     this.handleClose()
-                              } else {
+                              } else if(res.data.data === null){
                                 axios.post('/stock/stock_take/item/save', {
                                     ...this.editForm,
+                                    stockTakeId,
                                     status: 'Incorrect location OR does not exist'
                                 })
                                     .then((res: any) => {
