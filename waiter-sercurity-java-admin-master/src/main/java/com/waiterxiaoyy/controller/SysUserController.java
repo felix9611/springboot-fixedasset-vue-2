@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.waiterxiaoyy.common.dto.PassDto;
 import com.waiterxiaoyy.common.lang.Const;
 import com.waiterxiaoyy.common.lang.Result;
+import com.waiterxiaoyy.dto.ResetPasswordDto;
 import com.waiterxiaoyy.entity.SysRole;
 import com.waiterxiaoyy.entity.SysUser;
 import com.waiterxiaoyy.entity.SysUserRole;
@@ -127,6 +128,16 @@ public class SysUserController extends BaseController {
         // 删除缓存
         SysUser sysUser = sysUserService.getById(userId);
         sysUserService.clearUserAuthorityInfo(sysUser.getUsername());
+
+        return Result.succ("");
+    }
+
+    @PostMapping("/self/repass")
+    public Result repass(@RequestBody ResetPasswordDto resetPasswordDto) {
+
+        SysUser sysUser = sysUserService.getByUsername(resetPasswordDto.getUsername());
+        sysUser.setPassword(passwordEncoder.encode(resetPasswordDto.getNewPassword()));
+        sysUserService.updateById(sysUser);
 
         return Result.succ("");
     }

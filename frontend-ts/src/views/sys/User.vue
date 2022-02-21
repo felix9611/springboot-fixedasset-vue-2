@@ -294,7 +294,7 @@ export default Vue.extend({
                                 this.$notify({
                                     title: '',
                                     showClose: true,
-                                    message: '恭喜你，Action成功',
+                                    message: 'Save success',
                                     type: 'success',
                                 });
 
@@ -350,7 +350,7 @@ export default Vue.extend({
                     refs.roleTree.setCheckedKeys(roleIds)
                 })
             },
-            submitRoleHandle(formName) {
+            submitRoleHandle(formName: string) {
                 const refs: any = this.$refs
                 const roleIds = refs.roleTree.getCheckedKeys()
 
@@ -366,7 +366,7 @@ export default Vue.extend({
                     this.roleDialogFormVisible = false
                 })
             },
-            repassHandle(id, username) {
+            repassHandle(id: string, username: string) {
 
                 this.$confirm('将重置用户【' + username + '】的密码, 是否继续?', '提示', {
                     confirmButtonText: '确定',
