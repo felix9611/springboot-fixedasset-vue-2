@@ -301,6 +301,7 @@ export default Vue.extend({
                                             type: 'success',
                                         })
                                     })
+                                    this.handleClose()
                               } else {
                                   console.log('test')
                                 this.editForm.status = 'Incorrect location OR does not exist '
@@ -316,6 +317,7 @@ export default Vue.extend({
                                     })
                               }
                         })
+                        this.handleClose()
                       this.dialogVisible = false
 
                 

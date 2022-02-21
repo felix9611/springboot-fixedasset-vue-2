@@ -230,6 +230,7 @@ export default Vue.extend({
                                 });
 
                                 this.dialogVisible = false
+                                this.handleClose()
                             })
                     } else {
                         return false;

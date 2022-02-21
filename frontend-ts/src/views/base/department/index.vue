@@ -227,7 +227,7 @@ export default Vue.extend({
                                     message: '恭喜你，Action成功',
                                     type: 'success',
                                 });
-
+                                this.handleClose()
                                 this.dialogVisible = false
                             })
                     } else {

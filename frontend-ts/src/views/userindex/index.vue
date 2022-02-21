@@ -113,6 +113,7 @@ export default Vue.extend({
                     type: 'success'
                   })
                   this.dialogVisible = false
+                  this.handleClose()
                 }
               }
             )
