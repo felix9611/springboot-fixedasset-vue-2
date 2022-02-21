@@ -33,6 +33,16 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item>
+                    <el-select v-model="searchForm.placeId" placeholder="Select" filterable>
+                        <el-option
+                        v-for="item in placeItem"
+                        :key="item.id"
+                        :label="item.placeName"
+                        :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
                 <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>

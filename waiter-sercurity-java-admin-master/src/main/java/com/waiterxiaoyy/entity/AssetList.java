@@ -18,7 +18,7 @@ public class AssetList extends BaseEntity{
     private String assetName;
 
     @TableField("type_id")
-    private int typeId;
+    private String typeId;
 
     @TableField("unit")
     private String unit;
@@ -42,13 +42,13 @@ public class AssetList extends BaseEntity{
     private LocalDateTime invoiceDate;
 
     @TableField("place_id")
-    private int placeId;
+    private String placeId;
 
     @TableField("dept_id")
-    private int deptId;
+    private String deptId;
 
     @TableField("staff_id")
-    private int staffId;
+    private String staffId;
 
     @TableField("remark")
     private String remark;

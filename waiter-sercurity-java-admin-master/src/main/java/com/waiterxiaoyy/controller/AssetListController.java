@@ -29,15 +29,16 @@ public class AssetListController extends BaseController {
         if (!StringUtils.isBlank(assetList.getAssetName())){
             queryWrapper.like(AssetList::getAssetName, assetList.getAssetName());
         }
-        /*if (!StringUtils.isEmpty(assetList.getPlaceId())) {
+        if (!StringUtils.isBlank(assetList.getTypeId())) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!StringUtils.isBlank(assetList.getPlaceId())) {
             queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
         }
-        if (!StringUtils.isEmpty(assetList.getDeptId())) {
+        if (!StringUtils.isBlank(assetList.getDeptId())) {
             queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
         }
 
-        queryWrapper.orderByDesc(true, AssetList::getAssetCode);
-        queryWrapper.eq(AssetList::getStatu, 1); */
         queryWrapper.orderByDesc(true, AssetList::getAssetCode);
         queryWrapper.eq(AssetList::getStatu, 1);
         Page<AssetListViewDTO> iPage = assetListService.newPage(page, queryWrapper);

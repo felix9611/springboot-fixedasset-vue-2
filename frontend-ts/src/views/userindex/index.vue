@@ -1,18 +1,24 @@
 <template>
     <div class="container">
       <el-form :model="myAccount" ref="editForm">
-        <el-form-item label="Username"  prop="username" label-width="100px">
+        <el-form-item label="Username"  label-width="100px">
           <el-input v-model="myAccount.username" autocomplete="off" readonly></el-input>
         </el-form-item>
-        <el-form-item label="Created At"  prop="created" label-width="100px">
+        <el-form-item label="Email"  label-width="100px">
+          <el-input v-model="myAccount.email" autocomplete="off" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="Created At"  label-width="100px">
           <el-input v-model="myAccount.created" autocomplete="off" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="Last Login At"  label-width="100px">
+          <el-input v-model="myAccount.lastLoginAt" autocomplete="off" readonly></el-input>
         </el-form-item>
       </el-form>
       
       <div class="handle-box">
         <el-button
         size="mini"
-        @click="resetPWdialog()">Edit</el-button>
+        @click="resetPWdialog()">Reset Password</el-button>
       </div>
       <el-dialog
         title="Reset Password"
@@ -89,7 +95,7 @@ export default Vue.extend({
       const formNames :any = this.$refs[formName]
       formNames.validate((valid: any) => {
         if (valid) {
-          const { newPassword ,confirmPassword} = this.resetPasswordForm
+          const { newPassword ,confirmPassword } = this.resetPasswordForm
           if (newPassword === confirmPassword ) {
             axios.post(
               '/sys/user/self/repass',
