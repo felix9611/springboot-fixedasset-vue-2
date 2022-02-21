@@ -74,16 +74,6 @@
             </el-table-column>
         </el-table>
 
-        <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                layout="total, sizes, prev, pager, next, jumper"
-                :page-sizes="[10, 20, 50, 100]"
-                :current-page="current"
-                :page-size="size"
-                :total="total">
-        </el-pagination>
-
     </div>
 </template>
 <script lang="ts">
@@ -173,20 +163,20 @@ export default Vue.extend({
                     }
                 })
                 doc.save(`stocktake_report_${this.mainStockTake.actionName}_finished.pdf`)
-          },
-          stockTakeItemList() {
-              axios.post(
-                    '/stock/stock_take/item/list',
-                    this.searchForm
-                ).then(
-                    (res: any) => {
-                    this.tableData = res.data.data.records
-                    this.size = res.data.data.size
-                    this.current = res.data.data.current
-                    this.total = res.data.data.total
-              })
-          },
-          getAllstockTakeList() {
+            },
+            stockTakeItemList() {
+                axios.post(
+                        '/stock/stock_take/item/list',
+                        this.searchForm
+                    ).then(
+                        (res: any) => {
+                        this.tableData = res.data.data.records
+                        this.size = res.data.data.size
+                        this.current = res.data.data.current
+                        this.total = res.data.data.total
+                })
+            },
+            getAllstockTakeList() {
                 axios.get(
                     '/stock/stock_take/getAllFinishedST'
                 ).then(
@@ -196,30 +186,11 @@ export default Vue.extend({
                     }
                 )
             },
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection();
-                }
-            },
             handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
-            },
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.stockTakeItemList()
-            },
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.stockTakeItemList()
-            },
+            }
         }
 })
 </script>

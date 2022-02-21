@@ -60,12 +60,12 @@
             <el-table-column
               prop="assetName"
               label="Asset Name"
-              width="200">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="typeCode"
               label="Type Code"
-              width="100">
+              width="80">
             </el-table-column>
             <el-table-column
               prop="typeName"
@@ -106,10 +106,15 @@
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="200px"
+                    width="250px"
                     label="Action">
 
                 <template slot-scope="scope">
+                    <el-button
+                      size="mini"
+                      type="success"
+                      @click="readHandle(scope.row.id)">Read</el-button>
+                    <el-divider direction="vertical"></el-divider>
                     <el-button
                       size="mini"
                       @click="editHandle(scope.row.id)">Edit</el-button>
@@ -139,7 +144,7 @@
                 width="700px"
                 :before-close="handleClose">
 
-            <el-form :model="editForm" :rules="editFormRules" ref="editForm">
+            <el-form :model="editForm" :rules="editFormRules" ref="editForm" :disabled="readonlyForm">
 
                 <el-form-item label="Asset Code"  prop="assetCode" label-width="100px">
                     <el-input v-model="editForm.assetCode" autocomplete="off" readonly></el-input>
@@ -217,7 +222,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="resetForm('editForm')">Cancel</el-button>
-                <el-button type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
+                <el-button :disabled="hideSaveBtn" type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -241,14 +246,14 @@ export default Vue.extend({
                 total: 0,
                 size: 10,
                 current: 1,
-
+                readonlyForm: false,
                 dialogVisible: false,
                 editForm,
                 tableData: [],
                 placeItem: [],
                 typeItem: [],
                 deptItem: [],
-
+                hideSaveBtn: false,
                 editFormRules: {
                     deptCode: [
                         {required: true, message: 'Department Code cannot blank!', trigger: 'blur'}
@@ -272,6 +277,8 @@ export default Vue.extend({
             this.getTotalCost()
         },
         methods: {
+          
+          uploadExcel() {},
           getTotalCost() {
             axios.get(
               '/asset/assetList/getTotalSum'
@@ -376,6 +383,15 @@ export default Vue.extend({
                         return false;
                     }
                 });
+            },
+            readHandle(id: number) {
+                axios.get(`/asset/assetList/${id}`).then((res: any) => {
+                    console.log(this.placeItem)
+                    this.editForm = res.data.data
+                    this.dialogVisible = true
+                    this.readonlyForm = true
+                    this.hideSaveBtn = true
+                })
             },
             editHandle(id: number) {
                 axios.get(`/asset/assetList/${id}`).then((res: any) => {
