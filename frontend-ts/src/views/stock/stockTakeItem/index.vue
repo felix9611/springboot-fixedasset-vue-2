@@ -277,8 +277,6 @@ export default Vue.extend({
 
                 refs.validate((valid: any) => {
                     if (valid) {
-                        console.log(this.searchForm)
-                      this.editForm.stockTakeId = this.searchForm.stockTakeId
                       console.log(this.editForm)
   
                       axios.post(
@@ -289,6 +287,7 @@ export default Vue.extend({
                           }
                       ).then(
                           (res: any) => {
+                              this.editForm.stockTakeId = this.searchForm.stockTakeId
                               if (res.data && res.data.data && this.editForm.placeId === res.data.data.placeId) {
                                   this.editForm.assetId = res.data.data.id
                                   axios.post('/stock/stock_take/item/save', this.editForm)
@@ -300,12 +299,14 @@ export default Vue.extend({
                                             message: '恭喜你，Action成功',
                                             type: 'success',
                                         })
+                                        this.handleClose()
                                     })
                                     this.handleClose()
                               } else {
-                                  console.log('test')
-                                this.editForm.status = 'Incorrect location OR does not exist '
-                                axios.post('/stock/stock_take/item/save', this.editForm)
+                                axios.post('/stock/stock_take/item/save', {
+                                    ...this.editForm,
+                                    status: 'Incorrect location OR does not exist'
+                                })
                                     .then((res: any) => {
                                         this.stockTakeItemList()
                                         this.$notify({
@@ -314,10 +315,11 @@ export default Vue.extend({
                                             message: '恭喜你，Action成功',
                                             type: 'success',
                                         })
+                                        this.handleClose()
                                     })
                               }
                         })
-                        this.handleClose()
+                        
                       this.dialogVisible = false
 
                 
