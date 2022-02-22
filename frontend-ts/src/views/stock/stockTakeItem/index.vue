@@ -176,6 +176,12 @@ export default Vue.extend({
                     assetCode: [
                         { required: true, message: 'Asset Code cannot blank!', trigger: 'blur' }
                     ],
+                    place: [
+                        { required: true, message: 'Place cannot blank!', trigger: 'blur' }
+                    ],
+                    status: [
+                        { required: true, message: 'Status cannot blank!', trigger: 'blur' }
+                    ],
                     /* actionPlace: [
                         {required: true, message: 'Action Place must choose!', trigger: 'blur'}
                     ] */

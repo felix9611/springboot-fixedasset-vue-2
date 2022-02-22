@@ -155,6 +155,17 @@
                 :before-close="handleClose">
 
             <el-form :model="editForm" :rules="editFormRules" ref="editForm" :disabled="readonlyForm">
+                <el-form-item>
+                    <!--<el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="fileList"
+                        :on-change="getFile"
+                        >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>-->
+                </el-form-item>
 
                 <el-form-item label="Asset Code"  prop="assetCode" label-width="100px">
                     <el-input v-model="editForm.assetCode" autocomplete="off" readonly></el-input>
@@ -239,17 +250,27 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import ref from 'vue'
 import axios from '../../../axios'
+import VueBase64FileUpload from 'vue-base64-file-upload'
+import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 
 export default Vue.extend({
         name: 'AssetList',
+        components: {
+            VueBase64FileUpload
+        },
         data() {
             const searchForm: any = {
                 limit: 10,
                 page: 1
             }
             const editForm: any = {}
+            const fileList: any = []
             return {
+                fileList,
+                customImageMaxSize: 3,
+                // file size ^
                 searchForm,
                 delBtlStatu: true,
                 sumTotal: 0,
@@ -265,8 +286,8 @@ export default Vue.extend({
                 deptItem: [],
                 hideSaveBtn: false,
                 editFormRules: {
-                    deptCode: [
-                        {required: true, message: 'Department Code cannot blank!', trigger: 'blur'}
+                    assetName: [
+                        {required: true, message: 'Asset Name cannot blank!', trigger: 'blur'}
                     ]
                 },
                 roleDialogFormVisible: false,
@@ -287,16 +308,14 @@ export default Vue.extend({
             this.getTotalCost()
         },
         methods: {
-          
-          uploadExcel() {},
-          getTotalCost() {
-            axios.get(
-              '/asset/assetList/getTotalSum'
-            ).then(
-              (res: any) => {
-                this.sumTotal = res.data.data
-              }
-            )
+            getTotalCost() {
+                axios.get(
+                '/asset/assetList/getTotalSum'
+                ).then(
+                (res: any) => {
+                    this.sumTotal = res.data.data
+                }
+                )
           },
           getAlldept() {
             axios.get(
@@ -377,7 +396,8 @@ export default Vue.extend({
                 refs.validate((valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
-                        axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                      console.log(this.fileList)
+                        /* axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                             .then((res: any) => {
                                 this.assetAllList()
                                 this.$notify({
@@ -389,7 +409,7 @@ export default Vue.extend({
 
                                 this.dialogVisible = false
                                 this.handleClose()
-                            })
+                            }) */
                     } else {
                         return false;
                     }

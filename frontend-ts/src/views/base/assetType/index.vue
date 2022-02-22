@@ -145,8 +145,11 @@ export default Vue.extend({
                 placeItem: [],
 
                 editFormRules: {
-                    deptCode: [
-                        {required: true, message: 'Department Code cannot blank!', trigger: 'blur'}
+                    typeCode: [
+                        {required: true, message: 'Type Code cannot blank!', trigger: 'blur'}
+                    ],
+                    typeName: [
+                        {required: true, message: 'Type Name cannot blank!', trigger: 'blur'}
                     ]
                 },
                 roleDialogFormVisible: false,

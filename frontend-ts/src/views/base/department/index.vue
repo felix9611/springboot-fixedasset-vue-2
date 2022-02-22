@@ -89,14 +89,14 @@
 
             <el-form :model="editForm" :rules="editFormRules" ref="editForm">
 
-                <el-form-item label="Department Code"  prop="deptCode" label-width="100px">
+                <el-form-item label="Department Code"  prop="deptCode" label-width="150px">
                     <el-input v-model="editForm.deptCode" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Department Name"  prop="deptName" label-width="100px">
+                <el-form-item label="Department Name"  prop="deptName" label-width="150px">
                     <el-input v-model="editForm.deptName" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="Other Name"  prop="deptOtherName" label-width="100px">
+                <el-form-item label="Other Name"  prop="deptOtherName" label-width="150px">
                     <el-input type="textarea" v-model="editForm.deptOtherName"></el-input>
                 </el-form-item>
 
@@ -141,6 +141,9 @@ export default Vue.extend({
                 editFormRules: {
                     deptCode: [
                         {required: true, message: 'Department Code cannot blank!', trigger: 'blur'}
+                    ],
+                    deptName: [
+                        {required: true, message: 'Department Name cannot blank!', trigger: 'blur'}
                     ]
                 },
 

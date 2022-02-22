@@ -139,6 +139,9 @@ export default Vue.extend({
                 editFormRules: {
                     placeCode: [
                         {required: true, message: 'Place Code cannot blank!', trigger: 'blur'}
+                    ],
+                    placeName: [
+                        {required: true, message: 'Place Name cannot blank!', trigger: 'blur'}
                     ]
                 },
 
@@ -175,7 +178,7 @@ export default Vue.extend({
             },
             toggleSelection(rows: any) {
                 if (rows) {
-                    rows.forEach(row => {
+                    rows.forEach((row: any) => {
                         const multipleTable: any = this.$refs.multipleTable
                         multipleTable.toggleRowSelection(row);
                     });
