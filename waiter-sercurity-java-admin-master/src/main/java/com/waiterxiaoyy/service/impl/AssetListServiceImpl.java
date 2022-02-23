@@ -1,9 +1,11 @@
 package com.waiterxiaoyy.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
 import com.waiterxiaoyy.entity.ActionRecord;
 import com.waiterxiaoyy.entity.AssetList;
@@ -36,7 +38,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         return assetListMapper.sumCost();
     }
 
-    public void createNew(AssetList assetList) {
+    public String createNew(AssetList assetList) {
         String newCode = this.getNewAssetCode();
         assetList.setAssetCode(newCode);
         assetList.setStatu(1);
@@ -50,8 +52,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         actionRecord.setActionSuccess("Success");
         actionRecord.setCreated(LocalDateTime.now());
         this.createdAction(actionRecord);
-
-
+        return newCode;
     }
 
     public void update(AssetList assetList) {
@@ -83,8 +84,19 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
     public AssetList findOne(AssetList assetList) {
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+        if (!StringUtils.isBlank(assetList.getAssetName())) {
+            queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
+        }
+        if (!StringUtils.isBlank(assetList.getPlaceId())) {
+            queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
+        }
+
+        return assetListMapper.selectOne(queryWrapper);
+    }
+
+    public AssetList findOneByAssetCode(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
-        queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
         return assetListMapper.selectOne(queryWrapper);
     }
 

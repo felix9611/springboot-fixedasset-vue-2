@@ -7,7 +7,7 @@ import com.waiterxiaoyy.dto.AssetListViewDTO;
 import com.waiterxiaoyy.entity.AssetList;
 
 public interface AssetListService extends IService<AssetList> {
-    void createNew(AssetList assetList);
+    String createNew(AssetList assetList);
 
     Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper);
 
@@ -18,4 +18,6 @@ public interface AssetListService extends IService<AssetList> {
     int sumTotal();
 
     AssetList findOne(AssetList assetList);
+
+    AssetList findOneByAssetCode(AssetList assetList);
 }

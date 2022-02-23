@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.waiterxiaoyy.common.lang.Result;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
 import com.waiterxiaoyy.entity.AssetList;
+import com.waiterxiaoyy.entity.AssetListFile;
 import com.waiterxiaoyy.entity.AssetType;
+import com.waiterxiaoyy.service.AssetListFileService;
 import com.waiterxiaoyy.service.AssetListService;
 // import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,8 @@ import java.time.LocalDateTime;
 public class AssetListController extends BaseController {
 
     @Resource AssetListService assetListService;
+
+    @Resource AssetListFileService assetListFileService;
 
     @PostMapping("/listAll")
     public Result listAll(@RequestBody AssetList assetList) {
@@ -52,8 +56,8 @@ public class AssetListController extends BaseController {
 
     @PostMapping("/create")
     public Result create(@RequestBody AssetList assetList) {
-        assetListService.createNew(assetList);
-        return Result.succ(assetList);
+        String newAssetCode = assetListService.createNew(assetList);
+        return Result.succ(newAssetCode);
     }
 
     @PostMapping("/update")
@@ -67,6 +71,13 @@ public class AssetListController extends BaseController {
         return Result.succ(assetListService.getById(id));
     }
 
+    @GetMapping("/assetCode/{assetCode}")
+    public Result getOneByAssetCode(@PathVariable("assetCode") String id) {
+        AssetList assetList = new AssetList();
+        assetList.setAssetCode(id);
+        return Result.succ(assetListService.findOneByAssetCode(assetList));
+    }
+
     @DeleteMapping("/remove/{id}")
     public Result remove(@PathVariable("id") Long id) {
         assetListService.remove(id);
@@ -77,5 +88,22 @@ public class AssetListController extends BaseController {
     public Result findAsset(@RequestBody AssetList assetList) {
         AssetList assetList1 = assetListService.findOne(assetList);
         return Result.succ(assetList1);
+    }
+
+    @PostMapping("/addFile")
+    public Result addFile(@RequestBody AssetListFile assetListFile){
+        assetListFileService.saveListPicture(assetListFile);
+        return Result.succ(assetListFile);
+    }
+
+    @PostMapping("/loadFile")
+    public  Result loadFile(@RequestBody AssetListFile assetListFile) {
+        return Result.succ(assetListFileService.getByAssetId(assetListFile));
+    }
+
+    @DeleteMapping("/removeFile/{id}")
+    public Result removeFile(@PathVariable("id") Long id) {
+        assetListFileService.removeFile(id);
+        return Result.succ(id);
     }
 }

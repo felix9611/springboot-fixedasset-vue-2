@@ -65,17 +65,12 @@
             <el-table-column
               prop="assetCode"
               label="Asset Code"
-              width="120">
+              width="105">
             </el-table-column>
             <el-table-column
               prop="assetName"
               label="Asset Name"
               width="150">
-            </el-table-column>
-            <el-table-column
-              prop="typeCode"
-              label="Type Code"
-              width="80">
             </el-table-column>
             <el-table-column
               prop="typeName"
@@ -91,11 +86,6 @@
               prop="placeName"
               label="Place Name"
               width="150">
-            </el-table-column>
-            <el-table-column
-              prop="deptCode"
-              label="Department Code"
-              width="100">
             </el-table-column>
             <el-table-column
               prop="deptName"
@@ -116,10 +106,15 @@
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="250px"
+                    width="380px"
                     label="Action">
 
                 <template slot-scope="scope">
+                    <el-button
+                      size="mini"
+                      type="success"
+                      @click="getAllBase64File(scope.row.id)">Read File(Image)</el-button>
+                    <el-divider direction="vertical"></el-divider>
                     <el-button
                       size="mini"
                       type="success"
@@ -149,6 +144,34 @@
         </el-pagination>
 
         <el-dialog
+                title="Image Boxs"
+                :visible.sync="showImageDialog"
+                width="700px"
+                :before-close="handleCloseImageDialog">
+                <div v-for="item in fileBase64Data" :key="item.fileName">
+                    <el-row  :gutter="20">
+                        <el-col :span="15">
+                            <p>Uploaded File Name:   {{ item.fileName }}</p>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-button
+                            size="mini"
+                            type="danger"
+                            @click="delItemFile(item.id, item.assetId)">Delete</el-button>
+                        </el-col>
+                    </el-row>
+                    <br>
+                    <br>
+                    <el-row>
+                        <el-col>
+                            <img :src="item.base64" style="width: 70%">
+                        </el-col>
+                    </el-row>
+                    <el-divider ></el-divider>
+                </div>
+        </el-dialog>
+
+        <el-dialog
                 title="Form Box"
                 :visible.sync="dialogVisible"
                 width="700px"
@@ -156,15 +179,16 @@
 
             <el-form :model="editForm" :rules="editFormRules" ref="editForm" :disabled="readonlyForm">
                 <el-form-item>
-                    <!--<el-upload
+                    <el-upload
                         class="upload-demo"
                         :auto-upload="false"
                         :file-list="fileList"
-                        :on-change="getFile"
+                        :on-change="onChangeUpload"
+                        :on-remove="clearFile"
                         >
-                        <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                    </el-upload>-->
+                        <el-button size="small" type="primary">Upload</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
                 </el-form-item>
 
                 <el-form-item label="Asset Code"  prop="assetCode" label-width="100px">
@@ -254,6 +278,7 @@ import ref from 'vue'
 import axios from '../../../axios'
 import VueBase64FileUpload from 'vue-base64-file-upload'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
+import { uploadImgToBase64 } from '../../../utils/uploadImgToBase64'
 
 export default Vue.extend({
         name: 'AssetList',
@@ -267,9 +292,13 @@ export default Vue.extend({
             }
             const editForm: any = {}
             const fileList: any = []
+            const fileBase64Data: any = []
+            const getBase64Data: any = []
             return {
                 fileList,
                 customImageMaxSize: 3,
+                getBase64Data,
+                fileBase64Data,
                 // file size ^
                 searchForm,
                 delBtlStatu: true,
@@ -285,6 +314,7 @@ export default Vue.extend({
                 typeItem: [],
                 deptItem: [],
                 hideSaveBtn: false,
+                showImageDialog: false,
                 editFormRules: {
                     assetName: [
                         {required: true, message: 'Asset Name cannot blank!', trigger: 'blur'}
@@ -308,6 +338,36 @@ export default Vue.extend({
             this.getTotalCost()
         },
         methods: {
+            clearFile() {
+                const refs: any = this.$refs
+                return refs.upload.clearFiles()
+            },
+            onChangeUpload(file: UploadFile) {
+                let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+                const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
+                const isLt2M = file.size / 1024 / 1024 < 3
+                if (!isJpg) {//图片格式判断
+                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+                    this.$message.error('Only Upload jpg and png!');
+                }
+                if (!isLt2M) {//图片大小判断
+                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+                    this.$message.error('File size cannot over 3MB!');
+                }
+                if (isJpg && isLt2M){
+                    this.fileList.push(file)
+                }
+                this.imgToBase64()
+                // return isJpg && isLt2M;
+            },
+            imgToBase64() {
+                this.fileList.map(async (file: any) => {
+                    const response: any = await uploadImgToBase64(file.raw)
+                    const dataBase64: string = response.data
+                    this.fileBase64Data.push({ fileName: file.name, dataBase64 })
+                    // const test = response as never
+                })
+            },
             getTotalCost() {
                 axios.get(
                 '/asset/assetList/getTotalSum'
@@ -388,6 +448,9 @@ export default Vue.extend({
                 this.dialogVisible = false
                 this.editForm = {}
             },
+            handleCloseImageDialog() {
+                this.showImageDialog = false
+            },
             handleClose() {
                 this.resetForm('editForm')
             },
@@ -395,25 +458,63 @@ export default Vue.extend({
                 const refs: any = this.$refs[formName]
                 refs.validate((valid: any) => {
                     if (valid) {
-                      console.log(this.editForm)
-                      console.log(this.fileList)
-                        /* axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                      console.log(this.fileBase64Data[0])
+                        axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                             .then((res: any) => {
-                                this.assetAllList()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success',
-                                });
+                                if (this.fileBase64Data[0]) {
+                                    const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data
+                                    axios.get(`/asset/assetList/assetCode/${assetCode}`).then(
+                                        ((res: any) => {
+                                            const assetId = res.data.data.id
+                                            this.fileBase64Data.forEach( (dataFile: any) => {
+                                                console.log(dataFile)
+                                                const { fileName, dataBase64 } = dataFile
+                                                axios.post(
+                                                    '/asset/assetList/addFile',
+                                                    { assetId, fileName, base64: dataBase64 }
+                                                ).then(
+                                                    res=> {
+                                                         this.assetAllList()
+                                                            this.$notify({
+                                                                title: '',
+                                                                showClose: true,
+                                                                message: 'Success to save',
+                                                                type: 'success',
+                                                            });
 
-                                this.dialogVisible = false
-                                this.handleClose()
-                            }) */
+                                                            this.fileBase64Data = []
+                                                            this.dialogVisible = false
+                                                            this.handleClose()
+                                                    }
+                                                )
+                                            })
+                                        })
+                                    )
+                                } else {
+                                    this.assetAllList()
+                                    this.$notify({
+                                        title: '',
+                                        showClose: true,
+                                        message: 'Success to save',
+                                        type: 'success',
+                                    });
+
+                                    this.dialogVisible = false
+                                    this.handleClose()
+                                }
+                            })
                     } else {
                         return false;
                     }
                 });
+            },
+            getAllBase64File(assetId: number) {
+                axios.post('/asset/assetList/loadFile', 
+                { assetId }).then((res: any)=>{
+                    this.fileBase64Data = res.data.data
+                    this.showImageDialog = true
+                    console.log(this.fileBase64Data)
+                })
             },
             readHandle(id: number) {
                 axios.get(`/asset/assetList/${id}`).then((res: any) => {
@@ -438,6 +539,17 @@ export default Vue.extend({
                         title: '',
                         showClose: true,
                         message: '恭喜你，Action成功',
+                        type: 'success'
+                    });
+                })
+            },
+            delItemFile(id: number, assetId: number) {
+                axios.delete(`/asset/assetList/removeFile/${id}`).then(res => {
+                    this.getAllBase64File(assetId)
+                    this.$notify({
+                        title: '',
+                        showClose: true,
+                        message: 'Delete file success',
                         type: 'success'
                     });
                 })
