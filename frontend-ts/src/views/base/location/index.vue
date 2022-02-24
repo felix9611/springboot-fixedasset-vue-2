@@ -12,6 +12,10 @@
                 </el-form-item>
 
                 <el-form-item>
+                    <el-button @click="clickUploadDialog">Upload Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
                     <el-button @click="placeAllList">Find</el-button>
                 </el-form-item>
 
@@ -56,9 +60,9 @@
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button type="text" @click="editHandle(scope.row.id)">Edit</el-button>
+                    <el-button @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
-                    <el-button type="text" @click="delItem(scope.row.id)">Delete</el-button>
+                    <el-button type="danger" @click="delItem(scope.row.id)">Delete</el-button>
                 </template>
             </el-table-column>
 
@@ -103,12 +107,29 @@
                 <el-button @click="resetForm('editForm')">Cancel</el-button>
             </div>
         </el-dialog>
+
+        <el-dialog
+                title="Upload Excel"
+                :visible.sync="uploaderDialog"
+                width="700px"
+                :before-close="closerUploadDialog">
+                <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="fileList"
+                        :on-change="uploadFile"
+                        :on-remove="clearFile"
+                        >
+                        <el-button size="small" type="primary">Upload</el-button>
+                    </el-upload>
+        </el-dialog>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../../axios'
+import { formatJson, readExcel } from '../../../utils/importExcel'
 
 export default Vue.extend({
         name: 'Department',
@@ -155,7 +176,18 @@ export default Vue.extend({
                 roleForm: {},
                 roleTreeData:  [],
                 treeCheckedKeys: [],
-                checkStrictly: true
+                checkStrictly: true,
+
+                uploaderDialog: false,
+
+                testEcelHeader1: [
+                    'Place Code',
+                    'Place Name'
+                ],
+                testEcelHeader2: [
+                    'placeCode',
+                    'placeName'
+                ]
 
             }
         },
@@ -163,6 +195,30 @@ export default Vue.extend({
             this.placeAllList()
         },
         methods: {
+            clickUploadDialog() {
+                this.uploaderDialog = true
+            },
+            closerUploadDialog() {
+                this.uploaderDialog = false
+            },
+            async uploadFile(file: any) {
+                const data = await readExcel(file)
+                const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
+                reData.forEach( (res: any) => {
+                    axios.post('/base/location/create', res).then((res: any) => {
+                        
+                        this.$notify({
+                            title: 'Msg',
+                            showClose: true,
+                            message: 'Upload success',
+                            type: 'success',
+                        })
+                        this.uploaderDialog = false
+                        this.placeAllList()
+                        file = undefined
+                    })
+                })
+            },
             placeAllList() {
               axios.post(
                 '/base/location/listAll',

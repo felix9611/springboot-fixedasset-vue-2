@@ -13,7 +13,7 @@
                     >
                     </el-input>
                 </el-form-item>
-                <el-form-item>
+                <!--<el-form-item>
                     <el-select v-model="searchForm.typeId" placeholder="Select" filterable clearable>
                         <el-option
                         v-for="item in typeItem"
@@ -42,7 +42,7 @@
                         :value="item.id">
                         </el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item>-->
 
                 <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
@@ -201,10 +201,10 @@
                 <el-form-item label="Type" prop="type" label-width="100px">
                     <el-select v-model="editForm.typeId" placeholder="Select" filterable>
                         <el-option
-                        v-for="item in typeItem"
-                        :key="item.id"
-                        :label="item.typeName"
-                        :value="item.id">
+                        v-for="typeItems in typeItem"
+                        :key="typeItems.id"
+                        :label="typeItems.typeName"
+                        :value="typeItems.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -212,20 +212,20 @@
                 <el-form-item label="Place" prop="place" label-width="100px">
                     <el-select v-model="editForm.placeId" placeholder="Select" filterable>
                         <el-option
-                        v-for="item in placeItem"
-                        :key="item.id"
-                        :label="item.placeName"
-                        :value="item.id">
+                        v-for="placeItems in placeItem"
+                        :key="placeItems.id"
+                        :label="placeItems.placeName"
+                        :value="placeItems.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Dept" prop="Dept" label-width="100px">
                     <el-select v-model="editForm.deptId" placeholder="Select" filterable>
                         <el-option
-                        v-for="item in deptItem"
-                        :key="item.id"
-                        :label="item.deptName"
-                        :value="item.id">
+                        v-for="deptItems in deptItem"
+                        :key="deptItems.id"
+                        :label="deptItems.deptName"
+                        :value="deptItems.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -346,13 +346,13 @@ export default Vue.extend({
                 let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
                 const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
                 const isLt2M = file.size / 1024 / 1024 < 3
-                if (!isJpg) {//图片格式判断
+                if (!isJpg) {
                     this.fileList = this.fileList.filter(v => v.uid !== file.uid)
-                    this.$message.error('Only Upload jpg and png!');
+                    this.$message.error('Only Upload jpg and png!')
                 }
-                if (!isLt2M) {//图片大小判断
+                if (!isLt2M) {
                     this.fileList = this.fileList.filter(v => v.uid !== file.uid)
-                    this.$message.error('File size cannot over 3MB!');
+                    this.$message.error('File size cannot over 3MB!')
                 }
                 if (isJpg && isLt2M){
                     this.fileList.push(file)
@@ -482,6 +482,7 @@ export default Vue.extend({
                                                                 type: 'success',
                                                             });
 
+                                                            this.fileList = []
                                                             this.fileBase64Data = []
                                                             this.dialogVisible = false
                                                             this.handleClose()

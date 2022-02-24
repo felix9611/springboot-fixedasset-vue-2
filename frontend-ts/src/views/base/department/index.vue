@@ -12,6 +12,10 @@
                 </el-form-item>
 
                 <el-form-item>
+                    <el-button @click="clickUploadDialog">Upload Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
                     <el-button @click="deptAllList">Find</el-button>
                 </el-form-item>
 
@@ -20,6 +24,23 @@
                 </el-form-item>
             </el-form>
         </div>
+
+        <el-dialog
+                title="Upload Excel"
+                :visible.sync="uploaderDialog"
+                width="700px"
+                :before-close="closerUploadDialog">
+                <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="fileList"
+                        :on-change="uploadFile"
+                        :on-remove="clearFile"
+                        >
+                        <el-button size="small" type="primary">Upload</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+        </el-dialog>
 
         <el-table
                 ref="multipleTable"
@@ -112,11 +133,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../../axios'
-import VJsoneditor from 'v-jsoneditor'
+import { formatJson, readExcel } from '../../../utils/importExcel'
+
 export default Vue.extend({
         name: 'Department',
         data() {
+            const fileList: any =[]
             return {
+                fileList,
                 searchForm: {
                     limit: 10,
                     page: 1
@@ -157,7 +181,18 @@ export default Vue.extend({
                 roleForm: {},
                 roleTreeData:  [],
                 treeCheckedKeys: [],
-                checkStrictly: true
+                checkStrictly: true,
+
+                uploaderDialog: false,
+
+                testEcelHeader1: [
+                    'Department Code',
+                    'Department Name'
+                ],
+                testEcelHeader2: [
+                    'deptCode',
+                    'deptName'
+                ]
 
             }
         },
@@ -165,6 +200,30 @@ export default Vue.extend({
             this.deptAllList()
         },
         methods: {
+            clickUploadDialog() {
+                this.uploaderDialog = true
+            },
+            closerUploadDialog() {
+                this.uploaderDialog = false
+            },
+            async uploadFile(file: any) {
+                const data = await readExcel(file)
+                const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
+                reData.forEach( (res: any) => {
+                    axios.post('/base/department/create', res).then((res: any) => {
+                        
+                        this.$notify({
+                            title: 'Msg',
+                            showClose: true,
+                            message: 'Upload success',
+                            type: 'success',
+                        })
+                        this.deptAllList()
+                        this.uploaderDialog = false
+                        file = undefined
+                    })
+                })
+            },
             deptAllList() {
               axios.post(
                 '/base/department/listAll',
