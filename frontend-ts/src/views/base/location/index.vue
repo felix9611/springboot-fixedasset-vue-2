@@ -134,7 +134,9 @@ import { formatJson, readExcel } from '../../../utils/importExcel'
 export default Vue.extend({
         name: 'Department',
         data() {
+            const fileList: any = []
             return {
+                fileList,
                 searchForm: {
                     limit: 10,
                     page: 1,
@@ -195,6 +197,9 @@ export default Vue.extend({
             this.placeAllList()
         },
         methods: {
+            clearFile() {
+                this.fileList = []
+            },
             clickUploadDialog() {
                 this.uploaderDialog = true
             },
@@ -215,6 +220,7 @@ export default Vue.extend({
                         })
                         this.uploaderDialog = false
                         this.placeAllList()
+                        this.fileList = []
                         file = undefined
                     })
                 })

@@ -141,9 +141,11 @@ import axios from '../../../axios'
 import { formatJson, readExcel } from '../../../utils/importExcel'
 
 export default Vue.extend({
-        name: "Department",
+        name: 'AssetType',
         data() {
+            const fileList: any = []
             return {
+                fileList,
                 file: null,
                 test: 0,
                 searchForm: {
@@ -199,10 +201,15 @@ export default Vue.extend({
             this.typeAllList()
         },
         methods: {
+            clearFile() {
+                this.fileList = []
+            },
             clickUploadDialog() {
+                this.fileList = []
                 this.uploaderDialog = true
             },
             closerUploadDialog() {
+                this.fileList = []
                 this.uploaderDialog = false
             },
             async uploadFile(file: any) {
@@ -219,6 +226,7 @@ export default Vue.extend({
                         })
                         this.uploaderDialog = false
                         this.typeAllList()
+                        this.fileList = []
                         file = undefined
                     })
                 })

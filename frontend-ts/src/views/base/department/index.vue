@@ -200,6 +200,9 @@ export default Vue.extend({
             this.deptAllList()
         },
         methods: {
+            clearFile() {
+                this.fileList = []
+            },
             clickUploadDialog() {
                 this.uploaderDialog = true
             },
@@ -221,6 +224,7 @@ export default Vue.extend({
                         this.deptAllList()
                         this.uploaderDialog = false
                         file = undefined
+                        this.fileList = []
                     })
                 })
             },

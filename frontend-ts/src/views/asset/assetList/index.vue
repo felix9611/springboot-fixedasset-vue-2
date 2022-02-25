@@ -184,7 +184,7 @@
                         :auto-upload="false"
                         :file-list="fileList"
                         :on-change="onChangeUpload"
-                        :on-remove="clearFile"
+                        :on-remove="removeUploaded"
                         >
                         <el-button size="small" type="primary">Upload</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
@@ -279,6 +279,8 @@ import axios from '../../../axios'
 import VueBase64FileUpload from 'vue-base64-file-upload'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import { uploadImgToBase64 } from '../../../utils/uploadImgToBase64'
+import { formatJson, readExcel } from '../../../utils/importExcel'
+import moment from 'moment'
 
 export default Vue.extend({
         name: 'AssetList',
@@ -327,7 +329,7 @@ export default Vue.extend({
                 },
                 treeCheckedKeys: [],
                 checkStrictly: true,
-                multipleSelection: []
+                multipleSelection: [],
             }
         },
         created() {
@@ -338,9 +340,8 @@ export default Vue.extend({
             this.getTotalCost()
         },
         methods: {
-            clearFile() {
-                const refs: any = this.$refs
-                return refs.upload.clearFiles()
+            removeUploaded() {
+                this.fileList = []
             },
             onChangeUpload(file: UploadFile) {
                 let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)

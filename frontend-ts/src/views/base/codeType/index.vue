@@ -13,6 +13,10 @@
                 </el-form-item>
 
                 <el-form-item>
+                    <el-button @click="clickUploadDialog">Upload Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
                     <el-button @click="codeTypeAllList">Find</el-button>
                 </el-form-item>
 
@@ -113,19 +117,38 @@
                 <el-button @click="resetForm('editForm')">Cancel</el-button>
             </div>
         </el-dialog>
+        <el-dialog
+                title="Upload Excel"
+                :visible.sync="uploaderDialog"
+                width="700px"
+                :before-close="closerUploadDialog">
+                <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="fileList"
+                        :on-change="uploadFile"
+                        :on-remove="clearFile"
+                        >
+                        <el-button size="small" type="primary">Upload</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+        </el-dialog>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../../axios'
+import { formatJson, readExcel } from '../../../utils/importExcel'
 
 export default Vue.extend({
         name: 'CodeType',
         data() {
             const editForm: any = {}
             const searchForm: any = {}
+            const fileList: any = []
             return {
+                fileList,
                 test: 0,
                 searchForm,
                 delBtlStatu: true,
@@ -158,13 +181,53 @@ export default Vue.extend({
                 },
                 treeCheckedKeys: [],
                 checkStrictly: true,
-                multipleSelection: []
+                multipleSelection: [],
+
+                uploaderDialog: false,
+                testEcelHeader1: [
+                    'Type',
+                    'Value Code',
+                    'Value Name'
+                ],
+                testEcelHeader2: [
+                    'type',
+                    'valueCode',
+                    'valueNmae'
+                ]
             }
         },
         created() {
             this.codeTypeAllList()
         },
         methods: {
+             clearFile() {
+                this.fileList = []
+            },
+            clickUploadDialog() {
+                this.uploaderDialog = true
+            },
+            closerUploadDialog() {
+                this.uploaderDialog = false
+            },
+            async uploadFile(file: any) {
+                const data = await readExcel(file)
+                const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
+                reData.forEach( (res: any) => {
+                    axios.post('/base/code_type/create', res).then((res: any) => {
+                        
+                        this.$notify({
+                            title: 'Msg',
+                            showClose: true,
+                            message: 'Upload success',
+                            type: 'success',
+                        })
+                        this.uploaderDialog = false
+                        this.codeTypeAllList()
+                        file = undefined
+                        this.fileList = []
+                    })
+                })
+            },
             codeTypeAllList() {
               axios.post(
                 '/base/code_type/listAll',
