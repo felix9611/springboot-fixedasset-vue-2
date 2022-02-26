@@ -134,6 +134,7 @@
 import Vue from 'vue'
 import axios from '../../../axios'
 import { formatJson, readExcel } from '../../../utils/importExcel'
+import moment from 'moment'
 
 export default Vue.extend({
         name: 'Department',
@@ -238,6 +239,15 @@ export default Vue.extend({
                   this.size = res.data.data.size
                   this.current = res.data.data.current
                   this.total = res.data.data.total
+
+                  this.tableData.forEach((re: any) => {
+                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+
+                        re['created'] = newCreated
+                        re['updated'] = newUpdated
+                    return re
+                  })
               })
             },
             toggleSelection(rows: any) {

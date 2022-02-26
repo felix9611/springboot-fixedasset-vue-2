@@ -96,6 +96,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../../axios'
+import moment from 'moment'
 
 export default Vue.extend({
         name: 'ActionLog',
@@ -134,9 +135,16 @@ export default Vue.extend({
             getAllRecord() {
               axios.post('/base/action/listAll', this.searchForm).then(res => {
                 this.tableData = res.data.data.records
-                  this.size = res.data.data.size
-                  this.current = res.data.data.current
-                  this.total = res.data.data.total
+                this.size = res.data.data.size
+                this.current = res.data.data.current
+                this.total = res.data.data.total
+
+                this.tableData.forEach((re: any) => {
+                    const newCreated =  moment(new Date(re.created)).format('DD-MM-YYYY HH:MM')
+                    re['created'] = newCreated
+
+                    return re
+                    })
               })
             },
             toggleSelection(rows: any) {

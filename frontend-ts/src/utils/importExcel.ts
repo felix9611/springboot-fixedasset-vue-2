@@ -1,5 +1,7 @@
 const XLSX = require('xlsx')
+const XLSXS = require('xlsx-style')
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
+import FileSaver from 'FileSaver'
 
 export function readExcel(file: UploadFile) {
   return new Promise((resolve: any, reject :any) => {
@@ -62,11 +64,20 @@ sheet_add_aoa adds an array of arrays of JS data to an existing worksheet.
 sheet_add_json adds an array of JS objects to an existing worksheet.
 。
 */
-export function saveJsonToExcel(headers: any, data: any, excelHeader: any, fileName: any) {
+export function saveJsonToExcel(headers: any, data: any, excelHeader: any, fileName: any, excelStyle?: any) {
   let dataSet = formatJsonToSheet(headers, data)
   const ws = XLSX.utils.aoa_to_sheet([excelHeader])
   XLSX.utils.sheet_add_aoa(ws, dataSet, { origin: 'A2' })
   let wb = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
   XLSX.writeFile(wb, fileName)
+}
+
+function s2ab(s) {
+  const buf = new ArrayBuffer(s.length)
+  const view = new Uint8Array(buf)
+  for (let i: number = 0; i != s.length; i = ++i) {
+    s.charCodeAt(i) & 0xff
+  }
+  return buf
 }

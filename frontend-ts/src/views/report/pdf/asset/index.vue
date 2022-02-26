@@ -78,6 +78,7 @@ import Vue from 'vue'
 import axios from '../../../../axios'
 import { saveJsonToExcel } from '../../../../utils/importExcel'
 import moment from 'moment'
+import { testEcelHeader1, testEcelHeader2, pdfColumns, columnsStyle } from './exportSetting'
 
 export default Vue.extend({
         name: 'AssetList',
@@ -107,55 +108,7 @@ export default Vue.extend({
                 treeCheckedKeys: [],
                 checkStrictly: true,
                 multipleSelection: [],
-                pdfColumns: [
-                    { title : 'Asset Code', dataKey: 'assetCode' },
-                    { title : 'Asset Name', dataKey: 'assetName' },
-                    { title : 'Type', dataKey: 'Type' },
-                    { title : 'Department', dataKey: 'deptName' },
-                    { title : 'Place', dataKey: 'placeName' },
-                    { title : 'Buy Date', dataKey: 'buyDate' , type: 'datetime', format: 'MM/DD/YYYY' },
-                    { title : 'Cost', dataKey: 'cost' }
-                ],
-                testEcelHeader1: [
-                    'Asset Code',
-                    'Asset Name',
-                    'Type Code',
-                    'Type Name',
-                    'Unit',
-                    'Buy Date',
-                    'Description',
-                    'Cost',
-                    'Serial Number',
-                    'Invoice No.',
-                    'Invoice Date',
-                    'Department Code',
-                    'Department Name',
-                    'Place Name',
-                    'Place Code',
-                    'Remark',
-                    'Created At',
-                    'Updated At'
-                ],
-                testEcelHeader2: [
-                    'assetCode',
-                    'assetName',
-                    'typeName',
-                    'typeCode',
-                    'unit',
-                    'buyDate',
-                    'description',
-                    'cost',
-                    'serialNum',
-                    'invoiceNo',
-                    'invoiceDate',
-                    'deptName',
-                    'deptCode',
-                    'placeName',
-                    'placeCode',
-                    'remark',
-                    'created',
-                    'updated'
-                ],
+
             }
         },
         created() {
@@ -164,7 +117,7 @@ export default Vue.extend({
         },
         methods: {
             async exportExcel() {
-                await saveJsonToExcel(this.testEcelHeader2, this.tableData, this.testEcelHeader1,'asset_list_report.xlsx')
+                await saveJsonToExcel(testEcelHeader2, this.tableData, testEcelHeader1,'asset_list_report.xlsx', columnsStyle)
             },
             generatePDF() {
                 const doc = new jsPDF('p', 'pt', 'a4', true)
@@ -180,7 +133,7 @@ export default Vue.extend({
 
                 autoTable(doc, {
                     startY: 60,
-                    columns: this.pdfColumns,
+                    columns: pdfColumns,
                     body,
                     styles: {
                         font: 'NotoSansCJKtc'
@@ -209,6 +162,19 @@ export default Vue.extend({
                     this.size = res.data.data.size
                     this.current = res.data.data.current
                     this.total = res.data.data.total
+
+                    this.tableData.forEach((re: any) => {
+                        const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
+                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                        const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
+
+                        re['buyDate'] = newBuyDate
+                        re['created'] = newCreated
+                        re['updated'] = newUpdated
+                        re['invoiceDate'] = newInvoiceDate
+                        return re
+                    })
                 })
             },
             toggleSelection(rows: any) {
@@ -244,10 +210,5 @@ export default Vue.extend({
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
 
 </style>
