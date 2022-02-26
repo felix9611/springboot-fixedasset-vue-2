@@ -136,6 +136,17 @@
                     <el-input v-model="editForm.phone" autocomplete="off"></el-input>
                 </el-form-item>
 
+                <el-form-item label="Dept" prop="Dept" label-width="100px">
+                    <el-select v-model="editForm.deptId" placeholder="Select" filterable>
+                        <el-option
+                        v-for="deptItems in deptItem"
+                        :key="deptItems.id"
+                        :label="deptItems.deptName"
+                        :value="deptItems.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
                 <el-form-item label="Status"  prop="statu" label-width="100px">
                     <el-radio-group v-model="editForm.statu">
                         <el-radio :label="0">Stop</el-radio>
@@ -186,8 +197,10 @@ export default Vue.extend({
             const editForm: any = {}
             const multipleSelection: any = []
             const searchForm: any = {}
+            const deptItem: any = []
             return {
                 searchForm,
+                deptItem,
                 delBtlStatu: true,
 
                 total: 0,
@@ -221,7 +234,8 @@ export default Vue.extend({
                 roleForm,
                 roleTreeData:  [],
                 treeCheckedKeys: [],
-                checkStrictly: true
+                checkStrictly: true,
+
 
             }
         },
@@ -229,6 +243,15 @@ export default Vue.extend({
             this.getUserList()
         },
         methods: {
+            getAlldept() {
+                axios.get(
+                    '/base/department/getAll'
+                ).then(
+                    (res: any) => {
+                        this.deptItem = res.data.data
+                    }
+                )
+            },
             getRoleList() {
                 axios.get('/sys/role/list').then((res: any) => {
                     this.roleTreeData = res.data.data.records
