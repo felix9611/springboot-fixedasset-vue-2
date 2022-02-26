@@ -241,6 +241,7 @@ export default Vue.extend({
         },
         created() {
             this.getUserList()
+            this.getAlldept()
         },
         methods: {
             getAlldept() {
