@@ -289,8 +289,8 @@ export default Vue.extend({
 
                         re['created'] = newCreated
                         re['updated'] = newUpdated
-                    return re
-                  })
+                        return re
+                    })
                 })
             },
 

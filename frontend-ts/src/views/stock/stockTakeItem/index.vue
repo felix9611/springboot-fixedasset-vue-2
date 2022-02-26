@@ -139,6 +139,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../../axios'
+import moment from 'moment'
 
 export default Vue.extend({
         name: 'Stocktake',
@@ -223,6 +224,13 @@ export default Vue.extend({
                     this.size = res.data.data.size
                     this.current = res.data.data.current
                     this.total = res.data.data.total
+
+                    this.tableData.forEach((re: any) => {
+                        const newCheckTime =  re.checkTime ? moment(new Date(re.checkTime)).format('DD-MM-YYYY HH:MM') : null
+
+                        re['checkTime'] = newCheckTime
+                        return re
+                    })
               })
           },
           getAllValueCode() {

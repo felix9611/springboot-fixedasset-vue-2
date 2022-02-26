@@ -115,6 +115,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../../axios'
+import moment from 'moment'
 
 export default Vue.extend({
         name: 'Stocktake',
@@ -172,6 +173,15 @@ export default Vue.extend({
                     this.size = res.data.data.size
                     this.current = res.data.data.current
                     this.total = res.data.data.total
+
+                    this.tableData.forEach((re: any) => {
+                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                        const newFinishTime =  re.finishTime ? moment(new Date(re.finishTime)).format('DD-MM-YYYY HH:MM') : null
+
+                        re['created'] = newCreated
+                        re['finishTime'] = newFinishTime
+                        return re
+                    })
                 })
           },
           getAllPlace() {
