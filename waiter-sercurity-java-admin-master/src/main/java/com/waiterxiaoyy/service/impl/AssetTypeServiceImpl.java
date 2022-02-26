@@ -1,7 +1,11 @@
 package com.waiterxiaoyy.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.waiterxiaoyy.entity.ActionRecord;
+import com.waiterxiaoyy.entity.AssetList;
 import com.waiterxiaoyy.entity.AssetType;
 import com.waiterxiaoyy.mapper.ActionRecordMapper;
 import com.waiterxiaoyy.mapper.AssetTypeMapper;
@@ -54,6 +58,17 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         this.createdAction(actionRecord);
 
         assetTypeMapper.updateById(assetType);
+    }
+
+    public AssetType getData(AssetType assetType) {
+        LambdaQueryWrapper<AssetType> queryWrapper = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(assetType.getTypeCode())) {
+            queryWrapper.eq(AssetType::getTypeCode, assetType.getTypeCode());
+        }
+        if (StringUtils.isNotBlank(assetType.getTypeName())) {
+            queryWrapper.eq(AssetType::getTypeName, assetType.getTypeName());
+        }
+        return assetTypeMapper.selectOne(queryWrapper);
     }
 
 

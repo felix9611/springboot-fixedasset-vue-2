@@ -14,4 +14,6 @@ public interface AssetTypeService extends IService<AssetType> {
     void remove(AssetType assetType);
 
     List<AssetType> getAll();
+
+    AssetType getData(AssetType assetType);
 }

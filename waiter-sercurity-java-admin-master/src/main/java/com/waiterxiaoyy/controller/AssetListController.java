@@ -33,7 +33,7 @@ public class AssetListController extends BaseController {
         if (!StringUtils.isBlank(assetList.getAssetName())){
             queryWrapper.like(AssetList::getAssetName, assetList.getAssetName());
         }
-        if (!StringUtils.isBlank(assetList.getTypeId())) {
+        /* if (!StringUtils.isBlank(assetList.getTypeId())) {
             queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
         }
         if (!StringUtils.isBlank(assetList.getPlaceId())) {
@@ -41,7 +41,7 @@ public class AssetListController extends BaseController {
         }
         if (!StringUtils.isBlank(assetList.getDeptId())) {
             queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        } */
 
         queryWrapper.orderByDesc(true, AssetList::getAssetCode);
         queryWrapper.eq(AssetList::getStatu, 1);

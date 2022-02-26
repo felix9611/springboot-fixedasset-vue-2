@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.waiterxiaoyy.common.lang.Result;
+import com.waiterxiaoyy.entity.AssetType;
 import com.waiterxiaoyy.entity.Location;
 import com.waiterxiaoyy.service.LocationService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -67,5 +68,10 @@ public class LocationController extends BaseController {
         queryWrapper.eq(Location::getStatu, 1);
         Page<Location> iPage = locationService.page(page, queryWrapper);
         return Result.succ(iPage);
+    }
+
+    @PostMapping("/post/findOne")
+    public Result findOnePost(@RequestBody Location location) {
+        return Result.succ(locationService.getData(location));
     }
 }

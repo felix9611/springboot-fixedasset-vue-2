@@ -1,7 +1,11 @@
 package com.waiterxiaoyy.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.waiterxiaoyy.entity.ActionRecord;
+import com.waiterxiaoyy.entity.AssetType;
 import com.waiterxiaoyy.entity.Location;
 import com.waiterxiaoyy.mapper.ActionRecordMapper;
 import com.waiterxiaoyy.mapper.LocationMapper;
@@ -59,6 +63,17 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         this.createdAction(actionRecord);
 
         locationMapper.updateById(location);
+    }
+
+    public Location getData(Location location) {
+        LambdaQueryWrapper<Location> queryWrapper = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(location.getPlaceCode())) {
+            queryWrapper.eq(Location::getPlaceCode, location.getPlaceCode());
+        }
+        if (StringUtils.isNotBlank(location.getPlaceName())) {
+            queryWrapper.eq(Location::getPlaceName, location.getPlaceName());
+        }
+        return locationMapper.selectOne(queryWrapper);
     }
 
     public int createdAction(ActionRecord actionRecord) {

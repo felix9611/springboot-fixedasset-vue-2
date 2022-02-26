@@ -67,4 +67,9 @@ public class AssetTypeController extends BaseController {
     public Result getAll() {
         return Result.succ(assetTypeService.getAll());
     }
+
+    @PostMapping("/post/findOne")
+    public Result findOnePost(@RequestBody AssetType assetType) {
+        return Result.succ(assetTypeService.getData(assetType));
+    }
 }

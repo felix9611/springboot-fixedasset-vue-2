@@ -13,4 +13,6 @@ public interface LocationService extends IService<Location> {
     void remove(Location location);
 
     List<Location> getAll();
+
+    Location getData(Location location);
 }

@@ -84,12 +84,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
     public AssetList findOne(AssetList assetList) {
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-        if (!StringUtils.isBlank(assetList.getAssetName())) {
-            queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
-        }
-        if (!StringUtils.isBlank(assetList.getPlaceId())) {
-            queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
-        }
+        queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
+        queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
 
         return assetListMapper.selectOne(queryWrapper);
     }
