@@ -13,6 +13,10 @@
                 </el-form-item>
 
                 <el-form-item>
+                    <el-button @click="exportExcel">Export Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
                     <el-button @click="clickUploadDialog">Upload Excel</el-button>
                 </el-form-item>
 
@@ -139,7 +143,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../../axios'
-import { formatJson, readExcel } from '../../../utils/importExcel'
+import { formatJson, readExcel, saveJsonToExcel } from '../../../utils/importExcel'
 
 export default Vue.extend({
         name: 'CodeType',
@@ -147,6 +151,7 @@ export default Vue.extend({
             const editForm: any = {}
             const searchForm: any = {}
             const fileList: any = []
+            const exportData: any = []
             return {
                 fileList,
                 test: 0,
@@ -192,15 +197,20 @@ export default Vue.extend({
                 testEcelHeader2: [
                     'type',
                     'valueCode',
-                    'valueNmae'
-                ]
+                    'valueName'
+                ],
+                exportData
+                
             }
         },
         created() {
             this.codeTypeAllList()
         },
         methods: {
-             clearFile() {
+            async exportExcel() {
+                await saveJsonToExcel(this.testEcelHeader2, this.tableData, this.testEcelHeader1,'code_type.xlsx')
+            },
+            clearFile() {
                 this.fileList = []
             },
             clickUploadDialog() {

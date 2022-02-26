@@ -4,7 +4,9 @@
             <el-button
                 size="mini"
                 type="danger"
-                @click="generatePDF()">Download PDF</el-button>
+                @click="generatePDF()">Download PDF
+            </el-button>
+            <el-button size="mini" @click="exportExcel">Export Excel</el-button>
         </div>
         <div class="handle-box">
             Total butget Cost : HKD {{ sumTotal }}
@@ -74,7 +76,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import Vue from 'vue'
 import axios from '../../../../axios'
-import html2canvas from 'html2canvas'
+import { saveJsonToExcel } from '../../../../utils/importExcel'
 import moment from 'moment'
 
 export default Vue.extend({
@@ -104,7 +106,56 @@ export default Vue.extend({
                 },
                 treeCheckedKeys: [],
                 checkStrictly: true,
-                multipleSelection: []
+                multipleSelection: [],
+                pdfColumns: [
+                    { title : 'Asset Code', dataKey: 'assetCode' },
+                    { title : 'Asset Name', dataKey: 'assetName' },
+                    { title : 'Type', dataKey: 'Type' },
+                    { title : 'Department', dataKey: 'deptName' },
+                    { title : 'Place', dataKey: 'placeName' },
+                    { title : 'Buy Date', dataKey: 'buyDate' , type: 'datetime', format: 'MM/DD/YYYY' },
+                    { title : 'Cost', dataKey: 'cost' }
+                ],
+                testEcelHeader1: [
+                    'Asset Code',
+                    'Asset Name',
+                    'Type Code',
+                    'Type Name',
+                    'Unit',
+                    'Buy Date',
+                    'Description',
+                    'Cost',
+                    'Serial Number',
+                    'Invoice No.',
+                    'Invoice Date',
+                    'Department Code',
+                    'Department Name',
+                    'Place Name',
+                    'Place Code',
+                    'Remark',
+                    'Created At',
+                    'Updated At'
+                ],
+                testEcelHeader2: [
+                    'assetCode',
+                    'assetName',
+                    'typeName',
+                    'typeCode',
+                    'unit',
+                    'buyDate',
+                    'description',
+                    'cost',
+                    'serialNum',
+                    'invoiceNo',
+                    'invoiceDate',
+                    'deptName',
+                    'deptCode',
+                    'placeName',
+                    'placeCode',
+                    'remark',
+                    'created',
+                    'updated'
+                ],
             }
         },
         created() {
@@ -112,50 +163,43 @@ export default Vue.extend({
             this.getTotalCost()
         },
         methods: {
-          generatePDF() {
-            const doc = new jsPDF('p', 'pt', 'a4', true)
+            async exportExcel() {
+                await saveJsonToExcel(this.testEcelHeader2, this.tableData, this.testEcelHeader1,'asset_list_report.xlsx')
+            },
+            generatePDF() {
+                const doc = new jsPDF('p', 'pt', 'a4', true)
 
-            let columns: any = [
-                { title : 'Asset Code', dataKey: 'assetCode' },
-                { title : 'Asset Name', dataKey: 'assetName' },
-                { title : 'Type', dataKey: 'Type' },
-                { title : 'Department', dataKey: 'deptName' },
-                { title : 'Place', dataKey: 'placeName' },
-                { title : 'Buy Date', dataKey: 'buyDate' , type: 'datetime', format: 'MM/DD/YYYY' },
-                { title : 'Cost', dataKey: 'cost' },
-            ]
+                let body: any = this.tableData
 
-            let body: any = this.tableData
+                doc.addFont('NotoSansCJKjp-Regular.ttf', 'NotoSansCJKjp', 'normal')
+                doc.setFont('NotoSansCJKjp')
 
-            doc.addFont('NotoSansCJKjp-Regular.ttf', 'NotoSansCJKjp', 'normal')
-            doc.setFont('NotoSansCJKjp')
+                const nowTime = moment().format('DD-MM-YYYY HH:mm')
+                doc.text(`Download At: ${nowTime}`, 40, 30)
+                doc.text(`Total Cost: $${this.sumTotal}`, 40, 50)
 
-            const nowTime = moment().format('DD-MM-YYYY HH:mm')
-            doc.text(`Download At: ${nowTime}`, 40, 30)
-            doc.text(`Total Cost: $${this.sumTotal}`, 40, 50)
+                autoTable(doc, {
+                    startY: 60,
+                    columns: this.pdfColumns,
+                    body,
+                    styles: {
+                        font: 'NotoSansCJKtc'
+                    }
+                })
 
-            autoTable(doc, {
-                startY: 60,
-                columns,
-                body,
-                styles: {
-                    font: 'NotoSansCJKtc'
+                doc.save('asset_list.pdf')
+                
+            },
+            getTotalCost() {
+                axios.get(
+                '/asset/assetList/getTotalSum'
+                ).then(
+                (res: any) => {
+                    this.sumTotal = res.data.data
                 }
-            })
-
-            doc.save('asset_list.pdf')
-            
-          },
-          getTotalCost() {
-            axios.get(
-              '/asset/assetList/getTotalSum'
-            ).then(
-              (res: any) => {
-                this.sumTotal = res.data.data
-              }
-            )
-          },
-          assetAllList() {
+                )
+            },
+            assetAllList() {
                 axios.post(
                     '/asset/assetList/listAll',
                     this.searchForm

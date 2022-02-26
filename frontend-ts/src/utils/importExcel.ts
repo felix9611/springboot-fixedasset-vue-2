@@ -48,3 +48,25 @@ export function formatJson (header: any, filterVal: any, jsonData: any) {
     return obj
   })
 }
+
+export function formatJsonToSheet(filterVal: any, jsonData: any) {
+  return jsonData.map(v => filterVal.map( j => {
+    return v[j]
+  }))
+}
+/*
+aoa_to_sheet converts an array of arrays of JS data to a worksheet.
+json_to_sheet converts an array of JS objects to a worksheet.
+table_to_sheet converts a DOM TABLE element to a worksheet.
+sheet_add_aoa adds an array of arrays of JS data to an existing worksheet.
+sheet_add_json adds an array of JS objects to an existing worksheet.
+。
+*/
+export function saveJsonToExcel(headers: any, data: any, excelHeader: any, fileName: any) {
+  let dataSet = formatJsonToSheet(headers, data)
+  const ws = XLSX.utils.aoa_to_sheet([excelHeader])
+  XLSX.utils.sheet_add_aoa(ws, dataSet, { origin: 'A2' })
+  let wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
+  XLSX.writeFile(wb, fileName)
+}
