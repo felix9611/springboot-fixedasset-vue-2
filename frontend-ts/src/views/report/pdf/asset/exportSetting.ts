@@ -42,61 +42,62 @@ export const exportExcelHeader2: any = [
 
 export const columnsStyle: any = {
   '!cols':[
-  {
-    wpx: 60,
-  },
-  {
-    wpx: 250,
-  },
-  {
-    wpx: 50,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 80,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 200,
-  },
-  {
-    wpx: 50,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 50,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 50,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 200,
-  },
-  {
-    wpx: 100,
-  },
-  {
-    wpx: 100,
+      {
+        wpx: 60,
+      },
+      {
+        wpx: 250,
+      },
+      {
+        wpx: 50,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 80,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 200,
+      },
+      {
+        wpx: 50,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 50,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 50,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 200,
+      },
+      {
+        wpx: 100,
+      },
+      {
+        wpx: 100,
+      }
+    ]
   }
-]}
 
 export const pdfColumns: any = [
   { title : 'Asset Code', dataKey: 'assetCode' },
