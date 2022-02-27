@@ -78,7 +78,7 @@ import Vue from 'vue'
 import axios from '../../../../axios'
 import { saveJsonToExcel } from '../../../../utils/importExcel'
 import moment from 'moment'
-import { testEcelHeader1, testEcelHeader2, pdfColumns, columnsStyle } from './exportSetting'
+import { exportExcelHeader1, exportExcelHeader2, pdfColumns, columnsStyle } from './exportSetting'
 
 export default Vue.extend({
         name: 'AssetList',
@@ -117,7 +117,7 @@ export default Vue.extend({
         },
         methods: {
             async exportExcel() {
-                await saveJsonToExcel(testEcelHeader2, this.tableData, testEcelHeader1,'asset_list_report.xlsx', columnsStyle)
+                await saveJsonToExcel(exportExcelHeader2, this.tableData, exportExcelHeader1,'asset_list_report.xlsx', columnsStyle)
             },
             generatePDF() {
                 const doc = new jsPDF('p', 'pt', 'a4', true)

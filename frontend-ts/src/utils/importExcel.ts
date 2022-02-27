@@ -67,6 +67,9 @@ sheet_add_json adds an array of JS objects to an existing worksheet.
 export function saveJsonToExcel(headers: any, data: any, excelHeader: any, fileName: any, excelStyle?: any) {
   let dataSet = formatJsonToSheet(headers, data)
   const ws = XLSX.utils.aoa_to_sheet([excelHeader])
+  if (excelStyle) {
+    ws['!cols'] = excelStyle['!cols']
+  }
   XLSX.utils.sheet_add_aoa(ws, dataSet, { origin: 'A2' })
   let wb = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')

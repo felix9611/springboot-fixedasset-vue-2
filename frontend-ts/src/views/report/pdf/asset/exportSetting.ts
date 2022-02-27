@@ -1,4 +1,4 @@
-export const testEcelHeader1: any = [
+export const exportExcelHeader1: any = [
   'Asset Code',
   'Asset Name',
   'Type Code',
@@ -12,28 +12,50 @@ export const testEcelHeader1: any = [
   'Invoice Date',
   'Department Code',
   'Department Name',
-  'Place Name',
   'Place Code',
+  'Place Name',
   'Remark',
   'Created At',
   'Updated At'
 ]
 
-export const columnsStyle: any = [
+export const exportExcelHeader2: any = [
+  'assetCode',
+  'assetName',
+  'typeCode',
+  'typeName',
+  'unit',
+  'buyDate',
+  'description',
+  'cost',
+  'serialNum',
+  'invoiceNo',
+  'invoiceDate',
+  'deptCode',
+  'deptName',
+  'placeCode',
+  'placeName',
+  'remark',
+  'created',
+  'updated'
+]
+
+export const columnsStyle: any = {
+  '!cols':[
+  {
+    wpx: 60,
+  },
+  {
+    wpx: 250,
+  },
   {
     wpx: 50,
   },
   {
-    wpx: 150,
+    wpx: 100,
   },
   {
-    wpx: 50,
-  },
-  {
-    wpx: 150,
-  },
-  {
-    wpx: 50,
+    wpx: 80,
   },
   {
     wpx: 100,
@@ -74,28 +96,7 @@ export const columnsStyle: any = [
   {
     wpx: 100,
   }
-]
-
-export const testEcelHeader2: any = [
-  'assetCode',
-  'assetName',
-  'typeName',
-  'typeCode',
-  'unit',
-  'buyDate',
-  'description',
-  'cost',
-  'serialNum',
-  'invoiceNo',
-  'invoiceDate',
-  'deptName',
-  'deptCode',
-  'placeName',
-  'placeCode',
-  'remark',
-  'created',
-  'updated'
-]
+]}
 
 export const pdfColumns: any = [
   { title : 'Asset Code', dataKey: 'assetCode' },
