@@ -41,9 +41,21 @@ export const exportExcelHeader2: any = [
 ]
 
 export const columnsStyle: any = {
+    border: {
+      top: { style: 'thin' },
+      bottom: { style: 'thin' },
+      left: { style: 'thin' },
+      right: { style: 'thin' }
+    },
+    fill: {
+      fgColor: { rgb: 'FFFFCC00' }
+    }
+}
+
+export const headerColSeetting = {
   '!cols':[
       {
-        wpx: 60,
+        wpx: 80,
       },
       {
         wpx: 250,
@@ -58,7 +70,7 @@ export const columnsStyle: any = {
         wpx: 80,
       },
       {
-        wpx: 100,
+        wpx: 120,
       },
       {
         wpx: 200,
@@ -73,7 +85,7 @@ export const columnsStyle: any = {
         wpx: 100,
       },
       {
-        wpx: 100,
+        wpx: 120,
       },
       {
         wpx: 50,
@@ -91,13 +103,13 @@ export const columnsStyle: any = {
         wpx: 200,
       },
       {
-        wpx: 100,
+        wpx: 120,
       },
       {
-        wpx: 100,
+        wpx: 120,
       }
-    ]
-  }
+  ]
+}
 
 export const pdfColumns: any = [
   { title : 'Asset Code', dataKey: 'assetCode' },
