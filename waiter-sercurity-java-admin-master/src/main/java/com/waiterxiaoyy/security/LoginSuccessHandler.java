@@ -1,5 +1,6 @@
 package com.waiterxiaoyy.security;
 
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.waiterxiaoyy.common.lang.Result;
 import com.waiterxiaoyy.utils.JwtUtils;
@@ -13,6 +14,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -27,9 +29,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		// 生成jwt，并放置到请求头中
 		String jwt = jwtUtils.generateToken(authentication.getName());
-		response.setHeader(jwtUtils.getHeader(), jwt);
+		// response.setHeader(jwtUtils.getHeader(), jwt);
 
-		Result result = Result.succ("");
+		JSONObject loginResult = new JSONObject();
+		loginResult.putOnce("token", jwt);
+
+		Result result = Result.succ(loginResult);
 
 		outputStream.write(JSONUtil.toJsonStr(result).getBytes("UTF-8"));
 

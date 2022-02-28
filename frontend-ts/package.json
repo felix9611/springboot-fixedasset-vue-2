@@ -49,7 +49,8 @@
     "vue-xlsx": "^0.2.1",
     "vuedraggable": "^2.17.0",
     "vuex": "^3.6.2",
-    "xlsx": "^0.18.2"
+    "xlsx": "^0.18.2",
+    "xlsx-style": "^0.8.13"
   },
   "devDependencies": {
     "@babel/runtime-corejs3": "^7.17.2",

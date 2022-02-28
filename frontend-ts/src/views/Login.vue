@@ -86,7 +86,7 @@
                 this.$refs[formName].validate((valid) => {
                     if(valid) {
                         this.$axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
-                            const jwt = res.headers['authorization']
+                            const jwt = res.data.data.token
 
                             this.$store.commit('SET_TOKEN', jwt)
 
