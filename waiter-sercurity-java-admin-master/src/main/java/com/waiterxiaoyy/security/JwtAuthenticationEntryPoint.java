@@ -28,7 +28,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
 
-        Result result = Result.fail("请先登录");
+        Result result = Result.fail("Please Login!");
 
         outputStream.write(JSONUtil.toJsonStr(result).getBytes("UTF-8"));
 

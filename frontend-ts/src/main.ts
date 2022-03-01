@@ -17,14 +17,18 @@ import './assets/icons'
 import './components/common/directives'
 
 import 'babel-polyfill'
+import excel from 'vue-excel-export'
 
 import VueHtml2pdf from 'vue-html2pdf'
 // import uploader from 'vue-simple-uploader'
+import VueExcelXlsx from 'vue-excel-xlsx'
+import VueBase64FileUpload from 'vue-base64-file-upload'
 
-// Vue.use(uploader);
+Vue.use(VueBase64FileUpload)
 Vue.prototype.$axios = axios
 Vue.prototype.$html2Pdf = VueHtml2pdf
 Vue.use(VueHtml2pdf)
+Vue.use(excel)
 
 Vue.config.productionTip = false
 Vue.use(VJsoneditor)

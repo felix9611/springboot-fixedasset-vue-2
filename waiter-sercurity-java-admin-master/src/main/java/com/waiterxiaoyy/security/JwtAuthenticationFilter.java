@@ -56,11 +56,12 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         Claims claims = jwtUtils.getClaimByToken(jwt);
 
         if(claims == null) {
-            throw new JwtException("token 异常");
+
+            // throw new JwtException("token error");
         }
 
         if (jwtUtils.isTokenExpired(claims)) {
-            throw new JwtException("token已过期");
+            throw new JwtException("token expired");
         }
 
         String username = claims.getSubject();

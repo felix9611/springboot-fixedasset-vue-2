@@ -2,7 +2,7 @@
     <div class="container">
         <div class="handle-box">
             <el-form :inline="true">
-                <el-form-item label="Place" prop="place" label-width="100px">
+                <el-form-item label="Stock take list" prop="place" label-width="100px">
                     <el-select v-model="searchForm.stockTakeId" placeholder="Select" filterable>
                         <el-option
                         v-for="item in stockTakeList"
@@ -215,7 +215,15 @@ export default Vue.extend({
                 )
           },
           stockTakeItemList() {
-              axios.post(
+                if (!this.searchForm['stockTakeId']) {
+                    this.$notify({
+                        title: '',
+                        showClose: true,
+                        message: 'Please select stocklist list!',
+                        type: 'error',
+                    })
+                }
+                axios.post(
                     '/stock/stock_take/item/list',
                     this.searchForm
                 ).then(
@@ -278,8 +286,16 @@ export default Vue.extend({
             },
 
             resetForm(formName: string) {
+                if (!this.searchForm['stockTakeId']) {
+                    this.$notify({
+                        title: '',
+                        showClose: true,
+                        message: 'Please select stocklist list!',
+                        type: 'error',
+                    })
+                }
                 const refs: any = this.$refs[formName]
-                refs.resetFields();
+                refs.resetFields()
                 this.dialogVisible = false
                 this.editForm = {}
             },

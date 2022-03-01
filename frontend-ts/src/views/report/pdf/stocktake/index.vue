@@ -141,6 +141,14 @@ export default Vue.extend({
                 )
             },
             generatePDF() {
+                if (!this.searchForm['stockTakeId']) {
+                    this.$notify({
+                        title: '',
+                        showClose: true,
+                        message: 'Please select stocklist list!',
+                        type: 'success',
+                    })
+                }
                 console.log(this.mainStockTake)
 
                 const doc = new jsPDF('p', 'pt', 'a4', true)
@@ -165,6 +173,14 @@ export default Vue.extend({
                 doc.save(`stocktake_report_${this.mainStockTake.actionName}_finished.pdf`)
             },
             stockTakeItemList() {
+                if (!this.searchForm['stockTakeId']) {
+                    this.$notify({
+                        title: '',
+                        showClose: true,
+                        message: 'Please select stocklist list!',
+                        type: 'error',
+                    })
+                }
                 axios.post(
                         '/stock/stock_take/item/list',
                         this.searchForm
