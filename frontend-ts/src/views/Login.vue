@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import Background from '@/assets/img/background1.jpg';
+    import Background from '@/assets/img/background3.jpg';
     import qs from 'qs'
 
     export default {

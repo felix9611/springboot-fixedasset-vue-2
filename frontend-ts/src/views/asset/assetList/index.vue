@@ -177,6 +177,15 @@
                 width="700px"
                 :before-close="handleClose">
 
+                 
+                 <el-button
+                    size="mini"
+                    type="success"
+                    @click="formToImage(editForm.id)">Read File(Image)</el-button>
+
+                    <br>
+                    <br>
+
             <el-form :model="editForm" :rules="editFormRules" ref="editForm" :disabled="readonlyForm">
                 <el-form-item>
                     <el-upload
@@ -279,7 +288,6 @@ import axios from '../../../axios'
 import VueBase64FileUpload from 'vue-base64-file-upload'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import { uploadImgToBase64 } from '../../../utils/uploadImgToBase64'
-import { formatJson, readExcel } from '../../../utils/importExcel'
 import moment from 'moment'
 
 export default Vue.extend({
@@ -340,6 +348,11 @@ export default Vue.extend({
             this.getTotalCost()
         },
         methods: {
+            formToImage(id: number) {
+                this.dialogVisible = false
+                this.getAllBase64File(id)
+                this.editForm = {}
+            },
             removeUploaded() {
                 this.fileList = []
             },
