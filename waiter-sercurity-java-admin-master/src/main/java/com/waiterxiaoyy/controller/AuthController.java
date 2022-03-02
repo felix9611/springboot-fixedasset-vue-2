@@ -72,16 +72,6 @@ public class AuthController extends BaseController {
 
         SysUser sysUser = sysUserService.getByUsername(principal.getName());
 
-        return Result.succ(
-                MapUtil.builder()
-                .put("id", sysUser.getId())
-                .put("username", sysUser.getUsername())
-                .put("avatar", sysUser.getAvatar())
-                .put("created", sysUser.getCreated())
-                .put("lastLoginAt", sysUser.getLastLogin())
-                .put("email", sysUser.getEmail())
-                .put("status", sysUser.getStatu())
-                .map()
-        );
+        return Result.succ(sysUser);
     }
 }

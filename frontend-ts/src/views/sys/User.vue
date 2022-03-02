@@ -39,7 +39,7 @@
                     label="ICON"
                     width="50">
                 <template slot-scope="scope">
-                    <el-avatar size="small" :src="scope.row.avatar"></el-avatar>
+                    <el-avatar size="small" :src="scope.row.avatarBase64"></el-avatar>
                 </template>
             </el-table-column>
 
@@ -119,6 +119,19 @@
                 :before-close="handleClose">
 
             <el-form :model="editForm" :rules="editFormRules" ref="editForm">
+
+                <el-form-item>
+                    <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="fileList"
+                        :on-change="onChangeUpload"
+                        :on-remove="removeUploaded"
+                        >
+                        <el-button size="small" type="primary">Upload</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+                </el-form-item>
                 <el-form-item label="Username" prop="username" label-width="100px">
                     <el-input v-model="editForm.username" autocomplete="off"></el-input>
                     <el-alert
@@ -189,6 +202,8 @@
 import Vue from 'vue'
 import axios from '../../axios'
 import moment from 'moment'
+import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
+import { uploadImgToBase64 } from '../../utils/uploadImgToBase64'
 
 export default Vue.extend({
         name: 'User',
@@ -198,7 +213,9 @@ export default Vue.extend({
             const multipleSelection: any = []
             const searchForm: any = {}
             const deptItem: any = []
+            const fileList: any = []
             return {
+                fileList,
                 searchForm,
                 deptItem,
                 delBtlStatu: true,
@@ -235,7 +252,7 @@ export default Vue.extend({
                 roleTreeData:  [],
                 treeCheckedKeys: [],
                 checkStrictly: true,
-
+                fileBase64Data: ''
 
             }
         },
@@ -244,6 +261,39 @@ export default Vue.extend({
             this.getAlldept()
         },
         methods: {
+            removeUploaded() {
+                this.fileList = []
+            },
+            onChangeUpload(file: UploadFile) {
+                let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+                const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
+                const isLt2M = file.size / 1024 / 1024 < 2
+                if (!isJpg) {
+                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+                    this.$message.error('Only Upload jpg and png!')
+                }
+                if (!isLt2M) {
+                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+                    this.$message.error('File size cannot over 2MB!')
+                }
+                if (isJpg && isLt2M){
+                    this.fileList.push(file)
+                }
+                if (this.fileList.length > 1) {
+                    this.$message.error('Cannot upload more than one pcture!')
+                }
+                this.imgToBase64()
+                // return isJpg && isLt2M;
+            },
+            imgToBase64() {
+                this.fileList.map(async (file: any) => {
+                    const response: any = await uploadImgToBase64(file.raw)
+                    const dataBase64: string = response.data
+                    this.fileBase64Data = dataBase64
+                    console.log(this.fileBase64Data)
+                    // const test = response as never
+                })
+            },
             getAlldept() {
                 axios.get(
                     '/base/department/getAll'
@@ -322,6 +372,7 @@ export default Vue.extend({
                 const formNames :any = this.$refs[formName]
                 formNames.validate((valid: any) => {
                     if (valid) {
+                        this.editForm.avatarBase64 = this.fileBase64Data
                         axios.post('/sys/user/' + (this.editForm.id?'update' : 'save'), this.editForm)
                             .then((res: any) => {
                                 this.getUserList()

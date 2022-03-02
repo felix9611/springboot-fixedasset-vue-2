@@ -35,6 +35,9 @@ public class SysUser extends BaseEntity {
     @TableField("dept_id")
     private int deptId;
 
+    @TableField("avatar_base64")
+    private String avatarBase64;
+
     @NotBlank(message = "邮箱不能为空")
     @Email(message = "邮箱格式不正确")
     private String email;
