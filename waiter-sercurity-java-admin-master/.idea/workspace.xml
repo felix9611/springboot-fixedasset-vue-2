@@ -5,51 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab118d93-b8d4-4b5f-952b-9bb58e5ca517" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/CodeTypeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/StockTakeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/StockTakeItemController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/dto/StockTakeFormListDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/dto/StockTakeItemListDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/CodeType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/StockTakeItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/CodeTypeMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/StockTakeItemMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/StockTakeMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/CodeTypeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/StockTakeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/CodeTypeServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/StockTakeItemServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/StockTakeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/components/SvgIcon/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/components/SvgIcon/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/components/page/404.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/components/page/404.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/components/page/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/components/page/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/mock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/asset/assetList/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/asset/assetList/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/base/assetType/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/base/assetType/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/base/department/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/base/department/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/base/location/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/base/location/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/src/views/sys/Menu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/src/views/sys/Menu.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_annotation_3_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_core_3_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_generator_3_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_persistence_javax_persistence_api_2_22.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_5_4_32_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_27_0_GA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_jandex_2_2_3_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_devtools_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_redis_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_security_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_4_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AssetListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AssetListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/AssetListService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/AssetListService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetListServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetListServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waiter-Security-VueAdmin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Waiter-Security-VueAdmin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/autorunner.bat" beforeDir="false" afterPath="$PROJECT_DIR$/target/autorunner.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/LocationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/LocationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/SysUserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/SysUserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/AssetList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/AssetList.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/Department.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/Department.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/security/JwtAuthenticationEntryPoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/security/JwtAuthenticationEntryPoint.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/security/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/security/JwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/security/LoginSuccessHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/security/LoginSuccessHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetTypeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetTypeService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/LocationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/LocationService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetTypeServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/fixedmanager.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/fixedmanager.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/LocationServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/LocationServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/utils/JwtUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/utils/JwtUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/fixedmanager.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +57,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -96,6 +92,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../springboot-fixedasset" />
@@ -105,6 +102,9 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\resources" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.waiterxiaoyy.dto" />
     </key>
