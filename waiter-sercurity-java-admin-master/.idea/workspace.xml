@@ -5,6 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab118d93-b8d4-4b5f-952b-9bb58e5ca517" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/css/404.f49322ab.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/css/app.23bf85cd.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/css/chunk-2b5dec00.288068ed.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/css/chunk-ecd2c16e.da00c2fa.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/css/dashboard.96bbd05f.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/css/home.7dddca29.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/fonts/element-icons.535877f5.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/fonts/element-icons.732389de.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/img/background3.62d72285.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/404.c0da6912.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/app.159bedd8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/chunk-2b5dec00.9dc83d79.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/chunk-2d216214.cece44c1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/chunk-64c44eac.3967331d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/chunk-ecd2c16e.f26974c8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/chunk-vendors.2faeb680.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/dashboard.74245336.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts/dist/static/js/home.109754ab.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_persistence_javax_persistence_api_2_22.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_5_4_32_Final.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_27_0_GA.xml" beforeDir="false" />
@@ -15,14 +34,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_4_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_2_4_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waiter-Security-VueAdmin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Waiter-Security-VueAdmin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/VueAdminLearnApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/VueAdminLearnApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/SysUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/entity/SysUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/VueAdminLearnApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/VueAdminLearnApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AuthController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/LocationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/LocationController.class" afterDir="false" />

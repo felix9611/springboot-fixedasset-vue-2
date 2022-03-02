@@ -1,6 +1,9 @@
 <template>
     <div class="container">
       <el-form :model="myAccount" ref="editForm">
+        <el-form-item>
+          <img :src="myAccount.avatarBase64" width="20%" height="20%"/>
+        </el-form-item>
         <el-form-item label="Username"  label-width="100px">
           <el-input v-model="myAccount.username" autocomplete="off" readonly></el-input>
         </el-form-item>
