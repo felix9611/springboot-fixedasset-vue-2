@@ -14,7 +14,7 @@
           <el-input v-model="myAccount.created" autocomplete="off" readonly></el-input>
         </el-form-item>
         <el-form-item label="Last Login At"  label-width="100px">
-          <el-input v-model="myAccount.lastLoginAt" autocomplete="off" readonly></el-input>
+          <el-input v-model="myAccount.lastLogin" autocomplete="off" readonly></el-input>
         </el-form-item>
       </el-form>
       
@@ -60,6 +60,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from '../../axios'
+import moment from 'moment'
 
 export default Vue.extend({
   name: 'UserIndex',
@@ -80,6 +81,9 @@ export default Vue.extend({
       axios.get('/sys/userInfo').then((res: any)=>{
         console.log(res.data)
         this.myAccount = res.data.data
+
+        this.myAccount.created = moment(new Date(this.myAccount.created)).format('DD-MM-YYYY HH:MM')
+        this.myAccount.lastLogin = moment(new Date(this.myAccount.lastLogin)).format('DD-MM-YYYY HH:MM')
       })
     },
     resetPWdialog() {
