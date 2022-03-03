@@ -137,43 +137,42 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../../axios'
 import moment from 'moment'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'Stocktake',
-        data() {
-            const searchForm: any = {
-                limit: 10,
-                page: 1
-            }
-            const editForm: any = {}
-            return {
-                statusItemNew: [],
-                statusItem: [
+@Component
+export default class StocktakeItem extends Vue {
+        searchForm: any = {
+            limit: 10,
+            page: 1
+        }
+        editForm: any = {}
+
+                statusItemNew: any = []
+                statusItem = [
                     { status: 'Exist' },
                     { status: 'Not Exist' },
                     { status: 'Ready restoration' },
                     { status: 'Under restoration' },
                     { status: 'Other' }
-                ],
-                searchForm,
-                delBtlStatu: true,
-                sumTotal: 0,
-                total: 0,
-                size: 10,
-                current: 1,
+                ]
 
-                dialogVisible: false,
-                editForm,
-                tableData: [],
-                placeItem: [],
-                typeItem: [],
-                deptItem: [],
-                stockTakeList: [],
+                delBtlStatu: boolean = true
+                sumTotal: number = 0
+                total: number = 0
+                size: number|undefined
+                current: number = 1
 
-                editFormRules: {
+                dialogVisible: boolean = false
+
+                tableData: any = []
+                placeItem: any = []
+                typeItem: any = []
+                deptItem: any = []
+                stockTakeList: any = []
+
+                editFormRules = {
                     assetCode: [
                         { required: true, message: 'Asset Code cannot blank!', trigger: 'blur' }
                     ],
@@ -186,24 +185,25 @@ export default Vue.extend({
                     /* actionPlace: [
                         {required: true, message: 'Action Place must choose!', trigger: 'blur'}
                     ] */
-                },
-                roleDialogFormVisible: false,
-                defaultProps: {
+                }
+
+                roleDialogFormVisible: boolean = false
+                defaultProps = {
                     children: 'children',
                     label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: []
-            }
-        },
+                }
+
+                treeCheckedKeys: any = []
+                checkStrictly: boolean = true
+                multipleSelection: any = []
+
         created() {
             this.stockTakeItemList()
             this.getAllstockTakeList()
             this.getAllPlace()
             this.getAllValueCode()
-        },
-        methods: {
+        }
+
           getAllPlace() {
                 axios.get(
                     '/base/location/getAll'
@@ -213,7 +213,8 @@ export default Vue.extend({
                         this.placeItem = res.data.data
                     }
                 )
-          },
+          }
+
           stockTakeItemList() {
                 if (!this.searchForm['stockTakeId']) {
                     this.$notify({
@@ -240,7 +241,8 @@ export default Vue.extend({
                         return re
                     })
               })
-          },
+          }
+
           getAllValueCode() {
               axios.post(
                     '/base/code_type/getAllValue',
@@ -249,7 +251,8 @@ export default Vue.extend({
                     (res: any) => {
                         this.statusItemNew = res.data.data
                     })
-          },
+          }
+
           getAllstockTakeList() {
                 axios.get(
                     '/stock/stock_take/getAllST'
@@ -259,7 +262,8 @@ export default Vue.extend({
                         this.stockTakeList = res.data.data
                     }
                 )
-            },
+            }
+
             toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach((row: any) => {
@@ -270,21 +274,24 @@ export default Vue.extend({
                     const multipleTable: any = this.$refs.multipleTable
                     multipleTable.clearSelection();
                 }
-            },
+            }
+
             handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
-            },
+            }
+
             handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.stockTakeItemList()
-            },
+            }
+
             handleCurrentChange(val: number) {
                 this.searchForm.page = val
                 this.stockTakeItemList()
-            },
-
+            }
+        
             resetForm(formName: string) {
                 if (!this.searchForm['stockTakeId']) {
                     this.$notify({
@@ -298,10 +305,12 @@ export default Vue.extend({
                 refs.resetFields()
                 this.dialogVisible = false
                 this.editForm = {}
-            },
+            }
+
             handleClose() {
                 this.resetForm('editForm')
-            },
+            }
+
             submitForm(formName: string) {
                 const refs: any = this.$refs[formName]
 
@@ -362,7 +371,8 @@ export default Vue.extend({
                         return false;
                     }
                 });
-            },
+            }
+
             delItem(id: number) {
                 axios.delete(`/stock/stock_take/remove/${id}`).then(res => {
                     this.stockTakeItemList()
@@ -374,8 +384,7 @@ export default Vue.extend({
                     });
                 })
             }
-        }
-})
+}
 </script>
 <style scoped>
 

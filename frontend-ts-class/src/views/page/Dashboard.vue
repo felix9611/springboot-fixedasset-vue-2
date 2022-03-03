@@ -95,16 +95,20 @@
 
 <script lang="ts">
 import Schart from 'vue-schart'
-import bus from '../../components/common/bus';
-import Vue from 'vue'
+import bus from '../../components/common/bus'
 import axios from '../../axios'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-    name: 'dashboard',
-    data() {
-        return {
-            name: localStorage.getItem('ms_username'),
-            todoList: [
+@Component({
+    components: {
+        Schart
+    }
+})
+export default class Dashboard extends Vue {
+
+    name = localStorage.getItem('ms_username')
+    
+    todoList = [
                 {
                     title: '路由管理、动态路由、标签页管理',
                     status: true
@@ -125,8 +129,8 @@ export default Vue.extend({
                     title: '基于此权限系统进一步开发后台管理系统',
                     status: false
                 }
-            ],
-            data: [
+    ]
+    data = [
                 {
                     name: '2018/09/04',
                     value: 1083
@@ -156,26 +160,19 @@ export default Vue.extend({
                     value: 1065
                 }
             ]
-        };
-    },
-    components: {
-        Schart
-    },
-    computed: {
-        role() {
-            return '作者：WaiterXiaoYY';
-        }
-    },
-    methods: {
-        changeDate() {
+
+    changeDate() {
             const now = new Date().getTime();
             this.data.forEach((item: any, index: any) => {
                 const date = new Date(now - (6 - index) * 86400000);
                 item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-            });
-        }
+            })
     }
-})
+    
+    get role() {
+        return 'Felix'
+    }
+}
 </script>
 
 

@@ -113,57 +113,53 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../../axios'
 import moment from 'moment'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'Stocktake',
-        data() {
-            const searchForm: any = {
+@Component
+export default class Stocktake extends Vue {
+    searchForm: any = {
                 limit: 10,
                 page: 1
-            }
-            const editForm: any = {}
-            return {
-                searchForm,
-                delBtlStatu: true,
-                sumTotal: 0,
-                total: 0,
-                size: 10,
-                current: 1,
+    }
+    editForm: any = {}
 
-                dialogVisible: false,
-                editForm,
-                tableData: [],
-                placeItem: [],
-                typeItem: [],
-                deptItem: [],
+    delBtlStatu: boolean = true
+    sumTotal: number = 0
+    total: number = 0
+    size: number|undefined
+    current: number = 1
+    dialogVisible: boolean = false
 
-                editFormRules: {
+                tableData: any =[]
+                placeItem: any =[]
+                typeItem: any =[]
+                deptItem: any =[]
+
+                editFormRules = {
                     actionName: [
                         {required: true, message: 'Action Nmae cannot blank!', trigger: 'blur'}
                     ],
                     actionPlace: [
                         {required: true, message: 'Action Place must choose!', trigger: 'blur'}
                     ]
-                },
-                roleDialogFormVisible: false,
-                defaultProps: {
+                }
+                roleDialogFormVisible: boolean = false
+                defaultProps = {
                     children: 'children',
                     label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: []
-            }
-        },
+                }
+                treeCheckedKeys: any = []
+                checkStrictly: boolean = true
+                multipleSelection: any = []
+
         created() {
             this.stockTakeList()
             this.getAllPlace()
-        },
-        methods: {
-          stockTakeList() {
+        }
+
+        stockTakeList() {
                 axios.post(
                     '/stock/stock_take/listAll',
                     this.searchForm
@@ -183,7 +179,8 @@ export default Vue.extend({
                         return re
                     })
                 })
-          },
+          }
+
           getAllPlace() {
                 axios.get(
                     '/base/location/getAll'
@@ -193,7 +190,8 @@ export default Vue.extend({
                         this.placeItem = res.data.data
                     }
                 )
-            },
+            }
+
             toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach((row: any) => {
@@ -204,30 +202,35 @@ export default Vue.extend({
                     const multipleTable: any = this.$refs.multipleTable
                     multipleTable.clearSelection();
                 }
-            },
+            }
+
             handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
-            },
+            }
+
             handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.stockTakeList()
-            },
+            }
+
             handleCurrentChange(val: number) {
                 this.searchForm.page = val
                 this.stockTakeList()
-            },
+            }
 
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
-            },
+            }
+
             handleClose() {
                 this.resetForm('editForm')
-            },
+            }
+
             submitForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.validate((valid: any) => {
@@ -250,7 +253,8 @@ export default Vue.extend({
                         return false;
                     }
                 });
-            },
+            }
+
             delItem(id: number) {
                 axios.delete(`/stock/stock_take/remove/${id}`).then(res => {
                     this.stockTakeList()
@@ -262,8 +266,7 @@ export default Vue.extend({
                     });
                 })
             }
-        }
-})
+}
 </script>
 <style scoped>
 

@@ -1,5 +1,5 @@
 <template>
-    <div>用户主页</div>
+    <div>User Index</div>
 </template>
 
 <script lang="ts">

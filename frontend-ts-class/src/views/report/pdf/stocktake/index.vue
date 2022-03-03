@@ -77,58 +77,60 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../../../axios'
 import { columns } from './pdfColumns'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import moment from 'moment'
-export default Vue.extend({
-        name: 'Stocktake',
-        data() {
-            const searchForm: any = {
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class Department extends Vue {
+    searchForm: any = {
                 limit: 200,
                 page: 1
-            }
-            const editForm: any = {}
-            const mainStockTake: any ={}
-            return {
-                statusItemNew: [],
-                statusItem: [
+    }
+
+    editForm: any = {}
+    mainStockTake: any ={}
+                statusItemNew: any =[]
+                statusItem = [
                     { status: 'Exist' },
                     { status: 'Not Exist' },
                     { status: 'Ready restoration' },
                     { status: 'Under restoration' },
                     { status: 'Other' }
-                ],
-                searchForm,
-                delBtlStatu: true,
-                sumTotal: 0,
-                total: 0,
-                size: 10,
-                current: 1,
+                ]
+
+                delBtlStatu: boolean = true
+                sumTotal: number = 0
+                size: number|undefined
+                current: number = 1
+                total: number = 0
                 
-                stockTakeActionName: '',
-                dialogVisible: false,
-                editForm,
-                tableData: [],
-                stockTakeList: [],
-                mainStockTake,
-                roleDialogFormVisible: false,
-                defaultProps: {
+                stockTakeActionName: string =  ''
+                dialogVisible: boolean = false
+
+                tableData: any = []
+                stockTakeList: any =[]
+                roleDialogFormVisible: boolean = false
+                defaultProps = {
                     children: 'children',
                     label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: []
-            }
-        },
+                }
+
+                treeCheckedKeys: any =[]
+
+                checkStrictly: boolean = true
+
+                multipleSelection: any = []
+
+
         created() {
             this.stockTakeItemList()
             this.getAllstockTakeList()
-        },
-        methods: {
+        }
+
             mainStockTakeData() {
                 axios.get(
                     `/stock/stock_take/${this.searchForm.stockTakeId}`
@@ -139,7 +141,8 @@ export default Vue.extend({
                         this.generatePDF()
                     }
                 )
-            },
+            }
+
             generatePDF() {
                 if (!this.searchForm['stockTakeId']) {
                     this.$notify({
@@ -171,7 +174,8 @@ export default Vue.extend({
                     }
                 })
                 doc.save(`stocktake_report_${this.mainStockTake.actionName}_finished.pdf`)
-            },
+            }
+
             stockTakeItemList() {
                 if (!this.searchForm['stockTakeId']) {
                     this.$notify({
@@ -191,7 +195,8 @@ export default Vue.extend({
                         this.current = res.data.data.current
                         this.total = res.data.data.total
                 })
-            },
+            }
+
             getAllstockTakeList() {
                 axios.get(
                     '/stock/stock_take/getAllFinishedST'
@@ -201,14 +206,15 @@ export default Vue.extend({
                         this.stockTakeList = res.data.data
                     }
                 )
-            },
+            }
+
             handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
             }
-        }
-})
+    }
+
 </script>
 <style scoped>
 
