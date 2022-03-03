@@ -156,17 +156,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../axios'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'Meun',
-        data () {
-            const editForm: any = {}
-            return {
-                dialogVisible: false,
-                editForm,
-                editFormRules: {
+@Component
+export default class Menu extends Vue {
+    editForm: any = {}
+
+    dialogVisible: boolean = false
+                editFormRules =  {
                     parentId: [
                         {required: true, message: '请选择上级菜单', trigger: 'blur'}
                     ],
@@ -185,19 +183,20 @@ export default Vue.extend({
                     statu: [
                         {required: true, message: '请选择状态', trigger: 'blur'}
                     ]
-                },
-                tableData: []
-            }
-        },
+                }
+                tableData: any = []
+
         created() {
           this.getMenuTree()
-        },
-        methods: {
+        }
+
+
             getMenuTree() {
                 axios.get('/sys/menu/list').then((res: any) => {
                     this.tableData = res.data.data
                 })
-            },
+            }
+            
             submitForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.validate((valid: any) => {
@@ -218,23 +217,27 @@ export default Vue.extend({
                         return false;
                     }
                 });
-            },
+            }
+
             editHandle(id: number) {
                 axios.get(`/sys/menu/info/${id}`).then((res: any) => {
                     this.editForm = res.data.data
 
                     this.dialogVisible = true
                 })
-            },
+            }
+
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
-            },
+            }
+
             handleClose() {
                 this.resetForm('editForm')
-            },
+            }
+
             delHandle(id: number) {
 
                 axios.post(`/sys/menu/delete/${id}`).then(res => {
@@ -250,8 +253,7 @@ export default Vue.extend({
 
                 })
             }
-        }
-})
+}
 </script>
 
 <style scoped>

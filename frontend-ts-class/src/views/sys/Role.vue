@@ -164,29 +164,25 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../axios'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'Role',
-        data() {
-            const permForm: any = {}
-            const searchForm: any = {}
-            const editForm: any = {}
-            return {
-                searchForm,
-                delBtlStatu: true,
+@Component
+export default class Role extends Vue {
+    permForm: any = {}
+    searchForm: any = {}
+    editForm: any = {}
 
-                total: 0,
-                size: 10,
-                current: 1,
+    delBtlStatu: boolean = true
+    total: number = 0
+    size: number|undefined
+    current: number =1
 
-                dialogVisible: false,
-                editForm,
+    dialogVisible: boolean = false
 
-                tableData: [],
+    tableData: any = []
 
-                editFormRules: {
+                editFormRules = {
                     name: [
                         {required: true, message: '请输入角色名称', trigger: 'blur'}
                     ],
@@ -196,27 +192,27 @@ export default Vue.extend({
                     statu: [
                         {required: true, message: '请选择状态', trigger: 'blur'}
                     ]
-                },
+                }
 
-                multipleSelection: [],
+                multipleSelection: any = []
 
-                permDialogVisible: false,
-                permForm,
-                defaultProps: {
+                permDialogVisible: boolean = false
+
+                defaultProps = {
                     children: 'children',
                     label: 'name'
-                },
-                permTreeData: []
-            }
-        },
+                }
+
+                permTreeData: any = []
+            
         created() {
             this.getRoleList()
 
             axios.get('/sys/menu/list').then((res: any) => {
                 this.permTreeData = res.data.data
             })
-        },
-        methods: {
+        }
+
             toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach((row: any) => {
@@ -227,31 +223,36 @@ export default Vue.extend({
                     const multipleTable: any = this.$refs.multipleTable
                     multipleTable.clearSelection();
                 }
-            },
+            }
+            
             handleSelectionChange(val: any) {
                 this.multipleSelection = val;
                 this.delBtlStatu = val.length == 0
-            },
+            }
+
 
             handleSizeChange(val: number) {
                 this.size = val
                 this.getRoleList()
-            },
+            }
+
             handleCurrentChange(val: number) {
                 this.current = val
                 this.getRoleList()
-            },
+            }
+
 
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs[formName].resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
-            },
+            }
+
             handleClose() {
                 this.resetForm('editForm')
-            },
-
+            }
+        
             getRoleList() {
                 axios.get('/sys/role/list', {
                     params: {
@@ -265,7 +266,7 @@ export default Vue.extend({
                     this.current = res.data.data.current
                     this.total = res.data.data.total
                 })
-            },
+            }
 
             submitForm(formName: string) {
                 const refs: any = this.$refs[formName]
@@ -288,36 +289,16 @@ export default Vue.extend({
                         return false;
                     }
                 });
-            },
+            }
+
             editHandle(id: number) {
                 axios.get('/sys/role/info/' + id).then((res: any) => {
                     this.editForm = res.data.data
 
                     this.dialogVisible = true
                 })
-            },
-            /* delHandle(id) {
+            }
 
-                var ids = []
-
-                if (id) {
-                    ids.push(id)
-                } else {
-                    this.multipleSelection.forEach((row: any) => {
-                        ids.push(row.id)
-                    })
-                }
-
-                axios.post('/sys/role/delete', ids).then((res: any) => {
-                    this.getRoleList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                })
-            }, */
             permHandle(id: number) {
                 this.permDialogVisible = true
 
@@ -326,7 +307,7 @@ export default Vue.extend({
                     permTree.setCheckedKeys(res.data.data.menuIds)
                     this.permForm = res.data.data
                 })
-            },
+            }
 
             submitPermFormHandle(formName: string) {
                 const permTree: any = this.$refs.permTree
@@ -344,8 +325,7 @@ export default Vue.extend({
                     this.resetForm(formName)
                 })
             }
-        }
-})
+}
 </script>
 
 <style scoped>

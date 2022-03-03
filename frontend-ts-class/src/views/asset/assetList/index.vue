@@ -282,80 +282,69 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
 import ref from 'vue'
 import axios from '../../../axios'
 import VueBase64FileUpload from 'vue-base64-file-upload'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import { uploadImgToBase64 } from '../../../utils/uploadImgToBase64'
 import moment from 'moment'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'AssetList',
-        components: {
-            VueBase64FileUpload
-        },
-        data() {
-            const searchForm: any = {
-                limit: 10,
-                page: 1
-            }
-            const editForm: any = {}
-            const fileList: any = []
-            const fileBase64Data: any = []
-            const getBase64Data: any = []
-            return {
-                fileList,
-                customImageMaxSize: 3,
-                getBase64Data,
-                fileBase64Data,
-                // file size ^
-                searchForm,
-                delBtlStatu: true,
-                sumTotal: 0,
-                total: 0,
-                size: 10,
-                current: 1,
-                readonlyForm: false,
-                dialogVisible: false,
-                editForm,
-                tableData: [],
-                placeItem: [],
-                typeItem: [],
-                deptItem: [],
-                hideSaveBtn: false,
-                showImageDialog: false,
-                editFormRules: {
+@Component({
+    components: {
+        VueBase64FileUpload
+    }
+})
+export default class AssetList extends Vue {
+        searchForm: any = {
+            limit: 10,
+            page: 1
+        }
+        editForm: any = {}
+        fileList: any = []
+        fileBase64Data: any = []
+        getBase64Data: any = []
+
+        customImageMaxSize: number = 3
+        delBtlStatu: boolean = true
+        sumTotal: number = 0
+        total: number = 0
+        size: number|undefined
+        current: number = 1
+        readonlyForm: boolean =  false
+        dialogVisible: boolean =  false
+
+                tableData: any = []
+                placeItem: any = []
+                typeItem: any = []
+                deptItem: any = []
+                hideSaveBtn: boolean =  false
+                showImageDialog: boolean =  false
+                editFormRules = {
                     assetName: [
                         {required: true, message: 'Asset Name cannot blank!', trigger: 'blur'}
                     ]
-                },
-                roleDialogFormVisible: false,
-                defaultProps: {
-                    children: 'children',
-                    label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: [],
-            }
-        },
+                }
+
+                roleDialogFormVisible: boolean =  false
+
         created() {
             this.assetAllList()
             this.getAllType()
             this.getAllPlace()
             this.getAlldept()
             this.getTotalCost()
-        },
-        methods: {
+        }
             formToImage(id: number) {
                 this.dialogVisible = false
                 this.getAllBase64File(id)
                 this.editForm = {}
-            },
+            }
+
             removeUploaded() {
                 this.fileList = []
-            },
+            }
+
             onChangeUpload(file: UploadFile) {
                 let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
                 const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
@@ -373,7 +362,8 @@ export default Vue.extend({
                 }
                 this.imgToBase64()
                 // return isJpg && isLt2M;
-            },
+            }
+
             imgToBase64() {
                 this.fileList.map(async (file: any) => {
                     const response: any = await uploadImgToBase64(file.raw)
@@ -381,7 +371,8 @@ export default Vue.extend({
                     this.fileBase64Data.push({ fileName: file.name, dataBase64 })
                     // const test = response as never
                 })
-            },
+            }
+
             getTotalCost() {
                 axios.get(
                 '/asset/assetList/getTotalSum'
@@ -390,7 +381,8 @@ export default Vue.extend({
                     this.sumTotal = res.data.data
                 }
                 )
-          },
+          }
+
           getAlldept() {
             axios.get(
               '/base/department/getAll'
@@ -399,7 +391,8 @@ export default Vue.extend({
                 this.deptItem = res.data.data
               }
             )
-          },
+          }
+
           getAllType() {
             axios.get(
               '/base/asset_type/getAll'
@@ -408,7 +401,8 @@ export default Vue.extend({
                 this.typeItem = res.data.data
               }
             )
-          },
+          }
+
           getAllPlace() {
                 axios.get(
                     '/base/location/getAll'
@@ -418,7 +412,8 @@ export default Vue.extend({
                         this.placeItem = res.data.data
                     }
                 )
-            },
+            }
+
             assetAllList() {
                 axios.post(
                     '/asset/assetList/listAll',
@@ -443,44 +438,49 @@ export default Vue.extend({
                         return re
                     })
                 })
-            },
+            }
+
             toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach((row: any) => {
                         const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
+                        multipleTable.toggleRowSelection(row)
                     });
                 } else {
                     const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection();
+                    multipleTable.clearSelection()
                 }
-            },
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
+            }
 
+            handleSelectionChange(val: any) {
                 this.delBtlStatu = val.length == 0
-            },
+            }
+
             handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.assetAllList()
-            },
+            }
+            
             handleCurrentChange(val: number) {
                 this.searchForm.page = val
                 this.assetAllList()
-            },
+            }
 
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
-            },
+            }
+
             handleCloseImageDialog() {
                 this.showImageDialog = false
-            },
+            }
+
             handleClose() {
                 this.resetForm('editForm')
-            },
+            }
+
             submitForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.validate((valid: any) => {
@@ -535,7 +535,8 @@ export default Vue.extend({
                         return false;
                     }
                 });
-            },
+            }
+
             getAllBase64File(assetId: number) {
                 axios.post('/asset/assetList/loadFile', 
                 { assetId }).then((res: any)=>{
@@ -543,7 +544,8 @@ export default Vue.extend({
                     this.showImageDialog = true
                     console.log(this.fileBase64Data)
                 })
-            },
+            }
+
             readHandle(id: number) {
                 axios.get(`/asset/assetList/${id}`).then((res: any) => {
                     console.log(this.placeItem)
@@ -552,14 +554,16 @@ export default Vue.extend({
                     this.readonlyForm = true
                     this.hideSaveBtn = true
                 })
-            },
+            }
+
             editHandle(id: number) {
                 axios.get(`/asset/assetList/${id}`).then((res: any) => {
                     console.log(this.placeItem)
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
-            },
+            }
+
             delItem(id: number) {
                 axios.delete(`/asset/assetList/remove/${id}`).then(res => {
                     this.assetAllList()
@@ -570,7 +574,8 @@ export default Vue.extend({
                         type: 'success'
                     });
                 })
-            },
+            }
+
             delItemFile(id: number, assetId: number) {
                 axios.delete(`/asset/assetList/removeFile/${id}`).then(res => {
                     this.getAllBase64File(assetId)
@@ -582,8 +587,8 @@ export default Vue.extend({
                     });
                 })
             }
-        }
-})
+}
+
 </script>
 
 <style scoped>

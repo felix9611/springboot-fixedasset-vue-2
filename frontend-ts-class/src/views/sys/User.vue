@@ -199,37 +199,29 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../axios'
 import moment from 'moment'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import { uploadImgToBase64 } from '../../utils/uploadImgToBase64'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'User',
-        data() {
-            const roleForm: any = {}
-            const editForm: any = {}
-            const multipleSelection: any = []
-            const searchForm: any = {}
-            const deptItem: any = []
-            const fileList: any = []
-            return {
-                fileList,
-                searchForm,
-                deptItem,
-                delBtlStatu: true,
+@Component
+export default class User extends Vue {
+    roleForm: any = {}
+    editForm: any = {}
+    multipleSelection: any = []
+    searchForm: any = {}
+    deptItem: any = []
+    fileList: any = []
+    delBtlStatu: boolean = true
+    total: number=  0
+    size: number|undefined
+    current: number = 1
+    dialogVisible: boolean = false
+    tableData: any = []
 
-                total: 0,
-                size: 10,
-                current: 1,
 
-                dialogVisible: false,
-                editForm,
-
-                tableData: [],
-
-                editFormRules: {
+                editFormRules = {
                     username: [
                         {required: true, message: 'Please entry username', trigger: 'blur'}
                     ],
@@ -239,31 +231,31 @@ export default Vue.extend({
                     statu: [
                         {required: true, message: 'Please select statu', trigger: 'blur'}
                     ]
-                },
+                }
 
-                multipleSelection,
 
-                roleDialogFormVisible: false,
-                defaultProps: {
+
+                roleDialogFormVisible: boolean = false
+                defaultProps = {
                     children: 'children',
                     label: 'name'
-                },
-                roleForm,
-                roleTreeData:  [],
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                fileBase64Data: ''
+                }
 
-            }
-        },
+                roleTreeData: any = []
+                treeCheckedKeys: any = []
+                checkStrictly: boolean = true
+                fileBase64Data: string = ''
+
+
         created() {
             this.getUserList()
             this.getAlldept()
-        },
-        methods: {
+        }
+
             removeUploaded() {
                 this.fileList = []
-            },
+            }
+
             onChangeUpload(file: UploadFile) {
                 let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
                 const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
@@ -284,7 +276,8 @@ export default Vue.extend({
                 }
                 this.imgToBase64()
                 // return isJpg && isLt2M;
-            },
+            }
+
             imgToBase64() {
                 this.fileList.map(async (file: any) => {
                     const response: any = await uploadImgToBase64(file.raw)
@@ -293,7 +286,8 @@ export default Vue.extend({
                     console.log(this.fileBase64Data)
                     // const test = response as never
                 })
-            },
+            }
+
             getAlldept() {
                 axios.get(
                     '/base/department/getAll'
@@ -302,12 +296,14 @@ export default Vue.extend({
                         this.deptItem = res.data.data
                     }
                 )
-            },
+            }
+
             getRoleList() {
                 axios.get('/sys/role/list').then((res: any) => {
                     this.roleTreeData = res.data.data.records
                 })
-            },
+            }
+
             toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach((row: any) => {
@@ -318,31 +314,35 @@ export default Vue.extend({
                     const refs: any = this.$refs
                     refs.multipleTable.clearSelection();
                 }
-            },
+            }
+
             handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
-            },
+            }
 
             handleSizeChange(val: number) {
                 this.size = val
                 this.getUserList()
-            },
+            }
+
             handleCurrentChange(val: number) {
                 this.current = val
                 this.getUserList()
-            },
+            }
+            
 
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
-            },
+            }
+
             handleClose() {
                 this.resetForm('editForm')
-            },
+            }
 
             getUserList() {
                 axios.get("/sys/user/list", {
@@ -366,7 +366,7 @@ export default Vue.extend({
                         return re
                     })
                 })
-            },
+            }
 
             submitForm(formName: string) {
                 const formNames :any = this.$refs[formName]
@@ -390,36 +390,13 @@ export default Vue.extend({
                         return false;
                     }
                 });
-            },
+            }
             editHandle(id: number) {
                 axios.get('/sys/user/info/' + id).then((res: any) => {
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
-            },
-            /* delHandle(id: number) {
-
-                var ids = []
-
-                if (id) {
-                    ids.push(id)
-                } else {
-                    this.multipleSelection.forEach((row: any) => {
-                        ids.push(row.id)
-                    })
-                }
-
-
-                axios.post("/sys/user/delete", ids).then((res: any) => {
-                    this.getUserList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                })
-            }, */
+            }
 
             roleHandle (id: number) {
                 this.getRoleList()
@@ -435,7 +412,8 @@ export default Vue.extend({
                     const refs: any =this.$refs
                     refs.roleTree.setCheckedKeys(roleIds)
                 })
-            },
+            }
+
             submitRoleHandle(formName: string) {
                 const refs: any = this.$refs
                 const roleIds = refs.roleTree.getCheckedKeys()
@@ -451,7 +429,8 @@ export default Vue.extend({
 
                     this.roleDialogFormVisible = false
                 })
-            },
+            }
+
             repassHandle(id: string, username: string) {
 
                 this.$confirm('将重置用户【' + username + '】的密码, 是否继续?', '提示', {
@@ -469,13 +448,13 @@ export default Vue.extend({
                         });
                     })
                 })
-            },
+            }
+
             hasAuth(perm: string) {
                 var authority = this.$store.state.permList
                 return authority.indexOf(perm) > -1
             }
-        }
-})
+}
 </script>
 
 <style scoped>

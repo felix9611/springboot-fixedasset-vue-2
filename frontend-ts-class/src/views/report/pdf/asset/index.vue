@@ -74,48 +74,38 @@
 <script lang="ts">
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import Vue from 'vue'
 import axios from '../../../../axios'
 import { saveJsonToExcel } from '../../../../utils/importExcel'
 import moment from 'moment'
 import { exportExcelHeader1, exportExcelHeader2, pdfColumns, columnsStyle, headerColSeetting } from './exportSetting'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'AssetList',
-        data() {
-            const searchForm: any = {
+@Component
+export default class AssetList extends Vue {
+        searchForm: any = {
                 limit: 200,
                 page: 1
-            }
-            const editForm: any = {}
-            return {
-                searchForm,
-                delBtlStatu: true,
-                sumTotal: 0,
-                total: 0,
-                size: 10,
-                current: 1,
+        }
+        editForm: any = {}
 
-                dialogVisible: false,
-                editForm,
-                tableData: [],
+        delBtlStatu: boolean = true
+        sumTotal: number = 0
+                total: number = 0
+                size: number|undefined
+                current: number =  1
 
-                roleDialogFormVisible: false,
-                defaultProps: {
-                    children: 'children',
-                    label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: [],
+                dialogVisible: boolean = false
+        tableData: any = []
 
-            }
-        },
+
+        checkStrictly: boolean = true
+        multipleSelection: any = []
+
         created() {
             this.assetAllList()
             this.getTotalCost()
-        },
-        methods: {
+        }
+
             async exportExcel() {
                 await saveJsonToExcel(
                     exportExcelHeader2, 
@@ -125,7 +115,8 @@ export default Vue.extend({
                     columnsStyle, 
                     headerColSeetting
                 )
-            },
+            }
+
             generatePDF() {
                 const doc = new jsPDF('p', 'pt', 'a4', true)
 
@@ -149,7 +140,8 @@ export default Vue.extend({
 
                 doc.save('asset_list.pdf')
                 
-            },
+            }
+
             getTotalCost() {
                 axios.get(
                 '/asset/assetList/getTotalSum'
@@ -158,7 +150,8 @@ export default Vue.extend({
                     this.sumTotal = res.data.data
                 }
                 )
-            },
+            }
+
             assetAllList() {
                 axios.post(
                     '/asset/assetList/listAll',
@@ -183,7 +176,8 @@ export default Vue.extend({
                         return re
                     })
                 })
-            },
+            }
+
             toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach((row: any) => {
@@ -194,22 +188,23 @@ export default Vue.extend({
                     const multipleTable: any = this.$refs.multipleTable
                     multipleTable.clearSelection();
                 }
-            },
+            }
+
             handleSelectionChange(val: any) {
                 this.multipleSelection = val;
 
                 this.delBtlStatu = val.length == 0
-            },
+            }
+
             handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.assetAllList()
-            },
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.assetAllList()
             }
-        }
-})
+    handleCurrentChange(val: number) {
+        this.searchForm.page = val
+         this.assetAllList()
+    }
+}
 </script>
 
 <style scoped>
