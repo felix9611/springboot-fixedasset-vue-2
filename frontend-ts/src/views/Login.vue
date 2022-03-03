@@ -51,29 +51,33 @@
     </div>
 </template>
 
-<script>
-    import Background from '@/assets/img/background3.jpg';
-    import qs from 'qs'
+<script lang="ts">
+import Background from '@/assets/img/background3.jpg';
+import qs from 'qs'
+import axios from '../axios'
+import Vue from 'vue'
 
-    export default {
+export default Vue.extend({
         name: 'Login',
         data() {
-            return {
-                Background: Background,
-                codeUrl: '',
-                cookiePass: '',
-                loginForm: {
+            const loginForm: any = {
                     username: 'admin',
                     password: '111111',
                     code: '111111',
                     token: ''
-                },
+            }
+            const captchaImg: any = ''
+            return {
+                Background: Background,
+                codeUrl: '',
+                cookiePass: '',
+                loginForm,
                 loginRules: {
                     username: [{required: true, trigger: 'blur', message: '用户名不能为空'}],
                     password: [{required: true, trigger: 'blur', message: '密码不能为空'}],
                     code: [{required: true, trigger: 'change', message: '验证码不能为空'}]
                 },
-                captchaImg: null,
+                captchaImg,
                 loading: false,
                 redirect: undefined
             };
@@ -82,10 +86,11 @@
             this.getCaptcha()
         },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName: string) {
+                const refs: any = this.$refs
+                refs[formName].validate((valid) => {
                     if(valid) {
-                        this.$axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
+                        axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
                             const jwt = res.data.data.token
 
                             this.$store.commit('SET_TOKEN', jwt)
@@ -98,21 +103,18 @@
                     }
                 })
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields()
+            resetForm(formName: string) {
+                const refs: any = this.$refs[formName]
+                refs.resetFields()
             },
             getCaptcha() {
-                this.$axios.get('/captcha').then(res => {
+                axios.get('/captcha').then(res => {
                     this.loginForm.token = res.data.data.token
                     this.captchaImg = res.data.data.captchaImg
-                    if(this.loginForm === '') {
-                        this.loginForm.code = ''
-                    }
-
                 })
             }
         }
-    };
+})
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
