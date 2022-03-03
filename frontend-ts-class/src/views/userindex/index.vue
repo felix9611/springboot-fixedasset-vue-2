@@ -58,26 +58,22 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../axios'
 import moment from 'moment'
 
-export default Vue.extend({
-  name: 'UserIndex',
-  data() {
-    const myAccount: any = {}
-    const resetPasswordForm: any = {}
-    return {
-      myAccount,
-      resetPasswordForm,
-      dialogVisible: false,
-    }
-  },
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class UserIndex extends Vue {
+  myAccount: any = {}
+  resetPasswordForm: any = {}
+  dialogVisible: boolean = false
+
   created() {
     this.getMyAccount()
-  },
-  methods: {
-    getMyAccount() {
+  }
+
+  getMyAccount() {
       axios.get('/sys/userInfo').then((res: any)=>{
         console.log(res.data)
         this.myAccount = res.data.data
@@ -85,20 +81,24 @@ export default Vue.extend({
         this.myAccount.created = moment(new Date(this.myAccount.created)).format('DD-MM-YYYY HH:MM')
         this.myAccount.lastLogin = moment(new Date(this.myAccount.lastLogin)).format('DD-MM-YYYY HH:MM')
       })
-    },
-    resetPWdialog() {
-      this.dialogVisible = true
-    },
-    resetForm(formName: string) {
+  }
+
+  resetPWdialog() {
+    this.dialogVisible = true
+  }
+
+  resetForm(formName: string) {
       const refs: any = this.$refs[formName]
       refs.resetFields();
       this.dialogVisible = false
       this.resetPasswordForm = {}
-    },
-    handleClose() {
-      this.resetForm('editForm')
-    },
-    submitReset(formName: string) {
+  }
+
+  handleClose() {
+    this.resetForm('editForm')
+  }
+
+  submitReset(formName: string) {
       const formNames :any = this.$refs[formName]
       formNames.validate((valid: any) => {
         if (valid) {
@@ -135,10 +135,9 @@ export default Vue.extend({
         } else {
           return false;
         }
-      })
-    }
+    })
   }
-})
+}
 </script>
 
 <style scoped>
@@ -146,10 +145,5 @@ export default Vue.extend({
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
 
 </style>

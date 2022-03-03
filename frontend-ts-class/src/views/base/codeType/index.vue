@@ -141,85 +141,65 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import axios from '../../../axios'
 import { formatJson, readExcel, saveJsonToExcel } from '../../../utils/importExcel'
 import moment from 'moment'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'CodeType',
-        data() {
-            const editForm: any = {}
-            const searchForm: any = {}
-            const fileList: any = []
-            const exportData: any = []
-            return {
-                fileList,
-                test: 0,
-                searchForm,
-                delBtlStatu: true,
+@Component
+export default class CodeType extends Vue {
+    editForm: any = {}
+    searchForm: any = {}
+    fileList: any = []
+    exportData: any = []
+    tableData: any = []
+    size: number|undefined
+    current: number = 1
+    total: number = 0
 
-                total: 0,
-                size: 10,
-                current: 1,
+    uploaderDialog: boolean = false
 
-                dialogVisible: false,
-                editForm,
+    testEcelHeader1 = [
+        'Type',
+        'Value Code',
+        'Value Name'
+    ]
+    testEcelHeader2 = [
+        'type',
+        'valueCode',
+        'valueName'
+    ]
 
-                tableData: [],
-                placeItem: [],
+    editFormRules = {
+        type: [
+            { required: true, message: 'Type cannot blank!', trigger: 'blur' }
+        ],
+        valueCode: [
+            { required: true, message: 'Value Code cannot blank!', trigger: 'blur' }
+        ],
+        valueName: [
+            { required: true, message: 'Value Name cannot blank!', trigger: 'blur' }
+        ]
+    }
 
-                editFormRules: {
-                    type: [
-                        {required: true, message: 'Type cannot blank!', trigger: 'blur'}
-                    ],
-                    valueCode: [
-                        {required: true, message: 'Value Code cannot blank!', trigger: 'blur'}
-                    ],
-                    valueName: [
-                        {required: true, message: 'Value Name cannot blank!', trigger: 'blur'}
-                    ]
-                },
-                roleDialogFormVisible: false,
-                defaultProps: {
-                    children: 'children',
-                    label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: [],
+    delBtlStatu: boolean = true
+    dialogVisible: boolean = false
 
-                uploaderDialog: false,
-                testEcelHeader1: [
-                    'Type',
-                    'Value Code',
-                    'Value Name'
-                ],
-                testEcelHeader2: [
-                    'type',
-                    'valueCode',
-                    'valueName'
-                ],
-                exportData
-                
-            }
-        },
-        created() {
-            this.codeTypeAllList()
-        },
-        methods: {
-            async exportExcel() {
-                await saveJsonToExcel(this.testEcelHeader2, this.tableData, this.testEcelHeader1,'code_type.xlsx')
-            },
+    async exportExcel() {
+        await saveJsonToExcel(this.testEcelHeader2, this.tableData, this.testEcelHeader1,'code_type.xlsx')
+    }
             clearFile() {
                 this.fileList = []
-            },
+            }
+
             clickUploadDialog() {
                 this.uploaderDialog = true
-            },
+            }
+
             closerUploadDialog() {
                 this.uploaderDialog = false
-            },
+            }
+
             async uploadFile(file: any) {
                 const data = await readExcel(file)
                 const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
@@ -238,29 +218,35 @@ export default Vue.extend({
                         this.fileList = []
                     })
                 })
-            },
-            codeTypeAllList() {
-              axios.post(
-                '/base/code_type/listAll',
-                this.searchForm
-              ).then(
+            }
+
+    created() {
+        this.codeTypeAllList()
+    }
+
+    codeTypeAllList() {
+        axios.post(
+            '/base/code_type/listAll',
+            this.searchForm
+        ).then(
                 (res: any) => {
-                  this.tableData = res.data.data.records
-                  this.size = res.data.data.size
-                  this.current = res.data.data.current
-                  this.total = res.data.data.total
+                this.tableData = res.data.data.records
+                this.size = res.data.data.size
+                this.current = res.data.data.current
+                this.total = res.data.data.total
 
-                  this.tableData.forEach((re: any) => {
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                this.tableData.forEach((re: any) => {
+                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
 
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
-                    return re
-                  })
-              })
-            },
-            toggleSelection(rows: any) {
+                    re['created'] = newCreated
+                    re['updated'] = newUpdated
+                return re
+            })
+        })
+    }
+
+    toggleSelection(rows: any) {
                 if (rows) {
                     rows.forEach((row: any) => {
                         const multipleTable: any = this.$refs.multipleTable
@@ -270,30 +256,33 @@ export default Vue.extend({
                     const multipleTable: any = this.$refs.multipleTable
                     multipleTable.clearSelection();
                 }
-            },
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
+            }
 
+            handleSelectionChange(val: any) {
                 this.delBtlStatu = val.length == 0
-            },
+            }
+
             handleSizeChange(val: number) {
                 this.searchForm.limit = val
                 this.codeTypeAllList()
-            },
+            }
+
             handleCurrentChange(val: number) {
                 this.searchForm.page = val
                 this.codeTypeAllList()
-            },
+            }
 
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.resetFields();
                 this.dialogVisible = false
                 this.editForm = {}
-            },
+            }
+
             handleClose() {
                 this.resetForm('editForm')
-            },
+            }
+
             submitForm(formName: string) {
                 const refs: any = this.$refs[formName]
                 refs.validate((valid: any) => {
@@ -315,14 +304,15 @@ export default Vue.extend({
                         return false;
                     }
                 });
-            },
+            }
+
             editHandle(id: number) {
                 axios.get('/base/code_type/' + id).then(res => {
-                    console.log(this.placeItem)
                     this.editForm = res.data.data
                     this.dialogVisible = true
                 })
-            },
+            }
+
             delItem(id: number) {
                 axios.delete('/base/code_type/remove/'+ id).then((res: any) => {
                     this.codeTypeAllList()
@@ -334,8 +324,7 @@ export default Vue.extend({
                     });
                 })
             }
-        }
-})
+}
 </script>
 
 <style scoped>
@@ -343,10 +332,4 @@ export default Vue.extend({
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
-
 </style>
