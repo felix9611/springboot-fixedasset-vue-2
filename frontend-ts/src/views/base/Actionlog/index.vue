@@ -52,44 +52,6 @@
                 :total="total">
         </el-pagination>
 
-
-        <!--新增对话框-->
-        <el-dialog
-                title="提示"
-                :visible.sync="dialogVisible"
-                width="700px"
-                :before-close="handleClose">
-
-            <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-
-                <el-form-item label="Department Code"  prop="deptCode" label-width="100px">
-                    <el-input v-model="editForm.deptCode" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="Department Name"  prop="deptName" label-width="100px">
-                    <el-input v-model="editForm.deptName" autocomplete="off"></el-input>
-                </el-form-item>
-
-                <el-form-item label="Other Name"  prop="deptOtherName" label-width="100px">
-                    <el-input type="textarea" v-model="editForm.deptOtherName"></el-input>
-                </el-form-item>
-
-                <!-- <el-form-item label="Test">
-                    <el-select v-model="value" placeholder="Select">
-                        <el-option
-                        v-for="item in placeItem"
-                        :key="item.id"
-                        :label="item.placeName"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item> -->
-
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="resetForm('editForm')">Cancel</el-button>
-                <el-button type="primary" @click="submitForm('editForm')">OK</el-button>
-            </div>
-        </el-dialog>
     </div>
 </template>
 
