@@ -33,8 +33,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "src/components/common/bus.ts", "src/components/common/directives.js"  ],
+    "tests/**/*.tsx",
+    "src/components/common/directives.ts"  
+  ],
   "exclude": [
     "node_modules"
   ]
