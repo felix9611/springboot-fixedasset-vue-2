@@ -73,9 +73,9 @@ export default Vue.extend({
                 cookiePass: '',
                 loginForm,
                 loginRules: {
-                    username: [{required: true, trigger: 'blur', message: '用户名不能为空'}],
-                    password: [{required: true, trigger: 'blur', message: '密码不能为空'}],
-                    code: [{required: true, trigger: 'change', message: '验证码不能为空'}]
+                    username: [{required: true, trigger: 'blur', message: 'Username cannot blank!'}],
+                    password: [{required: true, trigger: 'blur', message: 'Passowrd cannot blank!'}],
+                    code: [{required: true, trigger: 'change', message: 'Capture cannot blank!'}]
                 },
                 captchaImg,
                 loading: false,
