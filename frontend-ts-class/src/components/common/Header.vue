@@ -34,39 +34,34 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
 import axios from '../../axios'
 import bus from './bus'
-export default Vue.extend({
-    data() {
-        return {
-            collapse: false,
-            fullscreen: false,
-            name: 'admin',
-            message: 2,
-            userInfo: {
+
+@Component
+export default class vHead extends Vue {
+
+    collapse: boolean = false
+    fullscreen: boolean = false
+    name: string = 'admin'
+    message: number = 2
+            userInfo: any = {
                 id: 0,
                 username: '',
                 avatar: '',
                 avatarBase64: ''
             }
-        };
-    },
+
     created() {
         this.getUserInfo()
-    },
-    computed: {
-        // username() {
-        //     let username = localStorage.getItem('ms_username');
-        //     return username ? username : this.name;
-        // }
-    },
-    methods: {
+    }
+
+
         getUserInfo() {
             axios.get("/sys/userInfo").then(res => {
                 this.userInfo = res.data.data
             })
-        },
+        }
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
@@ -82,12 +77,12 @@ export default Vue.extend({
             if (command == 'userindex') {
                 this.$router.push('/userindex')
             }
-        },
+        }
         // 侧边栏折叠
         collapseChage() {
             this.collapse = !this.collapse;
             bus.$emit('collapse', this.collapse);
-        },
+        }
         // 全屏事件
         handleFullScreen() {
             let element = document.documentElement;
@@ -115,13 +110,12 @@ export default Vue.extend({
             }
             this.fullscreen = !this.fullscreen;
         }
-    },
-    mounted() {
+        mounted() {
         if (document.body.clientWidth < 1500) {
-            this.collapseChage();
+            this.collapseChage()
         }
     }
-})
+}
 </script>
 <style scoped>
 .header {
@@ -199,3 +193,7 @@ export default Vue.extend({
     text-align: center;
 }
 </style>
+
+function mounted() {
+  throw new Error('Function not implemented.')
+}

@@ -53,33 +53,32 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
 import bus from './bus'
-export default Vue.extend({
-    data() {
-        return {
-            collapse: false
-        };
-    },
-    computed: {
-        menuList: {
-            get() {
-                return this.$store.state.menuList
-            }
-        },
-        onRoutes() {
+
+@Component
+export default class vSidebar extends Vue {
+
+    collapse: boolean = false
+
+
+    get menuList() {
+        return this.$store.state.menuList
+    }
+
+    get onRoutes() {
             // console.log(this.$route)
-            return this.$route.path;
-        }
-    },
+        return this.$route.path;
+    }
+
     created() {
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
-        });
+        })
     }
-})
+}
 </script>
 
 <style scoped>

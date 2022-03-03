@@ -23,19 +23,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import bus from './bus'
-export default Vue.extend({
-        data() {
-            const tagsList: any = []
-            return {
-                tagsList
-            }
-        },
-        methods: {
+
+@Component
+export default class vTags extends Vue {
+        tagsList: any = []
+
             isActive(path: any) {
                 return path === this.$route.fullPath;
-            },
+            }
             // 关闭单个标签
             closeTags(index: any) {
                 const delItem: any = this.tagsList.splice(index, 1)[0];
@@ -45,19 +42,19 @@ export default Vue.extend({
                 }else{
                     this.$router.push('/');
                 }
-            },
+            }
             // 关闭全部标签
             closeAll(){
                 this.tagsList = [];
                 this.$router.push('/');
-            },
+            }
             // 关闭其他标签
             closeOther(){
                 const curItem = this.tagsList.filter((item: any) => {
                     return item.path === this.$route.fullPath;
                 })
                 this.tagsList = curItem;
-            },
+            }
             // 设置标签
             setTags(route){
                 const isExist = this.tagsList.some((item: any) => {
@@ -74,22 +71,30 @@ export default Vue.extend({
                     })
                 }
                 bus.$emit('tags', this.tagsList);
-            },
+            }
+
             handleTags(command){
                 command === 'other' ? this.closeOther() : this.closeAll();
             }
-        },
-        computed: {
-            showTags() {
-                const tagsList: any = this.tagsList
-                return tagsList.length > 0;
-            }
-        },
+
+            
+        get showTags() {
+            const tagsList: any = this.tagsList
+            return tagsList.length > 0;
+        }
+
+        @Watch('$route')
+        onRouteChange(newValue, oldValue) {
+            this.setTags(newValue)
+        }
+
+/*
         watch:{
             $route(newValue, oldValue){
                 this.setTags(newValue);
             }
-        },
+        }
+*/
         created(){
             this.setTags(this.$route);
             // 监听关闭当前页面的标签页
@@ -112,8 +117,7 @@ export default Vue.extend({
                 }
             })
         }
-})
-
+    }
 </script>
 
 

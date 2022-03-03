@@ -27,7 +27,7 @@ export default Vue.extend({
         return {
             tagsList: [],
             collapse: false
-        };
+        }
     },
     components: {
         vHead,
@@ -36,17 +36,17 @@ export default Vue.extend({
     },
     created() {
         bus.$on('collapse-content', (msg: any) => {
-            this.collapse = msg;
-        });
+            this.collapse = msg
+        })
 
         // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
         bus.$on('tags', (msg: any) => {
-            let arr: any = [];
+            let arr: any = []
             for (let i = 0, len = msg.length; i < len; i++) {
-                msg[i].name && arr.push(msg[i].name);
+                msg[i].name && arr.push(msg[i].name)
             }
-            this.tagsList = arr;
-        });
+            this.tagsList = arr
+        })
     }
 })
 </script>

@@ -40,12 +40,14 @@
     </div>
 </template>
 
-<script>
-    export default {
-        data: function(){
-            return {
-                keyword: '',
-                iconList: [
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class Icon extends Vue {
+    keyword: string =''
+    iconList = [
                     'attentionforbid',
                     'attentionforbidfill',
                     'attention',
@@ -172,16 +174,13 @@
                     'search',
                     'edit'
                 ]
-            }
-        },
-        computed: {
-            list(){
-                return this.iconList.filter((item) => {
-                    return item.indexOf(this.keyword) !== -1;
-                })
-            }
-        }
-    }
+
+    get list(){
+        return this.iconList.filter((item) => {
+            return item.indexOf(this.keyword) !== -1;
+        })
+     }
+}
 </script>
 
 <style scoped>

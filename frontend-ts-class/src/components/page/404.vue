@@ -12,14 +12,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  methods: {
-      goBack(){
-          this.$router.go(-1);
-      }
-  }
-})
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class Error404 extends Vue {
+    goBack(){
+        this.$router.go(-1);
+    }
+}
 </script>
 
 

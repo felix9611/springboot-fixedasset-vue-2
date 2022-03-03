@@ -1,5 +1,5 @@
 <template>
-    <div class="login" :style="'background-image:url(' + Background + ');'">
+    <div class="login" :style="'background-image:url('+Background+');'">
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px"
                  class="login-form">
             <h3 class="title">Fixed Asset</h3>
@@ -51,41 +51,47 @@
     </div>
 </template>
 
-<script>
-    import Background from '@/assets/img/background3.jpg';
-    import qs from 'qs'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import Background from '@/assets/img/background3.jpg'
+import qs from 'qs'
+import axios from '../axios'
+@Component
+export default class Login extends Vue {
 
-    export default {
-        name: 'Login',
-        data() {
-            return {
-                Background: Background,
-                codeUrl: '',
-                cookiePass: '',
-                loginForm: {
-                    username: 'admin',
-                    password: '111111',
-                    code: '111111',
-                    token: ''
-                },
-                loginRules: {
+    get Background() {
+        return Background
+    }
+
+    codeUrl: string = ''
+    cookiePass: string = ''
+    
+    loginForm: any = {
+        username: 'admin',
+        password: '111111',
+        code: '111111',
+        token: ''
+    }
+                loginRules =  {
                     username: [{required: true, trigger: 'blur', message: '用户名不能为空'}],
                     password: [{required: true, trigger: 'blur', message: '密码不能为空'}],
                     code: [{required: true, trigger: 'change', message: '验证码不能为空'}]
-                },
-                captchaImg: null,
-                loading: false,
+                }
+
+                captchaImg: any = null
+
+                loading: boolean = false
                 redirect: undefined
-            };
-        },
+
         created() {
             this.getCaptcha()
-        },
-        methods: {
+        }
+
             submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+                const refs: any = this.$refs[formName]
+                refs.validate((valid: any) => {
                     if(valid) {
-                        this.$axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
+                        axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
                             const jwt = res.data.data.token
 
                             this.$store.commit('SET_TOKEN', jwt)
@@ -97,22 +103,24 @@
                         return false
                     }
                 })
-            },
+            }
+            
             resetForm(formName) {
-                this.$refs[formName].resetFields()
-            },
+                const refs: any = this.$refs[formName]
+                refs.resetFields()
+            }
+            
             getCaptcha() {
-                this.$axios.get('/captcha').then(res => {
+                axios.get('/captcha').then(res => {
                     this.loginForm.token = res.data.data.token
                     this.captchaImg = res.data.data.captchaImg
-                    if(this.loginForm === '') {
+                    if(this.loginForm === {}) {
                         this.loginForm.code = ''
                     }
 
                 })
             }
-        }
-    };
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss">

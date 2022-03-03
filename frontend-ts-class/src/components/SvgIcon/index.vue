@@ -6,44 +6,47 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-// doc: https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage
 import { isExternal } from '@/utils/validate'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'SvgIcon',
-  props: {
-    iconClass: {
-      type: String,
-      required: true
-    },
-    className: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    isExternal() {
-      return isExternal(this.iconClass)
-    },
-    iconName() {
-      return `#icon-${this.iconClass}`
-    },
-    svgClass() {
+@Component
+export default class SvgIcon extends Vue {
+  @Prop({
+    type: String,
+    required: true
+  })
+  iconClass: string = ''
+
+  @Prop({
+    type: String,
+    default: ''
+  })
+  className: string = ''
+  
+  get isExternal() {
+    return isExternal(this.iconClass)
+  }
+
+  get iconName() {
+    return `#icon-${this.iconClass}`
+  }
+
+  get svgClass() {
       if (this.className) {
         return 'svg-icon ' + this.className
       } else {
         return 'svg-icon'
       }
-    },
-    styleExternalIcon() {
+  }
+
+  get styleExternalIcon() {
       return {
         mask: `url(${this.iconClass}) no-repeat 50% 50%`,
         '-webkit-mask': `url(${this.iconClass}) no-repeat 50% 50%`
       }
-    }
   }
-})
+  
+}
 </script>
 
 <style scoped>
