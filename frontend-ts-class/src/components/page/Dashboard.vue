@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts">
-import Schart from 'vue-schart'
 import bus from '../../components/common/bus'
 import axios from '../../axios'
 import { Component, Vue } from 'vue-property-decorator'
@@ -42,7 +41,6 @@ import ApexChartOne from '../../components/charts/apex/apexOne.vue'
 
 @Component({
     components: {
-        Schart,
         ApexChartOne
     }
 })
