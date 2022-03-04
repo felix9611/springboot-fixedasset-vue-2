@@ -17,7 +17,10 @@ import './components/common/directives'
 import 'babel-polyfill'
 
 import VueBase64FileUpload from 'vue-base64-file-upload'
+import VueApexCharts from 'vue-apexcharts'
 
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
 Vue.use(VueBase64FileUpload)
 Vue.prototype.$axios = axios
 

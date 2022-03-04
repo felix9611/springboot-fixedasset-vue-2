@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-row :gutter="20">
+        <el-row :gutter="24">
             <el-col :span="8">
                 <el-card shadow="hover" class="mgb20" style="height:252px;">
                     <div class="user-info-list">
@@ -9,86 +9,26 @@
                     <div>
                         FixedAsset - Springboot MVC X VUE 2.0
                     </div>
-                    <!-- <div class="user-info-list">
-                        <span style="margin: 0px;">区块链技术QQ沟通群：532650517</span>
-                    </div> -->
                 </el-card>
-                <!--<el-card shadow="hover" style="height:252px;">
-                    <div slot="header" class="clearfix">
-                        <span>语言详情</span>
-                    </div>
-                    Vue
-                    <el-progress :percentage="21.3" color="#42b983"></el-progress>
-                    HTML+JavaScript+CSS
-                    <el-progress :percentage="23.7"></el-progress>
-                    Java
-                    <el-progress :percentage="55" color="#f56c6c"></el-progress>
-                </el-card>-->
             </el-col>
-            <!--<el-col :span="16">
-                <el-row :gutter="20" class="mgb20">
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-1">
-                                <i class="el-icon-lx-people grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">2456</div>
-                                    <div>用户量</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-2">
-                                <i class="el-icon-lx-notice grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">8</div>
-                                    <div>反馈信息</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-3">
-                                <i class="el-icon-lx-goods grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">6</div>
-                                    <div>后续计划</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </el-row>
-                <el-card shadow="hover" style="height:403px;">
-                    <div slot="header" class="clearfix">
-                        <span>后续计划清单</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
-                    </div>
-                    <el-table :show-header="false" :data="todoList" style="width:100%;">
-                        <el-table-column width="40">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.status"></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        <el-table-column>
-                            <template slot-scope="scope">
-                                <div
-                                    class="todo-item"
-                                    :class="{'todo-item-del': scope.row.status}"
-                                >{{scope.row.title}}</div>
-                            </template>
-                        </el-table-column>
-                        <el-table-column width="60">
-                            <template>
-                                <i class="el-icon-edit"></i>
-                                <i class="el-icon-delete"></i>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+        </el-row>
+        <el-row :gutter="24">
+            <el-col :span="24">
+                <el-card shadow="hover" class="mgb20" >
+                    <ApexChartOne 
+                        :width="1600"
+                        :height="400"
+                        :type="'line'"
+                        :chartOptions="chartsO"
+                        :data="costYearMonthData"
+                        :headers="costYearMonthDataHeader"
+                        datasetKey="yearMonth"
+                        :alwaysMultipleDatasets="true"
+                        label="Total Cost"
+                        value="totalCost"
+                    />
                 </el-card>
-            </el-col>-->
+            </el-col>
         </el-row>
     </div>
 </template>
@@ -98,13 +38,55 @@ import Schart from 'vue-schart'
 import bus from '../../components/common/bus'
 import axios from '../../axios'
 import { Component, Vue } from 'vue-property-decorator'
+import ApexChartOne from '../../components/charts/apex/apexOne.vue'
 
 @Component({
     components: {
-        Schart
+        Schart,
+        ApexChartOne
     }
 })
 export default class Dashboard extends Vue {
+
+    costYearMonthData: any = []
+    costYearMonthDataHeader: any = []
+
+    get chartsO() {
+        return {
+            stroke: {
+                curve: 'smooth'
+            },
+            chart: {
+                toolbar: {
+                    show: true
+                },
+            }
+        }
+    }
+
+    created() {
+        this.getCostYearMonth()
+    }
+
+    getCostYearMonth() {
+        axios.get(
+            '/asset/assetList/getCostYearMonth'
+        ).then(
+            (res: any) => {
+                this.costYearMonthData = res.data.data
+                // console.log(this.costYearMonthData)
+                this.costYearMonthDataHeader = this.costYearMonthData.map( res=> {
+                    const headers: any = []
+                    headers.push({
+                        key: 'totalCost',
+                        label: res['yearMonth'],
+                        test: `return row['yearMonth'] === '${res['yearMonth']}';`
+                    })
+                    return headers
+                })
+            }
+        )
+    }
 
     name = localStorage.getItem('ms_username')
     
