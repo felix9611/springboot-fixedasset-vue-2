@@ -72,54 +72,50 @@ export default class Login extends Vue {
         code: '111111',
         token: ''
     }
-                loginRules =  {
-                    username: [{required: true, trigger: 'blur', message: 'Username cannot blank!'}],
-                    password: [{required: true, trigger: 'blur', message: 'Passowrd cannot blank!'}],
-                    code: [{required: true, trigger: 'change', message: 'Capture cannot blank!'}]
-                }
+    loginRules =  {
+        username: [{required: true, trigger: 'blur', message: 'Username cannot blank!'}],
+        password: [{required: true, trigger: 'blur', message: 'Passowrd cannot blank!'}],
+        code: [{required: true, trigger: 'change', message: 'Capture cannot blank!'}]
+    }
 
-                captchaImg: any = null
+    captchaImg: any = null
+    loading: boolean = false
+    redirect: undefined
 
-                loading: boolean = false
-                redirect: undefined
+    created() {
+         this.getCaptcha()
+    }
 
-        created() {
-            this.getCaptcha()
-        }
-
-            submitForm(formName) {
-                const refs: any = this.$refs[formName]
-                refs.validate((valid: any) => {
-                    if(valid) {
-                        axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
-                            const jwt = res.data.data.token
-
-                            this.$store.commit('SET_TOKEN', jwt)
-
-                            this.$router.push('/')
-                        })
-                        this.getCaptcha()
-                    } else {
-                        return false
-                    }
+    submitForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.validate((valid: any) => {
+            if(valid) {
+                axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
+                    const jwt = res.data.data.token
+                    this.$store.commit('SET_TOKEN', jwt)
+                    this.$router.push('/')
                 })
+                this.getCaptcha()
+            } else {
+                return false
             }
+        })
+    }
             
-            resetForm(formName) {
-                const refs: any = this.$refs[formName]
-                refs.resetFields()
-            }
+    resetForm(formName) {
+        const refs: any = this.$refs[formName]
+        refs.resetFields()
+    }
             
-            getCaptcha() {
-                axios.get('/captcha').then(res => {
-                    this.loginForm.token = res.data.data.token
-                    this.captchaImg = res.data.data.captchaImg
-                    if(this.loginForm === {}) {
-                        this.loginForm.code = ''
-                    }
-
-                })
+    getCaptcha() {
+        axios.get('/captcha').then(res => {
+            this.loginForm.token = res.data.data.token
+            this.captchaImg = res.data.data.captchaImg
+            if(this.loginForm === {}) {
+                this.loginForm.code = ''
             }
+        })
+    }
 }
 </script>
 

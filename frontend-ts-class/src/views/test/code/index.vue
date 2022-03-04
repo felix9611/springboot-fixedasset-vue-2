@@ -102,29 +102,29 @@ export default class TestCode extends Vue {
     }
 
     toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row)
-                    })
-                } else {
-                    const refs: any = this.$refs
-                    refs.multipleTable.clearSelection()
-                }
+        if (rows) {
+            rows.forEach((row: any) => {
+                const multipleTable: any = this.$refs.multipleTable
+                multipleTable.toggleRowSelection(row)
+            })
+        } else {
+            const refs: any = this.$refs
+            refs.multipleTable.clearSelection()
+        }
     }
     handleSelectionChange(val: any) {
-            this.multipleSelection = val
-            this.delBtlStatu = val.length == 0
+        this.multipleSelection = val
+        this.delBtlStatu = val.length == 0
     }
 
     handleSizeChange(val: number) {
-            this.size = val
-            this.testAll()
+        this.size = val
+        this.testAll()
     }
     
     handleCurrentChange(val: number) {
-            this.current = val
-            this.testAll()
+        this.current = val
+        this.testAll()
     }
     handleClose() {
         this.resetForm('editForm')

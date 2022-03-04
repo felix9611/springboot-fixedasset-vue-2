@@ -56,44 +56,43 @@ export default class vHead extends Vue {
         this.getUserInfo()
     }
 
-
-        getUserInfo() {
-            axios.get("/sys/userInfo").then(res => {
-                this.userInfo = res.data.data
-            })
-        }
+    getUserInfo() {
+        axios.get("/sys/userInfo").then(res => {
+        this.userInfo = res.data.data
+        })
+    }
         // 用户名下拉菜单选择事件
-        handleCommand(command) {
-            if (command == 'loginout') {
-                axios.post('/logout').then(res => {
-                    localStorage.clear()
-                    sessionStorage.clear()
-                    this.$store.commit("resetState")
-                    this.$store.commit("resetHasRoutes")
+    handleCommand(command) {
+        if (command == 'loginout') {
+            axios.post('/logout').then(res => {
+                localStorage.clear()
+                sessionStorage.clear()
+                this.$store.commit("resetState")
+                this.$store.commit("resetHasRoutes")
 
                     this.$router.push("/login")
                 })
-            }
-            if (command == 'userindex') {
-                this.$router.push('/userindex')
-            }
         }
+        if (command == 'userindex') {
+            this.$router.push('/userindex')
+        }
+    }
         // 侧边栏折叠
-        collapseChage() {
-            this.collapse = !this.collapse;
-            bus.$emit('collapse', this.collapse);
-        }
+    collapseChage() {
+        this.collapse = !this.collapse;
+        bus.$emit('collapse', this.collapse);
+    }
         // 全屏事件
-        handleFullScreen() {
-            let element = document.documentElement;
-            if (this.fullscreen) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document['webkitCancelFullScreen']) {
-                    document['webkitCancelFullScreen']();
-                } else if (document['mozCancelFullScreen']) {
-                    document['mozCancelFullScreen']();
-                } else if (document['msExitFullscreen']) {
+    handleFullScreen() {
+        let element = document.documentElement;
+        if (this.fullscreen) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document['webkitCancelFullScreen']) {
+                document['webkitCancelFullScreen']();
+            } else if (document['mozCancelFullScreen']) {
+                document['mozCancelFullScreen']();
+            } else if (document['msExitFullscreen']) {
                     document['msExitFullscreen']();
                 }
             } else {
@@ -104,13 +103,14 @@ export default class vHead extends Vue {
                 } else if (element['mozRequestFullScreen']) {
                     element['mozRequestFullScreen']();
                 } else if (element['msRequestFullscreen']) {
-                    // IE11
-                    element['msRequestFullscreen']();
-                }
+                // IE11
+                element['msRequestFullscreen']();
             }
-            this.fullscreen = !this.fullscreen;
         }
-        mounted() {
+        this.fullscreen = !this.fullscreen;
+    }
+
+    mounted() {
         if (document.body.clientWidth < 1500) {
             this.collapseChage()
         }

@@ -454,9 +454,9 @@ export default Vue.extend({
             },
             repassHandle(id: string, username: string) {
 
-                this.$confirm('将重置用户【' + username + '】的密码, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(`Will reset User ${username} password`, 'Alert', {
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
                     type: 'warning'
                 }).then(() => {
                     axios.post("/sys/user/repass", id).then((res: any) => {

@@ -204,6 +204,7 @@ import moment from 'moment'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import { uploadImgToBase64 } from '../../utils/uploadImgToBase64'
 import { Component, Vue } from 'vue-property-decorator'
+import { use } from 'vue/types/umd'
 
 @Component
 export default class User extends Vue {
@@ -219,130 +220,123 @@ export default class User extends Vue {
     current: number = 1
     dialogVisible: boolean = false
     tableData: any = []
+    editFormRules = {
+        username: [
+            {required: true, message: 'Please entry username', trigger: 'blur'}
+        ],
+        email: [
+            { required: true, message: 'Please entry email', trigger: 'blur'}
+        ],
+        statu: [
+            {required: true, message: 'Please select statu', trigger: 'blur'}
+        ]
+    }
+    roleDialogFormVisible: boolean = false
+    defaultProps = {
+        children: 'children',
+        label: 'name'
+    }
+    roleTreeData: any = []
+    treeCheckedKeys: any = []
+    checkStrictly: boolean = true
+    fileBase64Data: string = ''
 
 
-                editFormRules = {
-                    username: [
-                        {required: true, message: 'Please entry username', trigger: 'blur'}
-                    ],
-                    email: [
-                        {required: true, message: 'Please entry email', trigger: 'blur'}
-                    ],
-                    statu: [
-                        {required: true, message: 'Please select statu', trigger: 'blur'}
-                    ]
-                }
+    created() {
+        this.getUserList()
+        this.getAlldept()
+    }
 
+    removeUploaded() {
+        this.fileList = []
+    }
 
-
-                roleDialogFormVisible: boolean = false
-                defaultProps = {
-                    children: 'children',
-                    label: 'name'
-                }
-
-                roleTreeData: any = []
-                treeCheckedKeys: any = []
-                checkStrictly: boolean = true
-                fileBase64Data: string = ''
-
-
-        created() {
-            this.getUserList()
-            this.getAlldept()
+    onChangeUpload(file: UploadFile) {
+        let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+        const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
+        const isLt2M = file.size / 1024 / 1024 < 2
+        if (!isJpg) {
+            this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+            this.$message.error('Only Upload jpg and png!')
         }
+        if (!isLt2M) {
+            this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+            this.$message.error('File size cannot over 2MB!')
+        }
+        if (isJpg && isLt2M){
+            this.fileList.push(file)
+        }
+        if (this.fileList.length > 1) {
+            this.$message.error('Cannot upload more than one pcture!')
+        }
+        this.imgToBase64()
+        // return isJpg && isLt2M;
+    }
 
-            removeUploaded() {
-                this.fileList = []
+    imgToBase64() {
+        this.fileList.map(async (file: any) => {
+            const response: any = await uploadImgToBase64(file.raw)
+            const dataBase64: string = response.data
+            this.fileBase64Data = dataBase64
+            console.log(this.fileBase64Data)
+            // const test = response as never
+        })
+    }
+
+    getAlldept() {
+        axios.get(
+            '/base/department/getAll'
+        ).then(
+            (res: any) => {
+                this.deptItem = res.data.data
             }
+        )
+    }
 
-            onChangeUpload(file: UploadFile) {
-                let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
-                const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
-                const isLt2M = file.size / 1024 / 1024 < 2
-                if (!isJpg) {
-                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
-                    this.$message.error('Only Upload jpg and png!')
-                }
-                if (!isLt2M) {
-                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
-                    this.$message.error('File size cannot over 2MB!')
-                }
-                if (isJpg && isLt2M){
-                    this.fileList.push(file)
-                }
-                if (this.fileList.length > 1) {
-                    this.$message.error('Cannot upload more than one pcture!')
-                }
-                this.imgToBase64()
-                // return isJpg && isLt2M;
-            }
+    getRoleList() {
+        axios.get('/sys/role/list').then((res: any) => {
+            this.roleTreeData = res.data.data.records
+        })
+    }
 
-            imgToBase64() {
-                this.fileList.map(async (file: any) => {
-                    const response: any = await uploadImgToBase64(file.raw)
-                    const dataBase64: string = response.data
-                    this.fileBase64Data = dataBase64
-                    console.log(this.fileBase64Data)
-                    // const test = response as never
-                })
-            }
+    toggleSelection(rows: any) {
+        if (rows) {
+            rows.forEach((row: any) => {
+                const multipleTable: any = this.$refs.multipleTable
+                multipleTable.toggleRowSelection(row)
+            })
+        } else {
+            const refs: any = this.$refs
+            refs.multipleTable.clearSelection()
+        }
+    }
 
-            getAlldept() {
-                axios.get(
-                    '/base/department/getAll'
-                ).then(
-                    (res: any) => {
-                        this.deptItem = res.data.data
-                    }
-                )
-            }
+    handleSelectionChange(val: any) {
+        this.multipleSelection = val
+        this.delBtlStatu = val.length == 0
+    }
 
-            getRoleList() {
-                axios.get('/sys/role/list').then((res: any) => {
-                    this.roleTreeData = res.data.data.records
-                })
-            }
+    handleSizeChange(val: number) {
+        this.size = val
+        this.getUserList()
+    }
 
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row)
-                    })
-                } else {
-                    const refs: any = this.$refs
-                    refs.multipleTable.clearSelection()
-                }
-            }
-
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val
-
-                this.delBtlStatu = val.length == 0
-            }
-
-            handleSizeChange(val: number) {
-                this.size = val
-                this.getUserList()
-            }
-
-            handleCurrentChange(val: number) {
-                this.current = val
-                this.getUserList()
-            }
+    handleCurrentChange(val: number) {
+        this.current = val
+        this.getUserList()
+    }
             
 
-            resetForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.resetFields();
-                this.dialogVisible = false
-                this.editForm = {}
-            }
+    resetForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.resetFields();
+        this.dialogVisible = false
+        this.editForm = {}
+    }
 
-            handleClose() {
-                this.resetForm('editForm')
-            }
+    handleClose() {
+        this.resetForm('editForm')
+    }
 
             getUserList() {
                 axios.get("/sys/user/list", {
@@ -368,92 +362,92 @@ export default class User extends Vue {
                 })
             }
 
-            submitForm(formName: string) {
-                const formNames :any = this.$refs[formName]
-                formNames.validate((valid: any) => {
-                    if (valid) {
-                        this.editForm.avatarBase64 = this.fileBase64Data
-                        axios.post('/sys/user/' + (this.editForm.id?'update' : 'save'), this.editForm)
-                            .then((res: any) => {
-                                this.getUserList()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: 'Save success',
-                                    type: 'success',
-                                })
-
-                                this.dialogVisible = false
-                                this.handleClose()
+    submitForm(formName: string) {
+        const formNames :any = this.$refs[formName]
+        formNames.validate((valid: any) => {
+            if (valid) {
+                this.editForm.avatarBase64 = this.fileBase64Data
+                axios.post('/sys/user/' + (this.editForm.id?'update' : 'save'), this.editForm)
+                    .then((res: any) => {
+                            this.getUserList()
+                            this.$notify({
+                                title: '',
+                                showClose: true,
+                                message: 'Save success',
+                                type: 'success',
                             })
-                    } else {
-                        return false
-                    }
-                })
-            }
-            editHandle(id: number) {
-                axios.get('/sys/user/info/' + id).then((res: any) => {
-                    this.editForm = res.data.data
-                    this.dialogVisible = true
-                })
-            }
 
-            roleHandle (id: number) {
-                this.getRoleList()
-                this.roleDialogFormVisible = true
-
-                axios.get('/sys/user/info/' + id).then((res: any) => {
-                    this.roleForm = res.data.data
-
-                    let roleIds: any = []
-                    res.data.data.sysRoles.forEach((row: any) => {
-                        roleIds.push(row.id)
-                    })
-                    const refs: any =this.$refs
-                    refs.roleTree.setCheckedKeys(roleIds)
-                })
-            }
-
-            submitRoleHandle(formName: string) {
-                const refs: any = this.$refs
-                const roleIds = refs.roleTree.getCheckedKeys()
-
-                axios.post('/sys/user/role/' + this.roleForm.id, roleIds).then((res: any) => {
-                    this.getUserList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    })
-
-                    this.roleDialogFormVisible = false
-                })
-            }
-
-            repassHandle(id: string, username: string) {
-
-                this.$confirm('将重置用户【' + username + '】的密码, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    axios.post("/sys/user/repass", id).then((res: any) => {
-                        this.getUserList()
-                        this.$notify({
-                            title: '',
-                            showClose: true,
-                            message: '恭喜你，Action成功',
-                            type: 'success'
+                            this.dialogVisible = false
+                            this.handleClose()
                         })
-                    })
-                })
-            }
+                } else {
+                     return false
+                }
+        })
+    }
 
-            hasAuth(perm: string) {
-                var authority = this.$store.state.permList
-                return authority.indexOf(perm) > -1
-            }
+    editHandle(id: number) {
+        axios.get('/sys/user/info/' + id).then((res: any) => {
+            this.editForm = res.data.data
+            this.dialogVisible = true
+        })
+    }
+
+    roleHandle (id: number) {
+        this.getRoleList()
+        this.roleDialogFormVisible = true
+
+        axios.get('/sys/user/info/' + id).then((res: any) => {
+            this.roleForm = res.data.data
+
+            let roleIds: any = []
+            res.data.data.sysRoles.forEach((row: any) => {
+                roleIds.push(row.id)
+            })
+            const refs: any =this.$refs
+            refs.roleTree.setCheckedKeys(roleIds)
+        })
+    }
+
+    submitRoleHandle(formName: string) {
+        const refs: any = this.$refs
+        const roleIds = refs.roleTree.getCheckedKeys()
+
+        axios.post('/sys/user/role/' + this.roleForm.id, roleIds).then((res: any) => {
+            this.getUserList()
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: '恭喜你，Action成功',
+                type: 'success'
+            })
+            this.roleDialogFormVisible = false
+        })
+    }
+
+    repassHandle(id: string, username: string) {
+
+        this.$confirm(`Will reset User ${username} password`, 'Alert', {
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            type: 'warning'
+        }).then(() => {
+            axios.post("/sys/user/repass", id).then((res: any) => {
+                this.getUserList()
+                this.$notify({
+                    title: '',
+                    showClose: true,
+                    message: '恭喜你，Action成功',
+                    type: 'success'
+                })
+            })
+        })
+    }
+
+    hasAuth(perm: string) {
+        var authority = this.$store.state.permList
+        return authority.indexOf(perm) > -1
+    }
 }
 </script>
 
@@ -462,10 +456,5 @@ export default class User extends Vue {
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
 
 </style>

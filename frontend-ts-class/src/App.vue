@@ -4,21 +4,11 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
 import axios from './axios'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-        name: 'app',
-        data() {
-            return {}
-        },
-        components: {
-        },
-        computed: {},
-        created() {
-        },
-        watch: {},
-})
+@Component
+export default class APP extends Vue {}
 </script>
 <style>
     @import "./assets/css/main.css";
