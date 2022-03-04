@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.waiterxiaoyy.common.lang.Result;
+import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
 import com.waiterxiaoyy.entity.AssetList;
 import com.waiterxiaoyy.entity.AssetListFile;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/asset/assetList")
@@ -105,5 +107,10 @@ public class AssetListController extends BaseController {
     public Result removeFile(@PathVariable("id") Long id) {
         assetListFileService.removeFile(id);
         return Result.succ(id);
+    }
+
+    @GetMapping("/getCostYearMonth")
+    public Result getCostYearMonth() {
+        return Result.succ(assetListService.getCostYearMonth());
     }
 }

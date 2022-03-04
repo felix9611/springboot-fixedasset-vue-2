@@ -1,11 +1,10 @@
 package com.waiterxiaoyy.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
 import com.waiterxiaoyy.entity.ActionRecord;
 import com.waiterxiaoyy.entity.AssetList;
@@ -94,6 +93,10 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
         return assetListMapper.selectOne(queryWrapper);
+    }
+
+    public List<AssetCostYearMonthDto> getCostYearMonth() {
+        return assetListMapper.getCostYearMonth();
     }
 
     public String getNewAssetCode() {
