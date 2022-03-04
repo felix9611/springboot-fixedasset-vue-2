@@ -279,15 +279,15 @@ export default Vue.extend({
                                     showClose: true,
                                     message: '恭喜你，Action成功',
                                     type: 'success'
-                                });
+                                })
 
                                 this.dialogVisible = false
                                 this.resetForm(formName)
                             })
                     } else {
-                        return false;
+                        return false
                     }
-                });
+                })
             },
             editHandle(id: number) {
                 axios.get('/sys/role/info/' + id).then((res: any) => {
@@ -339,7 +339,7 @@ export default Vue.extend({
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
-                    });
+                    })
                     this.permDialogVisible = false
                     this.resetForm(formName)
                 })

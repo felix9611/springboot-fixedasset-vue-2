@@ -1,9 +1,9 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from 'vue'
+import Router from 'vue-router'
 
 import axios from '../axios'
 import store from '../store'
-Vue.use(Router);
+Vue.use(Router)
 
 const routes = [
 
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
             headers: {
                 Authorization: localStorage.getItem("token")
             }
-        }).then((res: { data: { data: { nav: any[]; authoritys: any; }; }; }) => {
+        }).then((res: { data: { data: { nav: any[]; authoritys: any; } } }) => {
 
             // 拿到menuList
             store.commit("setMenuList", res.data.data.nav)

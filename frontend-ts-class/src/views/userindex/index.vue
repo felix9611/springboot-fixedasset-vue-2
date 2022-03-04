@@ -89,7 +89,7 @@ export default class UserIndex extends Vue {
 
   resetForm(formName: string) {
       const refs: any = this.$refs[formName]
-      refs.resetFields();
+      refs.resetFields()
       this.dialogVisible = false
       this.resetPasswordForm = {}
   }
@@ -133,7 +133,7 @@ export default class UserIndex extends Vue {
             })
           }
         } else {
-          return false;
+          return false
         }
     })
   }

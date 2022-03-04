@@ -164,95 +164,91 @@ export default class Menu extends Vue {
     editForm: any = {}
 
     dialogVisible: boolean = false
-                editFormRules =  {
-                    parentId: [
-                        {required: true, message: '请选择上级菜单', trigger: 'blur'}
-                    ],
-                    name: [
-                        {required: true, message: '请输入名称', trigger: 'blur'}
-                    ],
-                    perms: [
-                        {required: true, message: '请输入权限编码', trigger: 'blur'}
-                    ],
-                    type: [
-                        {required: true, message: '请选择状态', trigger: 'blur'}
-                    ],
-                    orderNum: [
-                        {required: true, message: '请填入排序号', trigger: 'blur'}
-                    ],
-                    statu: [
-                        {required: true, message: '请选择状态', trigger: 'blur'}
-                    ]
-                }
-                tableData: any = []
+    editFormRules =  {
+        parentId: [
+            { required: true, message: 'Please select upper menu', trigger: 'blur' }
+        ],
+        name: [
+                        {required: true, message: 'Please type name', trigger: 'blur'}
+        ],
+        perms: [
+            { required: true, message: 'Please type the perms code', trigger: 'blur' }
+        ],
+        type: [
+            { required: true, message: 'Please select the type', trigger: 'blur' }
+        ],
+        orderNum: [
+            { required: true, message: 'Please type sort number', trigger: 'blur' }
+        ],
+        statu: [
+            { required: true, message: 'Please select the status', trigger: 'blur' }
+        ]
+    }
+    tableData: any = []
 
-        created() {
-          this.getMenuTree()
-        }
+    created() {
+        this.getMenuTree()
+    }
 
-
-            getMenuTree() {
-                axios.get('/sys/menu/list').then((res: any) => {
-                    this.tableData = res.data.data
-                })
-            }
+    getMenuTree() {
+        axios.get('/sys/menu/list').then((res: any) => {
+            this.tableData = res.data.data
+        })
+    }
             
-            submitForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.validate((valid: any) => {
-                    if (valid) {
-                        axios.post('/sys/menu/' + (this.editForm.id?'update' : 'save'), this.editForm)
-                            .then((res: any) => {
-                                this.getMenuTree()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success'
-                                });
-                                this.handleClose()
-                                this.dialogVisible = false
-                            })
-                    } else {
-                        return false;
-                    }
-                });
-            }
-
-            editHandle(id: number) {
-                axios.get(`/sys/menu/info/${id}`).then((res: any) => {
-                    this.editForm = res.data.data
-
-                    this.dialogVisible = true
-                })
-            }
-
-            resetForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.resetFields();
-                this.dialogVisible = false
-                this.editForm = {}
-            }
-
-            handleClose() {
-                this.resetForm('editForm')
-            }
-
-            delHandle(id: number) {
-
-                axios.post(`/sys/menu/delete/${id}`).then(res => {
-                    this.getMenuTree()
-                    if(res.data.code === 200) {
+    submitForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.validate((valid: any) => {
+            if (valid) {
+                axios.post('/sys/menu/' + (this.editForm.id?'update' : 'save'), this.editForm)
+                    .then((res: any) => {
+                        this.getMenuTree()
                         this.$notify({
                             title: '',
                             showClose: true,
                             message: '恭喜你，Action成功',
                             type: 'success'
-                        });
-                    }
+                        })
+                        this.handleClose()
+                        this.dialogVisible = false
+                    })
+            } else {
+                        return false;
+            }
+        })
+    }
 
+    editHandle(id: number) {
+        axios.get(`/sys/menu/info/${id}`).then((res: any) => {
+            this.editForm = res.data.data
+            this.dialogVisible = true
+        })
+    }
+
+    resetForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.resetFields();
+        this.dialogVisible = false
+        this.editForm = {}
+    }
+
+    handleClose() {
+        this.resetForm('editForm')
+    }
+
+    delHandle(id: number) {
+        axios.post(`/sys/menu/delete/${id}`).then(res => {
+            this.getMenuTree()
+            if(res.data.code === 200) {
+                this.$notify({
+                    title: '',
+                    showClose: true,
+                    message: '恭喜你，Action成功',
+                    type: 'success'
                 })
             }
+        })
+    }
 }
 </script>
 

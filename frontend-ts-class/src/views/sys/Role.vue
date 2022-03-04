@@ -172,159 +172,149 @@ export default class Role extends Vue {
     permForm: any = {}
     searchForm: any = {}
     editForm: any = {}
-
     delBtlStatu: boolean = true
     total: number = 0
     size: number|undefined
     current: number =1
-
     dialogVisible: boolean = false
-
     tableData: any = []
 
-                editFormRules = {
-                    name: [
-                        {required: true, message: '请输入角色名称', trigger: 'blur'}
-                    ],
-                    code: [
-                        {required: true, message: '请输入唯一编码', trigger: 'blur'}
-                    ],
-                    statu: [
-                        {required: true, message: '请选择状态', trigger: 'blur'}
-                    ]
-                }
-
-                multipleSelection: any = []
-
-                permDialogVisible: boolean = false
-
-                defaultProps = {
-                    children: 'children',
-                    label: 'name'
-                }
-
-                permTreeData: any = []
+    editFormRules = {
+        name: [
+            { required: true, message: '请输入角色名称', trigger: 'blur'}
+        ],
+        code: [
+            { required: true, message: '请输入唯一编码', trigger: 'blur'}
+        ],
+        statu: [
+            { required: true, message: '请选择状态', trigger: 'blur'}
+        ]
+    }
+    multipleSelection: any = []
+    permDialogVisible: boolean = false
+    defaultProps = {
+        children: 'children',
+        label: 'name'
+    }
+    permTreeData: any = []
             
-        created() {
-            this.getRoleList()
+    created() {
+        this.getRoleList()
 
-            axios.get('/sys/menu/list').then((res: any) => {
-                this.permTreeData = res.data.data
+        axios.get('/sys/menu/list').then((res: any) => {
+            this.permTreeData = res.data.data
+        })
+    }
+
+    toggleSelection(rows: any) {
+        if (rows) {
+            rows.forEach((row: any) => {
+                const multipleTable: any = this.$refs.multipleTable
+                multipleTable.toggleRowSelection(row);
             })
+        } else {
+            const multipleTable: any = this.$refs.multipleTable
+            multipleTable.clearSelection();
         }
-
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection();
-                }
-            }
+    }
             
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
-                this.delBtlStatu = val.length == 0
-            }
+    handleSelectionChange(val: any) {
+        this.multipleSelection = val;
+        this.delBtlStatu = val.length == 0
+    }
+
+    handleSizeChange(val: number) {
+        this.size = val
+        this.getRoleList()
+    }
+
+    handleCurrentChange(val: number) {
+        this.current = val
+        this.getRoleList()
+    }
 
 
-            handleSizeChange(val: number) {
-                this.size = val
-                this.getRoleList()
-            }
+    resetForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs[formName].resetFields();
+        this.dialogVisible = false
+        this.editForm = {}
+    }
 
-            handleCurrentChange(val: number) {
-                this.current = val
-                this.getRoleList()
-            }
-
-
-            resetForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs[formName].resetFields();
-                this.dialogVisible = false
-                this.editForm = {}
-            }
-
-            handleClose() {
-                this.resetForm('editForm')
-            }
+    handleClose() {
+        this.resetForm('editForm')
+    }
         
-            getRoleList() {
-                axios.get('/sys/role/list', {
-                    params: {
-                        name: this.searchForm.name,
-                        current: this.current,
-                        size: this.size
-                    }
-                }).then(res => {
-                    this.tableData = res.data.data.records
-                    this.size = res.data.data.size
-                    this.current = res.data.data.current
-                    this.total = res.data.data.total
-                })
+    getRoleList() {
+        axios.get('/sys/role/list', {
+            params: {
+                name: this.searchForm.name,
+                current: this.current,
+                size: this.size
             }
+        }).then(res => {
+            this.tableData = res.data.data.records
+            this.size = res.data.data.size
+            this.current = res.data.data.current
+            this.total = res.data.data.total
+        })
+    }
 
-            submitForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.validate((valid) => {
-                    if (valid) {
-                        axios.post('/sys/role/' + (this.editForm.id ? 'update' : 'save'), this.editForm)
-                            .then(res => {
-                                this.getRoleList()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success'
-                                });
-
-                                this.dialogVisible = false
-                                this.resetForm(formName)
-                            })
-                    } else {
-                        return false;
-                    }
-                });
-            }
-
-            editHandle(id: number) {
-                axios.get('/sys/role/info/' + id).then((res: any) => {
-                    this.editForm = res.data.data
-
-                    this.dialogVisible = true
-                })
-            }
-
-            permHandle(id: number) {
-                this.permDialogVisible = true
-
-                axios.get(`/sys/role/info/${id}`).then((res: any) => {
-                    const permTree: any = this.$refs.permTree
-                    permTree.setCheckedKeys(res.data.data.menuIds)
-                    this.permForm = res.data.data
-                })
-            }
-
-            submitPermFormHandle(formName: string) {
-                const permTree: any = this.$refs.permTree
-                const menuIds = permTree.getCheckedKeys()
-
-                axios.post(`/sys/role/perm/${this.permForm.id}`, menuIds).then(res => {
-                    this.getRoleList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                    this.permDialogVisible = false
+    submitForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.validate((valid: any) => {
+            if (valid) {
+                axios.post('/sys/role/' + (this.editForm.id ? 'update' : 'save'), this.editForm)
+                    .then(res => {
+                        this.getRoleList()
+                        this.$notify({
+                            title: '',
+                            showClose: true,
+                            message: '恭喜你，Action成功',
+                            type: 'success'
+                        })
+                    this.dialogVisible = false
                     this.resetForm(formName)
                 })
+            } else {
+                return false
             }
+        })
+    }
+
+    editHandle(id: number) {
+        axios.get('/sys/role/info/' + id).then((res: any) => {
+            this.editForm = res.data.data
+            this.dialogVisible = true
+        })
+    }
+
+    permHandle(id: number) {
+        this.permDialogVisible = true
+
+        axios.get(`/sys/role/info/${id}`).then((res: any) => {
+            const permTree: any = this.$refs.permTree
+            permTree.setCheckedKeys(res.data.data.menuIds)
+            this.permForm = res.data.data
+        })
+    }
+
+    submitPermFormHandle(formName: string) {
+        const permTree: any = this.$refs.permTree
+        const menuIds = permTree.getCheckedKeys()
+
+        axios.post(`/sys/role/perm/${this.permForm.id}`, menuIds).then(res => {
+            this.getRoleList()
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: '恭喜你，Action成功',
+                type: 'success'
+            })
+            this.permDialogVisible = false
+            this.resetForm(formName)
+        })
+    }
 }
 </script>
 

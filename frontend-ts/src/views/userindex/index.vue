@@ -91,7 +91,7 @@ export default Vue.extend({
     },
     resetForm(formName: string) {
       const refs: any = this.$refs[formName]
-      refs.resetFields();
+      refs.resetFields()
       this.dialogVisible = false
       this.resetPasswordForm = {}
     },
@@ -133,7 +133,7 @@ export default Vue.extend({
             })
           }
         } else {
-          return false;
+          return false
         }
       })
     }

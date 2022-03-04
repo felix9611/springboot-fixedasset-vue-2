@@ -308,16 +308,16 @@ export default class User extends Vue {
                 if (rows) {
                     rows.forEach((row: any) => {
                         const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
+                        multipleTable.toggleRowSelection(row)
+                    })
                 } else {
                     const refs: any = this.$refs
-                    refs.multipleTable.clearSelection();
+                    refs.multipleTable.clearSelection()
                 }
             }
 
             handleSelectionChange(val: any) {
-                this.multipleSelection = val;
+                this.multipleSelection = val
 
                 this.delBtlStatu = val.length == 0
             }
@@ -381,15 +381,15 @@ export default class User extends Vue {
                                     showClose: true,
                                     message: 'Save success',
                                     type: 'success',
-                                });
+                                })
 
                                 this.dialogVisible = false
                                 this.handleClose()
                             })
                     } else {
-                        return false;
+                        return false
                     }
-                });
+                })
             }
             editHandle(id: number) {
                 axios.get('/sys/user/info/' + id).then((res: any) => {
@@ -425,7 +425,7 @@ export default class User extends Vue {
                         showClose: true,
                         message: '恭喜你，Action成功',
                         type: 'success'
-                    });
+                    })
 
                     this.roleDialogFormVisible = false
                 })
@@ -445,7 +445,7 @@ export default class User extends Vue {
                             showClose: true,
                             message: '恭喜你，Action成功',
                             type: 'success'
-                        });
+                        })
                     })
                 })
             }

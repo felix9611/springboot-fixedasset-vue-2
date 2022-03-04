@@ -105,15 +105,15 @@ export default class TestCode extends Vue {
                 if (rows) {
                     rows.forEach((row: any) => {
                         const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
+                        multipleTable.toggleRowSelection(row)
+                    })
                 } else {
                     const refs: any = this.$refs
-                    refs.multipleTable.clearSelection();
+                    refs.multipleTable.clearSelection()
                 }
     }
     handleSelectionChange(val: any) {
-            this.multipleSelection = val;
+            this.multipleSelection = val
             this.delBtlStatu = val.length == 0
     }
 
@@ -132,7 +132,7 @@ export default class TestCode extends Vue {
 
     resetForm(formName: string) {
         const refs: any = this.$refs[formName]
-        refs.resetFields();
+        refs.resetFields()
         this.dialogVisible = false
         this.editForm = {}
     }

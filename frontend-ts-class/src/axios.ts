@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig , AxiosResponse, AxiosError } from 'axios'
 import router from './router'
-import { Notification } from 'element-ui';
+import { Notification } from 'element-ui'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 
