@@ -77,7 +77,8 @@ export default class ApexChartOne extends Vue {
       },
       xaxis: {
           type: 'category',
-          categories: this.categoriesKey
+          categories: this.categoriesKey,
+          ...this.chartOptions.xaxis
       },
       ...this.chartOptions
     }

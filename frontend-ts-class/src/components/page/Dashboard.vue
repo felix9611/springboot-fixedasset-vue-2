@@ -58,6 +58,15 @@ export default class Dashboard extends Vue {
                 toolbar: {
                     show: true
                 },
+            },
+            title: {
+                text: 'Buy Date & Cost (By year-month)',
+                align: 'left'
+            },
+            yaxis: {
+                title: {
+                    text: 'Cost'
+                }
             }
         }
     }
