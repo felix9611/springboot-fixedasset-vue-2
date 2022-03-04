@@ -288,21 +288,21 @@ export default class AssetType extends Vue {
     submitForm(formName: string) {
         const refs: any = this.$refs[formName]
         refs.validate(async (valid: any) => {
-                    if (valid) {
-                      console.log(this.editForm)
-                        await axios.post('/base/asset_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then((res: any) => {
-                                this.typeAllList()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success',
-                                });
+            if (valid) {
+                console.log(this.editForm)
+                await axios.post('/base/asset_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                    .then((res: any) => {
+                        this.typeAllList()
+                        this.$notify({
+                            title: '',
+                            showClose: true,
+                            message: '恭喜你，Action成功',
+                            type: 'success',
+                        })
 
-                                this.dialogVisible = false
-                                this.handleClose()
-                            })
+                        this.dialogVisible = false
+                        this.handleClose()
+                    })
             } else {
                 return false;
             }
@@ -318,212 +318,17 @@ export default class AssetType extends Vue {
     
     async delItem(id: number) {
         await axios.delete('/base/asset_type/remove/'+ id).then((res: any) => {
-                this.typeAllList()
-                this.$notify({
+            this.typeAllList()
+            this.$notify({
                 title: '',
                 showClose: true,
                 message: '恭喜你，Action成功',
                 type: 'success'
-            });
+            })
         })
     }
 
 }
-/*
-export default Vue.extend({
-        name: 'AssetType',
-        data() {
-            const fileList: any = []
-            return {
-                fileList,
-                file: null,
-                test: 0,
-                searchForm: {
-                    page: 1,
-                    limit: 10
-                },
-                delBtlStatu: true,
-
-                total: 0,
-                size: 10,
-                current: 1,
-
-                dialogVisible: false,
-                editForm: {
-                    id: 0,
-                    typeName: '',
-                    typeCode: '',
-                    typeOtherName: null
-                },
-
-                tableData: [],
-                placeItem: [],
-
-                editFormRules: {
-                    typeCode: [
-                        {required: true, message: 'Type Code cannot blank!', trigger: 'blur'}
-                    ],
-                    typeName: [
-                        {required: true, message: 'Type Name cannot blank!', trigger: 'blur'}
-                    ]
-                },
-                roleDialogFormVisible: false,
-                defaultProps: {
-                    children: 'children',
-                    label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: [],
-                uploaderDialog: false,
-
-                testEcelHeader1: [
-                    'Type Code',
-                    'Type Name'
-                ],
-                testEcelHeader2: [
-                    'typeCode',
-                    'typeName'
-                ]
-            }
-        },
-        created() {
-            this.typeAllList()
-        },
-        methods: {
-            clearFile() {
-                this.fileList = []
-            },
-            clickUploadDialog() {
-                this.fileList = []
-                this.uploaderDialog = true
-            },
-            closerUploadDialog() {
-                this.fileList = []
-                this.uploaderDialog = false
-            },
-            async uploadFile(file: any) {
-                const data = await readExcel(file)
-                const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-                reData.forEach( (res: any) => {
-                    axios.post('/base/asset_type/create', res).then((res: any) => {
-                        
-                        this.$notify({
-                            title: 'Msg',
-                            showClose: true,
-                            message: 'Upload success',
-                            type: 'success',
-                        })
-                        this.uploaderDialog = false
-                        this.typeAllList()
-                        this.fileList = []
-                        file = undefined
-                    })
-                })
-            },
-            typeAllList() {
-                axios.post(
-                '/base/asset_type/listAll',
-                this.searchForm
-              ).then(
-                (res: any) => {
-                  this.tableData = res.data.data.records
-                  this.size = res.data.data.size
-                  this.current = res.data.data.current
-                  this.total = res.data.data.total
-
-                  this.tableData.forEach((re: any) => {
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
-
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
-                    return re
-                  })
-              })
-            },
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection();
-                }
-            },
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
-
-                this.delBtlStatu = val.length == 0
-            },
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.typeAllList()
-            },
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.typeAllList()
-            },
-
-            resetForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.resetFields();
-                this.dialogVisible = false
-                this.editForm = {
-                    id: 0,
-                    typeName: '',
-                    typeCode: '',
-                    typeOtherName: null
-                }
-            },
-            handleClose() {
-                this.resetForm('editForm')
-            },
-            submitForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.validate(async (valid: any) => {
-                    if (valid) {
-                      console.log(this.editForm)
-                        await axios.post('/base/asset_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then((res: any) => {
-                                this.typeAllList()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success',
-                                });
-
-                                this.dialogVisible = false
-                                this.handleClose()
-                            })
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            async editHandle(id: number) {
-                await axios.get('/base/asset_type/' + id).then(res => {
-                    console.log(this.placeItem)
-                    this.editForm = res.data.data
-                    this.dialogVisible = true
-                })
-            },
-            async delItem(id: number) {
-                await axios.delete('/base/asset_type/remove/'+ id).then((res: any) => {
-                    this.typeAllList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                })
-            }
-        }
-})*/
 </script>
 
 <style scoped>
@@ -531,10 +336,4 @@ export default Vue.extend({
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
-
 </style>

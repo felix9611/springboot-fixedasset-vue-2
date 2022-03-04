@@ -76,31 +76,31 @@ export default class ActionLog extends Vue {
     }
 
     getAllRecord() {
-              axios.post('/base/action/listAll', this.searchForm).then(res => {
-                this.tableData = res.data.data.records
-                this.size = res.data.data.size
-                this.current = res.data.data.current
-                this.total = res.data.data.total
+        axios.post('/base/action/listAll', this.searchForm).then(res => {
+            this.tableData = res.data.data.records
+            this.size = res.data.data.size
+            this.current = res.data.data.current
+            this.total = res.data.data.total
 
-                this.tableData.forEach((re: any) => {
-                    const newCreated =  moment(new Date(re.created)).format('DD-MM-YYYY HH:MM')
-                    re['created'] = newCreated
+            this.tableData.forEach((re: any) => {
+                const newCreated =  moment(new Date(re.created)).format('DD-MM-YYYY HH:MM')
+                re['created'] = newCreated
 
-                    return re
-                    })
-              })
+                return re
+            })
+        })
     }
 
     toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const refs: any = this.$refs.multipleTable
-                        refs.toggleRowSelection(row);
-                    });
-                } else {
-                    const refs: any = this.$refs.multipleTable
-                    refs.clearSelection();
-                }
+        if (rows) {
+            rows.forEach((row: any) => {
+                const refs: any = this.$refs.multipleTable
+                refs.toggleRowSelection(row)
+            })
+        } else {
+            const refs: any = this.$refs.multipleTable
+            refs.clearSelection();
+        }
     }
 
     handleSelectionChange(val: any) {
@@ -117,83 +117,6 @@ export default class ActionLog extends Vue {
         this.getAllRecord()
     }
 }
-/*
-export default Vue.extend({
-        name: 'ActionLog',
-        data() {
-            return {
-                searchForm: {
-                    limit: 10,
-                    page: 1
-                },
-                delBtlStatu: true,
-
-                total: 0,
-                size: 10,
-                current: 1,
-
-                dialogVisible: false,
-                editForm: {
-                    id: null
-                },
-
-                tableData: [],
-                roleDialogFormVisible: false,
-                defaultProps: {
-                    children: 'children',
-                    label: 'name'
-                },
-                treeCheckedKeys: [],
-                checkStrictly: true,
-                multipleSelection: []
-            }
-        },
-        created() {
-            this.getAllRecord()
-        },
-        methods: {
-            getAllRecord() {
-              axios.post('/base/action/listAll', this.searchForm).then(res => {
-                this.tableData = res.data.data.records
-                this.size = res.data.data.size
-                this.current = res.data.data.current
-                this.total = res.data.data.total
-
-                this.tableData.forEach((re: any) => {
-                    const newCreated =  moment(new Date(re.created)).format('DD-MM-YYYY HH:MM')
-                    re['created'] = newCreated
-
-                    return re
-                    })
-              })
-            },
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const refs: any = this.$refs.multipleTable
-                        refs.toggleRowSelection(row);
-                    });
-                } else {
-                    const refs: any = this.$refs.multipleTable
-                    refs.clearSelection();
-                }
-            },
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
-
-                this.delBtlStatu = val.length == 0
-            },
-
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.getAllRecord()
-            },
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.getAllRecord()
-            }
-        }
-}) */
 </script>
 
 <style scoped>
@@ -201,10 +124,5 @@ export default Vue.extend({
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
 
 </style>

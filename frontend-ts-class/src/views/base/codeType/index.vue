@@ -188,37 +188,38 @@ export default class CodeType extends Vue {
     async exportExcel() {
         await saveJsonToExcel(this.testEcelHeader2, this.tableData, this.testEcelHeader1,'code_type.xlsx')
     }
-            clearFile() {
-                this.fileList = []
-            }
+    
+    clearFile() {
+        this.fileList = []
+    }
 
-            clickUploadDialog() {
-                this.uploaderDialog = true
-            }
+    clickUploadDialog() {
+        this.uploaderDialog = true
+    }
 
-            closerUploadDialog() {
-                this.uploaderDialog = false
-            }
+    closerUploadDialog() {
+        this.uploaderDialog = false
+    }
 
-            async uploadFile(file: any) {
-                const data = await readExcel(file)
-                const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-                reData.forEach( (res: any) => {
-                    axios.post('/base/code_type/create', res).then((res: any) => {
+    async uploadFile(file: any) {
+        const data = await readExcel(file)
+        const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
+        reData.forEach( (res: any) => {
+            axios.post('/base/code_type/create', res).then((res: any) => {
                         
-                        this.$notify({
-                            title: 'Msg',
-                            showClose: true,
-                            message: 'Upload success',
-                            type: 'success',
-                        })
-                        this.uploaderDialog = false
-                        this.codeTypeAllList()
-                        file = undefined
-                        this.fileList = []
-                    })
+                this.$notify({
+                    title: 'Msg',
+                    showClose: true,
+                    message: 'Upload success',
+                    type: 'success',
                 })
-            }
+                this.uploaderDialog = false
+                this.codeTypeAllList()
+                file = undefined
+                this.fileList = []
+            })
+        })
+    }
 
     created() {
         this.codeTypeAllList()
@@ -229,101 +230,102 @@ export default class CodeType extends Vue {
             '/base/code_type/listAll',
             this.searchForm
         ).then(
-                (res: any) => {
-                this.tableData = res.data.data.records
-                this.size = res.data.data.size
-                this.current = res.data.data.current
-                this.total = res.data.data.total
+            (res: any) => {
+            this.tableData = res.data.data.records
+            this.size = res.data.data.size
+            this.current = res.data.data.current
+            this.total = res.data.data.total
 
-                this.tableData.forEach((re: any) => {
-                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+            this.tableData.forEach((re: any) => {
+                const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
 
-                    re['created'] = newCreated
-                    re['updated'] = newUpdated
+                re['created'] = newCreated
+                re['updated'] = newUpdated
                 return re
             })
         })
     }
 
     toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection();
-                }
-            }
+        if (rows) {
+            rows.forEach((row: any) => {
+                const multipleTable: any = this.$refs.multipleTable
+                multipleTable.toggleRowSelection(row);
+            })
+        } else {
+            const multipleTable: any = this.$refs.multipleTable
+            multipleTable.clearSelection();
+        }
+    }
 
-            handleSelectionChange(val: any) {
-                this.delBtlStatu = val.length == 0
-            }
+    handleSelectionChange(val: any) {
+        this.delBtlStatu = val.length == 0
+    }
 
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.codeTypeAllList()
-            }
+    handleSizeChange(val: number) {
+        this.searchForm.limit = val
+        this.codeTypeAllList()
+    }
 
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.codeTypeAllList()
-            }
+    handleCurrentChange(val: number) {
+        this.searchForm.page = val
+        this.codeTypeAllList()
+    }
 
-            resetForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.resetFields();
-                this.dialogVisible = false
-                this.editForm = {}
-            }
+    resetForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.resetFields();
+        this.dialogVisible = false
+        this.editForm = {}
+    }
 
-            handleClose() {
-                this.resetForm('editForm')
-            }
+    handleClose() {
+        this.resetForm('editForm')
+    }
 
-            submitForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.validate((valid: any) => {
-                    if (valid) {
-                      console.log(this.editForm)
-                        axios.post('/base/code_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then((res: any) => {
-                                this.codeTypeAllList()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success',
-                                });
-                                this.handleClose()
-                                this.dialogVisible = false
-                            })
-                    } else {
-                        return false;
-                    }
-                });
+    submitForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.validate((valid: any) => {
+            if (valid) {
+                console.log(this.editForm)
+                axios.post('/base/code_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                    .then((res: any) => {
+                        this.codeTypeAllList()
+                        this.$notify({
+                            title: '',
+                            showClose: true,
+                            message: '恭喜你，Action成功',
+                            type: 'success',
+                        })
+                        this.handleClose()
+                        this.dialogVisible = false
+                    })
+            } else {
+                return false
             }
+        })
+    }
 
-            editHandle(id: number) {
-                axios.get('/base/code_type/' + id).then(res => {
-                    this.editForm = res.data.data
-                    this.dialogVisible = true
-                })
-            }
+    editHandle(id: number) {
+        axios.get('/base/code_type/' + id).then(res => {
+            this.editForm = res.data.data
+            this.dialogVisible = true
+        })
+    }
 
-            delItem(id: number) {
-                axios.delete('/base/code_type/remove/'+ id).then((res: any) => {
-                    this.codeTypeAllList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                })
-            }
+    delItem(id: number) {
+        axios.delete('/base/code_type/remove/'+ id)
+        .then((res: any) => {
+            this.codeTypeAllList()
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: '恭喜你，Action成功',
+                type: 'success'
+            })
+        })
+    }
 }
 </script>
 

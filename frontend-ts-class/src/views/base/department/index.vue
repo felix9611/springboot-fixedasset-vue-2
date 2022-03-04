@@ -213,110 +213,110 @@ export default class Department extends Vue {
     }
 
     deptAllList() {
-              axios.post(
-                '/base/department/listAll',
-                this.searchForm
-              ).then(
-                (res: any) => {
-                  this.tableData = res.data.data.records
-                  this.size = res.data.data.size
-                  this.current = res.data.data.current
-                  this.total = res.data.data.total
+        axios.post(
+            '/base/department/listAll',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.tableData = res.data.data.records
+                this.size = res.data.data.size
+                this.current = res.data.data.current
+                this.total = res.data.data.total
 
-                  this.tableData.forEach((re: any) => {
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                this.tableData.forEach((re: any) => {
+                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
 
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
+                    re['created'] = newCreated
+                    re['updated'] = newUpdated
                     return re
-                  })
-              })
-            }
+                
+            })
+        })
+    }
 
-            toggleSelection(rows: any) {
-                const multipleTable: any = this.$refs.multipleTable
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    multipleTable.clearSelection();
-                }
-            }
+    toggleSelection(rows: any) {
+        const multipleTable: any = this.$refs.multipleTable
+        if (rows) {
+            rows.forEach((row: any) => {
+                multipleTable.toggleRowSelection(row);
+            })
+        } else {
+            multipleTable.clearSelection();
+        }
+    }
 
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
+    handleSelectionChange(val: any) {
+        this.multipleSelection = val
+        this.delBtlStatu = val.length == 0
+    }
 
-                this.delBtlStatu = val.length == 0
-            }
+    handleSizeChange(val: any) {
+        this.searchForm.limit = val
+        this.deptAllList()
+    }
 
-            handleSizeChange(val: any) {
-                this.searchForm.limit = val
-                this.deptAllList()
-            }
+    handleCurrentChange(val: any) {
+        this.searchForm.page = val
+        this.deptAllList()
+    }
 
-            handleCurrentChange(val: any) {
-                this.searchForm.page = val
-                this.deptAllList()
-            }
+    resetForm(formName: string) {
+        const ref: any = this.$refs[formName]
+        ref.resetFields();
+        this.dialogVisible = false
+        this.editForm = {
+            id: 0,
+            deptCode: '',
+            deptName: '',
+            deptOtherName: null
+        }
+    }
 
-            resetForm(formName: string) {
-                const ref: any = this.$refs[formName]
-                ref.resetFields();
-                this.dialogVisible = false
-                this.editForm = {
-                    id: 0,
-                    deptCode: '',
-                    deptName: '',
-                    deptOtherName: null
-                }
-            }
+    handleClose() {
+        this.resetForm('editForm')
+    }
 
-            handleClose() {
-                this.resetForm('editForm')
-            }
-
-            submitForm(formName: string) {
-                const validData: any = this.$refs[formName]
-                validData.validate((valid: any) => {
-                    if (valid) {
-                      console.log(this.editForm)
-                        axios.post('/base/department/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then((res: any) => {
-                                this.deptAllList()
-                                this.$notify({
-                                    title: 'Msg',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success',
-                                });
-                                this.handleClose()
-                                this.dialogVisible = false
-                            })
-                    } else {
-                         return false;
-                    }
-                });
-            }
-
-            editHandle(id: number) {
-                axios.get('/base/department/' + id).then((res: any) => {
-                    this.editForm = res.data.data
-                    this.dialogVisible = true
+    submitForm(formName: string) {
+        const validData: any = this.$refs[formName]
+        validData.validate((valid: any) => {
+            if (valid) {
+                console.log(this.editForm)
+                axios.post('/base/department/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                    .then((res: any) => {
+                        this.deptAllList()
+                        this.$notify({
+                            title: 'Msg',
+                            showClose: true,
+                            message: '恭喜你，Action成功',
+                            type: 'success',
+                        })
+                    this.handleClose()
+                    this.dialogVisible = false
                 })
+            } else {
+                return false;
             }
+        })
+    }
+
+    editHandle(id: number) {
+        axios.get('/base/department/' + id).then((res: any) => {
+            this.editForm = res.data.data
+            this.dialogVisible = true
+        })
+    }
 
     delItem(id: number) {
-                axios.delete('/base/department/remove/'+ id).then((res: any) => {
-                    this.deptAllList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                })
+        axios.delete('/base/department/remove/'+ id).then((res: any) => {
+            this.deptAllList()
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: '恭喜你，Action成功',
+                type: 'success'
+            })
+        })
     }
         
 }

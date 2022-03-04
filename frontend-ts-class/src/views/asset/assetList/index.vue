@@ -296,297 +296,296 @@ import { Component, Vue } from 'vue-property-decorator'
     }
 })
 export default class AssetList extends Vue {
-        searchForm: any = {
-            limit: 10,
-            page: 1
+    searchForm: any = {
+        limit: 10,
+        page: 1
+    }
+    editForm: any = {}
+    fileList: any = []
+    fileBase64Data: any = []
+    getBase64Data: any = []
+
+    customImageMaxSize: number = 3
+    delBtlStatu: boolean = true
+    sumTotal: number = 0
+    total: number = 0
+    size: number|undefined
+    current: number = 1
+    readonlyForm: boolean =  false
+    dialogVisible: boolean =  false
+
+    tableData: any = []
+    placeItem: any = []
+    typeItem: any = []
+    deptItem: any = []
+    hideSaveBtn: boolean =  false
+    showImageDialog: boolean =  false
+    editFormRules = {
+            assetName: [
+            { required: true, message: 'Asset Name cannot blank!', trigger: 'blur' }
+        ]
+    }
+
+    roleDialogFormVisible: boolean =  false
+
+    created() {
+        this.assetAllList()
+        this.getAllType()
+        this.getAllPlace()
+        this.getAlldept()
+        this.getTotalCost()
+    }
+        
+    formToImage(id: number) {
+        this.dialogVisible = false
+        this.getAllBase64File(id)
+        this.editForm = {}
+    }
+
+    removeUploaded() {
+        this.fileList = []
+    }
+
+    onChangeUpload(file: UploadFile) {
+        let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+        const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
+        const isLt2M = file.size / 1024 / 1024 < 3
+        if (!isJpg) {
+            this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+            this.$message.error('Only Upload jpg and png!')
         }
-        editForm: any = {}
-        fileList: any = []
-        fileBase64Data: any = []
-        getBase64Data: any = []
-
-        customImageMaxSize: number = 3
-        delBtlStatu: boolean = true
-        sumTotal: number = 0
-        total: number = 0
-        size: number|undefined
-        current: number = 1
-        readonlyForm: boolean =  false
-        dialogVisible: boolean =  false
-
-                tableData: any = []
-                placeItem: any = []
-                typeItem: any = []
-                deptItem: any = []
-                hideSaveBtn: boolean =  false
-                showImageDialog: boolean =  false
-                editFormRules = {
-                    assetName: [
-                        {required: true, message: 'Asset Name cannot blank!', trigger: 'blur'}
-                    ]
-                }
-
-                roleDialogFormVisible: boolean =  false
-
-        created() {
-            this.assetAllList()
-            this.getAllType()
-            this.getAllPlace()
-            this.getAlldept()
-            this.getTotalCost()
+        if (!isLt2M) {
+            this.fileList = this.fileList.filter(v => v.uid !== file.uid)
+            this.$message.error('File size cannot over 3MB!')
         }
-            formToImage(id: number) {
-                this.dialogVisible = false
-                this.getAllBase64File(id)
-                this.editForm = {}
-            }
+        if (isJpg && isLt2M){
+            this.fileList.push(file)
+        }
+        this.imgToBase64()
+    }
 
-            removeUploaded() {
-                this.fileList = []
-            }
+    imgToBase64() {
+        this.fileList.map(async (file: any) => {
+            const response: any = await uploadImgToBase64(file.raw)
+            const dataBase64: string = response.data
+            this.fileBase64Data.push({ fileName: file.name, dataBase64 })
+            // const test = response as never
+        })
+    }
 
-            onChangeUpload(file: UploadFile) {
-                let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
-                const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
-                const isLt2M = file.size / 1024 / 1024 < 3
-                if (!isJpg) {
-                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
-                    this.$message.error('Only Upload jpg and png!')
-                }
-                if (!isLt2M) {
-                    this.fileList = this.fileList.filter(v => v.uid !== file.uid)
-                    this.$message.error('File size cannot over 3MB!')
-                }
-                if (isJpg && isLt2M){
-                    this.fileList.push(file)
-                }
-                this.imgToBase64()
-                // return isJpg && isLt2M;
+    getTotalCost() {
+        axios.get(
+            '/asset/assetList/getTotalSum'
+        ).then(
+            (res: any) => {
+                this.sumTotal = res.data.data
             }
+        )
+    }
 
-            imgToBase64() {
-                this.fileList.map(async (file: any) => {
-                    const response: any = await uploadImgToBase64(file.raw)
-                    const dataBase64: string = response.data
-                    this.fileBase64Data.push({ fileName: file.name, dataBase64 })
-                    // const test = response as never
+    getAlldept() {
+        axios.get(
+            '/base/department/getAll'
+        ).then(
+            (res: any) => {
+            this.deptItem = res.data.data
+        })
+    }
+
+    getAllType() {
+        axios.get(
+            '/base/asset_type/getAll'
+        ).then(
+            (res: any) => {
+            this.typeItem = res.data.data
+        })
+    }
+
+    getAllPlace() {
+        axios.get(
+            '/base/location/getAll'
+        ).then(
+            (res: any) => {
+            // console.log(res.data.data)
+            this.placeItem = res.data.data
+        })
+    }
+
+    assetAllList() {
+        axios.post(
+            '/asset/assetList/listAll',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.tableData = res.data.data.records
+                this.size = res.data.data.size
+                this.current = res.data.data.current
+                this.total = res.data.data.total
+
+                this.tableData.forEach((re: any) => {
+                    const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
+                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                    const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
+
+                    re['buyDate'] = newBuyDate
+                    re['created'] = newCreated
+                    re['updated'] = newUpdated
+                    re['invoiceDate'] = newInvoiceDate
+                    return re
                 })
             }
+        )
+    }
 
-            getTotalCost() {
-                axios.get(
-                '/asset/assetList/getTotalSum'
-                ).then(
-                (res: any) => {
-                    this.sumTotal = res.data.data
-                }
-                )
-          }
+    toggleSelection(rows: any) {
+        if (rows) {
+            rows.forEach((row: any) => {
+                const multipleTable: any = this.$refs.multipleTable
+                multipleTable.toggleRowSelection(row)
+            })
+        } else {
+            const multipleTable: any = this.$refs.multipleTable
+            multipleTable.clearSelection()
+        }
+    }
 
-          getAlldept() {
-            axios.get(
-              '/base/department/getAll'
-            ).then(
-              (res: any) => {
-                this.deptItem = res.data.data
-              }
-            )
-          }
+    handleSelectionChange(val: any) {
+        this.delBtlStatu = val.length == 0
+    }
 
-          getAllType() {
-            axios.get(
-              '/base/asset_type/getAll'
-            ).then(
-              (res: any) => {
-                this.typeItem = res.data.data
-              }
-            )
-          }
-
-          getAllPlace() {
-                axios.get(
-                    '/base/location/getAll'
-                ).then(
-                    (res: any) => {
-                        // console.log(res.data.data)
-                        this.placeItem = res.data.data
-                    }
-                )
-            }
-
-            assetAllList() {
-                axios.post(
-                    '/asset/assetList/listAll',
-                    this.searchForm
-                ).then(
-                    (res: any) => {
-                    this.tableData = res.data.data.records
-                    this.size = res.data.data.size
-                    this.current = res.data.data.current
-                    this.total = res.data.data.total
-
-                    this.tableData.forEach((re: any) => {
-                        const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
-                        const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
-
-                        re['buyDate'] = newBuyDate
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
-                        re['invoiceDate'] = newInvoiceDate
-                        return re
-                    })
-                })
-            }
-
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row)
-                    });
-                } else {
-                    const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection()
-                }
-            }
-
-            handleSelectionChange(val: any) {
-                this.delBtlStatu = val.length == 0
-            }
-
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.assetAllList()
-            }
+    handleSizeChange(val: number) {
+        this.searchForm.limit = val
+        this.assetAllList()
+    }
             
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.assetAllList()
-            }
+    handleCurrentChange(val: number) {
+        this.searchForm.page = val
+        this.assetAllList()
+    }
 
-            resetForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.resetFields();
-                this.dialogVisible = false
-                this.editForm = {}
-            }
+    resetForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.resetFields();
+        this.dialogVisible = false
+        this.editForm = {}
+    }
 
-            handleCloseImageDialog() {
-                this.showImageDialog = false
-            }
+    handleCloseImageDialog() {
+        this.showImageDialog = false
+    }
 
-            handleClose() {
-                this.resetForm('editForm')
-            }
+    handleClose() {
+        this.resetForm('editForm')
+    }
 
-            submitForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.validate((valid: any) => {
-                    if (valid) {
-                      console.log(this.fileBase64Data[0])
-                        axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then((res: any) => {
-                                if (this.fileBase64Data[0]) {
-                                    const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data
-                                    axios.get(`/asset/assetList/assetCode/${assetCode}`).then(
-                                        ((res: any) => {
-                                            const assetId = res.data.data.id
-                                            this.fileBase64Data.forEach( (dataFile: any) => {
-                                                console.log(dataFile)
-                                                const { fileName, dataBase64 } = dataFile
-                                                axios.post(
-                                                    '/asset/assetList/addFile',
-                                                    { assetId, fileName, base64: dataBase64 }
-                                                ).then(
-                                                    res=> {
-                                                         this.assetAllList()
-                                                            this.$notify({
-                                                                title: '',
-                                                                showClose: true,
-                                                                message: 'Success to save',
-                                                                type: 'success',
-                                                            });
+    submitForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.validate((valid: any) => {
+            if (valid) {
+                console.log(this.fileBase64Data[0])
+                axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                    .then((res: any) => {
+                        if (this.fileBase64Data[0]) {
+                            const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data
+                            axios.get(`/asset/assetList/assetCode/${assetCode}`).then(
+                                ((res: any) => {
+                                    const assetId = res.data.data.id
+                                    this.fileBase64Data.forEach( (dataFile: any) => {
+                                        console.log(dataFile)
+                                        const { fileName, dataBase64 } = dataFile
+                                        axios.post(
+                                            '/asset/assetList/addFile',
+                                            { assetId, fileName, base64: dataBase64 }
+                                        ).then(
+                                            res=> {
+                                                this.assetAllList()
+                                                this.$notify({
+                                                    title: '',
+                                                    showClose: true,
+                                                    message: 'Success to save',
+                                                    type: 'success',
+                                                })
 
-                                                            this.fileList = []
-                                                            this.fileBase64Data = []
-                                                            this.dialogVisible = false
-                                                            this.handleClose()
-                                                    }
-                                                )
+                                                this.fileList = []
+                                                this.fileBase64Data = []
+                                                this.dialogVisible = false
+                                                this.handleClose()
                                             })
                                         })
-                                    )
-                                } else {
-                                    this.assetAllList()
-                                    this.$notify({
-                                        title: '',
-                                        showClose: true,
-                                        message: 'Success to save',
-                                        type: 'success',
-                                    });
+                                    })
+                                )
+                            } else {
+                                this.assetAllList()
+                                this.$notify({
+                                    title: '',
+                                    showClose: true,
+                                    message: 'Success to save',
+                                    type: 'success',
+                                })
 
-                                    this.dialogVisible = false
-                                    this.handleClose()
-                                }
-                            })
-                    } else {
-                        return false;
-                    }
-                });
-            }
-
-            getAllBase64File(assetId: number) {
-                axios.post('/asset/assetList/loadFile', 
-                { assetId }).then((res: any)=>{
-                    this.fileBase64Data = res.data.data
-                    this.showImageDialog = true
-                    console.log(this.fileBase64Data)
+                                this.dialogVisible = false
+                                this.handleClose()
+                            }
                 })
+            } else {
+                return false;
             }
+        })
+    }
 
-            readHandle(id: number) {
-                axios.get(`/asset/assetList/${id}`).then((res: any) => {
-                    console.log(this.placeItem)
-                    this.editForm = res.data.data
-                    this.dialogVisible = true
-                    this.readonlyForm = true
-                    this.hideSaveBtn = true
-                })
-            }
+    getAllBase64File(assetId: number) {
+        axios.post(
+            '/asset/assetList/loadFile', 
+            { assetId })
+        .then((res: any)=>{
+            this.fileBase64Data = res.data.data
+            this.showImageDialog = true
+            console.log(this.fileBase64Data)
+        })
+    }
 
-            editHandle(id: number) {
-                axios.get(`/asset/assetList/${id}`).then((res: any) => {
-                    console.log(this.placeItem)
-                    this.editForm = res.data.data
-                    this.dialogVisible = true
-                })
-            }
+    readHandle(id: number) {
+        axios.get(`/asset/assetList/${id}`).then((res: any) => {
+            console.log(this.placeItem)
+            this.editForm = res.data.data
+            this.dialogVisible = true
+            this.readonlyForm = true
+            this.hideSaveBtn = true
+        })
+    }
 
-            delItem(id: number) {
-                axios.delete(`/asset/assetList/remove/${id}`).then(res => {
-                    this.assetAllList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                })
-            }
+    editHandle(id: number) {
+        axios.get(`/asset/assetList/${id}`).then((res: any) => {
+            console.log(this.placeItem)
+            this.editForm = res.data.data
+            this.dialogVisible = true
+        })
+    }
 
-            delItemFile(id: number, assetId: number) {
-                axios.delete(`/asset/assetList/removeFile/${id}`).then(res => {
-                    this.getAllBase64File(assetId)
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: 'Delete file success',
-                        type: 'success'
-                    });
-                })
-            }
+    delItem(id: number) {
+        axios.delete(`/asset/assetList/remove/${id}`).then(res => {
+            this.assetAllList()
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: '恭喜你，Action成功',
+                type: 'success'
+            })
+        })
+    }
+
+    delItemFile(id: number, assetId: number) {
+        axios.delete(`/asset/assetList/removeFile/${id}`).then(res => {
+            this.getAllBase64File(assetId)
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: 'Delete file success',
+                type: 'success'
+            })
+        })
+    }
 }
 
 </script>
@@ -596,10 +595,4 @@ export default class AssetList extends Vue {
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
-
 </style>
