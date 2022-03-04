@@ -205,22 +205,22 @@ export default class Location extends Vue {
     }
 
     placeAllList() {
-              axios.post(
-                '/base/location/listAll',
-                this.searchForm
-              ).then(
-                (res: any) => {
-                  this.tableData = res.data.data.records
-                  this.size = res.data.data.size
-                  this.current = res.data.data.current
-                  this.total = res.data.data.total
+        axios.post(
+            '/base/location/listAll',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.tableData = res.data.data.records
+                this.size = res.data.data.size
+                this.current = res.data.data.current
+                this.total = res.data.data.total
 
-                    this.tableData.forEach((re: any) => {
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                this.tableData.forEach((re: any) => {
+                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
 
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
+                    re['created'] = newCreated
+                    re['updated'] = newUpdated
                     return re
                 })
             }
@@ -315,208 +315,6 @@ export default class Location extends Vue {
     }
 
 }
-/*
-export default Vue.extend({
-        name: 'Department',
-        data() {
-            const fileList: any = []
-            return {
-                fileList,
-                searchForm: {
-                    limit: 10,
-                    page: 1,
-                    placeName: ''
-                },
-                delBtlStatu: true,
-
-                total: 0,
-                size: 10,
-                current: 1,
-
-                dialogVisible: false,
-                editForm: {
-                    id: 0,
-                    placeName: '',
-                    placeCode: '',
-                    remark: '',
-                    placeOtherName: null
-                },
-
-                tableData: [],
-
-                editFormRules: {
-                    placeCode: [
-                        {required: true, message: 'Place Code cannot blank!', trigger: 'blur'}
-                    ],
-                    placeName: [
-                        {required: true, message: 'Place Name cannot blank!', trigger: 'blur'}
-                    ]
-                },
-
-                multipleSelection: [],
-
-                roleDialogFormVisible: false,
-                defaultProps: {
-                    children: 'children',
-                    label: 'name'
-                },
-                roleForm: {},
-                roleTreeData:  [],
-                treeCheckedKeys: [],
-                checkStrictly: true,
-
-                uploaderDialog: false,
-
-                testEcelHeader1: [
-                    'Place Code',
-                    'Place Name'
-                ],
-                testEcelHeader2: [
-                    'placeCode',
-                    'placeName'
-                ]
-
-            }
-        },
-        created() {
-            this.placeAllList()
-        },
-        methods: {
-            clearFile() {
-                this.fileList = []
-            },
-            clickUploadDialog() {
-                this.uploaderDialog = true
-            },
-            closerUploadDialog() {
-                this.uploaderDialog = false
-            },
-            async uploadFile(file: any) {
-                const data = await readExcel(file)
-                const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-                reData.forEach( (res: any) => {
-                    axios.post('/base/location/create', res).then((res: any) => {
-                        
-                        this.$notify({
-                            title: 'Msg',
-                            showClose: true,
-                            message: 'Upload success',
-                            type: 'success',
-                        })
-                        this.uploaderDialog = false
-                        this.placeAllList()
-                        this.fileList = []
-                        file = undefined
-                    })
-                })
-            },
-            placeAllList() {
-              axios.post(
-                '/base/location/listAll',
-                this.searchForm
-              ).then(
-                (res: any) => {
-                  this.tableData = res.data.data.records
-                  this.size = res.data.data.size
-                  this.current = res.data.data.current
-                  this.total = res.data.data.total
-
-                  this.tableData.forEach((re: any) => {
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
-
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
-                    return re
-                  })
-                }
-              )
-            },
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection();
-                }
-            },
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
-
-                this.delBtlStatu = val.length == 0
-            },
-
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.placeAllList()
-            },
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.placeAllList()
-            },
-
-            resetForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.resetFields();
-                this.dialogVisible = false
-                this.editForm = {
-                    id: 0,
-                    placeName: '',
-                    placeCode: '',
-                    remark: '',
-                    placeOtherName: null
-                }
-            },
-            handleClose() {
-                this.resetForm('editForm')
-            },
-            submitForm(formName: string) {
-                const refs: any = this.$refs[formName]
-                refs.validate((valid: any) => {
-                    if (valid) {
-                      console.log(this.editForm)
-                        axios.post('/base/location/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
-                            .then(res => {
-                                this.placeAllList()
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: '恭喜你，Action成功',
-                                    type: 'success',
-                                });
-
-                                this.dialogVisible = false
-                                this.handleClose()
-                            })
-                    } else {
-                        return false;
-                    }
-                });
-            },
-            editHandle(id: number) {
-                axios.get('/base/location/' + id).then(res => {
-                    console.log(res.data.data)
-                    this.editForm = res.data.data
-                    this.dialogVisible = true
-                })
-            },
-            delItem(id: number) {
-                axios.delete('/base/location/remove/'+ id).then(res => {
-                    this.placeAllList()
-                    this.$notify({
-                        title: '',
-                        showClose: true,
-                        message: '恭喜你，Action成功',
-                        type: 'success'
-                    });
-                })
-            }
-        }
-})
-*/
 </script>
 
 <style scoped>
@@ -524,10 +322,5 @@ export default Vue.extend({
     .handle-box {
         margin-bottom: 20px;
     }
-
-    /*.el-pagination {*/
-    /*    float: right;*/
-    /*    margin-top: 5px;*/
-    /*}*/
 
 </style>

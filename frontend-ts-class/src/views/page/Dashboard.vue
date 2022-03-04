@@ -130,6 +130,7 @@ export default class Dashboard extends Vue {
                     status: false
                 }
     ]
+    
     data = [
                 {
                     name: '2018/09/04',
@@ -159,14 +160,14 @@ export default class Dashboard extends Vue {
                     name: '2018/09/10',
                     value: 1065
                 }
-            ]
+    ]
 
     changeDate() {
-            const now = new Date().getTime();
-            this.data.forEach((item: any, index: any) => {
-                const date = new Date(now - (6 - index) * 86400000);
-                item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-            })
+        const now = new Date().getTime();
+        this.data.forEach((item: any, index: any) => {
+            const date = new Date(now - (6 - index) * 86400000);
+            item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        })
     }
     
     get role() {

@@ -82,124 +82,120 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class AssetList extends Vue {
-        searchForm: any = {
-                limit: 200,
-                page: 1
+    searchForm: any = {
+        limit: 200,
+        page: 1
+    }
+    editForm: any = {}
+
+    delBtlStatu: boolean = true
+    sumTotal: number = 0
+    total: number = 0
+    size: number|undefined
+    current: number =  1
+    dialogVisible: boolean = false
+    tableData: any = []
+
+    checkStrictly: boolean = true
+    multipleSelection: any = []
+
+    created() {
+        this.assetAllList()
+        this.getTotalCost()
+    }
+
+    async exportExcel() {
+        await saveJsonToExcel(
+            exportExcelHeader2, 
+            this.tableData, 
+            exportExcelHeader1,
+            'asset_list_report.xlsx', 
+            columnsStyle, 
+            headerColSeetting
+        )
+    }
+
+    generatePDF() {
+        const doc = new jsPDF('p', 'pt', 'a4', true)
+
+        let body: any = this.tableData
+
+        doc.addFont('NotoSansCJKjp-Regular.ttf', 'NotoSansCJKjp', 'normal')
+        doc.setFont('NotoSansCJKjp')
+
+        const nowTime = moment().format('DD-MM-YYYY HH:mm')
+        doc.text(`Download At: ${nowTime}`, 40, 30)
+        doc.text(`Total Cost: $${this.sumTotal}`, 40, 50)
+
+        autoTable(doc, {
+            startY: 60,
+            columns: pdfColumns,
+            body,
+            styles: {
+                font: 'NotoSansCJKtc'
+            }
+        })
+        doc.save('asset_list.pdf')         
+    }
+
+    getTotalCost() {
+        axios.get(
+            '/asset/assetList/getTotalSum'
+        ).then(
+            (res: any) => {
+                this.sumTotal = res.data.data
+            }
+        )
+    }
+
+    assetAllList() {
+        axios.post(
+            '/asset/assetList/listAll',
+            this.searchForm
+        ).then(
+            (res: any) => {
+            this.tableData = res.data.data.records
+            this.size = res.data.data.size
+            this.current = res.data.data.current
+            this.total = res.data.data.total
+
+            this.tableData.forEach((re: any) => {
+                const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
+                const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
+
+                re['buyDate'] = newBuyDate
+                re['created'] = newCreated
+                re['updated'] = newUpdated
+                re['invoiceDate'] = newInvoiceDate
+                return re
+            })
+        })
+    }
+
+    toggleSelection(rows: any) {
+        if (rows) {
+            rows.forEach((row: any) => {
+                const multipleTable: any = this.$refs.multipleTable
+                multipleTable.toggleRowSelection(row);
+            })
+        } else {
+            const multipleTable: any = this.$refs.multipleTable
+            multipleTable.clearSelection();
         }
-        editForm: any = {}
+    }
 
-        delBtlStatu: boolean = true
-        sumTotal: number = 0
-                total: number = 0
-                size: number|undefined
-                current: number =  1
+    handleSelectionChange(val: any) {
+        this.multipleSelection = val;
+        this.delBtlStatu = val.length == 0
+    }
 
-                dialogVisible: boolean = false
-        tableData: any = []
+    handleSizeChange(val: number) {
+        this.searchForm.limit = val
+        this.assetAllList()
+    }
 
-
-        checkStrictly: boolean = true
-        multipleSelection: any = []
-
-        created() {
-            this.assetAllList()
-            this.getTotalCost()
-        }
-
-            async exportExcel() {
-                await saveJsonToExcel(
-                    exportExcelHeader2, 
-                    this.tableData, 
-                    exportExcelHeader1,
-                    'asset_list_report.xlsx', 
-                    columnsStyle, 
-                    headerColSeetting
-                )
-            }
-
-            generatePDF() {
-                const doc = new jsPDF('p', 'pt', 'a4', true)
-
-                let body: any = this.tableData
-
-                doc.addFont('NotoSansCJKjp-Regular.ttf', 'NotoSansCJKjp', 'normal')
-                doc.setFont('NotoSansCJKjp')
-
-                const nowTime = moment().format('DD-MM-YYYY HH:mm')
-                doc.text(`Download At: ${nowTime}`, 40, 30)
-                doc.text(`Total Cost: $${this.sumTotal}`, 40, 50)
-
-                autoTable(doc, {
-                    startY: 60,
-                    columns: pdfColumns,
-                    body,
-                    styles: {
-                        font: 'NotoSansCJKtc'
-                    }
-                })
-
-                doc.save('asset_list.pdf')
-                
-            }
-
-            getTotalCost() {
-                axios.get(
-                '/asset/assetList/getTotalSum'
-                ).then(
-                (res: any) => {
-                    this.sumTotal = res.data.data
-                }
-                )
-            }
-
-            assetAllList() {
-                axios.post(
-                    '/asset/assetList/listAll',
-                    this.searchForm
-                ).then(
-                    (res: any) => {
-                    this.tableData = res.data.data.records
-                    this.size = res.data.data.size
-                    this.current = res.data.data.current
-                    this.total = res.data.data.total
-
-                    this.tableData.forEach((re: any) => {
-                        const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
-                        const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
-
-                        re['buyDate'] = newBuyDate
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
-                        re['invoiceDate'] = newInvoiceDate
-                        return re
-                    })
-                })
-            }
-
-            toggleSelection(rows: any) {
-                if (rows) {
-                    rows.forEach((row: any) => {
-                        const multipleTable: any = this.$refs.multipleTable
-                        multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    const multipleTable: any = this.$refs.multipleTable
-                    multipleTable.clearSelection();
-                }
-            }
-
-            handleSelectionChange(val: any) {
-                this.multipleSelection = val;
-
-                this.delBtlStatu = val.length == 0
-            }
-
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.assetAllList()
-            }
     handleCurrentChange(val: number) {
         this.searchForm.page = val
          this.assetAllList()
