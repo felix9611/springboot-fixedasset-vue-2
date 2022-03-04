@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
+import com.waiterxiaoyy.dto.GroupByAssetOfTypeDto;
 import com.waiterxiaoyy.entity.ActionRecord;
 import com.waiterxiaoyy.entity.AssetList;
 import com.waiterxiaoyy.mapper.ActionRecordMapper;
@@ -98,6 +99,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     public List<AssetCostYearMonthDto> getCostYearMonth() {
         return assetListMapper.getCostYearMonth();
     }
+
+    public List<GroupByAssetOfTypeDto> groupByType() { return assetListMapper.groupByType(); }
 
     public String getNewAssetCode() {
         LambdaQueryWrapper<AssetList> lambdaQueryWrapper = Wrappers.lambdaQuery();

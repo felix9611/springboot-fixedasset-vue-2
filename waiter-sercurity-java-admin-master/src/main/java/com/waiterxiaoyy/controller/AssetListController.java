@@ -113,4 +113,9 @@ public class AssetListController extends BaseController {
     public Result getCostYearMonth() {
         return Result.succ(assetListService.getCostYearMonth());
     }
+
+    @GetMapping("/groupByType")
+    public Result groupByType() {
+        return Result.succ(assetListService.groupByType());
+    }
 }

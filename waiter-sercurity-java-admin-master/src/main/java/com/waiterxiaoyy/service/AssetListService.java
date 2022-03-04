@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
+import com.waiterxiaoyy.dto.GroupByAssetOfTypeDto;
 import com.waiterxiaoyy.entity.AssetList;
 
 import java.util.ArrayList;
@@ -26,5 +27,7 @@ public interface AssetListService extends IService<AssetList> {
     AssetList findOneByAssetCode(AssetList assetList);
 
     List<AssetCostYearMonthDto> getCostYearMonth();
+
+    List<GroupByAssetOfTypeDto> groupByType();
 
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
+import com.waiterxiaoyy.dto.GroupByAssetOfTypeDto;
 import com.waiterxiaoyy.entity.AssetList;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -29,9 +30,16 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     String getCostYearMonth = "SELECT " +
             "sum(asset_list.cost) as totalCost," +
             "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
-            "FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) " +
+            "FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and  asset_list.statu = 1 " +
             "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
             "order by yearMonth ASC;";
+
+    String groupByType = "SELECT at.type_name as typeName , count(*) as items " +
+            "FROM asset_list as al " +
+            "left join asset_type as at on al.type_id = at.id " +
+            "where " +
+            "al.type_id is not null and al.statu = 1 " +
+            "group by type_id;";
 
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
@@ -41,6 +49,9 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
     @Select(getCostYearMonth)
     List<AssetCostYearMonthDto> getCostYearMonth();
+
+    @Select(groupByType)
+    List<GroupByAssetOfTypeDto>  groupByType();
 
 
 }

@@ -15,11 +15,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import VueApexCharts from 'vue-apexcharts'
 import {
-  IHeader,
-  ChartSet,
-  SeriesData,
-  ChartOptions,
-  ChartDataSets
+  IHeader
 } from './interface'
 
 @Component({

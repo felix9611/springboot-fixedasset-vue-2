@@ -2,13 +2,34 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="8">
-                <el-card shadow="hover" class="mgb20" style="height:252px;">
+                <el-card shadow="hover" class="mgb20">
                     <div class="user-info-list">
                         <span  style="margin: 0px;">Felix</span>
                     </div>
                     <div>
                         FixedAsset - Springboot MVC X VUE 2.0
                     </div>
+                    <br>
+                    <br>
+                    <div>
+                        Testing any charts
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="16">
+                <el-card shadow="hover" class="mgb20">
+                    <ApexChartOne 
+                        :width="1000"
+                        :height="450"
+                        :type="'bar'"
+                        :chartOptions="chartsA"
+                        :data="groupByTypeWithAssetData"
+                        :headers="costYearMonthDataHeader"
+                        datasetKey="typeName"
+                        :alwaysMultipleDatasets="true"
+                        label="Total Items"
+                        value="items"
+                    />
                 </el-card>
             </el-col>
         </el-row>
@@ -49,6 +70,9 @@ export default class Dashboard extends Vue {
     costYearMonthData: any = []
     costYearMonthDataHeader: any = []
 
+    groupByTypeWithAssetData: any = []
+    groupByTypeWithAssetDataHeader: any = []
+
     get chartsO() {
         return {
             stroke: {
@@ -71,8 +95,45 @@ export default class Dashboard extends Vue {
         }
     }
 
+    get chartsA() {
+        return {
+            stroke: {
+                curve: 'smooth'
+            },
+            chart: {
+                toolbar: {
+                    show: true
+                },
+            },
+            title: {
+                text: 'Group By Type',
+                align: 'left'
+            },
+            yaxis: {
+                title: {
+                    text: 'Item'
+                }
+            },
+            dataLabels: {
+              enabled: false
+            }
+        }
+    }
+
     created() {
         this.getCostYearMonth()
+        this.groupByTypeWithAsset()
+    }
+
+    groupByTypeWithAsset() {
+         axios.get(
+            '/asset/assetList/groupByType'
+        ).then(
+            (res: any) => {
+                this.groupByTypeWithAssetData = res.data.data
+                console.log(this.groupByTypeWithAssetData)
+            }
+        )
     }
 
     getCostYearMonth() {
@@ -81,16 +142,6 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.costYearMonthData = res.data.data
-                // console.log(this.costYearMonthData)
-                this.costYearMonthDataHeader = this.costYearMonthData.map( res=> {
-                    const headers: any = []
-                    headers.push({
-                        key: 'totalCost',
-                        label: res['yearMonth'],
-                        test: `return row['yearMonth'] === '${res['yearMonth']}';`
-                    })
-                    return headers
-                })
             }
         )
     }
