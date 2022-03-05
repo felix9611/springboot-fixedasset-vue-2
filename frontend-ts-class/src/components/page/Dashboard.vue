@@ -104,6 +104,12 @@ export default class Dashboard extends Vue {
     getAssetGroupDeptData: any = []
     getAssetGroupPlaceData: any = []
 
+    chartOptionSelect = [
+        { key: 1, label: 'Group By Place' },
+        { key: 1, label: 'Group By Department' },
+        { key: 1, label: 'Group By Department' },
+    ]
+
     groupChartOption = [
         {
             key: 'groupByType',
