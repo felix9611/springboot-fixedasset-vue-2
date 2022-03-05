@@ -24,27 +24,26 @@ import { COLORS, getRandomInt } from './interface'
 export default class ChartJs extends Vue {
   @Prop({ type: Number, default: 600 })
   width: number
-
   @Prop({ type: Number, default: 400 })
   height: number
-
   @Prop({ type: String, default: 'line' })
   type: string
-
   @Prop({ type: Array, default: () => [] })
   data: any
-
   @Prop({ type: String })
   datasetKey: string
-
   @Prop({ type: String })
   label: string
-
   @Prop({ type: String })
   value: string
-
   @Prop({ type: String })
   colors: string
+  @Prop({ type: String, default: '' })
+  title: string
+  @Prop({ type: [String, Array] })
+  xAxis: string | string[]
+  @Prop({ type: [String, Array] })
+  yAxis: string | string[]
 
   get categoriesKey() {
     const map = this.data.map(r => r[this.datasetKey])
@@ -113,7 +112,10 @@ export default class ChartJs extends Vue {
 
   get chartOptions() {
     return {
-      maintainAspectRatio:false
+      maintainAspectRatio:false,
+      plugins: {
+        scales: {}
+      },
     }
   }
 }

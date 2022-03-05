@@ -36,7 +36,10 @@
         <el-row :gutter="24">
             <el-col :span="24">
                 <el-card shadow="hover" class="mgb20" >
-                    <div style="height: 1%;"> 
+                    <div>
+                        Buy Date & Cost (By year-month)
+                    </div>
+                    <div style="height: 1%;">
                         <ChartJs v-bind="chartsSetC" />
                     </div>
                 </el-card>
@@ -137,7 +140,9 @@ export default class Dashboard extends Vue {
             value: 'totalCost',
             label: 'Total Cost($)',
             data: this.costYearMonthData,
-            colors: '#00CCCC'
+            colors: '#00CCCC',
+            title: 'Buy Date & Cost (By year-month)',
+            yAxis: 'Cost(HKD)'
         }
     }
 
