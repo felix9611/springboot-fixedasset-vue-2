@@ -18,9 +18,10 @@
             </el-col>
             <el-col :span="16">
                 <el-card shadow="hover" class="mgb20">
-                    <ApexChartOne 
+                    <!--<ApexChartOne 
                         v-bind="chartsSetA"
-                    />
+                    />-->
+                    <ChartJs v-bind="chartsSetA1" />
                 </el-card>
             </el-col>
         </el-row>
@@ -40,7 +41,41 @@
                         Buy Date & Cost (By year-month)
                     </div>
                     <div style="height: 1%;">
-                        <ChartJs v-bind="chartsSetC" />
+                        <ChartJs v-bind="chartsSetC1" />
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+        <el-row :gutter="24">
+            <el-col :span="24">
+                <el-card shadow="hover" class="mgb20" >
+                    <div>
+                        Buy Date & Items (By year-month)
+                    </div>
+                    <div style="height: 1%;">
+                        <ChartJs v-bind="chartsSetC2" />
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+        <el-row :gutter="24">
+            <el-col :span="12">
+                <el-card shadow="hover" class="mgb20" >
+                    <div>
+                        Group By Department
+                    </div>
+                    <div style="height: 1%;">
+                        <ChartJs v-bind="chartsSetD" />
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card shadow="hover" class="mgb20" >
+                    <div>
+                        Group By Location
+                    </div>
+                    <div style="height: 1%;">
+                        <ChartJs v-bind="chartsSetE" />
                     </div>
                 </el-card>
             </el-col>
@@ -64,7 +99,29 @@ import ChartJs from '../../components/charts/chartJs/index.vue'
 export default class Dashboard extends Vue {
 
     costYearMonthData: any = []
-    groupByTypeWithAssetData: any = []
+    itemYearMonthData: any = []
+    getAssetGroupTypeData: any = []
+    getAssetGroupDeptData: any = []
+    getAssetGroupPlaceData: any = []
+
+    groupChartOption = [
+        {
+            key: 'groupByType',
+            data: this.getAssetGroupTypeData,
+            datasetKey: 'typeName',
+            
+        },
+        {
+            key: 'groupByDept',
+            data: this.getAssetGroupDeptData,
+            datasetKey: 'deptName'
+        },
+        {
+            key: 'groupByPlace',
+            data: this.getAssetGroupPlaceData,
+            datasetKey: 'deptName'
+        }
+    ]
 
     get chartsSetA() {
         return {
@@ -96,7 +153,20 @@ export default class Dashboard extends Vue {
                 enabled: false
                 }
             },
-            data: this.groupByTypeWithAssetData
+            data: this.getAssetGroupTypeData
+        }
+    }
+
+    get chartsSetA1() {
+        return {
+            width: 1000,
+            heigh: 450,
+            type: 'bar',
+            datasetKey: 'typeName',
+            value: 'items',
+            data: this.getAssetGroupTypeData,
+            label: 'Total Items',
+            colors: '#a1d41b'
         }
     }
 
@@ -106,7 +176,7 @@ export default class Dashboard extends Vue {
             heigh: 450,
             datasetKey: 'yearMonth',
             value: 'totalCost',
-            label: 'Total Cost($)',
+            label: 'Total Cost(HKD)',
             type: 'line',
             chartOptions: {
                 stroke: {
@@ -131,7 +201,7 @@ export default class Dashboard extends Vue {
         }
     }
 
-    get chartsSetC() {
+    get chartsSetC1() {
         return {
             width: 1600,
             heigh: 450,
@@ -140,15 +210,72 @@ export default class Dashboard extends Vue {
             value: 'totalCost',
             label: 'Total Cost($)',
             data: this.costYearMonthData,
-            colors: '#00CCCC',
-            title: 'Buy Date & Cost (By year-month)',
-            yAxis: 'Cost(HKD)'
+            colors: '#00CCCC'
         }
     }
 
+    get chartsSetC2() {
+        return {
+            width: 1600,
+            heigh: 450,
+            type: 'line',
+            datasetKey: 'yearMonth',
+            value: 'items',
+            label: 'Total Items',
+            data: this.itemYearMonthData,
+            colors: '#00CCCC'
+        }
+    }
+
+    get chartsSetD() {
+        return {
+            type: 'bar',
+            datasetKey: 'deptName',
+            value: 'items',
+            data: this.getAssetGroupDeptData,
+            label: 'Total Items',
+            colors: '#66ccff'
+        }
+    }
+
+    get chartsSetE() {
+        return {
+            type: 'bar',
+            datasetKey: 'placeName',
+            value: 'items',
+            data: this.getAssetGroupPlaceData,
+            label: 'Total Items',
+            colors: '#ff9966'
+        }
+    }
     created() {
         this.getCostYearMonth()
         this.groupByTypeWithAsset()
+        this.getAssetGroupDept()
+        this.getAssetGroupPlace()
+        this.getItemYearMonth()
+    }
+
+    getAssetGroupPlace() {
+        axios.get(
+            '/asset/assetList/getAssetGroupPlace'
+        ).then(
+            (res: any) => {
+                this.getAssetGroupPlaceData = res.data.data
+                console.log(this.getAssetPlaceypeData)
+            }
+        )
+    }
+
+    getAssetGroupDept() {
+        axios.get(
+            '/asset/assetList/getAssetGroupDept'
+        ).then(
+            (res: any) => {
+                this.getAssetGroupDeptData = res.data.data
+                console.log(this.getAssetGroupDeptData)
+            }
+        )
     }
 
     groupByTypeWithAsset() {
@@ -156,8 +283,8 @@ export default class Dashboard extends Vue {
             '/asset/assetList/groupByType'
         ).then(
             (res: any) => {
-                this.groupByTypeWithAssetData = res.data.data
-                console.log(this.groupByTypeWithAssetData)
+                this.getAssetGroupTypeData = res.data.data
+                console.log(this.getAssetGroupTypeData)
             }
         )
     }
@@ -168,6 +295,16 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.costYearMonthData = res.data.data
+            }
+        )
+    }
+
+    getItemYearMonth() {
+        axios.get(
+            '/asset/assetList/getItemYearMonth'
+        ).then(
+            (res: any) => {
+                this.itemYearMonthData = res.data.data
             }
         )
     }

@@ -113,9 +113,8 @@ export default class ChartJs extends Vue {
   get chartOptions() {
     return {
       maintainAspectRatio:false,
-      plugins: {
-        scales: {}
-      },
+      plugins: {},
+      scales: {},
     }
   }
 }
