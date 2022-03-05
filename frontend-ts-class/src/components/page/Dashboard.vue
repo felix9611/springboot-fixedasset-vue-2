@@ -262,7 +262,7 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.getAssetGroupPlaceData = res.data.data
-                console.log(this.getAssetPlaceypeData)
+                console.log(this.getAssetPlaceData)
             }
         )
     }
