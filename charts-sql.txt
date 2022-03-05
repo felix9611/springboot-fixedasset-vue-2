@@ -1,0 +1,6 @@
+SELECT 
+	sum(asset_list.cost) as totalCost,
+	CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth
+FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) 
+group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) 
+order by yearMonth ASC;

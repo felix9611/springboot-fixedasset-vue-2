@@ -49,10 +49,11 @@ export default class ApexChartOne extends Vue {
   chartOptions: any
 
   @Prop({ type: String })
-  label: string
+  label: string | string[]
 
   @Prop({ type: String })
   value: string
+  
 
   get categoriesKey() {
     const map = this.data.map(r => r[this.datasetKey])

@@ -40,6 +40,7 @@ D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\VueAdminLearnApplication.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\mapper\SysMenuMapper.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\AssetTypeService.java
+D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\dto\AssetCostYearMonthDto.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\AssetTypeController.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\AssetTypeServiceImpl.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\security\JwtAuthenticationEntryPoint.java

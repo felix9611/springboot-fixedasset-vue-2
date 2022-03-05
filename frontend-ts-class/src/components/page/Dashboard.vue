@@ -24,12 +24,21 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-row :gutter="24">
+        <!--<el-row :gutter="24">
             <el-col :span="24">
                 <el-card shadow="hover" class="mgb20" >
                     <ApexChartOne 
                         v-bind="chartsSetB"
                     />
+                </el-card>
+            </el-col>
+        </el-row>-->
+        <el-row :gutter="24">
+            <el-col :span="24">
+                <el-card shadow="hover" class="mgb20" >
+                    <div style="height: 1%;"> 
+                        <ChartJs v-bind="chartsSetC" />
+                    </div>
                 </el-card>
             </el-col>
         </el-row>
@@ -41,10 +50,12 @@ import bus from '../../components/common/bus'
 import axios from '../../axios'
 import { Component, Vue } from 'vue-property-decorator'
 import ApexChartOne from '../../components/charts/apex/apexOne.vue'
+import ChartJs from '../../components/charts/chartJs/index.vue'
 
 @Component({
     components: {
-        ApexChartOne
+        ApexChartOne,
+        ChartJs
     }
 })
 export default class Dashboard extends Vue {
@@ -114,6 +125,19 @@ export default class Dashboard extends Vue {
                 }
             },
             data: this.costYearMonthData
+        }
+    }
+
+    get chartsSetC() {
+        return {
+            width: 1600,
+            heigh: 450,
+            type: 'line',
+            datasetKey: 'yearMonth',
+            value: 'totalCost',
+            label: 'Total Cost($)',
+            data: this.costYearMonthData,
+            colors: '#00CCCC'
         }
     }
 

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ab118d93-b8d4-4b5f-952b-9bb58e5ca517" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/dto/GroupByAssetOfTypeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/src/components/page/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/src/components/page/Dashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AssetListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/controller/AssetListController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/AssetListMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/waiterxiaoyy/mapper/AssetListMapper.java" afterDir="false" />
