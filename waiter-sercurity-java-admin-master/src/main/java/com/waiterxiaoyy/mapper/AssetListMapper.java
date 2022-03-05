@@ -3,9 +3,7 @@ package com.waiterxiaoyy.mapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
-import com.waiterxiaoyy.dto.AssetListViewDTO;
-import com.waiterxiaoyy.dto.GroupByAssetOfTypeDto;
+import com.waiterxiaoyy.dto.*;
 import com.waiterxiaoyy.entity.AssetList;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -32,7 +30,13 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
             "FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and  asset_list.statu = 1 " +
             "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
-            "order by yearMonth ASC;";
+            "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
+    String getItemYearMonth = "SELECT " +
+            "count(*) as items," +
+            "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
+            "FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and  asset_list.statu = 1 " +
+            "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
+            "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
 
     String groupByType = "SELECT at.type_name as typeName , count(*) as items " +
             "FROM asset_list as al " +
@@ -40,6 +44,18 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "where " +
             "al.type_id is not null and al.statu = 1 " +
             "group by type_id;";
+
+    String groupByDept = "SELECT count(*) as items, d.dept_name as deptName " +
+            "FROM asset_list " +
+            "left join department as d on asset_list.dept_id = d.id " +
+            "where asset_list.statu = 1 " +
+            "group by asset_list.dept_id;";
+
+    String groupByPlace = "SELECT count(*) as items, loc.place_name as placeName " +
+            "FROM asset_list as al " +
+            "left join location as loc on al.place_id = loc.id " +
+            "where al.statu = 1  " +
+            "group by al.place_id;";
 
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
@@ -50,8 +66,16 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(getCostYearMonth)
     List<AssetCostYearMonthDto> getCostYearMonth();
 
+    @Select(getItemYearMonth)
+    List<AssetItemYearMonthDto> getItemYearMonth();
+
     @Select(groupByType)
     List<GroupByAssetOfTypeDto>  groupByType();
 
+    @Select(groupByDept)
+    List<AssetGroupDeptDto> getAssetGroupDept();
+
+    @Select(groupByPlace)
+    List<AssetGroupPlaceDto> getAssetGroupPlace();
 
 }

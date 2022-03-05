@@ -114,8 +114,19 @@ public class AssetListController extends BaseController {
         return Result.succ(assetListService.getCostYearMonth());
     }
 
+    @GetMapping("/getItemYearMonth")
+    public Result getItemYearMonth() {
+        return Result.succ(assetListService.getItemYearMonth());
+    }
+
     @GetMapping("/groupByType")
     public Result groupByType() {
         return Result.succ(assetListService.groupByType());
     }
+
+    @GetMapping("/getAssetGroupDept")
+    public Result getAssetGroupDept() { return Result.succ(assetListService.getAssetGroupDept()); }
+
+    @GetMapping("/getAssetGroupPlace")
+    public Result getAssetGroupPlace() { return Result.succ(assetListService.getAssetGroupPlace()); }
 }

@@ -3,9 +3,7 @@ package com.waiterxiaoyy.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
-import com.waiterxiaoyy.dto.AssetListViewDTO;
-import com.waiterxiaoyy.dto.GroupByAssetOfTypeDto;
+import com.waiterxiaoyy.dto.*;
 import com.waiterxiaoyy.entity.AssetList;
 
 import java.util.ArrayList;
@@ -28,6 +26,12 @@ public interface AssetListService extends IService<AssetList> {
 
     List<AssetCostYearMonthDto> getCostYearMonth();
 
+    List<AssetItemYearMonthDto> getItemYearMonth();
+
     List<GroupByAssetOfTypeDto> groupByType();
+
+    List<AssetGroupDeptDto> getAssetGroupDept();
+
+    List<AssetGroupPlaceDto> getAssetGroupPlace();
 
 }
