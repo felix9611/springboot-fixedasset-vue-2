@@ -50,10 +50,7 @@ import ApexChartOne from '../../components/charts/apex/apexOne.vue'
 export default class Dashboard extends Vue {
 
     costYearMonthData: any = []
-    costYearMonthDataHeader: any = []
-
     groupByTypeWithAssetData: any = []
-    groupByTypeWithAssetDataHeader: any = []
 
     get chartsSetA() {
         return {
@@ -148,66 +145,6 @@ export default class Dashboard extends Vue {
 
     name = localStorage.getItem('ms_username')
     
-    todoList = [
-                {
-                    title: '路由管理、动态路由、标签页管理',
-                    status: true
-                },
-                {
-                    title: '登录权限认证（基于JWT、SpringSecurity）',
-                    status: true
-                },
-                {
-                    title: '用户权限分配',
-                    status: true
-                },
-                {
-                    title: '菜单管理、用户管理、角色管理',
-                    status: true
-                },
-                {
-                    title: '基于此权限系统进一步开发后台管理系统',
-                    status: false
-                }
-    ]
-    data = [
-                {
-                    name: '2018/09/04',
-                    value: 1083
-                },
-                {
-                    name: '2018/09/05',
-                    value: 941
-                },
-                {
-                    name: '2018/09/06',
-                    value: 1139
-                },
-                {
-                    name: '2018/09/07',
-                    value: 816
-                },
-                {
-                    name: '2018/09/08',
-                    value: 327
-                },
-                {
-                    name: '2018/09/09',
-                    value: 228
-                },
-                {
-                    name: '2018/09/10',
-                    value: 1065
-                }
-            ]
-
-    changeDate() {
-            const now = new Date().getTime();
-            this.data.forEach((item: any, index: any) => {
-                const date = new Date(now - (6 - index) * 86400000);
-                item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-            })
-    }
     
     get role() {
         return 'Felix'
