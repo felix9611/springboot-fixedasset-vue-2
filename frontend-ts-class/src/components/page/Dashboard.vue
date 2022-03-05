@@ -19,16 +19,7 @@
             <el-col :span="16">
                 <el-card shadow="hover" class="mgb20">
                     <ApexChartOne 
-                        :width="1000"
-                        :height="450"
-                        :type="'bar'"
-                        :chartOptions="chartsA"
-                        :data="groupByTypeWithAssetData"
-                        :headers="costYearMonthDataHeader"
-                        datasetKey="typeName"
-                        :alwaysMultipleDatasets="true"
-                        label="Total Items"
-                        value="items"
+                        v-bind="chartsSetA"
                     />
                 </el-card>
             </el-col>
@@ -37,16 +28,7 @@
             <el-col :span="24">
                 <el-card shadow="hover" class="mgb20" >
                     <ApexChartOne 
-                        :width="1600"
-                        :height="400"
-                        :type="'line'"
-                        :chartOptions="chartsO"
-                        :data="costYearMonthData"
-                        :headers="costYearMonthDataHeader"
-                        datasetKey="yearMonth"
-                        :alwaysMultipleDatasets="true"
-                        label="Total Cost"
-                        value="totalCost"
+                        v-bind="chartsSetB"
                     />
                 </el-card>
             </el-col>
@@ -73,50 +55,68 @@ export default class Dashboard extends Vue {
     groupByTypeWithAssetData: any = []
     groupByTypeWithAssetDataHeader: any = []
 
-    get chartsO() {
+    get chartsSetA() {
         return {
-            stroke: {
+            width: 1000,
+            heigh: 450,
+            datasetKey: 'typeName',
+            value: 'items',
+            label: 'Total Items',
+            type: 'bar',
+            chartOptions: {
+                stroke: {
                 curve: 'smooth'
-            },
-            chart: {
-                toolbar: {
-                    show: true
                 },
-            },
-            title: {
-                text: 'Buy Date & Cost (By year-month)',
-                align: 'left'
-            },
-            yaxis: {
+                chart: {
+                    toolbar: {
+                        show: true
+                    },
+                },
                 title: {
-                    text: 'Cost'
+                    text: 'Group By Type',
+                    align: 'left'
+                },
+                yaxis: {
+                    title: {
+                        text: 'Item'
+                    }
+                },
+                dataLabels: {
+                enabled: false
                 }
-            }
+            },
+            data: this.groupByTypeWithAssetData
         }
     }
 
-    get chartsA() {
+    get chartsSetB() {
         return {
-            stroke: {
-                curve: 'smooth'
-            },
-            chart: {
-                toolbar: {
-                    show: true
+            width: 1600,
+            heigh: 450,
+            datasetKey: 'yearMonth',
+            value: 'totalCost',
+            label: 'Total Cost($)',
+            type: 'line',
+            chartOptions: {
+                stroke: {
+                    curve: 'smooth'
                 },
-            },
-            title: {
-                text: 'Group By Type',
-                align: 'left'
-            },
-            yaxis: {
+                chart: {
+                    toolbar: {
+                        show: true
+                    },
+                },
                 title: {
-                    text: 'Item'
+                    text: 'Buy Date & Cost (By year-month)',
+                    align: 'left'
+                },
+                yaxis: {
+                    title: {
+                        text: 'Cost(HKD)'
+                    }
                 }
             },
-            dataLabels: {
-              enabled: false
-            }
+            data: this.costYearMonthData
         }
     }
 
