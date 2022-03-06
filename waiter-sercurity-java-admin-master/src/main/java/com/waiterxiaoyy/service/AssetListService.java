@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.waiterxiaoyy.dto.*;
 import com.waiterxiaoyy.entity.AssetList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface AssetListService extends IService<AssetList> {
@@ -33,5 +32,7 @@ public interface AssetListService extends IService<AssetList> {
     List<AssetGroupDeptDto> getAssetGroupDept();
 
     List<AssetGroupPlaceDto> getAssetGroupPlace();
+
+    List<CostWithDeptDto> getCostWithDept();
 
 }

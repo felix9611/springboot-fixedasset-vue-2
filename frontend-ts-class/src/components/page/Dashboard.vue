@@ -73,10 +73,29 @@
                     </div>
                     <div style="height: 1%;">
                         <ChartJs v-bind="chartsSetC2" />
-                        <ApexChartOne  v-bind="chartsSetC2" />
+                        <!--<ApexChartOne  v-bind="chartsSetC2" /> -->
                     </div>
                 </el-card>
             </el-col>
+        </el-row>
+        <el-row :gutter="24">
+            <div v-for="item in getCostWithDeptData" :key="item.deptName">
+                    <template>
+                        <el-col :span="getCostWithDeptData.length - 1">
+                            <el-card shadow="hover" class="mgb20-score" >
+                                <div style="text-align: center;font-size: 2rem;color: midnightblue;">
+                                    {{ item.deptName }}
+                                </div>
+                                <div style="text-align: center;padding-top: 10%;font-size: 1.6rem;color: midnightblue;">
+                                    Used Cost
+                                </div>
+                                <div style="text-align: center;padding-top: 10%;font-size: 1.6rem;color: midnightblue;">
+                                    HKD ${{ item.totalCost }}
+                                </div>    
+                            </el-card>
+                        </el-col>    
+                </template>              
+            </div>
         </el-row>
     </div>
 </template>
@@ -103,6 +122,7 @@ export default class Dashboard extends Vue {
     getAssetGroupTypeData: any = []
     getAssetGroupDeptData: any = []
     getAssetGroupPlaceData: any = []
+    getCostWithDeptData: any = []
 
     get chartsSetA() {
         return {
@@ -196,7 +216,7 @@ export default class Dashboard extends Vue {
             type: 'line',
             colors: '#ff4d88',
             data: this.itemYearMonthData,
-            /* chartOptions: {
+            chartOptions: {
                 stroke: {
                     curve: 'smooth'
                 },
@@ -205,8 +225,7 @@ export default class Dashboard extends Vue {
                         text: 'Item Unit'
                     }
                 }
-            },*/
-             
+            }
         }      
     }
 
@@ -232,12 +251,34 @@ export default class Dashboard extends Vue {
         }
     }
 
+    get chartsSetF() {
+        return {
+            type: 'bar',
+            datasetKey: 'deptName',
+            value: 'totalCost',
+            data: this.getCostWithDeptData,
+            label: 'Total Cost',
+            colors: '#ff9966'
+        }
+    }
+
     created() {
         this.getCostYearMonth()
         this.groupByTypeWithAsset()
         this.getAssetGroupDept()
         this.getAssetGroupPlace()
         this.getItemYearMonth()
+        this.getCostWithDept()
+    }
+
+    getCostWithDept() {
+        axios.get(
+            '/asset/assetList/getCostWithDept'
+        ).then(
+            (res: any) => {
+                this.getCostWithDeptData = res.data.data
+            }
+        )
     }
 
     getAssetGroupPlace() {
@@ -393,6 +434,15 @@ export default class Dashboard extends Vue {
 
 .mgb20 {
     margin-bottom: 20px;
+}
+
+.mgb20-score {
+    /* margin-bottom: 20px; */
+    background-color: lightskyblue;
+    border-color: midnightblue;
+    border-width: 0.2rem;
+    height: 220px;
+    width: 260px;
 }
 
 .todo-item {

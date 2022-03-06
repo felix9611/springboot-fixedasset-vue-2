@@ -106,6 +106,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
     public List<AssetGroupPlaceDto> getAssetGroupPlace() { return assetListMapper.getAssetGroupPlace(); }
 
+    public List<CostWithDeptDto> getCostWithDept() { return assetListMapper.getCostWithDept(); }
+
     public String getNewAssetCode() {
         LambdaQueryWrapper<AssetList> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.select(AssetList::getAssetCode);

@@ -5,19 +5,15 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.waiterxiaoyy.common.lang.Result;
-import com.waiterxiaoyy.dto.AssetCostYearMonthDto;
 import com.waiterxiaoyy.dto.AssetListViewDTO;
 import com.waiterxiaoyy.entity.AssetList;
 import com.waiterxiaoyy.entity.AssetListFile;
-import com.waiterxiaoyy.entity.AssetType;
 import com.waiterxiaoyy.service.AssetListFileService;
 import com.waiterxiaoyy.service.AssetListService;
 // import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/asset/assetList")
@@ -129,4 +125,7 @@ public class AssetListController extends BaseController {
 
     @GetMapping("/getAssetGroupPlace")
     public Result getAssetGroupPlace() { return Result.succ(assetListService.getAssetGroupPlace()); }
+
+    @GetMapping("/getCostWithDept")
+    public Result getCostWithDept() { return Result.succ(assetListService.getCostWithDept()); }
 }

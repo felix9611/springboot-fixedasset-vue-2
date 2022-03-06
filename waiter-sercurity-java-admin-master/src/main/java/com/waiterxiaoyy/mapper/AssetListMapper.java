@@ -8,8 +8,6 @@ import com.waiterxiaoyy.entity.AssetList;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public interface AssetListMapper extends BaseMapper<AssetList> {
@@ -56,6 +54,15 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "left join location as loc on al.place_id = loc.id " +
             "where al.statu = 1  " +
             "group by al.place_id;";
+    String costWithDept = "SELECT sum(al.cost) as totalCost, d.dept_name as deptName " +
+            "FROM asset_list as al " +
+            "left join department as d on al.dept_id = d.id " +
+            "where al.statu = 1 group by al.dept_id;";
+
+    String costWithType = "SELECT sum(al.cost) as totalCost, at.type_name as typeName " +
+            "FROM asset_list as al " +
+            "left join asset_type as at on al.type_id = at.id " +
+            "where al.statu = 1 group by al.dept_id;";
 
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
@@ -77,5 +84,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
     @Select(groupByPlace)
     List<AssetGroupPlaceDto> getAssetGroupPlace();
+
+    @Select(costWithDept)
+    List<CostWithDeptDto> getCostWithDept();
 
 }
