@@ -203,7 +203,7 @@ export default class Dashboard extends Vue {
             value: 'items',
             label: 'Total Items',
             data: this.itemYearMonthData,
-            colors: '#00CCCC'
+            colors: '#ff4d88'
         }
     }
 
