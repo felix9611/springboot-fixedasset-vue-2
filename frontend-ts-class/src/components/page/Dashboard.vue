@@ -18,10 +18,29 @@
             </el-col>
             <el-col :span="16">
                 <el-card shadow="hover" class="mgb20">
-                    <!--<ApexChartOne 
-                        v-bind="chartsSetA"
-                    />-->
                     <ChartJs v-bind="chartsSetA1" />
+                </el-card>
+            </el-col>
+        </el-row>
+        <el-row :gutter="24">
+            <el-col :span="12">
+                <el-card shadow="hover" class="mgb20" >
+                    <div>
+                        Group By Department
+                    </div>
+                    <div style="height: 1%;">
+                        <ChartJs v-bind="chartsSetD" />
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card shadow="hover" class="mgb20" >
+                    <div>
+                        Group By Location
+                    </div>
+                    <div style="height: 1%;">
+                        <ChartJs v-bind="chartsSetE" />
+                    </div>
                 </el-card>
             </el-col>
         </el-row>
@@ -58,28 +77,6 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <el-card shadow="hover" class="mgb20" >
-                    <div>
-                        Group By Department
-                    </div>
-                    <div style="height: 1%;">
-                        <ChartJs v-bind="chartsSetD" />
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="12">
-                <el-card shadow="hover" class="mgb20" >
-                    <div>
-                        Group By Location
-                    </div>
-                    <div style="height: 1%;">
-                        <ChartJs v-bind="chartsSetE" />
-                    </div>
-                </el-card>
-            </el-col>
-        </el-row>
     </div>
 </template>
 
@@ -98,36 +95,13 @@ import ChartJs from '../../components/charts/chartJs/index.vue'
 })
 export default class Dashboard extends Vue {
 
+    groupByFind: any = {}
+
     costYearMonthData: any = []
     itemYearMonthData: any = []
     getAssetGroupTypeData: any = []
     getAssetGroupDeptData: any = []
     getAssetGroupPlaceData: any = []
-
-    chartOptionSelect = [
-        { key: 1, label: 'Group By Place' },
-        { key: 1, label: 'Group By Department' },
-        { key: 1, label: 'Group By Department' },
-    ]
-
-    groupChartOption = [
-        {
-            key: 'groupByType',
-            data: this.getAssetGroupTypeData,
-            datasetKey: 'typeName',
-            
-        },
-        {
-            key: 'groupByDept',
-            data: this.getAssetGroupDeptData,
-            datasetKey: 'deptName'
-        },
-        {
-            key: 'groupByPlace',
-            data: this.getAssetGroupPlaceData,
-            datasetKey: 'deptName'
-        }
-    ]
 
     get chartsSetA() {
         return {
@@ -254,6 +228,7 @@ export default class Dashboard extends Vue {
             colors: '#ff9966'
         }
     }
+
     created() {
         this.getCostYearMonth()
         this.groupByTypeWithAsset()
@@ -313,8 +288,7 @@ export default class Dashboard extends Vue {
     }
 
     name = localStorage.getItem('ms_username')
-    
-    
+
     get role() {
         return 'Felix'
     }
