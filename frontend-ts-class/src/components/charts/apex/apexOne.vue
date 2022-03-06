@@ -45,7 +45,7 @@ export default class ApexChartOne extends Vue {
   @Prop({ type: Boolean })
   alwaysMultipleDatasets: boolean
 
-  @Prop({ type: Object })
+  @Prop({ type: Object, default: () => {} })
   chartOptions: any
 
   @Prop({ type: String })

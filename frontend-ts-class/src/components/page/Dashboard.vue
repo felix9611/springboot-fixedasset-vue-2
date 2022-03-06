@@ -73,6 +73,7 @@
                     </div>
                     <div style="height: 1%;">
                         <ChartJs v-bind="chartsSetC2" />
+                        <ApexChartOne  v-bind="chartsSetC2" />
                     </div>
                 </el-card>
             </el-col>
@@ -162,15 +163,6 @@ export default class Dashboard extends Vue {
                 stroke: {
                     curve: 'smooth'
                 },
-                chart: {
-                    toolbar: {
-                        show: true
-                    },
-                },
-                title: {
-                    text: 'Buy Date & Cost (By year-month)',
-                    align: 'left'
-                },
                 yaxis: {
                     title: {
                         text: 'Cost(HKD)'
@@ -198,13 +190,24 @@ export default class Dashboard extends Vue {
         return {
             width: 1600,
             heigh: 450,
-            type: 'line',
             datasetKey: 'yearMonth',
             value: 'items',
             label: 'Total Items',
+            type: 'line',
+            colors: '#ff4d88',
             data: this.itemYearMonthData,
-            colors: '#ff4d88'
-        }
+            /* chartOptions: {
+                stroke: {
+                    curve: 'smooth'
+                },
+                yaxis: {
+                    title: {
+                        text: 'Item Unit'
+                    }
+                }
+            },*/
+             
+        }      
     }
 
     get chartsSetD() {

@@ -86,7 +86,8 @@ export default class ChartJs extends Vue {
         setContent = {
           ...setContent,
           fill: false,
-          borderColor: this.colors ? this.colors : COLORS[getRandomInt()]
+          borderColor: this.colors ? this.colors : COLORS[getRandomInt()],
+          backgroundColor: this.colors ? this.colors : COLORS[getRandomInt()]
         }
       }
     }
