@@ -24,26 +24,26 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
 
     String getCostYearMonth = "SELECT " +
-            "sum(asset_list.cost) as totalCost," +
-            "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
-            "FROM asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and asset_list.statu = 1 " +
-            "and al.sponsor = 0 and al.sponsor_name is null " +
-            "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
-            "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
+            "sum(cost) as totalCost," +
+            "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(buy_date)) AS yearMonth " +
+            "FROM asset_list where buy_date is not null and not(cost = 0) and statu = 1 " +
+            "and sponsor = 0 and sponsor_name is null " +
+            "group by YEAR(buy_date), MONTH(buy_date) " +
+            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
 
     String getCostYearMonthSponsor = "SELECT " +
             "sum(asset_list.cost) as totalCost," +
-            "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
-            "FROM asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and asset_list.statu = 1 " +
-            "and al.sponsor = 1 and al.sponsor_name is null " +
-            "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
-            "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
+            "CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth " +
+            "FROM asset_list where buy_date is not null and not(cost = 0) and statu = 1 " +
+            "and sponsor = 1 and sponsor_name is null " +
+            "group by YEAR(buy_date), MONTH(buy_date) " +
+            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
     String getItemYearMonth = "SELECT " +
             "count(*) as items," +
-            "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
-            "FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and  asset_list.statu = 1 " +
-            "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
-            "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
+            "CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth " +
+            "FROM asset_list where buy_date is not null and not(cost = 0) and  asset_list.statu = 1 " +
+            "group by YEAR(buy_date), MONTH(buy_date) " +
+            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
 
     String groupByType = "SELECT at.type_name as typeName , count(*) as items " +
             "FROM asset_list as al " +
