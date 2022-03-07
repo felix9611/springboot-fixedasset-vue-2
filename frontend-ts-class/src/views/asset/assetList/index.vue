@@ -1,7 +1,34 @@
 <template>
     <div class="container">
         <div class="handle-box">
-            Total butget Cost : HKD {{ sumTotal }}
+            <el-row :gutter="24">
+                <el-col :span="4">
+                    <el-card shadow="hover" class="mgb20-score" >
+                        <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
+                            Total
+                        </div>
+                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                            Used Cost
+                        </div>
+                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                            HKD ${{ sumTotal }}
+                        </div>    
+                    </el-card>
+                </el-col>
+                <el-col :span="4">
+                    <el-card shadow="hover" class="mgb20-score" >
+                        <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
+                            Total with Sponsor
+                        </div>
+                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                            Used Cost 
+                        </div>
+                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                            HKD ${{ sumTotalWithSponsor }}
+                        </div>    
+                    </el-card>
+                </el-col>
+            </el-row>
         </div>
         <div class="handle-box">
             <el-form :inline="true">
@@ -249,6 +276,26 @@
                 <el-form-item label="Description"  prop="description" label-width="100px">
                     <el-input type="textarea" v-model="editForm.description"></el-input>
                 </el-form-item>
+                <el-form-item label="Description"  prop="description" label-width="100px">
+                    <el-input type="textarea" v-model="editForm.description"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Sponsor" prop="sponsor" label-width="100px">
+                    <el-select v-model="editForm.sponsor" placeholder="Select" filterable>
+                        <el-option
+                        v-for="items in sponsorOpts"
+                        :key="items.id"
+                        :label="items.label"
+                        :value="items.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="Sponsor Name"  prop="sponsorName" label-width="100px">
+                    <el-input v-model="editForm.sponsorName" autocomplete="off"></el-input>
+                </el-form-item>
+
+
                 <el-form-item label="Cost"  prop="cost" label-width="100px">
                     <el-input v-model="editForm.cost" autocomplete="off"></el-input>
                 </el-form-item>
@@ -307,9 +354,11 @@ export default class AssetList extends Vue {
 
     customImageMaxSize: number = 3
     delBtlStatu: boolean = true
+    sumTotalWithSponsor: number = 0
     sumTotal: number = 0
+
     total: number = 0
-    size: number|undefined
+    size: number
     current: number = 1
     readonlyForm: boolean =  false
     dialogVisible: boolean =  false
@@ -321,12 +370,21 @@ export default class AssetList extends Vue {
     hideSaveBtn: boolean =  false
     showImageDialog: boolean =  false
     editFormRules = {
-            assetName: [
+        assetName: [
             { required: true, message: 'Asset Name cannot blank!', trigger: 'blur' }
+        ],
+        sponsor : [
+            { required: true, message: 'Sponsor cannot blank!', trigger: 'blur' }
         ]
     }
 
     roleDialogFormVisible: boolean =  false
+
+
+    sponsorOpts: any = [
+        { id: 0, label: 'No' },
+        { id: 1, label: 'Yes' },
+    ]
 
     created() {
         this.assetAllList()
@@ -371,6 +429,16 @@ export default class AssetList extends Vue {
             this.fileBase64Data.push({ fileName: file.name, dataBase64 })
             // const test = response as never
         })
+    }
+
+    sumCostWithSponsor() {
+        axios.get(
+            '/asset/assetList/sumCostWithSponsor'
+        ).then(
+            (res: any) => {
+                this.sumTotalWithSponsor = res.data.data
+            }
+        )
     }
 
     getTotalCost() {
@@ -594,5 +662,14 @@ export default class AssetList extends Vue {
 
     .handle-box {
         margin-bottom: 20px;
+    }
+
+    .mgb20-score {
+        /* margin-bottom: 20px; */
+        background-color: lightskyblue;
+        border-color: midnightblue;
+        border-width: 0.2rem;
+        height: 170px;
+        width: 250px;
     }
 </style>
