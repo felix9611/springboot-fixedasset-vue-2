@@ -29,6 +29,12 @@ public class AssetList extends BaseEntity{
     @TableField("description")
     private String description;
 
+    @TableField("sponsor")
+    private int sponsor;
+
+    @TableField("sponsor_name")
+    private String sponsorName;
+
     @TableField("cost")
     private String cost;
 

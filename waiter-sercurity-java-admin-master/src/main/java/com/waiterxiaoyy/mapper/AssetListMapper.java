@@ -26,7 +26,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     String getCostYearMonth = "SELECT " +
             "sum(asset_list.cost) as totalCost," +
             "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
-            "FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and  asset_list.statu = 1 " +
+            "FROM asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and asset_list.statu = 1 " +
+            "and al.sponsor = 0 and al.sponsor_name is null " +
             "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
             "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
     String getItemYearMonth = "SELECT " +
@@ -52,17 +53,19 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     String groupByPlace = "SELECT count(*) as items, loc.place_name as placeName " +
             "FROM asset_list as al " +
             "left join location as loc on al.place_id = loc.id " +
-            "where al.statu = 1  " +
+            "where al.statu = 1 and al.sponsor = 0 and al.sponsor_name is null " +
             "group by al.place_id;";
     String costWithDept = "SELECT sum(al.cost) as totalCost, d.dept_name as deptName " +
             "FROM asset_list as al " +
             "left join department as d on al.dept_id = d.id " +
-            "where al.statu = 1 group by al.dept_id;";
+            "where al.statu = 1 and al.sponsor = 0 and al.sponsor_name is null " +
+            "group by al.dept_id;";
 
     String costWithType = "SELECT sum(al.cost) as totalCost, at.type_name as typeName " +
             "FROM asset_list as al " +
             "left join asset_type as at on al.type_id = at.id " +
-            "where al.statu = 1 group by al.dept_id;";
+            "where al.statu = 1 and al.sponsor = 0 and al.sponsor_name is null " +
+            "group by al.dept_id;";
 
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
