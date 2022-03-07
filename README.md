@@ -6,7 +6,7 @@ Core:
 -Spring boot 2.4.13
 -Mybatis 3.4.1
 -Vue 2.6.10
--monment 2.29.1
+-moment 2.29.1
 
 Component:
 -ChartJs 2.9.3
