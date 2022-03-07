@@ -30,6 +30,14 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "and al.sponsor = 0 and al.sponsor_name is null " +
             "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
             "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
+
+    String getCostYearMonthSponsor = "SELECT " +
+            "sum(asset_list.cost) as totalCost," +
+            "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
+            "FROM asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) and asset_list.statu = 1 " +
+            "and al.sponsor = 1 and al.sponsor_name is null " +
+            "group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) " +
+            "order by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date)  ASC;";
     String getItemYearMonth = "SELECT " +
             "count(*) as items," +
             "CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth " +
@@ -70,11 +78,17 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
 
-    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1")
+    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and al.sponsor = 0 and al.sponsor_name is null")
     int sumCost();
+
+    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and al.sponsor = 0 and al.sponsor_name is null")
+    int sumCostWithSponsor();
 
     @Select(getCostYearMonth)
     List<AssetCostYearMonthDto> getCostYearMonth();
+
+    @Select(getCostYearMonthSponsor)
+    List<AssetCostYearMonthDto> getCostYearMonthWithSponsor();
 
     @Select(getItemYearMonth)
     List<AssetItemYearMonthDto> getItemYearMonth();

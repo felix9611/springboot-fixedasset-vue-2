@@ -36,6 +36,10 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         return assetListMapper.sumCost();
     }
 
+    public int sumCostWithSponsor() {
+        return assetListMapper.sumCostWithSponsor();
+    }
+
     public String createNew(AssetList assetList) {
         String newCode = this.getNewAssetCode();
         assetList.setAssetCode(newCode);

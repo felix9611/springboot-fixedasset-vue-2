@@ -52,6 +52,11 @@ public class AssetListController extends BaseController {
         return Result.succ(assetListService.sumTotal());
     }
 
+    @GetMapping("/sumCostWithSponsor")
+    public Result sumCostWithSponsor() {
+        return Result.succ(assetListService.sumCostWithSponsor());
+    }
+
     @PostMapping("/create")
     public Result create(@RequestBody AssetList assetList) {
         String newAssetCode = assetListService.createNew(assetList);
