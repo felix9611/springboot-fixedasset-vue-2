@@ -78,10 +78,10 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
 
-    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and al.sponsor = 0 and al.sponsor_name is null")
+    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and sponsor = 0 and sponsor_name is null;")
     int sumCost();
 
-    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and al.sponsor = 0 and al.sponsor_name is null")
+    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and sponsor = 1 and sponsor_name is not null;")
     int sumCostWithSponsor();
 
     @Select(getCostYearMonth)
