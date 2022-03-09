@@ -4,3 +4,9 @@ SELECT
 FROM fixedasset_springboot_vue_3.asset_list where asset_list.buy_date is not null and not(asset_list.cost = 0) 
 group by YEAR(asset_list.buy_date), MONTH(asset_list.buy_date) 
 order by yearMonth ASC;
+
+SELECT count(*) as items, d.dept_name as deptNmae 
+FROM fixedasset_springboot_vue_3.asset_list 
+left join fixedasset_springboot_vue_3.department as d on asset_list.dept_id = d.id 
+where asset_list.statu = 1 
+group by asset_list.dept_id;
