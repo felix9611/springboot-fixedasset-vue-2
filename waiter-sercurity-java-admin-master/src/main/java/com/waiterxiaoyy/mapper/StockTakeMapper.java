@@ -17,7 +17,7 @@ public interface StockTakeMapper extends BaseMapper<StockTake> {
     @Select("Select * from stocktake where active = 0")
     List<StockTake> getALLFinished();
 
-    String querySqlForm = "SELECT st.*," +
+    String querySqlForm = "SELECT st.*, st.created_time as createdAt," +
             "lo.place_code AS placeCode, lo.place_name AS placeName " +
             "FROM stocktake AS st " +
             "LEFT JOIN location AS lo ON st.action_place = lo.id";

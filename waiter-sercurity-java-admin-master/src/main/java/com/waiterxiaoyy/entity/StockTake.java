@@ -24,7 +24,7 @@ public class StockTake implements Serializable {
     private int actionPlace;
 
     @TableField("created_time")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
 
     @TableField("finish_time")
     private LocalDateTime finishTime;

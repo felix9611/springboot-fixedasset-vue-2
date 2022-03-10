@@ -28,7 +28,7 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
 
     public void create(StockTake stockTake) {
         stockTake.setActive(1);
-        stockTake.setCreatedAt(LocalDateTime.now());
+        stockTake.setCreatedTime(LocalDateTime.now());
         stockTakeMapper.insert(stockTake);
 
         actionRecord.setActionName("Save");

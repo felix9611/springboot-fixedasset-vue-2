@@ -11,4 +11,6 @@ public class StockTakeFormListDTO extends StockTake {
     @Transient private String placeName;
 
     @Transient private String placeCode;
+
+    @Transient private String createdAt;
 }
