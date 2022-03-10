@@ -171,10 +171,10 @@ export default class Stocktake extends Vue {
                     this.total = res.data.data.total
 
                     this.tableData.forEach((re: any) => {
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
+                        const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
                         const newFinishTime =  re.finishTime ? moment(new Date(re.finishTime)).format('DD-MM-YYYY HH:MM') : null
 
-                        re['created'] = newCreated
+                        re['createdAt'] = newCreated
                         re['finishTime'] = newFinishTime
                         return re
                     })
