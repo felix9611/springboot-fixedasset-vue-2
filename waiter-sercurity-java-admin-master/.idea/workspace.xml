@@ -5,29 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab118d93-b8d4-4b5f-952b-9bb58e5ca517" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../charts-sql.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../charts-sql.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/css/chunk-0943c0d4.6fe474c8.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/css/chunk-5f57a28f.4226bc08.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/css/dashboard.080d458c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/404.e4dae5f7.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/app.bb3e7ac1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/chunk-0943c0d4.9e98cf62.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/chunk-5f57a28f.d491e6d6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/dashboard.a10c0ab9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/home.48059522.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/src/components/page/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/src/components/page/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/css/chunk-171a149f.ded28bc9.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/app.cd4feb6d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/chunk-171a149f.cd9a8016.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/src/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/src/axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/src/store/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_whvcse_easy_captcha_1_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jhlabs_filters_2_0_235.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_istack_istack_commons_runtime_3_0_11.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/AssetList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/AssetList.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/mapper/AssetListMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/mapper/AssetListMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -72,8 +79,8 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../jeesite-vue/jeesite-master" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../springboot-fixedasset" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
@@ -86,7 +93,20 @@
       <recent name="com.waiterxiaoyy.dto" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.VueAdminLearnApplication">
+  <component name="RunManager" selected="Application.VueAdminLearnApplication (1)">
+    <configuration name="VueAdminLearnApplication (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.fixedasset.VueAdminLearnApplication" />
+      <module name="Waiter-Security-VueAdmin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fixedasset.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="VueAdminLearnApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.waiterxiaoyy.VueAdminLearnApplication" />
       <module name="Waiter-Security-VueAdmin" />
@@ -109,6 +129,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.VueAdminLearnApplication (1)" />
         <item itemvalue="Application.VueAdminLearnApplication" />
       </list>
     </recent_temporary>

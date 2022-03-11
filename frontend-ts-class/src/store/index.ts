@@ -20,6 +20,7 @@ export default new Vuex.Store({
     },
     resetState: (state: any) => {
       state.token = ''
+      localStorage.removeItem('token');
     },
     setMenuList(state: any, menus: any) {
       state.menuList = menus

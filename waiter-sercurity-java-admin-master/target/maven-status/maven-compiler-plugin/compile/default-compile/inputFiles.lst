@@ -2,6 +2,7 @@ D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\config\KaptchaConfig.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\TestController.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\entity\AssetList.java
+D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\dto\AssetGroupDeptDto.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\AssetListController.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\entity\AssetType.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\entity\StockTake.java
@@ -31,6 +32,7 @@ D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\security\LoginSuccessHandler.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\dto\ResetPasswordDto.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\mapper\AssetListFileMapper.java
+D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\dto\GroupByAssetOfTypeDto.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\security\UserDetailServiceImpl.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\SysMenuController.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\mapper\CodeTypeMapper.java
@@ -44,6 +46,7 @@ D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\AssetTypeController.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\AssetTypeServiceImpl.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\security\JwtAuthenticationEntryPoint.java
+D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\dto\CostWithDeptDto.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\TestCodeController.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\TestCodeServiceImpl.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\mapper\SysRoleMenuMapper.java
@@ -61,6 +64,7 @@ D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\CodeTypeController.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\mapper\TestCodeMapper.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\SysUserServiceImpl.java
+D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\dto\AssetItemYearMonthDto.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\security\AccountUser.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\SysRoleMenuServiceImpl.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\SysRoleServiceImpl.java
@@ -74,6 +78,7 @@ D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\SysMenuServiceImpl.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\entity\SysMenu.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\SysUserRoleServiceImpl.java
+D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\dto\AssetGroupPlaceDto.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\service\impl\DepartmentServiceImpl.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\config\MybatisPlusConfig.java
 D:\LOCALHOSTjava\springboot-fixedasset-vue-2\waiter-sercurity-java-admin-master\src\main\java\com\waiterxiaoyy\controller\BaseController.java

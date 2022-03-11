@@ -32,7 +32,7 @@ request.interceptors.response.use((response: any) => {
         if (error.response && error.response.data) {
             error.message = error.response.data.msg
         }
-        // 没有权限
+
         if (error.response && error.response.status === 401) {
             router.push("/login")
         }
