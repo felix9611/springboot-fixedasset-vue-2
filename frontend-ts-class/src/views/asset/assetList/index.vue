@@ -72,6 +72,10 @@
                 </el-form-item>-->
 
                 <el-form-item>
+                    <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
                 </el-form-item>
 
@@ -326,6 +330,23 @@
                 <el-button :disabled="hideSaveBtn" type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
             </div>
         </el-dialog>
+
+        <el-dialog
+                title="Upload Excel"
+                :visible.sync="excelUploaderDialog"
+                width="700px"
+                :before-close="closeUploadExcelDialog">
+                <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="excelFileList"
+                        :on-change="uploadExcelFile"
+                        :on-remove="clearFile"
+                        >
+                        <el-button size="small" type="primary">Upload</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+        </el-dialog>
     </div>
 </template>
 <script lang="ts">
@@ -336,6 +357,8 @@ import type { UploadFile } from 'element-plus/es/components/upload/src/upload.ty
 import { uploadImgToBase64 } from '../../../utils/uploadImgToBase64'
 import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
+import { exportExcelHeader1, exportExcelHeader2 } from './importSetting'
+import { formatJson, readExcel } from '../../../utils/importExcel'
 
 @Component({
     components: {
@@ -380,6 +403,20 @@ export default class AssetList extends Vue {
 
     roleDialogFormVisible: boolean =  false
 
+    excelUploaderDialog: boolean = false
+
+    excelFileList: any = []
+
+    clickUploadExcelDialog() {
+        this.excelFileList = []
+        this.excelUploaderDialog = true
+    }
+
+    closeUploadExcelDialog() {
+        this.excelFileList = []
+        this.excelUploaderDialog = false
+    }
+
 
     sponsorOpts: any = [
         { id: 0, label: 'No' },
@@ -402,6 +439,90 @@ export default class AssetList extends Vue {
 
     removeUploaded() {
         this.fileList = []
+    }
+
+    async uploadExcelFile(file: any) {
+        const data = await readExcel(file)
+        const reData = formatJson(exportExcelHeader1, exportExcelHeader2, data)
+
+        reData.forEach(
+            (res: any) => {
+
+                let newBuyDate: string = ''
+                let newInvoiceDate: string = ''
+                let typeId: number = 0
+
+                const saveJson: any = {}
+
+                if (res.buyDate) {
+                    const utc_days  = Math.floor(res.buyDate - 25569)
+                    const utc_value = utc_days * 86400                                      
+                    saveJson.buyDate = new Date(utc_value * 1000)
+                    // saveJson.buyDate = moment(date_info).format('DD-MM-YYYY HH:MM:SS')
+                }
+
+                if (res.buyDate) {
+                    const utc_days  = Math.floor(res.buyDate - 25569)
+                    const utc_value = utc_days * 86400                                      
+                    saveJson.invoiceDate = new Date(utc_value * 1000)
+                   // saveJson.invoiceDate = moment(date_info).format('DD-MM-YYYY HH:MM:SS')
+                }
+
+                if ( res.typeCode || res.typeName ) {
+                    axios.post(
+                        '/base/asset_type/post/findOne',
+                        {
+                            typeCode: res.typeCode,
+                            typeName: res.typeName 
+                        }
+                    ).then(
+                        (res: any) => {
+                            saveJson.typeId  = res.data.data.id
+                        }
+                    )
+                }
+
+                if ( res.placeCode || res.placeName ) {
+                    axios.post(
+                        '/base/location/post/findOne',
+                        {
+                            placeCode: res.placeCode,
+                            placeName: res.placeName 
+                        }
+                    ).then(
+                        (res: any) => {
+                            saveJson.placeId  = res.data.data.id
+                        }
+                    )
+                }
+
+
+                saveJson.assetName = res.assetName
+                saveJson.description = res.description
+                saveJson.unit = res.unit
+                saveJson.cost = res.cost
+                saveJson.serialNum = res.serialNum
+                saveJson.invoiceNo = res.invoiceNo
+                saveJson.remark = res.remark
+
+                axios.post('/asset/assetList/create', saveJson)
+                    .then((res: any) => {
+                        this.$notify({
+                            title: 'Msg',
+                            showClose: true,
+                            message: 'Upload success',
+                            type: 'success',
+                        })
+                        
+                        this.excelUploaderDialog = false
+                        this.excelFileList = []
+                        file = undefined
+                        this.assetAllList()
+                    })
+
+                
+            }
+        )
     }
 
     onChangeUpload(file: UploadFile) {
