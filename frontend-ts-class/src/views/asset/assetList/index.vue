@@ -460,7 +460,7 @@ export default class AssetList extends Vue {
     closeQRCodeDialog() {
         this.qrCodeTagDialog = false
     }
-
+/*
     async uploadExcelFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(exportExcelHeader1, exportExcelHeader2, data)
@@ -492,10 +492,7 @@ export default class AssetList extends Vue {
                 if ( res.typeCode || res.typeName ) {
                     axios.post(
                         '/base/asset_type/post/findOne',
-                        {
-                            typeCode: res.typeCode,
-                            typeName: res.typeName 
-                        }
+                        { typeCode: res.typeCode, typeName: res.typeName }
                     ).then(
                         (res: any) => {
                             saveJson.typeId  = res.data.data.id
@@ -506,10 +503,7 @@ export default class AssetList extends Vue {
                 if ( res.placeCode || res.placeName ) {
                     axios.post(
                         '/base/location/post/findOne',
-                        {
-                            placeCode: res.placeCode,
-                            placeName: res.placeName 
-                        }
+                        { placeCode: res.placeCode, placeName: res.placeName }
                     ).then(
                         (res: any) => {
                             saveJson.placeId  = res.data.data.id
@@ -530,7 +524,7 @@ export default class AssetList extends Vue {
         })
 
     }
-
+*/
     onChangeUpload(file: UploadFile) {
         let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
         const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
