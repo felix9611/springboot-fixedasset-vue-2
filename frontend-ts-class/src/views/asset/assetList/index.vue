@@ -355,6 +355,16 @@
                 width="300px"
                 :before-close="closeQRCodeDialog">
                 <div>
+                        <p>
+                            Asset Code: {{ assetDetail.assetCode }}
+                        </p>
+                        <p>
+                            Asset Name: {{ assetDetail.assetName }}
+                        </p>
+                        <br>
+                        <br>
+                        <div>
+                        </div>
                     <qrcode-vue :value="qrTagContent" :size="250" level="M" />
                 </div>
         </el-dialog>
@@ -422,6 +432,8 @@ export default class AssetList extends Vue {
 
     qrCodeTagDialog: boolean = false
     qrTagContent: string = ''
+
+    assetDetail: any = {}
 
     clickUploadExcelDialog() {
         this.excelFileList = []
@@ -554,7 +566,10 @@ export default class AssetList extends Vue {
 
     getQRCodeTag(asset: any) {
         this.qrCodeTagDialog = true
-        this.qrTagContent = `${asset.assetCode}|${asset.assetName}|${asset.placeName}|${asset.buyDate}|${asset.updated}`
+        const { assetCode, assetName, placeName, buyDate, updated } = asset
+        this.assetDetail = asset
+        const download = moment().format('DD-MM-YYYY HH:MM')
+        this.qrTagContent = `${assetCode}|${assetName}|${placeName}|Buy Date:${buyDate}|Updated At:${updated}|Download Tag:${download}`
     }
  
     sumCostWithSponsor() {
@@ -781,7 +796,6 @@ export default class AssetList extends Vue {
         })
     }
 }
-
 </script>
 
 <style scoped>

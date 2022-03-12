@@ -44,6 +44,7 @@
     "vue-chartjs": "^3.5.1",
     "vue-class-component": "^7.2.6",
     "vue-cropperjs": "^3.0.0",
+    "vue-html-to-paper": "^1.4.4",
     "vue-i18n": "^8.10.0",
     "vue-property-decorator": "^9.1.2",
     "vue-quill-editor": "^3.0.6",
