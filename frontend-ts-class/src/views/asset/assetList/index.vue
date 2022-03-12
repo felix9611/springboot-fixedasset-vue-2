@@ -71,9 +71,9 @@
                     </el-select>
                 </el-form-item>-->
 
-                <el-form-item>
+                <!--<el-form-item>
                     <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
@@ -101,17 +101,12 @@
             <el-table-column
               prop="assetName"
               label="Asset Name"
-              width="150">
+              width="205">
             </el-table-column>
             <el-table-column
               prop="typeName"
               label="Type Name"
               width="150">
-            </el-table-column>
-            <el-table-column
-              prop="placeCode"
-              label="Place Code"
-              width="100">
             </el-table-column>
             <el-table-column
               prop="placeName"
@@ -121,26 +116,31 @@
             <el-table-column
               prop="deptName"
               label="Department Name"
-              width="150">
+              width="180">
             </el-table-column>
             <el-table-column
               prop="created"
-              width="150"
+              width="140"
               label="Created At"
             >
             </el-table-column>
             <el-table-column
               prop="updated"
-              width="150"
+              width="140"
               label="Update At"
             >
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="380px"
+                    width="500px"
                     label="Action">
 
                 <template slot-scope="scope">
+                    <el-button
+                      size="mini"
+                      type="success"
+                      @click="getQRCodeTag(scope.row)">Save QR Tag</el-button>
+                    <el-divider direction="vertical"></el-divider>
                     <el-button
                       size="mini"
                       type="success"
@@ -149,7 +149,7 @@
                     <el-button
                       size="mini"
                       type="success"
-                      @click="readHandle(scope.row.id)">Read</el-button>
+                      @click="readHandle(scope.row.id)">Detail</el-button>
                     <el-divider direction="vertical"></el-divider>
                     <el-button
                       size="mini"
@@ -347,6 +347,17 @@
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
         </el-dialog>
+
+
+        <el-dialog
+                title="QR Code Tag"
+                :visible.sync="qrCodeTagDialog"
+                width="300px"
+                :before-close="closeQRCodeDialog">
+                <div>
+                    <qrcode-vue :value="qrTagContent" :size="250" level="M" />
+                </div>
+        </el-dialog>
     </div>
 </template>
 <script lang="ts">
@@ -359,10 +370,12 @@ import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
 import { exportExcelHeader1, exportExcelHeader2 } from './importSetting'
 import { formatJson, readExcel } from '../../../utils/importExcel'
+import QrcodeVue from 'qrcode.vue'
 
 @Component({
     components: {
-        VueBase64FileUpload
+        VueBase64FileUpload,
+        QrcodeVue
     }
 })
 export default class AssetList extends Vue {
@@ -407,6 +420,9 @@ export default class AssetList extends Vue {
 
     excelFileList: any = []
 
+    qrCodeTagDialog: boolean = false
+    qrTagContent: string = ''
+
     clickUploadExcelDialog() {
         this.excelFileList = []
         this.excelUploaderDialog = true
@@ -441,10 +457,15 @@ export default class AssetList extends Vue {
         this.fileList = []
     }
 
+    closeQRCodeDialog() {
+        this.qrCodeTagDialog = false
+    }
+
     async uploadExcelFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(exportExcelHeader1, exportExcelHeader2, data)
 
+        let saveData: any = []
         reData.forEach(
             (res: any) => {
 
@@ -452,7 +473,7 @@ export default class AssetList extends Vue {
                 let newInvoiceDate: string = ''
                 let typeId: number = 0
 
-                const saveJson: any = {}
+                let saveJson: any = {}
 
                 if (res.buyDate) {
                     const utc_days  = Math.floor(res.buyDate - 25569)
@@ -505,24 +526,9 @@ export default class AssetList extends Vue {
                 saveJson.invoiceNo = res.invoiceNo
                 saveJson.remark = res.remark
 
-                axios.post('/asset/assetList/create', saveJson)
-                    .then((res: any) => {
-                        this.$notify({
-                            title: 'Msg',
-                            showClose: true,
-                            message: 'Upload success',
-                            type: 'success',
-                        })
-                        
-                        this.excelUploaderDialog = false
-                        this.excelFileList = []
-                        file = undefined
-                        this.assetAllList()
-                    })
+                saveData.push(saveJson)          
+        })
 
-                
-            }
-        )
     }
 
     onChangeUpload(file: UploadFile) {
@@ -552,6 +558,11 @@ export default class AssetList extends Vue {
         })
     }
 
+    getQRCodeTag(asset: any) {
+        this.qrCodeTagDialog = true
+        this.qrTagContent = `${asset.assetCode}|${asset.assetName}|${asset.placeName}|${asset.buyDate}|${asset.updated}`
+    }
+ 
     sumCostWithSponsor() {
         axios.get(
             '/asset/assetList/sumCostWithSponsor'
