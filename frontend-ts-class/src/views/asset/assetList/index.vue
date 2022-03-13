@@ -71,9 +71,9 @@
                     </el-select>
                 </el-form-item>-->
 
-                <!--<el-form-item>
+                <el-form-item>
                     <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>
-                </el-form-item> -->
+                </el-form-item>
 
                 <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
@@ -425,15 +425,15 @@ export default class AssetList extends Vue {
     }
 
     roleDialogFormVisible: boolean =  false
-
     excelUploaderDialog: boolean = false
-
     excelFileList: any = []
-
     qrCodeTagDialog: boolean = false
     qrTagContent: string = ''
-
     assetDetail: any = {}
+    sponsorOpts: any = [
+        { id: 0, label: 'No' },
+        { id: 1, label: 'Yes' },
+    ]
 
     clickUploadExcelDialog() {
         this.excelFileList = []
@@ -444,12 +444,6 @@ export default class AssetList extends Vue {
         this.excelFileList = []
         this.excelUploaderDialog = false
     }
-
-
-    sponsorOpts: any = [
-        { id: 0, label: 'No' },
-        { id: 1, label: 'Yes' },
-    ]
 
     created() {
         this.assetAllList()
@@ -472,33 +466,30 @@ export default class AssetList extends Vue {
     closeQRCodeDialog() {
         this.qrCodeTagDialog = false
     }
-/*
+
     async uploadExcelFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(exportExcelHeader1, exportExcelHeader2, data)
 
-        let saveData: any = []
+        let importArray: any = []
         reData.forEach(
-            (res: any) => {
-
+            (res: any, i: number) => {
+                
                 let newBuyDate: string = ''
                 let newInvoiceDate: string = ''
                 let typeId: number = 0
-
                 let saveJson: any = {}
 
                 if (res.buyDate) {
                     const utc_days  = Math.floor(res.buyDate - 25569)
                     const utc_value = utc_days * 86400                                      
                     saveJson.buyDate = new Date(utc_value * 1000)
-                    // saveJson.buyDate = moment(date_info).format('DD-MM-YYYY HH:MM:SS')
                 }
 
                 if (res.buyDate) {
                     const utc_days  = Math.floor(res.buyDate - 25569)
                     const utc_value = utc_days * 86400                                      
                     saveJson.invoiceDate = new Date(utc_value * 1000)
-                   // saveJson.invoiceDate = moment(date_info).format('DD-MM-YYYY HH:MM:SS')
                 }
 
                 if ( res.typeCode || res.typeName ) {
@@ -517,12 +508,11 @@ export default class AssetList extends Vue {
                         '/base/location/post/findOne',
                         { placeCode: res.placeCode, placeName: res.placeName }
                     ).then(
-                        (res: any) => {
+                         (res: any) => {
                             saveJson.placeId  = res.data.data.id
                         }
                     )
                 }
-
 
                 saveJson.assetName = res.assetName
                 saveJson.description = res.description
@@ -531,12 +521,35 @@ export default class AssetList extends Vue {
                 saveJson.serialNum = res.serialNum
                 saveJson.invoiceNo = res.invoiceNo
                 saveJson.remark = res.remark
-
-                saveData.push(saveJson)          
+                
+                importArray.push(saveJson)
         })
 
+        importArray.forEach(
+            (res: any, i: number) => {
+                setTimeout(
+                    function(){
+                        console.log(moment().format('DD-MM-YYYY HH:MM:ss'))
+                        axios.post('/asset/assetList/create', res)
+                    }
+                ,2000 * i)
+                file = undefined
+                this.$notify({
+                    title: 'Msg',
+                    showClose: true,
+                    message: 'Upload success. please wait few second to process',
+                    type: 'success',
+                })
+                this.excelUploaderDialog = false
+                setTimeout(
+                ()=> { 
+                    console.log(moment().format('DD-MM-YYYY HH:MM:ss'))
+                    this.assetAllList()
+                }
+                ,3000* i)
+        })
     }
-*/
+
     onChangeUpload(file: UploadFile) {
         let testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
         const isJpg = testmsg === 'jpg' || testmsg === 'png' || testmsg === 'JPG' || testmsg === 'PNG'
@@ -709,6 +722,8 @@ export default class AssetList extends Vue {
                                         ).then(
                                             res=> {
                                                 this.assetAllList()
+                                                this.getTotalCost()
+                                                this.sumCostWithSponsor()
                                                 this.$notify({
                                                     title: '',
                                                     showClose: true,
@@ -726,6 +741,8 @@ export default class AssetList extends Vue {
                                 )
                             } else {
                                 this.assetAllList()
+                                this.getTotalCost()
+                                this.sumCostWithSponsor()
                                 this.$notify({
                                     title: '',
                                     showClose: true,
@@ -756,7 +773,7 @@ export default class AssetList extends Vue {
 
     readHandle(id: number) {
         axios.get(`/asset/assetList/${id}`).then((res: any) => {
-            console.log(this.placeItem)
+            console.log(res.data.data)
             this.editForm = res.data.data
             this.dialogVisible = true
             this.readonlyForm = true
@@ -775,6 +792,8 @@ export default class AssetList extends Vue {
     delItem(id: number) {
         axios.delete(`/asset/assetList/remove/${id}`).then(res => {
             this.assetAllList()
+            this.getTotalCost()
+            this.sumCostWithSponsor()
             this.$notify({
                 title: '',
                 showClose: true,
@@ -793,6 +812,9 @@ export default class AssetList extends Vue {
                 message: 'Delete file success',
                 type: 'success'
             })
+            this.assetAllList()
+            this.getTotalCost()
+            this.sumCostWithSponsor()
         })
     }
 }
