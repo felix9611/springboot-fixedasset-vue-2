@@ -280,8 +280,16 @@
                 <el-form-item label="Description"  prop="description" label-width="100px">
                     <el-input type="textarea" v-model="editForm.description"></el-input>
                 </el-form-item>
-                <el-form-item label="Description"  prop="description" label-width="100px">
-                    <el-input type="textarea" v-model="editForm.description"></el-input>
+               
+               <el-form-item label="Vendor" prop="vendor" label-width="100px">
+                    <el-select v-model="editForm.vendorId" placeholder="Select" filterable>
+                        <el-option
+                        v-for="vendorItems in vendorItem"
+                        :key="vendorItems.id"
+                        :label="vendorItems.vendorName"
+                        :value="vendorItems.id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item label="Sponsor" prop="sponsor" label-width="100px">
@@ -413,6 +421,8 @@ export default class AssetList extends Vue {
     placeItem: any = []
     typeItem: any = []
     deptItem: any = []
+    vendorItem: any = []
+
     hideSaveBtn: boolean =  false
     showImageDialog: boolean =  false
     editFormRules = {
@@ -451,6 +461,7 @@ export default class AssetList extends Vue {
         this.getAllPlace()
         this.getAlldept()
         this.getTotalCost()
+        this.getAllVendor()
     }
         
     formToImage(id: number) {
@@ -656,13 +667,13 @@ export default class AssetList extends Vue {
         })
     }
 
-     getAllVendor() {
+    getAllVendor() {
         axios.get(
-            '/base/location/getAll'
+            '/base/vendor/getAll'
         ).then(
             (res: any) => {
             // console.log(res.data.data)
-            this.placeItem = res.data.data
+            this.vendorItem = res.data.data
         })
     }
 
