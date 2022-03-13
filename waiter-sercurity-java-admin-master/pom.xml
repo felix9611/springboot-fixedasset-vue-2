@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.waiterxiaoyy</groupId>
-    <artifactId>Vue-admin-learn</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>fixedmanager-vue</artifactId>
+    <!--<version>1.0-SNAPSHOT</version>-->
     <name>vueadmin-java</name>
     <description>Demo project for Spring Boot</description>
     <properties>

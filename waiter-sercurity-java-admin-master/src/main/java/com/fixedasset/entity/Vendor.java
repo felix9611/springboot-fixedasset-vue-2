@@ -3,9 +3,11 @@ package com.fixedasset.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 @Data
 @TableName("vendor")
+@Component
 public class Vendor extends BaseEntity {
 
     @TableField("vendor_code")
