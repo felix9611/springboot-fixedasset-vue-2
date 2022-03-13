@@ -9,11 +9,13 @@ import com.fixedasset.entity.Vendor;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.VendorMapper;
 import com.fixedasset.service.VendorService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> implements VendorService {
 
     @Resource private VendorMapper vendorMapper;
