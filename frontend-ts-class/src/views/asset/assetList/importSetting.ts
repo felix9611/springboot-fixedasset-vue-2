@@ -13,6 +13,8 @@ export const exportExcelHeader1: any = [
   'Department Name',
   'Place Code',
   'Place Name',
+  'Vendor Code',
+  'Vendor Name',
   'Remark'
 ]
 
@@ -31,5 +33,7 @@ export const exportExcelHeader2: any = [
   'deptName',
   'placeCode',
   'placeName',
+  'vendorCode',
+  'vendorName',
   'remark'
 ]

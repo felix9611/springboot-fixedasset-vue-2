@@ -514,6 +514,28 @@ export default class AssetList extends Vue {
                     )
                 }
 
+                if ( res.deptName || res.deptCode ) {
+                    axios.post(
+                        '/base/department/post/findOne',
+                        { deptCode: res.deptCode, deptName: res.deptName }
+                    ).then(
+                        (res: any) => {
+                            saveJson.deptId = res.data.data.id
+                        }
+                    )
+                }
+
+                 if ( res.vendorName || res.vendorCode ) {
+                    axios.post(
+                        '/base/vendor/post/findOne',
+                        { vendorCode: res.vendorCode, vendorName: res.vendorName }
+                    ).then(
+                        (res: any) => {
+                            saveJson.vendorId = res.data.data.id
+                        }
+                    )
+                }
+
                 saveJson.assetName = res.assetName
                 saveJson.description = res.description
                 saveJson.unit = res.unit
@@ -523,6 +545,7 @@ export default class AssetList extends Vue {
                 saveJson.remark = res.remark
                 
                 importArray.push(saveJson)
+                console.log(importArray)
         })
 
         importArray.forEach(
@@ -624,6 +647,16 @@ export default class AssetList extends Vue {
     }
 
     getAllPlace() {
+        axios.get(
+            '/base/location/getAll'
+        ).then(
+            (res: any) => {
+            // console.log(res.data.data)
+            this.placeItem = res.data.data
+        })
+    }
+
+     getAllVendor() {
         axios.get(
             '/base/location/getAll'
         ).then(
