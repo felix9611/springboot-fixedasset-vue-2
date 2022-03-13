@@ -56,6 +56,9 @@ public class AssetList extends BaseEntity{
     @TableField("staff_id")
     private String staffId;
 
+    @TableField("vendor_id")
+    private String vendorId;
+
     @TableField("remark")
     private String remark;
 

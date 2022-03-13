@@ -1,5 +1,8 @@
 package com.fixedasset.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.Department;
@@ -61,6 +64,17 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     public List<Department> getAll() {
         return departmentMapper.getALL();
+    }
+
+    public Department getData(Department department) {
+        LambdaQueryWrapper<Department> queryWrapper = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(department.getDeptCode())) {
+            queryWrapper.eq(Department::getDeptCode, department.getDeptCode());
+        }
+        if (StringUtils.isNotBlank(department.getDeptName())) {
+            queryWrapper.eq(Department::getDeptName, department.getDeptName());
+        }
+        return departmentMapper.selectOne(queryWrapper);
     }
 
     public int createdAction(ActionRecord actionRecord) {

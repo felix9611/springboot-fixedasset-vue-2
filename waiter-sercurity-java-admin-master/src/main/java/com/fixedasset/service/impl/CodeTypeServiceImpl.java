@@ -1,7 +1,5 @@
 package com.fixedasset.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.CodeType;
@@ -17,7 +15,7 @@ import java.util.List;
 @Service
 public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> implements CodeTypeService {
 
-    @Resource ActionRecordMapper actionRecordMapper;
+    @Resource private ActionRecordMapper actionRecordMapper;
 
     @Resource private ActionRecord actionRecord;
 

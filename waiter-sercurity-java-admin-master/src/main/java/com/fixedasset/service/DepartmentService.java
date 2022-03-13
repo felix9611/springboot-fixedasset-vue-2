@@ -15,4 +15,6 @@ public interface DepartmentService extends IService<Department> {
 
     List<Department> getAll();
 
+    public Department getData(Department department);
+
 }

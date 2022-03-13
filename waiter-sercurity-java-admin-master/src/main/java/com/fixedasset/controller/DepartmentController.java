@@ -9,9 +9,6 @@ import com.fixedasset.service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -76,5 +73,10 @@ public class DepartmentController {
         queryWrapper.eq(Department::getStatu, 1);
         Page<Department> iPage = departmentService.page(page, queryWrapper);
         return Result.succ(iPage);
+    }
+
+    @PostMapping("/post/findOne")
+    public Result findOne(@RequestBody Department department) {
+        return Result.succ(departmentService.getData(department));
     }
 }
