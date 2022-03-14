@@ -71,6 +71,7 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
         if (StringUtils.isNotBlank(vendor.getVendorName())) {
             queryWrapper.eq(Vendor::getVendorName, vendor.getVendorName());
         }
+        queryWrapper.eq(Vendor::getStatu, 1);
         return vendorMapper.selectOne(queryWrapper);
     }
 

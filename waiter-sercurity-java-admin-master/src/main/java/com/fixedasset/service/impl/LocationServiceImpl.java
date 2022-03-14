@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.ActionRecord;
-import com.fixedasset.entity.AssetType;
 import com.fixedasset.entity.Location;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.LocationMapper;
@@ -73,6 +72,7 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         if (StringUtils.isNotBlank(location.getPlaceName())) {
             queryWrapper.eq(Location::getPlaceName, location.getPlaceName());
         }
+        queryWrapper.eq(Location::getStatu, 1);
         return locationMapper.selectOne(queryWrapper);
     }
 

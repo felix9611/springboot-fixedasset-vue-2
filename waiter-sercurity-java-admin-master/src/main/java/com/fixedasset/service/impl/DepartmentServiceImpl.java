@@ -74,6 +74,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         if (StringUtils.isNotBlank(department.getDeptName())) {
             queryWrapper.eq(Department::getDeptName, department.getDeptName());
         }
+        queryWrapper.eq(Department::getStatu, 1);
         return departmentMapper.selectOne(queryWrapper);
     }
 

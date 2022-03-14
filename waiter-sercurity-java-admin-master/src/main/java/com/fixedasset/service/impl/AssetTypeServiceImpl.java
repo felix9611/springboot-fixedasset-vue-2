@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.ActionRecord;
-import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.AssetType;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetTypeMapper;
@@ -68,6 +67,7 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         if (StringUtils.isNotBlank(assetType.getTypeName())) {
             queryWrapper.eq(AssetType::getTypeName, assetType.getTypeName());
         }
+        queryWrapper.eq(AssetType::getStatu, 1);
         return assetTypeMapper.selectOne(queryWrapper);
     }
 
