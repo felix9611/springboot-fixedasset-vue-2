@@ -503,6 +503,17 @@ export default class AssetList extends Vue {
                     saveJson.invoiceDate = new Date(utc_value * 1000)
                 }
 
+                if ( res.vendorName || res.vendorCode ) {
+                    axios.post(
+                        '/base/vendor/post/findOne',
+                        { vendorCode: res.vendorCode, vendorName: res.vendorName }
+                    ).then(
+                        (res: any) => {
+                            saveJson.vendorId = res.data.data.id
+                        }
+                    )
+                }
+
                 if ( res.typeCode || res.typeName ) {
                     axios.post(
                         '/base/asset_type/post/findOne',
@@ -536,16 +547,7 @@ export default class AssetList extends Vue {
                     )
                 }
 
-                 if ( res.vendorName || res.vendorCode ) {
-                    axios.post(
-                        '/base/vendor/post/findOne',
-                        { vendorCode: res.vendorCode, vendorName: res.vendorName }
-                    ).then(
-                        (res: any) => {
-                            saveJson.vendorId = res.data.data.id
-                        }
-                    )
-                }
+                
 
                 saveJson.assetName = res.assetName
                 saveJson.description = res.description
@@ -828,6 +830,7 @@ export default class AssetList extends Vue {
     editHandle(id: number) {
         axios.get(`/asset/assetList/${id}`).then((res: any) => {
             console.log(this.placeItem)
+            this.readonlyForm = false
             this.editForm = res.data.data
             this.dialogVisible = true
         })
