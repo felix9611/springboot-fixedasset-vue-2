@@ -2,97 +2,112 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="8">
-                <el-card shadow="hover" class="mgb20">
-                    <div class="user-info-list">
-                        <span  style="margin: 0px;">Felix</span>
-                    </div>
-                    <div>
-                        FixedAsset - Springboot MVC X VUE 2.0
-                    </div>
-                    <br>
-                    <br>
-                    <div>
-                        Testing any charts
-                    </div>
-                </el-card>
+                <v-card
+                    max-width="500"
+                >
+                    <div class="user-card">
+                        <div class="user-info-list-1">
+                            <span  style="margin: 0px;">Felix</span>
+                        </div>
+                        <div>
+                            FixedAsset - Springboot MVC X VUE 2.0
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                            Testing any charts
+                        </div> 
+                    </div> 
+                </v-card>
             </el-col>
             <el-col :span="16">
-                <el-card shadow="hover" class="mgb20">
-                    <ChartJs v-bind="chartsSetA1" />
-                </el-card>
+                <v-card
+                    max-width="1200"
+                >
+                    <div class="card-title">
+                        Total Item by Department
+                    </div>
+                    <div class="card-content">
+                        <ChartJs v-bind="chartsSetA1" /> 
+                    </div> 
+                </v-card>
             </el-col>
         </el-row>
         <el-row :gutter="24">
             <el-col :span="12">
-                <el-card shadow="hover" class="mgb20" >
-                    <div>
+                <v-card
+                    max-width="1000"
+                >
+                    <div class="card-title">
                         Group By Department
                     </div>
-                    <div style="height: 1%;">
-                        <ChartJs v-bind="chartsSetD" />
-                    </div>
-                </el-card>
+                    <div class="card-content">
+                        <ChartJs v-bind="chartsSetD" /> 
+                    </div> 
+                </v-card> 
             </el-col>
             <el-col :span="12">
-                <el-card shadow="hover" class="mgb20" >
-                    <div>
+                <v-card
+                    max-width="1000"
+                >
+                    <div class="card-title">
                         Group By Location
                     </div>
-                    <div style="height: 1%;">
-                        <ChartJs v-bind="chartsSetE" />
-                    </div>
-                </el-card>
+                    <div class="card-content">
+                        <ChartJs v-bind="chartsSetE" /> 
+                    </div> 
+                </v-card> 
             </el-col>
         </el-row>
-        <!--<el-row :gutter="24">
-            <el-col :span="24">
-                <el-card shadow="hover" class="mgb20" >
-                    <ApexChartOne 
-                        v-bind="chartsSetB"
-                    />
-                </el-card>
-            </el-col>
-        </el-row>-->
+
         <el-row :gutter="24">
             <el-col :span="24">
-                <el-card shadow="hover" class="mgb20" >
-                    <div>
-                        Buy Date & Cost (By year-month)
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Group By Location
                     </div>
-                    <div style="height: 1%;">
-                        <ChartJs v-bind="chartsSetC1" />
-                    </div>
-                </el-card>
+                    <div class="card-content">
+                        <ChartJs v-bind="chartsSetC1" /> 
+                    </div> 
+                </v-card> 
             </el-col>
         </el-row>
         <el-row :gutter="24">
             <el-col :span="24">
-                <el-card shadow="hover" class="mgb20" >
-                    <div>
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
                         Buy Date & Items (By year-month)
                     </div>
-                    <div style="height: 1%;">
-                        <ChartJs v-bind="chartsSetC2" />
-                        <!--<ApexChartOne  v-bind="chartsSetC2" /> -->
-                    </div>
-                </el-card>
+                    <div class="card-content">
+                        <chart-js v-bind="chartsSetC2" /> 
+                    </div> 
+                </v-card> 
             </el-col>
         </el-row>
         <el-row :gutter="24">
             <div v-for="item in getCostWithDeptData" :key="item.deptName">
                     <template>
                         <el-col :span="getCostWithDeptData.length - 1">
-                            <el-card shadow="hover" class="mgb20-score" >
-                                <div style="text-align: center;font-size: 2rem;color: midnightblue;">
-                                    {{ item.deptName }}
+                            <v-card
+                                class="mgb20-score"
+                                max-width="500"
+                            >
+                                <div class="card-content-score">
+                                    <div style="text-align: center;font-size: 2rem;color: midnightblue;">
+                                        {{ item.deptName }}
+                                    </div>
+                                    <div style="text-align: center;padding-top: 10%;font-size: 1.6rem;color: midnightblue;">
+                                        Used Cost
+                                    </div>
+                                    <div style="text-align: center;padding-top: 10%;font-size: 1.6rem;color: midnightblue;">
+                                        HKD ${{ item.totalCost }}
+                                    </div>    
                                 </div>
-                                <div style="text-align: center;padding-top: 10%;font-size: 1.6rem;color: midnightblue;">
-                                    Used Cost
-                                </div>
-                                <div style="text-align: center;padding-top: 10%;font-size: 1.6rem;color: midnightblue;">
-                                    HKD ${{ item.totalCost }}
-                                </div>    
-                            </el-card>
+                            </v-card> 
                         </el-col>    
                 </template>              
             </div>
@@ -127,7 +142,7 @@ export default class Dashboard extends Vue {
     get chartsSetA() {
         return {
             width: 1000,
-            heigh: 450,
+            heigh: 90,
             datasetKey: 'typeName',
             value: 'items',
             label: 'Total Items',
@@ -161,7 +176,7 @@ export default class Dashboard extends Vue {
     get chartsSetA1() {
         return {
             width: 1000,
-            heigh: 450,
+            heigh: 90,
             type: 'bar',
             datasetKey: 'typeName',
             value: 'items',
@@ -174,7 +189,7 @@ export default class Dashboard extends Vue {
     get chartsSetB() {
         return {
             width: 1600,
-            heigh: 450,
+            heigh: 90,
             datasetKey: 'yearMonth',
             value: 'totalCost',
             label: 'Total Cost(HKD)',
@@ -195,8 +210,8 @@ export default class Dashboard extends Vue {
 
     get chartsSetC1() {
         return {
-            width: 1600,
-            heigh: 450,
+            width: 1700,
+            heigh: 90,
             type: 'line',
             datasetKey: 'yearMonth',
             value: 'totalCost',
@@ -209,7 +224,7 @@ export default class Dashboard extends Vue {
     get chartsSetC2() {
         return {
             width: 1600,
-            heigh: 450,
+            heigh: 90,
             datasetKey: 'yearMonth',
             value: 'items',
             label: 'Total Items',
@@ -341,6 +356,23 @@ export default class Dashboard extends Vue {
 
 
 <style scoped>
+.card-title{
+    padding: 0.5rem 0rem 0rem 0.5rem;
+}
+
+.card-content-score {
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    padding-bottom: 0.5rem;
+    padding-top:0.7rem;
+}
+
+.card-content{
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    padding-bottom: 0.5rem;
+}
+
 .el-row {
     margin-bottom: 20px;
 }
@@ -428,12 +460,16 @@ export default class Dashboard extends Vue {
     line-height: 25px;
 }
 
+.user-card {
+    padding: 30px 30px 30px 30px;
+}
+
 .user-info-list span {
     margin-left: 70px;
 }
 
 .mgb20 {
-    margin-bottom: 20px;
+    margin-bottom: 1px;
 }
 
 .mgb20-score {

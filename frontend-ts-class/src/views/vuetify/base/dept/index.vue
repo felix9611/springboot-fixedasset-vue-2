@@ -4,6 +4,7 @@
       :headers="headers"
       :items="tableData"
       :items-per-page="searchForm.limit"
+      :page.sync="current"
       loading
     >
     </v-data-table>
@@ -20,7 +21,8 @@ export default class Department extends Vue {
     { text: 'Department Code', value: 'deptCode' },
     { text: 'Department Name', value: 'deptName' },
     { text: 'Created At', value: 'created' },
-    { text: 'Updated At', value: 'updated' }
+    { text: 'Updated At', value: 'updated' },
+    { text: 'Actions', value: 'actions', sortable: false },
   ]
 
   searchForm: any = {
@@ -33,6 +35,22 @@ export default class Department extends Vue {
   total: number = 0
 
   tableData: any = []
+
+  snack: boolean = false
+
+
+  save () {
+        this.snack = true
+      }
+      cancel () {
+        this.snack = true
+      }
+      open () {
+        this.snack = true
+      }
+      close () {
+        console.log('Dialog closed')
+      }
 
   created() {
     this.deptAllList()

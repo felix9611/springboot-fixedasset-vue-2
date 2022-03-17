@@ -3,30 +3,40 @@
         <div class="handle-box">
             <el-row :gutter="24">
                 <el-col :span="4">
-                    <el-card shadow="hover" class="mgb20-score" >
-                        <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
-                            Total
+                    <v-card
+                        class="mgb20-score"
+                        max-width="500"
+                    >
+                        <div class="card-content-score">
+                            <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
+                                Total
+                            </div>
+                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                                Used Cost
+                            </div>
+                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                                HKD ${{ sumTotal }}
+                            </div>    
                         </div>
-                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
-                            Used Cost
-                        </div>
-                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
-                            HKD ${{ sumTotal }}
-                        </div>    
-                    </el-card>
+                    </v-card>
                 </el-col>
                 <el-col :span="4">
-                    <el-card shadow="hover" class="mgb20-score" >
-                        <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
-                            Total with Sponsor
+                     <v-card
+                        class="mgb20-score"
+                        max-width="500"
+                    >
+                        <div class="card-content-score">
+                            <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
+                                Total with Sponsor
+                            </div>
+                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                                Used Cost 
+                            </div>
+                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                                HKD ${{ sumTotalWithSponsor }}
+                            </div>    
                         </div>
-                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
-                            Used Cost 
-                        </div>
-                        <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
-                            HKD ${{ sumTotalWithSponsor }}
-                        </div>    
-                    </el-card>
+                    </v-card> 
                 </el-col>
             </el-row>
         </div>
@@ -904,5 +914,12 @@ export default class AssetList extends Vue {
         border-width: 0.2rem;
         height: 170px;
         width: 250px;
+    }
+
+    .card-content-score {
+        padding-right: 0.8rem;
+        padding-left: 0.8rem;
+        padding-bottom: 0.5rem;
+        padding-top:0.7rem;
     }
 </style>
