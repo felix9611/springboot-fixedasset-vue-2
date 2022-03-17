@@ -81,7 +81,7 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and sponsor = 0 and sponsor_name is null;")
     int sumCost();
 
-    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and sponsor = 1 and sponsor_name is not null;")
+    @Select("SELECT IF(statu = 1 and sponsor = 1 and sponsor_name is not null, sum(cost), 0) costs FROM asset_list WHERE statu = 1 and sponsor = 1 and sponsor_name is not null;")
     int sumCostWithSponsor();
 
     @Select(getCostYearMonth)
