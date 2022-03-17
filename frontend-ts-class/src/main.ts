@@ -9,6 +9,7 @@ import axios from './axios'
 import { messages } from './components/common/i18n'
 import locale from 'element-ui/lib/locale/lang/en'
 import VJsoneditor from 'v-jsoneditor'
+import vuetify from './plugins/vuetify'
 
 import './assets/css/theme-green/index.css'
 import './assets/css/icon.css'
@@ -42,6 +43,7 @@ const i18n = new VueI18n({
 })
 process.env.VUE_APP_HTTPS = 'http://localhost/fixedasset-vue'
 new Vue({
+    vuetify,
     router,
     i18n,
     store,

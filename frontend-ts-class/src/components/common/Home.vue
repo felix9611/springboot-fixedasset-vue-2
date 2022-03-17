@@ -30,7 +30,7 @@ import bus from './bus'
         vTags
     }
 })
-export default class Tags extends Vue {
+export default class Home extends Vue {
     tagsList: any = []
     collapse: any = false
 

@@ -92,16 +92,29 @@
                 style="width: 100%"
                 border
                 stripe
+                :default-sort = "{prop: 'asset', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column
+              sortable
+              fixed="left"
               prop="assetCode"
               label="Asset Code"
-              width="105">
+              width="130">
             </el-table-column>
             <el-table-column
               prop="assetName"
               label="Asset Name"
-              width="205">
+              width="350">
+            </el-table-column>
+            <el-table-column
+              prop="buyDate"
+              label="Buy Date"
+              width="180">
+            </el-table-column>
+            <el-table-column
+              prop="typeCode"
+              label="Type Code"
+              width="150">
             </el-table-column>
             <el-table-column
               prop="typeName"
@@ -109,9 +122,19 @@
               width="150">
             </el-table-column>
             <el-table-column
+              prop="placeCode"
+              label="Place Code"
+              width="150">
+            </el-table-column>
+            <el-table-column
               prop="placeName"
               label="Place Name"
-              width="150">
+              width="140">
+            </el-table-column>
+            <el-table-column
+              prop="deptCode"
+              label="Department Code"
+              width="180">
             </el-table-column>
             <el-table-column
               prop="deptName"
@@ -131,8 +154,9 @@
             >
             </el-table-column>
             <el-table-column
+                    fixed="right"
                     prop="icon"
-                    width="500px"
+                    width="520px"
                     label="Action">
 
                 <template slot-scope="scope">
