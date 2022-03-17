@@ -1,0 +1,15 @@
+{
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
+  },
+  "extends": [
+    "plugin:vue/recommended"
+  ],
+  "rules": {
+    "vue/no-use-v-if-with-v-for": "warn"
+  }
+}
