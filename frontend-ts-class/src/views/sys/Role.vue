@@ -157,7 +157,7 @@
 
             <span slot="footer" class="dialog-footer">
 			    <el-button @click="permDialogVisible = false">Cancel</el-button>
-			    <el-button type="primary" @click="submitPermFormHandle('permForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
+			    <el-button type="primary" @click="submitPermFormHandle('permForm')">{{ permTreeData.menuIds? 'Update' : 'Create' }}</el-button>
 			</span>
         </el-dialog>
     </div>

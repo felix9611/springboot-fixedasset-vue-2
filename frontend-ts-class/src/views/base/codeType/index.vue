@@ -39,14 +39,16 @@
                 stripe
                 @selection-change="handleSelectionChange">
             <el-table-column
-              prop="type"
-              label="Type"
-              width="120">
+                sortable
+                prop="type"
+                label="Type"
+                width="120">
             </el-table-column>
             <el-table-column
-              prop="valueCode"
-              label="Value Code"
-              width="200">
+                sortable
+                prop="valueCode"
+                label="Value Code"
+                width="200">
             </el-table-column>
             <el-table-column
               prop="valueName"
@@ -54,9 +56,10 @@
               width="200">
             </el-table-column>
             <el-table-column
-                    prop="created"
-                    width="200"
-                    label="Created At"
+                sortable
+                prop="created"
+                width="200"
+                label="Created At"
             >
             </el-table-column>
             <el-table-column

@@ -92,7 +92,7 @@
                 style="width: 100%"
                 border
                 stripe
-                :default-sort = "{prop: 'asset', order: 'descending'}"
+                :default-sort = "{prop: 'assetCode', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column
               sortable

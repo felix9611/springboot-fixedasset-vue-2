@@ -32,11 +32,13 @@
                 style="width: 100%"
                 border
                 stripe
+                :default-sort = "{prop: 'placeCode', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column
-                    prop="placeCode"
-                    label="Place Code"
-                    width="120">
+                sortable
+                prop="placeCode"
+                label="Place Code"
+                width="150">
             </el-table-column>
             <el-table-column
               prop="placeName"

@@ -30,8 +30,10 @@
                 style="width: 100%"
                 border
                 stripe
+                :default-sort = "{prop: 'assetCode', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column
+              sortable
               prop="assetCode"
               label="Asset Code"
               width="150">
@@ -62,6 +64,7 @@
               width="270">
             </el-table-column>
             <el-table-column
+              sortable
               prop="checkTime"
               width="200"
               label="Check At"

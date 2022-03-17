@@ -51,9 +51,10 @@
                 stripe
                 @selection-change="handleSelectionChange">
             <el-table-column
-                    prop="vendorCode"
-                    label="Vendor Code"
-                    width="120">
+                sortable
+                prop="vendorCode"
+                label="Vendor Code"
+                width="150">
             </el-table-column>
             <el-table-column
               prop="vendorName"

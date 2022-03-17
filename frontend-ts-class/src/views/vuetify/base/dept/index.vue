@@ -5,7 +5,8 @@
       :items="tableData"
       :items-per-page="searchForm.limit"
       loading
-    ></v-data-table>
+    >
+    </v-data-table>
   </div>
 </template>
 <script lang="ts">

@@ -35,11 +35,13 @@
                 style="width: 100%"
                 border
                 stripe
+                :default-sort = "{prop: 'typeCode', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column
+                    sortable
                     prop="typeCode"
                     label="Type Code"
-                    width="120">
+                    width="150">
             </el-table-column>
             <el-table-column
               prop="typeName"
