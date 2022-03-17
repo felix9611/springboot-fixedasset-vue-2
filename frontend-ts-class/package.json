@@ -52,6 +52,7 @@
     "vue-schart": "^2.0.0",
     "vue-simple-uploader": "^0.7.6",
     "vuedraggable": "^2.17.0",
+    "vuetify": "2.6.4",
     "vuex": "^3.6.2",
     "xlsx": "^0.18.2",
     "xlsx-style": "^0.8.13"
