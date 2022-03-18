@@ -71,7 +71,7 @@ public class SysMenuController extends BaseController {
     public Result save(@Validated @RequestBody SysMenu sysMenu) {
 
         sysMenu.setCreated(LocalDateTime.now());
-
+        sysMenu.setStatu(1);
         sysMenuService.save(sysMenu);
         return Result.succ(sysMenu);
     }

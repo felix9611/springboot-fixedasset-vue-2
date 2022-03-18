@@ -1,19 +1,21 @@
 package com.fixedasset.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.common.dto.SysMenuDto;
 import com.fixedasset.entity.SysMenu;
 import com.fixedasset.entity.SysUser;
 import com.fixedasset.mapper.SysMenuMapper;
 import com.fixedasset.mapper.SysUserMapper;
 import com.fixedasset.service.SysMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,11 +31,13 @@ import java.util.List;
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
-    @Autowired
+    @Resource
     SysUserService sysUserService;
 
-    @Autowired
+    @Resource
     SysUserMapper sysUserMapper;
+
+    @Resource private SysMenu sysMenu;
 
     @Override
     public List<SysMenuDto> getCurrentUserNav() {
@@ -43,8 +47,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         List<Long> menuIds = sysUserMapper.getNavMenuIds(sysUser.getId());
 
-        List<SysMenu> menuList = this.listByIds(menuIds);
-
+        LambdaQueryWrapper<SysMenu> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.in(SysMenu::getId, menuIds);
+        queryWrapper.eq(SysMenu::getStatu, 1);
+        List<SysMenu> menuList = this.list(queryWrapper);
 
         // 只留下导航菜单，去除按钮级别的菜单权限
         Iterator<SysMenu> iterator = menuList.iterator();
@@ -67,7 +73,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenu> tree() {
         // 获取所有菜单信息
-        List<SysMenu> sysMenus = this.list(new QueryWrapper<SysMenu>().orderByAsc("orderNum"));
+        List<SysMenu> sysMenus = this.list(new QueryWrapper<SysMenu>().orderByAsc("orderNum").eq("statu", 1));
 
         // 转成树状结构
         return buildTreeMenu(sysMenus);
