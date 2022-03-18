@@ -1,5 +1,31 @@
 <template>
   <div class="container">
+    <div class="handle-box">
+      <v-form>
+        <v-container>
+          <v-row>
+            <v-col
+              cols="12"
+              md="4"
+            >
+              <v-text-field
+                v-model="searchForm.deptCode"
+                label="Department Code"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+            >
+              <v-btn @click="deptAllList">Search</v-btn>
+            </v-col>
+            <v-col>
+              <v-btn @click="dialogOpen">Create</v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+    </div>
     <v-data-table
       :headers="headers"
       :items="tableData"
@@ -25,9 +51,17 @@ export default class Department extends Vue {
     { text: 'Actions', value: 'actions', sortable: false },
   ]
 
-  searchForm: any = {
+  searchForm: object = {
+        deptCode: '',
         page: 1,
         limit: 10
+  }
+
+  createForm: object = {
+    deptCode: '',
+    deptName: '',
+    deptOtherName: {},
+    deptRemark: ''
   }
 
   size: number|undefined
@@ -37,26 +71,25 @@ export default class Department extends Vue {
   tableData: any = []
 
   snack: boolean = false
-
-
-  save () {
-        this.snack = true
-      }
-      cancel () {
-        this.snack = true
-      }
-      open () {
-        this.snack = true
-      }
-      close () {
-        console.log('Dialog closed')
-      }
+  dialogVisible: boolean = false
 
   created() {
     this.deptAllList()
   }
 
+  resetForm(formName: string) {
+      const refs: any = this.$refs[formName]
+      refs.resetFields()
+      this.dialogVisible = false
+      this.createForm = {}
+  }
+
+  dialogOpen() {
+    this.dialogVisible = true
+  }
+
   deptAllList() {
+    console.log(this.searchForm)
         axios.post(
             '/base/department/listAll',
             this.searchForm
@@ -80,3 +113,13 @@ export default class Department extends Vue {
     }
 }
 </script>
+<style>
+.v-data-table-header {
+  background-color: skyblue;
+}
+
+.v-data-table-header-text{
+  color: white;
+}
+
+</style>

@@ -21,19 +21,27 @@
                 stripe
                 @selection-change="handleSelectionChange">
                     <el-table-column
+                    sortable
+                    fixed="left"
                     prop="assetCode"
                     label="Asset Code"
-                    width="120">
+                    width="140">
                     </el-table-column>
                     <el-table-column
+                    fixed="left"
                     prop="assetName"
                     label="Asset Name"
                     width="200">
                     </el-table-column>
+                   <el-table-column
+                    prop="buyDate"
+                    label="Buy Date"
+                    width="180">
+                    </el-table-column>
                     <el-table-column
                     prop="typeCode"
                     label="Type Code"
-                    width="100">
+                    width="150">
                     </el-table-column>
                     <el-table-column
                     prop="typeName"
@@ -43,27 +51,33 @@
                     <el-table-column
                     prop="placeCode"
                     label="Place Code"
-                    width="100">
+                    width="150">
                     </el-table-column>
                     <el-table-column
                     prop="placeName"
                     label="Place Name"
-                    width="150">
+                    width="140">
                     </el-table-column>
                     <el-table-column
                     prop="deptCode"
                     label="Department Code"
-                    width="100">
+                    width="180">
                     </el-table-column>
                     <el-table-column
                     prop="deptName"
                     label="Department Name"
-                    width="150">
+                    width="180">
                     </el-table-column>
                     <el-table-column
-                    prop="buyDate"
-                    width="150"
-                    label="Buy Date"
+                    prop="created"
+                    width="140"
+                    label="Created At"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                    prop="updated"
+                    width="140"
+                    label="Update At"
                     >
                     </el-table-column>
                 </el-table>
