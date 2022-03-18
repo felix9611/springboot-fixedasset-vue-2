@@ -26,8 +26,6 @@
                 :data="tableData"
                 tooltip-effect="dark"
                 style="width: 100%"
-                border
-                stripe
                 @selection-change="handleSelectionChange">
 
             <el-table-column
@@ -37,9 +35,9 @@
 
             <el-table-column
                     label="ICON"
-                    width="50">
+                    width="100">
                 <template slot-scope="scope">
-                    <el-avatar size="small" :src="scope.row.avatarBase64"></el-avatar>
+                    <el-avatar :src="scope.row.avatarBase64"></el-avatar>
                 </template>
             </el-table-column>
 
@@ -82,17 +80,17 @@
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="260px"
+                    width="370px"
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button type="text" @click="roleHandle(scope.row.id)">Assigning Roles</el-button>
+                    <el-button size="mini" @click="roleHandle(scope.row.id)">Assigning Roles</el-button>
                     <el-divider direction="vertical"></el-divider>
 
-                    <el-button type="text" @click="repassHandle(scope.row.id, scope.row.username)">Reset Password</el-button>
+                    <el-button size="mini" @click="repassHandle(scope.row.id, scope.row.username)">Reset Password</el-button>
                     <el-divider direction="vertical"></el-divider>
 
-                    <el-button type="text" @click="editHandle(scope.row.id)">Edit</el-button>
+                    <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
 
                 </template>

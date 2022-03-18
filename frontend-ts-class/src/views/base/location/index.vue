@@ -30,8 +30,6 @@
                 :data="tableData"
                 tooltip-effect="dark"
                 style="width: 100%"
-                border
-                stripe
                 :default-sort = "{prop: 'placeCode', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column
@@ -62,9 +60,9 @@
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button @click="editHandle(scope.row.id)">Edit</el-button>
+                    <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
-                    <el-button type="danger" @click="delItem(scope.row.id)">Delete</el-button>
+                    <el-button size="mini" type="danger" @click="delItem(scope.row.id)">Delete</el-button>
                 </template>
             </el-table-column>
 

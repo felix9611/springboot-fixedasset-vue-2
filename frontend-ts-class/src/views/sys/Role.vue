@@ -32,8 +32,6 @@
                 :data="tableData"
                 tooltip-effect="dark"
                 style="width: 100%"
-                border
-                stripe
                 @selection-change="handleSelectionChange">
 
             <el-table-column
@@ -71,15 +69,15 @@
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button type="text" @click="permHandle(scope.row.id)">Assign Permissions</el-button>
+                    <el-button size="mini" @click="permHandle(scope.row.id)">Assign Permissions</el-button>
                     <el-divider direction="vertical"></el-divider>
 
-                    <el-button type="text" @click="editHandle(scope.row.id)">Edit</el-button>
+                    <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
 
                     <template>
                         <el-popconfirm title="Is this a piece of content to delete? ？" @onConfirm="delHandle(scope.row.id)">
-                            <el-button type="text" slot="reference">Delete</el-button>
+                            <el-button size="mini" slot="reference">Delete</el-button>
                         </el-popconfirm>
                     </template>
 

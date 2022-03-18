@@ -10,8 +10,6 @@
                 :data="tableData"
                 style="width: 100%;margin-bottom: 20px;"
                 row-key="id"
-                border
-                stripe
                 default-expand-all
                 :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
 
@@ -70,12 +68,12 @@
                     label="Action">
 
                 <template slot-scope="scope">
-                    <el-button type="text" @click="editHandle(scope.row.id)">Edit</el-button>
+                    <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
 
                     <template>
                         <el-popconfirm title="Is this a piece of content to delete?" confirm-button-text="Confirm" cancel-button-text="Cancel" @onConfirm="delHandle(scope.row.id)">
-                            <el-button type="text" slot="reference">Remove</el-button>
+                            <el-button size="mini" slot="reference">Remove</el-button>
                         </el-popconfirm>
                     </template>
 

@@ -33,18 +33,16 @@
                 :data="tableData"
                 tooltip-effect="dark"
                 style="width: 100%"
-                border
-                stripe
                 @selection-change="handleSelectionChange">
             <el-table-column
               prop="assetCode"
               label="Asset Code"
-              width="150">
+              width="130">
             </el-table-column>
             <el-table-column
               prop="assetName"
               label="Asset Name"
-              width="200">
+              width="350">
             </el-table-column>
             <el-table-column
               prop="placeCode"

@@ -35,8 +35,6 @@
                 :data="tableData"
                 tooltip-effect="dark"
                 style="width: 100%"
-                border
-                stripe
                 @selection-change="handleSelectionChange">
             <el-table-column
                 sortable

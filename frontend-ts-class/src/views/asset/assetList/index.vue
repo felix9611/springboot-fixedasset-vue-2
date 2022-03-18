@@ -100,8 +100,6 @@
                 :data="tableData"
                 tooltip-effect="dark"
                 style="width: 100%"
-                border
-                stripe
                 :default-sort = "{prop: 'assetCode', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column
