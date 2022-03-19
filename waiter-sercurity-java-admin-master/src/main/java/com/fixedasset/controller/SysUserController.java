@@ -155,6 +155,13 @@ public class SysUserController extends BaseController {
         return Result.succ("");
     }
 
+    @PutMapping("/updateIcon")
+    public Result repass(@RequestBody SysUser sysUser) {
+        sysUser.setUpdated(LocalDateTime.now());
+        sysUserService.updateById(sysUser);
+        return Result.succ(sysUser);
+    }
+
     @PostMapping("/updatePass")
     public Result updatePass(@Validated @RequestBody PassDto passDto, Principal principal) {
 

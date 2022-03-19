@@ -103,8 +103,10 @@ export default class Login extends Vue {
     }
             
     resetForm(formName) {
+        this.$store.commit('resetState', '')
         const refs: any = this.$refs[formName]
         refs.resetFields()
+        this.$router.push('/login')
     }
             
     getCaptcha() {

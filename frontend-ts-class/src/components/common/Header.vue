@@ -45,12 +45,12 @@ export default class vHead extends Vue {
     fullscreen: boolean = false
     name: string = 'admin'
     message: number = 2
-            userInfo: any = {
-                id: 0,
-                username: '',
-                avatar: '',
-                avatarBase64: ''
-            }
+    userInfo: any = {
+        id: 0,
+        username: '',
+        avatar: '',
+        avatarBase64: ''
+    }
 
     created() {
         this.getUserInfo()
@@ -58,7 +58,7 @@ export default class vHead extends Vue {
 
     getUserInfo() {
         axios.get("/sys/userInfo").then(res => {
-        this.userInfo = res.data.data
+            this.userInfo = res.data.data
         })
     }
         // 用户名下拉菜单选择事件

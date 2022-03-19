@@ -258,7 +258,7 @@
                         :on-remove="removeUploaded"
                         >
                         <el-button size="small" type="primary">Upload</el-button>
-                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                        <div slot="tip" class="el-upload__tip">Only upload JPG or PNG</div>
                     </el-upload>
                 </el-form-item>
 

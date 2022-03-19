@@ -127,7 +127,7 @@
                         :on-remove="removeUploaded"
                         >
                         <el-button size="small" type="primary">Upload</el-button>
-                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                        <div slot="tip" class="el-upload__tip">Only upload one picture on JPG or PNG</div>
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="Username" prop="username" label-width="100px">
@@ -202,7 +202,6 @@ import moment from 'moment'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import { uploadImgToBase64 } from '../../utils/uploadImgToBase64'
 import { Component, Vue } from 'vue-property-decorator'
-import { use } from 'vue/types/umd'
 
 @Component
 export default class User extends Vue {
