@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Delete, Param, Put, Req, Request, Session,
 import { CaptcheService } from 'src/module/base/service/CaptchaService'
 import { MyRequest } from 'src/common/request'
 import { SysUser } from 'src/module/base/model/sysUser'
-import { SysUserTabeService } from '../service/SysUserService'
+import { SysUserTabeService } from 'src/module/base/service/SysUserService'
+import { LoginForm } from 'src/module/base/dto/loginForm'
 
 @Controller('auth')
 export class AuthContoller {
@@ -12,12 +13,12 @@ export class AuthContoller {
   ) {}
 
   @Post('login')
-  async login(@Body() login: any, @Req() req: MyRequest) {
-
-    if (login && (login.codeText === req.session.codeText) && (login.code === req.session.code)) {
+  async login(@Body() login: LoginForm, @Req() req: MyRequest) {
+    const { code, codeText, username, password } = login
+    // if (login && (codeText === req.session.codeText) && (code === req.session.code)) {
       req.session.codeText = ''
-      return 'test ok'
-    }
+      return await this.sysUserTabeService.login(username, password)
+    // }
   }
 
   @Post('reg')

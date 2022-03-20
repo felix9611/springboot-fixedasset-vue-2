@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Delete, Param, Put } from '@nestjs/common'
+import { Controller, Get, Post, Body, Delete, Param, Put, UseGuards } from '@nestjs/common'
 import { DepartmentTabeService } from "../service/departmentTabe"
 import { Department } from 'src/module/base/model/deparment'
 import { queryFindDept } from 'src/module/base/dto/queryFindList'
-
+import { AuthGuard } from 'src/module/auth/guard'
 @Controller('base/department')
 export class DepartmentContoller {
   constructor(
@@ -10,6 +10,7 @@ export class DepartmentContoller {
   ) {}
 
   @Get('findAll')
+  @UseGuards(AuthGuard)
   async findAll() {
     return await this.departmentService.findAllTwo()
   }

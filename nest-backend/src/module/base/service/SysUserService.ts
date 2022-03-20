@@ -15,16 +15,32 @@ import {
 } from 'node-jql'
 import { queryFindDept } from 'src/module/base/dto/queryFindList'
 import { hashPw, comparePw } from 'src/common/password'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class SysUserTabeService{
   constructor(
     @Inject('sysUserRepository')
     protected readonly sysUserRepository: typeof SysUser,
+    private jwtTokenService: JwtService
   ) {}
 
   async login(username: string, password: string) {
-    // const loginData = await 
+    const userExist = await this.sysUserRepository.findOne({
+      where: {
+        username
+      }
+    })
+    const check = await comparePw(password, userExist.password)
+    if (check) {
+      let today = new Date()
+      const next = Math.floor(today.setHours(today.getHours() + 6))
+          
+      const payload = { username }
+      return {
+        token: this.jwtTokenService.sign(payload)
+      }
+    }
   }
 
   async regAccount(reg: SysUser) {
