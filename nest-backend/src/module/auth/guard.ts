@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest()
     const token = context.switchToRpc().getData().headers.authorization
-    console.log(context.switchToRpc().getData().headers)
     if (token) {
       try {
         const user = await this.verifyToken(token, 'secretKey')
