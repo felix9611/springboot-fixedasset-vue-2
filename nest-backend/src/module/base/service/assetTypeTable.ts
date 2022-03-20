@@ -13,8 +13,7 @@ import {
   AndExpressions,
   LimitOffset,
 } from 'node-jql'
-import { queryFindDept } from 'src/module/base/dto/queryFindList'
-
+import { queryFindAssetType } from 'src/module/base/dto/queryFindList'
 @Injectable()
 export class AssetTypeTabeService{
   constructor(
@@ -47,5 +46,51 @@ export class AssetTypeTabeService{
         status: 1
       })
     }
+  }
+
+  async voidData(id: number) {
+    return await this.repository.update({ status: 0 }, { where: { id } })
+  }
+
+  async getOne(id: number) {
+    return await this.repository.findOne({ where: { id } })
+  }
+
+  async findAll() {
+    const query = new Query({
+      $select: [new ResultColumn(new ColumnExpression('asset_type', '*'))],
+      $from: [new FromTable('asset_type')],
+      $where: [new BinaryExpression(new ColumnExpression('asset_type', 'status'), '=', new Value(1))],
+      $order: [new OrderBy({
+        expression: new ColumnExpression('asset_type', 'id'),
+        order: 'DESC'
+      })]
+    })
+
+    return this.repository.sequelize.query(query.toString('mysql'), { type: QueryTypes.SELECT })
+  }
+
+  async findAllList(query: queryFindAssetType) {
+    const { page, limit, typeCode, typeName } = query
+
+    const queryFind = new Query({
+      $select: [new ResultColumn(new ColumnExpression('asset_type', '*'))],
+      $from: [new FromTable('asset_type')],
+      $where: [
+        new AndExpressions({
+          expressions: [
+            typeCode? new LikeExpression(new ColumnExpression('asset_type', 'typeCode'), false, `%${typeCode}%`): new Value(1),
+            typeName? new LikeExpression(new ColumnExpression('asset_type', 'typeName'), false, `%${typeName}%`): new Value(1),
+          ]
+        })
+      ],
+      $order: [new OrderBy({
+        expression: new ColumnExpression('asset_type', 'id'),
+        order: 'DESC'
+      })],
+      $limit: new LimitOffset(limit, page)
+    })
+
+    return this.repository.sequelize.query(queryFind.toString('mysql'), { type: QueryTypes.SELECT })
   }
 }

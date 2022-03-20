@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript'
-import { models } from 'src/module/base/model';
-import { log } from './helper';
+import { models } from 'src/module/base/model/index'
+import { log } from './helper'
 
 export const databaseProviders = [
   {
@@ -15,7 +15,8 @@ export const databaseProviders = [
         database: 'fixedasset_nest_vue_3',
         logging: (...args: any[]) => log(args, 'Main', 'cyan')
       })
-      sequelize.addModels([...models])
+      const modelArea = [...models]
+      sequelize.addModels(modelArea)
       await sequelize.sync()
       return sequelize
     },

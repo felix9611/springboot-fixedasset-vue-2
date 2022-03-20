@@ -1,17 +1,15 @@
 import { Module } from '@nestjs/common'
 import { baseProviders } from './base/providers'
-import { services } from './base/service'
-import { controllers } from './base/controller/index'
-import { SequelizeModule } from '@nestjs/sequelize'
-import { Sequelize } from 'sequelize'
+import { baseServices } from './base/service'
+import { baseControllers } from './base/controller/index'
 
 @Module({
   controllers: [
-    ...controllers
+    ...baseControllers
   ],
   providers: [
     ...baseProviders,
-    ...services
+    ...baseServices
   ],
 })
 export class BaseModule {}

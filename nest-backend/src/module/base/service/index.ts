@@ -1,7 +1,11 @@
 import { DepartmentTabeService } from './departmentTabe'
 import { AssetTypeTabeService } from './assetTypeTable'
+import { SysUserTabeService } from './SysUserService'
+import { CaptcheService } from './CaptchaService'
 
-export const services = [
+export const baseServices = [
   DepartmentTabeService,
-  AssetTypeTabeService
+  AssetTypeTabeService,
+  SysUserTabeService,
+  CaptcheService
 ]

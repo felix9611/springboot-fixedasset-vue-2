@@ -75,11 +75,9 @@ public class SysUserController extends BaseController {
         sysUser.setCreated(LocalDateTime.now());
         sysUser.setStatu(Const.STATUS_ON);
 
-        // 默认密码
         String password = passwordEncoder.encode(Const.DEFULT_PASSWORD);
         sysUser.setPassword(password);
-
-        // 默认头像
+        
         sysUser.setAvatar(Const.DEFULT_AVATAR);
 
         sysUserService.save(sysUser);
