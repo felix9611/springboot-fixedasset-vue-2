@@ -69,7 +69,7 @@
                     </el-select>
                 </el-form-item>  
                 <el-form-item>
-                    <el-select v-model="searchForm.placeId" placeholder="Select" filterable>
+                    <el-select v-model="searchForm.placeId" placeholder="Select" filterable clearable>>
                         <el-option
                         v-for="item in placeItem"
                         :key="item.id"
@@ -79,7 +79,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-select v-model="searchForm.deptId" placeholder="Select" filterable>
+                    <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>>
                         <el-option
                         v-for="item in deptItem"
                         :key="item.id"
@@ -661,8 +661,9 @@ export default class AssetList extends Vue {
     }
  
     sumCostWithSponsor() {
-        axios.get(
-            '/asset/assetList/sumCostWithSponsor'
+        axios.post(
+            '/asset/assetList/sumCostWithSponsor',
+            this.searchForm
         ).then(
             (res: any) => {
                 this.sumTotalWithSponsor = res.data.data
@@ -671,8 +672,9 @@ export default class AssetList extends Vue {
     }
 
     getTotalCost() {
-        axios.get(
-            '/asset/assetList/getTotalSum'
+        axios.post(
+            '/asset/assetList/getTotalSum',
+            this.searchForm
         ).then(
             (res: any) => {
                 this.sumTotal = res.data.data
@@ -728,6 +730,9 @@ export default class AssetList extends Vue {
                 this.size = res.data.data.size
                 this.current = res.data.data.current
                 this.total = res.data.data.total
+
+                this.sumCostWithSponsor()
+                this.getTotalCost()
 
                 this.tableData.forEach((re: any) => {
                     const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null

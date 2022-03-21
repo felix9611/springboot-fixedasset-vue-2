@@ -78,11 +78,14 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
 
-    @Select("SELECT sum(cost) costs FROM asset_list WHERE statu = 1 and sponsor = 0 and sponsor_name is null;")
-    int sumCost();
+    String sumCostQuery = "SELECT sum(cost) costs FROM asset_list ${ew.customSqlSegment}";
+    @Select(sumCostQuery )
+    int sumCost(@Param("ew") Wrapper queryWrapper);
 
-    @Select("SELECT IF(statu = 1 and sponsor = 1 and sponsor_name is not null, sum(cost), 0) costs FROM asset_list WHERE statu = 1 and sponsor = 1 and sponsor_name is not null;")
-    int sumCostWithSponsor();
+    String sponsorQuery = "SELECT IF(statu = 1 and sponsor = 1 and sponsor_name is not null, sum(cost), 0) costs " +
+            "FROM asset_list ${ew.customSqlSegment}";
+    @Select(sponsorQuery)
+    int sumCostWithSponsor(@Param("ew") Wrapper queryWrapper);
 
     @Select(getCostYearMonth)
     List<AssetCostYearMonthDto> getCostYearMonth();

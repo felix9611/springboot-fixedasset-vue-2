@@ -1,6 +1,7 @@
 package com.fixedasset.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -32,12 +33,59 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         return this.assetListMapper.page(page, queryWrapper);
     }
 
-    public int sumTotal() {
-        return assetListMapper.sumCost();
+    public int sumTotal(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+        if (!StringUtils.isBlank(assetList.getAssetCode())){
+            queryWrapper.like(AssetList::getAssetCode, assetList.getAssetCode());
+        }
+
+        if (!StringUtils.isBlank(assetList.getAssetName())){
+            queryWrapper.like(AssetList::getAssetName, assetList.getAssetName());
+        }
+
+        if (!(assetList.getTypeId() == 0)) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!(assetList.getPlaceId() == 0)) {
+            queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
+        }
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
+        queryWrapper.eq(AssetList::getSponsor, 0);
+        queryWrapper.isNull(AssetList::getSponsorName);
+        queryWrapper.eq(AssetList::getStatu, 1);
+
+        return assetListMapper.sumCost(queryWrapper);
     }
 
-    public int sumCostWithSponsor() {
-        return assetListMapper.sumCostWithSponsor();
+    public int sumCostWithSponsor(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+        if (!StringUtils.isBlank(assetList.getAssetCode())){
+            queryWrapper.like(AssetList::getAssetCode, assetList.getAssetCode());
+        }
+
+        if (!StringUtils.isBlank(assetList.getAssetName())){
+            queryWrapper.like(AssetList::getAssetName, assetList.getAssetName());
+        }
+
+        if (!(assetList.getTypeId() == 0)) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!(assetList.getPlaceId() == 0)) {
+            queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
+        }
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
+
+        queryWrapper.eq(AssetList::getStatu, 1);
+        queryWrapper.eq(AssetList::getSponsor, 1);
+        queryWrapper.isNotNull(AssetList::getSponsorName);
+
+        return assetListMapper.sumCostWithSponsor(queryWrapper);
     }
 
     public String createNew(AssetList assetList) {

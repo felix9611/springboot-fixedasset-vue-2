@@ -52,14 +52,14 @@ public class AssetListController extends BaseController {
         return Result.succ(iPage);
     }
 
-    @GetMapping("/getTotalSum")
-    public Result getTotalSum() {
-        return Result.succ(assetListService.sumTotal());
+    @PostMapping("/getTotalSum")
+    public Result getTotalSum(@RequestBody AssetList assetList) {
+        return Result.succ(assetListService.sumTotal(assetList));
     }
 
-    @GetMapping("/sumCostWithSponsor")
-    public Result sumCostWithSponsor() {
-        return Result.succ(assetListService.sumCostWithSponsor());
+    @PostMapping("/sumCostWithSponsor")
+    public Result sumCostWithSponsor(@RequestBody AssetList assetList) {
+        return Result.succ(assetListService.sumCostWithSponsor(assetList));
     }
 
     @PostMapping("/create")

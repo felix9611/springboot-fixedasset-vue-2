@@ -77,7 +77,7 @@ public class SysUserController extends BaseController {
 
         String password = passwordEncoder.encode(Const.DEFULT_PASSWORD);
         sysUser.setPassword(password);
-        
+
         sysUser.setAvatar(Const.DEFULT_AVATAR);
 
         sysUserService.save(sysUser);
