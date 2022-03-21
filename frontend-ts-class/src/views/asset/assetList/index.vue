@@ -44,6 +44,14 @@
             <el-form :inline="true">
                 <el-form-item>
                     <el-input
+                      v-model="searchForm.assetCode"
+                      placeholder="Asset Code"
+                      clearable
+                    >
+                    </el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-input
                       v-model="searchForm.assetName"
                       placeholder="Asset Name"
                       clearable

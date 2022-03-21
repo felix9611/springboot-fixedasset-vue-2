@@ -28,6 +28,10 @@ public class AssetListController extends BaseController {
         Page page = new Page(assetList.getPage(), assetList.getLimit());
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
 
+        if (!StringUtils.isBlank(assetList.getAssetCode())){
+            queryWrapper.like(AssetList::getAssetCode, assetList.getAssetCode());
+        }
+
         if (!StringUtils.isBlank(assetList.getAssetName())){
             queryWrapper.like(AssetList::getAssetName, assetList.getAssetName());
         }
