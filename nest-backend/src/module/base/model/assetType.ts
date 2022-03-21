@@ -6,7 +6,7 @@ export class AssetType extends Model {
   typeCode: string
 
   @Column(DataType.STRING)
-  typeName: number
+  typeName: string
 
   @Column(DataType.JSON)
   typeOtherName: any

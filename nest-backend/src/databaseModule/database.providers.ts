@@ -15,8 +15,8 @@ export const databaseProviders = [
         database: 'fixedasset_nest_vue_3',
         logging: (...args: any[]) => log(args, 'Main', 'cyan')
       })
-      const modelArea = [...models]
-      sequelize.addModels(modelArea)
+      // const modelArea = [...models]
+      sequelize.addModels([...models])
       await sequelize.sync()
       return sequelize
     },

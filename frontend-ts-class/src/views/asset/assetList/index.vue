@@ -50,12 +50,22 @@
                     >
                     </el-input>
                 </el-form-item>
-                <!--<el-form-item>
+                <el-form-item>
                     <el-select v-model="searchForm.typeId" placeholder="Select" filterable clearable>
                         <el-option
                         v-for="item in typeItem"
                         :key="item.id"
                         :label="item.typeName"
+                        :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>  
+                <el-form-item>
+                    <el-select v-model="searchForm.placeId" placeholder="Select" filterable>
+                        <el-option
+                        v-for="item in placeItem"
+                        :key="item.id"
+                        :label="item.placeName"
                         :value="item.id">
                         </el-option>
                     </el-select>
@@ -70,16 +80,6 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item>
-                    <el-select v-model="searchForm.placeId" placeholder="Select" filterable>
-                        <el-option
-                        v-for="item in placeItem"
-                        :key="item.id"
-                        :label="item.placeName"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>-->
 
                 <el-form-item>
                     <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>

@@ -31,15 +31,16 @@ public class AssetListController extends BaseController {
         if (!StringUtils.isBlank(assetList.getAssetName())){
             queryWrapper.like(AssetList::getAssetName, assetList.getAssetName());
         }
-        /* if (!StringUtils.isBlank(assetList.getTypeId())) {
+
+        if (!(assetList.getTypeId() == 0)) {
             queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
         }
-        if (!StringUtils.isBlank(assetList.getPlaceId())) {
+        if (!(assetList.getPlaceId() == 0)) {
             queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
         }
-        if (!StringUtils.isBlank(assetList.getDeptId())) {
+        if (!(assetList.getDeptId() == 0)) {
             queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        } */
+        }
 
         queryWrapper.orderByDesc(true, AssetList::getAssetCode);
         queryWrapper.eq(AssetList::getStatu, 1);

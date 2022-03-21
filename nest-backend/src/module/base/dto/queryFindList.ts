@@ -11,3 +11,9 @@ export interface queryFindAssetType {
   page: number,
   limit: number
 }
+
+export interface queryFindRole  {
+  name: string
+  page: number,
+  limit: number
+}

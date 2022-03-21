@@ -6,7 +6,7 @@ export class Department extends Model {
   deptCode: string
 
   @Column(DataType.STRING)
-  deptName: number
+  deptName: string
 
   @Column(DataType.JSON)
   deptOtherName: any

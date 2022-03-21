@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sys/role")
 public class SysRoleController extends BaseController {
+
+    @Resource private SysRole sysRole;
 
     @PreAuthorize("hasAuthority('sys:role:list')")
     @GetMapping("/info/{id}")
@@ -67,6 +70,7 @@ public class SysRoleController extends BaseController {
 
         sysRoleService.save(sysRole);
         return Result.succ(sysRole);
+
     }
 
     @PostMapping("/update")
@@ -77,7 +81,6 @@ public class SysRoleController extends BaseController {
 
         sysRoleService.updateById(sysRole);
 
-        // 更新缓存
         sysUserService.clearUserAuthorityInfoByRoleId(sysRole.getId());
 
         return Result.succ(sysRole);
