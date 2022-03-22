@@ -21,7 +21,7 @@ Mock.mock('/login', 'post', () => {
     // 无法在header中传入数jwt
 
     Result.code = 400
-    Result.msg = "验证码错误"
+    Result.msg = "Verification code failure"
 
     return Result
 })
@@ -41,7 +41,7 @@ Mock.mock('/logout', 'post', () => {
     // 无法在header中传入数jwt
 
     Result.code = 200
-    Result.msg = "退出登录"
+    Result.msg = "Logout"
 
     return Result
 })

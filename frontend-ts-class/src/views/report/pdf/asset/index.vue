@@ -152,8 +152,9 @@ export default class AssetList extends Vue {
     }
 
     getTotalCost() {
-        axios.get(
-            '/asset/assetList/getTotalSum'
+        axios.post(
+            '/asset/assetList/getTotalSum',
+            this.searchForm
         ).then(
             (res: any) => {
                 this.sumTotal = res.data.data

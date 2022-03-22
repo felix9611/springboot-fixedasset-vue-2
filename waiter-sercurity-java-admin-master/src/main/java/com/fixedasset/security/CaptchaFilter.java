@@ -37,11 +37,11 @@ public class CaptchaFilter extends OncePerRequestFilter {
         String url = httpServletRequest.getRequestURI();
 
         if(url.equals("/login") && httpServletRequest.getMethod().equals("POST")) {
-            // 校验验证码
+            // Verify verification code 
             try {
                 validate(httpServletRequest);
             } catch (CaptchaException e) {
-                // 如果不正确，就跳转到认证失败处理器
+                // If not correct, jump to the authentication failure handler 
                 loginFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
             }
         }
@@ -54,14 +54,14 @@ public class CaptchaFilter extends OncePerRequestFilter {
         String key = httpServletRequest.getParameter("token");
 
         if(StringUtils.isBlank(code) || StringUtils.isBlank(key)) {
-            throw new CaptchaException("验证码错误");
+            throw new CaptchaException("Verification code failure");
         }
 
         if(!code.equals(redisUtil.hget(Const.CAPTCHA_KEY, key))) {
-            throw new CaptchaException("验证码错误");
+            throw new CaptchaException("Verification code failure");
         }
 
-        // 失效
+        // invalid 
         redisUtil.hdel(Const.CAPTCHA_KEY, key);
 
     }

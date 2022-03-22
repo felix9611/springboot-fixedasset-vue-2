@@ -19,7 +19,7 @@ public class Result implements Serializable {
     private Object data;
 
     public static Result succ(Object data) {
-        return succ(200, "操作成功", data);
+        return succ(200, "Successful", data);
     }
 
     public static Result succ(int code, String msg, Object data) {
