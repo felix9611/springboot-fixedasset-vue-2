@@ -438,10 +438,7 @@ import QrcodeVue from 'qrcode.vue'
 export default class AssetList extends Vue {
     searchForm: any = {
         limit: 10,
-        page: 1,
-        typeId: 0,
-        placeId: 0,
-        deptId: 0
+        page: 1
     }
     editForm: any = {}
     fileList: any = []
