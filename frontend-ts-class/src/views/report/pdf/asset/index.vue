@@ -96,7 +96,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component
 export default class AssetList extends Vue {
     searchForm: any = {
-        limit: 1000,
+        limit: 500,
         page: 1,
         typeId: 0,
         placeId: 0,

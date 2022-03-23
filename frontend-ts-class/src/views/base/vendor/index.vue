@@ -291,7 +291,7 @@ export default class vendor extends Vue {
                         this.$notify({
                             title: 'Msg',
                             showClose: true,
-                            message: '恭喜你，Action成功',
+                            message: 'Action is successful ',
                             type: 'success',
                         })
                     this.handleClose()

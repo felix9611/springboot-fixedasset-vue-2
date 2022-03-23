@@ -268,7 +268,7 @@ export default class Role extends Vue {
                         this.$notify({
                             title: '',
                             showClose: true,
-                            message: '恭喜你，Action成功',
+                            message: 'Action is successful ',
                             type: 'success'
                         })
                     this.dialogVisible = false
@@ -306,7 +306,7 @@ export default class Role extends Vue {
             this.$notify({
                 title: '',
                 showClose: true,
-                message: '恭喜你，Action成功',
+                message: 'Action is successful ',
                 type: 'success'
             })
             this.permDialogVisible = false

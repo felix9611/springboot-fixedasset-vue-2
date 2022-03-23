@@ -6,27 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="ab118d93-b8d4-4b5f-952b-9bb58e5ca517" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/css/chunk-171a149f.ded28bc9.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/app.cd4feb6d.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/chunk-171a149f.cd9a8016.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/src/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/src/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/src/store/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_whvcse_easy_captcha_1_6_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jhlabs_filters_2_0_235.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_istack_istack_commons_runtime_3_0_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/css/chunk-1aaab8ac.4af939b7.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/app.cb2746ef.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/dist/static/js/chunk-1aaab8ac.3bec20aa.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-ts-class/src/views/report/pdf/asset/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-ts-class/src/views/report/pdf/asset/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_annotation_3_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_boot_starter_3_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_extension_3_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_generator_3_4_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_axet_kaptcha_0_0_9.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/Vue-admin-learn-1.0-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/controller/AssetListController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/AssetList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/entity/AssetList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/mapper/AssetListMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/mapper/AssetListMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/AssetListService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/waiterxiaoyy/service/impl/AssetListServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +77,13 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../springboot-fixedasset" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />

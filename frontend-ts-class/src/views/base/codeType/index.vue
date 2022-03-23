@@ -296,7 +296,7 @@ export default class CodeType extends Vue {
                         this.$notify({
                             title: '',
                             showClose: true,
-                            message: '恭喜你，Action成功',
+                            message: 'Action is successful ',
                             type: 'success',
                         })
                         this.handleClose()
@@ -322,7 +322,7 @@ export default class CodeType extends Vue {
             this.$notify({
                 title: '',
                 showClose: true,
-                message: '恭喜你，Action成功',
+                message: 'Action is successful ',
                 type: 'success'
             })
         })

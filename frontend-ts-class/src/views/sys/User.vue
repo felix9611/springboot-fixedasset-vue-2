@@ -366,14 +366,14 @@ export default class User extends Vue {
                 this.editForm.avatarBase64 = this.fileBase64Data
                 axios.post('/sys/user/' + (this.editForm.id?'update' : 'save'), this.editForm)
                     .then((res: any) => {
-                            this.getUserList()
+                            
                             this.$notify({
                                 title: '',
                                 showClose: true,
                                 message: 'Save success',
                                 type: 'success',
                             })
-
+                            this.getUserList()    
                             this.dialogVisible = false
                             this.handleClose()
                         })
@@ -415,7 +415,7 @@ export default class User extends Vue {
             this.$notify({
                 title: '',
                 showClose: true,
-                message: '恭喜你，Action成功',
+                message: 'Action is successful ',
                 type: 'success'
             })
             this.roleDialogFormVisible = false
@@ -434,7 +434,7 @@ export default class User extends Vue {
                 this.$notify({
                     title: '',
                     showClose: true,
-                    message: '恭喜你，Action成功',
+                    message: 'Action is successful ',
                     type: 'success'
                 })
             })
