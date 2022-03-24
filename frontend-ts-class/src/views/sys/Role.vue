@@ -77,7 +77,7 @@
 
                     <template>
                         <el-popconfirm title="Is this a piece of content to delete? ？" @onConfirm="delHandle(scope.row.id)">
-                            <el-button size="mini" slot="reference">Delete</el-button>
+                            <el-button size="mini" type="danger" slot="reference">Delete</el-button>
                         </el-popconfirm>
                     </template>
 
