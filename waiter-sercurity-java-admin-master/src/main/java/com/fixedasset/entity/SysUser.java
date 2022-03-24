@@ -1,15 +1,14 @@
 package com.fixedasset.entity;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -48,5 +47,11 @@ public class SysUser extends BaseEntity {
 
     @TableField(exist = false)
     private List<SysRole> sysRoles = new ArrayList<>();
+
+    @TableField(exist = false)
+    private int page;
+
+    @TableField(exist = false)
+    private int limit;
 
 }

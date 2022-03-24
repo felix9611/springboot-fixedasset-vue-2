@@ -1,8 +1,10 @@
 package com.fixedasset.controller;
 
 
-import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.dto.PassDto;
 import com.fixedasset.common.lang.Const;
@@ -53,12 +55,20 @@ public class SysUserController extends BaseController {
         return Result.succ(sysUser);
     }
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     @PreAuthorize("hasAuthority('sys:user:list')")
-    public Result list(String username) {
+    public Result list(@RequestBody SysUser sysUser) {
+        Page page = new Page(sysUser.getPage(), sysUser.getLimit());
+        LambdaQueryWrapper<SysUser> queryWrapper = Wrappers.lambdaQuery();
 
+        if(!StringUtils.isBlank(sysUser.getUsername())) {
+            queryWrapper.like(SysUser::getUsername, sysUser.getUsername());
+        }
+        Page<SysUser> iPage = sysUserService.page(page, queryWrapper);
+        return Result.succ(iPage);
+        /*
         Page<SysUser> pageData = sysUserService.page(getPage(), new QueryWrapper<SysUser>()
-                .like(StrUtil.isNotBlank(username), "username", username));
+                .like(StrUtil.isNotBlank(sysUser.getUsername()), "username", sysUser.getUsername()));
 
         pageData.getRecords().forEach(u -> {
 
@@ -66,6 +76,7 @@ public class SysUserController extends BaseController {
         });
 
         return Result.succ(pageData);
+      */
     }
 
     @PostMapping("/save")

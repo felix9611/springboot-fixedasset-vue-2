@@ -208,7 +208,10 @@ export default class User extends Vue {
     roleForm: any = {}
     editForm: any = {}
     multipleSelection: any = []
-    searchForm: any = {}
+    searchForm: any = {
+        page: 1,
+        limit: 10
+    }
     deptItem: any = []
     fileList: any = []
     delBtlStatu: boolean = true
@@ -336,13 +339,15 @@ export default class User extends Vue {
     }
 
             getUserList() {
-                axios.get("/sys/user/list", {
+                axios.post('/sys/user/list',
+                    this.searchForm
+                /* {
                     params: {
                         username: this.searchForm.username,
                         current: this.current,
                         size: this.size
-                    }
-                }).then((res: any) => {
+                    } */
+                ).then((res: any) => {
                     this.tableData = res.data.data.records
                     this.size = res.data.data.size
                     this.current = res.data.data.current
