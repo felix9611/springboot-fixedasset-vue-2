@@ -3,11 +3,9 @@ function resolve(dir) {
     return path.join(__dirname, '.', dir);
 }
 module.exports = {
-    publicPath: '/',
+    publicPath: process.env.ENV === 'production' ? '/fixedasset-vue':'/',
     assetsDir: 'static',
     productionSourceMap: false,
-
-    // webpack-dev-server 相关配置
     devServer: {
         allowedHosts: [
             'localhost/fixedasset-vue'
