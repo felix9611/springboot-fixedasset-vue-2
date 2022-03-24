@@ -417,7 +417,7 @@ export default class User extends Vue {
         const roleIds = refs.roleTree.getCheckedKeys()
 
         axios.post('/sys/user/role/' + this.roleForm.id, roleIds).then((res: any) => {
-            this.searchForm.username = ''
+            this.searchForm.username = null
             this.getUserList()
             this.$notify({
                 title: '',
@@ -437,7 +437,7 @@ export default class User extends Vue {
             type: 'warning'
         }).then(() => {
             axios.post("/sys/user/repass", id).then((res: any) => {
-                this.searchForm.username = ''
+                this.searchForm.username = null
                 this.getUserList()
                 this.$notify({
                     title: '',
