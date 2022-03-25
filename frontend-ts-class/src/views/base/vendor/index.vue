@@ -59,6 +59,14 @@
               label="Vendor Name">
             </el-table-column>
             <el-table-column
+              prop="phone"
+              label="Phone">
+            </el-table-column>
+            <el-table-column
+              prop="email"
+              label="Email">
+            </el-table-column>
+            <el-table-column
                     prop="created"
                     width="200"
                     label="Created At"
