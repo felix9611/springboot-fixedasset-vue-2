@@ -11,6 +11,7 @@ import com.fixedasset.entity.AssetList;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
 import com.fixedasset.service.AssetListService;
+import com.fixedasset.service.InvRecordService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +29,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource ActionRecordMapper actionRecordMapper;
 
     @Resource private ActionRecord actionRecord;
+
+    @Resource private InvRecordService invRecordService;
 
     public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
         return this.assetListMapper.page(page, queryWrapper);
@@ -95,6 +98,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         assetList.setCreated(LocalDateTime.now());
         assetListMapper.insert(assetList);
 
+        invRecordService.saveNewRecord(newCode, assetList.getPlaceId());
+
         actionRecord.setActionName("Save");
         actionRecord.setActionMethod("POST");
         actionRecord.setActionFrom("Asset List Manger");
@@ -106,6 +111,10 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     }
 
     public void update(AssetList assetList) {
+        long oldId = assetList.getId();
+        int assetId = (int)oldId;
+        invRecordService.saveRecord(assetId, assetList.getPlaceId());
+
         assetList.setUpdated(LocalDateTime.now());
         assetListMapper.updateById(assetList);
 
