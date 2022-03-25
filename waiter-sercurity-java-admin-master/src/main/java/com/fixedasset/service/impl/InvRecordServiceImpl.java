@@ -69,12 +69,31 @@ public class InvRecordServiceImpl extends ServiceImpl<InvRecordMapper, InvRecord
 
         actionRecord.setActionName("Save");
         actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("InvRecord Manger");
+        actionRecord.setActionFrom("InvRecord Manger - store new place");
         actionRecord.setActionData(invRecord.toString());
         actionRecord.setActionSuccess("Success");
         actionRecord.setCreated(LocalDateTime.now());
         this.createdAction(actionRecord);
 
+    }
+
+    public void writeOff(String assetCode, int placeId) {
+
+        invRecord.setAssetCode(assetCode);
+        invRecord.setPlaceFrom(placeId);
+        invRecord.setPlaceTo(0);
+        invRecord.setStatu(0);
+        invRecord.setCreated(LocalDateTime.now());
+
+        invRecordMapper.insert(invRecord);
+
+        actionRecord.setActionName("Save");
+        actionRecord.setActionMethod("POST");
+        actionRecord.setActionFrom("InvRecord Manger - write off");
+        actionRecord.setActionData(invRecord.toString());
+        actionRecord.setActionSuccess("Success");
+        actionRecord.setCreated(LocalDateTime.now());
+        this.createdAction(actionRecord);
     }
 
     public int createdAction(ActionRecord actionRecord) {

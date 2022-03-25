@@ -12,5 +12,7 @@ public interface InvRecordService extends IService<InvRecord> {
 
     void saveRecord(int assetId, int newPlaceId);
 
+    void writeOff(String assetCode, int placeId);
+
     Page<InvRecordListDto> newPage(Page page, LambdaQueryWrapper<FindInvRecordDto> queryWrapper);
 }

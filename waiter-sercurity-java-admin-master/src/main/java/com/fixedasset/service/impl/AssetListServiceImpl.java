@@ -128,6 +128,9 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     }
 
     public void remove(Long id) {
+        AssetList assetListOld = assetListMapper.selectById(id);
+        invRecordService.writeOff(assetListOld.getAssetCode(), assetListOld.getPlaceId());
+
         assetList.setId(id);
         assetList.setStatu(0);
         assetListMapper.updateById(assetList);
