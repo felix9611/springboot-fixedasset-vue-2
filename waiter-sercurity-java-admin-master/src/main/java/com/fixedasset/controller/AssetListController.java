@@ -52,6 +52,35 @@ public class AssetListController extends BaseController {
         return Result.succ(iPage);
     }
 
+    @PostMapping("/writeOff/listAll")
+    public Result listAllWriteOff(@RequestBody AssetList assetList) {
+        Page page = new Page(assetList.getPage(), assetList.getLimit());
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+        if (!StringUtils.isBlank(assetList.getAssetCode())){
+            queryWrapper.like(AssetList::getAssetCode, assetList.getAssetCode());
+        }
+
+        if (!StringUtils.isBlank(assetList.getAssetName())){
+            queryWrapper.like(AssetList::getAssetName, assetList.getAssetName());
+        }
+
+        if (!(assetList.getTypeId() == 0)) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!(assetList.getPlaceId() == 0)) {
+            queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
+        }
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
+
+        queryWrapper.orderByDesc(true, AssetList::getAssetCode);
+        queryWrapper.eq(AssetList::getStatu, 0);
+        Page<AssetListViewDTO> iPage = assetListService.newPage(page, queryWrapper);
+        return Result.succ(iPage);
+    }
+
     @PostMapping("/getTotalSum")
     public Result getTotalSum(@RequestBody AssetList assetList) {
         return Result.succ(assetListService.sumTotal(assetList));

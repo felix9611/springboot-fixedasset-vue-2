@@ -1,6 +1,21 @@
 <template>
     <div class="container">
         <div class="handle-box">
+            <el-form :inline="true">
+                <el-form-item>
+                    <el-select v-model="apiSelector" placeholder="Select" filterable clearable>
+                        <el-option
+                        v-for="item in apiSelectorList"
+                        :key="item.value"
+                        :label="item.text"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item> 
+                <el-form-item>
+                    <el-button @click="assetAllList">Find</el-button>
+                </el-form-item>
+            </el-form>
             <el-button
                 size="mini"
                 type="danger"
@@ -115,6 +130,13 @@ export default class AssetList extends Vue {
     checkStrictly: boolean = true
     multipleSelection: any = []
 
+    apiSelector: number = 0
+
+    apiSelectorList: any = [
+        { value: 0, text: 'Active' },
+        { value: 1, text: 'Write Off' }
+    ]
+
     created() {
         this.assetAllList()
         this.getTotalCost()
@@ -141,10 +163,16 @@ export default class AssetList extends Vue {
 
         const nowTime = moment().format('DD-MM-YYYY HH:mm')
         doc.text(`Download At: ${nowTime}`, 40, 30)
-        doc.text(`Total Cost: $${this.sumTotal}`, 40, 50)
+        if (this.apiSelector === 0) {
+            doc.text('Active Asset Report', 40, 45)
+            doc.text(`Total Cost: $${this.sumTotal}`, 40, 65)
+        } 
+        if (this.apiSelector === 1) {
+            doc.text('Write Off List', 40, 50)
+        }
 
         autoTable(doc, {
-            startY: 60,
+            startY: 80,
             columns: pdfColumns,
             body,
             styles: {
@@ -167,7 +195,7 @@ export default class AssetList extends Vue {
 
     assetAllList() {
         axios.post(
-            '/asset/assetList/listAll',
+            this.apiSelector === 0 ? '/asset/assetList/listAll' : '/asset/assetList/writeOff/listAll',
             this.searchForm
         ).then(
             (res: any) => {
