@@ -22,6 +22,9 @@ public class Vendor extends BaseEntity {
     @TableField("type")
     private String type;
 
+    @TableField("email")
+    private String email;
+
     @TableField("phone")
     private String phone;
 
