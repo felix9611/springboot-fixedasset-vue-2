@@ -61,14 +61,14 @@
       <el-table-column
         sortable
         fixed="left"
-        prop="fromPlaceCode"
+        prop="toPlaceCode"
         label="To Place Code"
         width="200">
       </el-table-column>
       <el-table-column
         sortable
         fixed="left"
-        prop="fromPlaceName"
+        prop="toPlaceName"
         label="To Place Name"
         width="200">
       </el-table-column>
