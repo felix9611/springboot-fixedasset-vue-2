@@ -1,6 +1,10 @@
 package com.fixedasset.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fixedasset.dto.FindInvRecordDto;
+import com.fixedasset.dto.InvRecordListDto;
 import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.InvRecord;
@@ -25,6 +29,10 @@ public class InvRecordServiceImpl extends ServiceImpl<InvRecordMapper, InvRecord
     @Resource ActionRecordMapper actionRecordMapper;
 
     @Resource private ActionRecord actionRecord;
+
+    public Page<InvRecordListDto> newPage(Page page, LambdaQueryWrapper<FindInvRecordDto> queryWrapper) {
+        return invRecordMapper.page(page, queryWrapper);
+    }
 
     public void saveRecord(int assetId, int newPlaceId) {
 
