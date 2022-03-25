@@ -120,6 +120,30 @@
                     <el-input type="textarea" v-model="editForm.vendorOtherName"></el-input>
                 </el-form-item>
 
+                <el-form-item label="Type"  prop="type" label-width="150px">
+                    <el-input v-model="editForm.type" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Email"  prop="email" label-width="150px">
+                    <el-input v-model="editForm.email" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Phone"  prop="phone" label-width="150px">
+                    <el-input v-model="editForm.phone" autocomplete="off"></el-input>
+                </el-form-item>
+
+                 <el-form-item label="Fax"  prop="fax" label-width="150px">
+                    <el-input v-model="editForm.fax" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Address"  prop="address" label-width="150px">
+                    <el-input type="textarea" v-model="editForm.address"></el-input>
+                </el-form-item>
+
+                <el-form-item label="contactPerson"  prop="contactPerson" label-width="150px">
+                    <el-input v-model="editForm.contactPerson"  autocomplete="off"></el-input>
+                </el-form-item>
+
                 <el-form-item label="Remark"  prop="remark" label-width="150px">
                     <el-input type="textarea" v-model="editForm.remark"></el-input>
                 </el-form-item>

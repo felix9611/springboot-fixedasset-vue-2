@@ -19,6 +19,21 @@ public class Vendor extends BaseEntity {
     @TableField("vendor_other_name")
     private String vendorOtherName;
 
+    @TableField("type")
+    private String type;
+
+    @TableField("phone")
+    private String phone;
+
+    @TableField("fax")
+    private String fax;
+
+    @TableField("address")
+    private String address;
+
+    @TableField("contact_person")
+    private String contactPerson;
+
     @TableField("remark")
     private String remark;
 
