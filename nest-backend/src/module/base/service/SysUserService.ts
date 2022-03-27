@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { SysUser } from 'src/module/base/model/sysUser'
-import { QueryTypes } from 'sequelize'
+import { QueryTypes, where } from 'sequelize'
 import { 
   Query, 
   FromTable, 
@@ -56,6 +56,9 @@ export class SysUserTabeService{
       deptId,
       status: 1
     })
+  }
 
+  async findOne(id: number) {
+    return await this.sysUserRepository.findOne({ where: { id, status: 1 } })
   }
 }

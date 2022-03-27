@@ -1,12 +1,12 @@
 import { Table, Column, Model, PrimaryKey, AutoIncrement, DataType, Default } from 'sequelize-typescript'
 
 @Table({ tableName: 'sys_role' })
-export class SysRole extends Model<SysRole> {
+export class SysRole extends Model {
   @Column(DataType.STRING)
-  name: string
+  roleName: string
 
   @Column(DataType.STRING)
-  code: string
+  roleCode: string
 
   @Column(DataType.TEXT)
   remark: string

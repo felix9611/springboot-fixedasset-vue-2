@@ -3,7 +3,7 @@ import { CaptcheService } from 'src/module/base/service/CaptchaService'
 import { MyRequest } from 'src/common/request'
 import { v4 as uuidv4 } from 'uuid'
 
-@Controller('captche')
+@Controller('captcha')
 export class captcheContoller {
   constructor(
     private captcheService: CaptcheService,

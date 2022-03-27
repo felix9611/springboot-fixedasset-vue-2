@@ -47,6 +47,7 @@ export class DepartmentTabeService{
           expressions: [
             deptCode? new LikeExpression(new ColumnExpression('department', 'deptCode'), false, `%${deptCode}%`): new Value(1),
             deptName? new LikeExpression(new ColumnExpression('department', 'deptName'), false, `%${deptName}%`): new Value(1),
+            new BinaryExpression(new ColumnExpression('department', 'status'), '=', new Value(1))
           ]
         })
       ],

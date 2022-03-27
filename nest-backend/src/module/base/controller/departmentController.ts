@@ -20,11 +20,6 @@ export class DepartmentContoller {
     return await this.departmentService.save(department)
   }
 
-  @Put('update')
-  async updateData(@Body() department: Department) {
-    return await this.departmentService.save(department)
-  }
-
   @Delete(':id')
   async voidData(@Param('id') id: number) {
     return await this.departmentService.voidData(id)

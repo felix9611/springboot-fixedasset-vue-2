@@ -19,11 +19,6 @@ export class AssetTypeContoller {
     return await this.assetTypeTabeService.save(assetType)
   }
 
-  @Put('update')
-  async updateData(@Body() assetType: AssetType) {
-    return await this.assetTypeTabeService.save(assetType)
-  }
-
   @Get(':id')
   async getOne(@Param('id') id: number) {
     return await this.assetTypeTabeService.getOne(id)

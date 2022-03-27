@@ -25,4 +25,9 @@ export class AuthContoller {
   async regAc(@Body() login: SysUser) {
     return await this.sysUserTabeService.regAccount(login)
   }
+
+  @Get('user/:id')
+  async findUser(@Param('id') id: number) {
+    return await this.sysUserTabeService.findOne(id)
+  }
 }

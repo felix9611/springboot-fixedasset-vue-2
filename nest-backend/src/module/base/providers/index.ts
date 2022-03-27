@@ -13,7 +13,7 @@ export const baseProviders = [
   { provide: 'sysUserRepository', useValue: SysUser },
   { provide: 'sysRoleRepository', useValue: SysRole },
   { provide: 'sysMenuRepository', useValue: SysMenu },
-  { provide: 'sysMenuRepository', useValue: SysRoleMenu },
+  { provide: 'sysRoleMenuRepository', useValue: SysRoleMenu },
   { provide: 'sysUserRoleRepository', useValue: SysUserRole },
   { provide: 'actionRecordRepository', useValue: ActionRecord },
 ]
