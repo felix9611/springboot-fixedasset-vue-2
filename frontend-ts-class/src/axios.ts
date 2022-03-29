@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig , AxiosResponse, AxiosError } from 'axios'
 import router from './router'
 import { Notification } from 'element-ui'
+import store from '@/store/index'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 
@@ -27,6 +28,7 @@ request.interceptors.response.use((response: any) => {
             title: 'Failure',
             message: res.msg
         })
+        store.commit('resetState', '')
     }
     }, (error: AxiosError) => {
         if (error.response && error.response.data) {

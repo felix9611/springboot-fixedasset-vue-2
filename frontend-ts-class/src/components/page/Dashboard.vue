@@ -116,11 +116,11 @@
 </template>
 
 <script lang="ts">
-import bus from '../../components/common/bus'
-import axios from '../../axios'
+import bus from '@/components/common/bus'
+import axios from '@/axios'
 import { Component, Vue } from 'vue-property-decorator'
-import ApexChartOne from '../../components/charts/apex/apexOne.vue'
-import ChartJs from '../../components/charts/chartJs/index.vue'
+import ApexChartOne from '@/components/charts/apex/apexOne.vue'
+import ChartJs from '@/components/charts/chartJs/index.vue'
 
 @Component({
     components: {

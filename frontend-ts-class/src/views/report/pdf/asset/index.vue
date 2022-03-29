@@ -102,8 +102,8 @@
 <script lang="ts">
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import axios from '../../../../axios'
-import { saveJsonToExcel } from '../../../../utils/importExcel'
+import axios from '@/axios'
+import { saveJsonToExcel } from '@/utils/importExcel'
 import moment from 'moment'
 import { exportExcelHeader1, exportExcelHeader2, pdfColumns, columnsStyle, headerColSeetting } from './exportSetting'
 import { Component, Vue } from 'vue-property-decorator'

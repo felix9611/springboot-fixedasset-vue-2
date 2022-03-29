@@ -418,15 +418,14 @@
     </div>
 </template>
 <script lang="ts">
-import ref from 'vue'
-import axios from '../../../axios'
+import axios from '@/axios'
 import VueBase64FileUpload from 'vue-base64-file-upload'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
-import { uploadImgToBase64 } from '../../../utils/uploadImgToBase64'
+import { uploadImgToBase64 } from '@/utils/uploadImgToBase64'
 import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
 import { exportExcelHeader1, exportExcelHeader2 } from './importSetting'
-import { formatJson, readExcel } from '../../../utils/importExcel'
+import { formatJson, readExcel } from '@/utils/importExcel'
 import QrcodeVue from 'qrcode.vue'
 
 @Component({

@@ -85,9 +85,9 @@
     </div>
 </template>
 <script lang="ts">
-import axios from '../../axios'
+import axios from '@/axios'
 import moment from 'moment'
-import { uploadImgToBase64 } from '../../utils/uploadImgToBase64'
+import { uploadImgToBase64 } from '@/utils/uploadImgToBase64'
 import { Component, Vue } from 'vue-property-decorator'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 

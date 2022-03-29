@@ -103,7 +103,7 @@
 <script lang="ts">
 import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
-import axios from '../../../axios'
+import axios from '@/axios'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { pdfColumns } from './exportSetting'

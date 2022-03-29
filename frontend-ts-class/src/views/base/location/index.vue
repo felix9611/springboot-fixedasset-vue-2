@@ -128,8 +128,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import axios from '../../../axios'
-import { formatJson, readExcel } from '../../../utils/importExcel'
+import axios from '@/axios'
+import { formatJson, readExcel } from '@/utils/importExcel'
 import moment from 'moment'
 
 @Component

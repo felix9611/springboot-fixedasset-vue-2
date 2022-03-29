@@ -55,7 +55,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Background from '@/assets/img/background3.jpg'
 import qs from 'qs'
-import axios from '../axios'
+import axios from '@/axios'
 @Component
 export default class Login extends Vue {
 

@@ -197,10 +197,10 @@
 </template>
 
 <script lang="ts">
-import axios from '../../axios'
+import axios from '@/axios'
 import moment from 'moment'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
-import { uploadImgToBase64 } from '../../utils/uploadImgToBase64'
+import { uploadImgToBase64 } from '@/utils/uploadImgToBase64'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component

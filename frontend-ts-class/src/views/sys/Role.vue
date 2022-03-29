@@ -162,7 +162,7 @@
 </template>
 
 <script lang="ts">
-import axios from '../../axios'
+import axios from '@/axios'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component

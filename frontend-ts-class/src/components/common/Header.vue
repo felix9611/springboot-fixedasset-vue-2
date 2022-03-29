@@ -35,7 +35,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import axios from '../../axios'
+import axios from '@/axios'
 import bus from './bus'
 
 @Component

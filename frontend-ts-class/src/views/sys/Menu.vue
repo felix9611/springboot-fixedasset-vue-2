@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts">
-import axios from '../../axios'
+import axios from '@/axios'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
@@ -167,7 +167,7 @@ export default class Menu extends Vue {
             { required: true, message: 'Please select upper menu', trigger: 'blur' }
         ],
         name: [
-                        {required: true, message: 'Please type name', trigger: 'blur'}
+            {required: true, message: 'Please type name', trigger: 'blur'}
         ],
         perms: [
             { required: true, message: 'Please type the perms code', trigger: 'blur' }

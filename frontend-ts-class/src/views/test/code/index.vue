@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import axios from '../../../axios'
+import axios from '@/axios'
 
 @Component
 export default class TestCode extends Vue {

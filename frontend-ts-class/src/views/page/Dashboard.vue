@@ -95,8 +95,8 @@
 
 <script lang="ts">
 import Schart from 'vue-schart'
-import bus from '../../components/common/bus'
-import axios from '../../axios'
+import bus from '@/components/common/bus'
+import axios from '@/axios'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
