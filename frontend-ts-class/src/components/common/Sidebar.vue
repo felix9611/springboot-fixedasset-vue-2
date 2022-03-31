@@ -7,12 +7,18 @@
             background-color="#324157"
             text-color="#bfcbd9"
             active-text-color="#ffd04b"
-            unique-opened
+            
             router
         >
             <template v-for="item in menuList">
+                <template v-if="item.children.length === 0">
+                    <el-menu-item :index="item.path" :key="item.index">
+                        <i :class="item.icon"></i>
+                        <span slot="title">{{ item.title }}</span>
+                    </el-menu-item>
+                </template>
                 <template v-if="item.children.length > 0">
-                    <el-submenu :index="item.path" :key="item.index">
+                    <el-submenu :index="item.index" :key="item.index">
                         <template slot="title">
                             <i :class="item.icon"></i>
                             <span slot="title">{{ item.title }}</span>
@@ -40,12 +46,6 @@
                             >{{ subItem.title }}</el-menu-item>
                         </template>
                     </el-submenu>
-                </template>
-                <template v-if="item.children.length === 0">
-                    <el-menu-item :index="item.path" :key="item.index">
-                        <i :class="item.icon"></i>
-                        <span slot="title">{{ item.title }}</span>
-                    </el-menu-item>
                 </template>
             </template>
         </el-menu>
