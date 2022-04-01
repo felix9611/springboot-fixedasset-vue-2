@@ -33,7 +33,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         SysUser sysUser = sysUserService.getByUsername(username);
 
         if(sysUser == null) {
-            throw new UsernameNotFoundException("用户名或者密码不正确");
+            throw new UsernameNotFoundException("Incorrect username or password!");
 
         }
 
