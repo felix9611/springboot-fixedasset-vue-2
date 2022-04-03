@@ -29,6 +29,30 @@
         size="mini"
         @click="resetPWdialog()">Reset Password</el-button>
       </div>
+
+      <div class="handle-box">
+        <el-table
+          ref="multipleTable"
+          :data="loginRecords"
+          tooltip-effect="dark"
+          style="width: 100%">
+          <el-table-column
+            prop="ipAddress"
+            label="IP Address">
+            </el-table-column>
+            <el-table-column
+            prop="loginTime"
+            label="Login Time">
+            </el-table-column>
+          <el-table-column
+            prop="loginStatus"
+            label="Status">
+            </el-table-column>
+            
+        </el-table>
+      </div>
+
+
       <el-dialog
         title="Reset Password"
         :visible.sync="dialogVisible"
@@ -104,20 +128,30 @@ export default class UserIndex extends Vue {
 
   dialogUploadVisible: boolean = false
 
+  loginRecords: any = []
+
   created() {
     this.getMyAccount()
   }
 
   getMyAccount() {
-    this.myAccount.created = moment(new Date(this.myAccount.created)).format('DD-MM-YYYY HH:MM')
-    this.myAccount.lastLogin = moment(new Date(this.myAccount.lastLogin)).format('DD-MM-YYYY HH:MM')
     axios.get('/sys/userInfo').then((res: any)=>{
-        const data = res.data.data
+      const data = res.data.data
+      this.myAccount.username = data.username
+      this.myAccount.created = moment(new Date(data.created)).format('DD-MM-YYYY HH:MM')
+      this.myAccount.lastLogin = moment(new Date(data.lastLogin)).format('DD-MM-YYYY HH:MM')
+      this.getLoginRecord()
+    })
+    
+  }
 
-        this.myAccount.created = moment(new Date(data.created)).format('DD-MM-YYYY HH:MM')
-        this.myAccount.lastLogin = moment(new Date(data.lastLogin)).format('DD-MM-YYYY HH:MM')
-
-      })
+  getLoginRecord() {
+    const ins = this.myAccount.username
+    axios.post(`/sys/user/listLoginRecord/${ins}`).then(
+      (res: any) => {
+        this.loginRecords = res.data.data.records
+      }
+    )
   }
 
   resetPWdialog() {

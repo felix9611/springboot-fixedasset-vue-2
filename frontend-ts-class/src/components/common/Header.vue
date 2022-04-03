@@ -1,39 +1,39 @@
 <template>
-    <div class="header">
+    <div class='header'>
         <!-- 折叠按钮 -->
-        <div class="collapse-btn" @click="collapseChage">
-            <i v-if="!collapse" class="el-icon-s-fold"></i>
-            <i v-else class="el-icon-s-unfold"></i>
+        <div class='collapse-btn' @click='collapseChage'>
+            <i v-if='!collapse' class='el-icon-s-fold'></i>
+            <i v-else class='el-icon-s-unfold'></i>
         </div>
-        <div class="logo">Fixed Asset - VUE</div>
-        <div class="header-right">
-            <div class="header-user-con">
+        <div class='logo'>Fixed Asset - VUE</div>
+        <div class='header-right'>
+            <div class='header-user-con'>
                 <!-- 全屏显示 -->
-                <div class="btn-fullscreen" @click="handleFullScreen">
-                    <el-tooltip effect="dark" :content="fullscreen?`No Fullscreen`:`Fullscreen`" placement="bottom">
-                        <i class="el-icon-rank"></i>
+                <div class='btn-fullscreen' @click='handleFullScreen'>
+                    <el-tooltip effect='dark' :content='fullscreen?`No Fullscreen`:`Fullscreen`' placement='bottom'>
+                        <i class='el-icon-rank'></i>
                     </el-tooltip>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator">
-                    <img :src="userInfo.avatarBase64" />
+                <div class='user-avator'>
+                    <img :src='userInfo.avatarBase64' />
                 </div>
                 <!-- 用户名下拉菜单 -->
-                <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-                    <span class="el-dropdown-link">
+                <el-dropdown class='user-name' trigger='click' @command='handleCommand'>
+                    <span class='el-dropdown-link'>
                         {{userInfo.username}}
-                        <i class="el-icon-caret-bottom"></i>
+                        <i class='el-icon-caret-bottom'></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item divided command="userindex">Self File</el-dropdown-item>
-                        <el-dropdown-item divided command="loginout">Logout</el-dropdown-item>
+                    <el-dropdown-menu slot='dropdown'>
+                        <el-dropdown-item divided command='userindex'>Self File</el-dropdown-item>
+                        <el-dropdown-item divided command='loginout'>Logout</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
         </div>
     </div>
 </template>
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import axios from '@/axios'
 import bus from './bus'
@@ -45,12 +45,6 @@ export default class vHead extends Vue {
     fullscreen: boolean = false
     name: string = 'admin'
     message: number = 2
-    /* userInfo: any = {
-        id: 0,
-        username: '',
-        avatar: '',
-        avatarBase64: ''
-    } */
 
     get userInfo() {
         return this.$store.state.userProfile
@@ -61,7 +55,7 @@ export default class vHead extends Vue {
     }
 
     getUserInfo() {
-        axios.get("/sys/userInfo").then(res => {
+        axios.get('/sys/userInfo').then(res => {
             // this.userInfo = res.data.data
             this.$store.commit('setUserProfile', res.data.data)
         })
@@ -72,10 +66,10 @@ export default class vHead extends Vue {
             axios.post('/logout').then(res => {
                 localStorage.clear()
                 sessionStorage.clear()
-                this.$store.commit("resetState")
-                this.$store.commit("resetHasRoutes")
+                this.$store.commit('resetState')
+                this.$store.commit('resetHasRoutes')
 
-                    this.$router.push("/login")
+                    this.$router.push('/login')
                 })
         }
         if (command == 'userindex') {
@@ -198,7 +192,3 @@ export default class vHead extends Vue {
     text-align: center;
 }
 </style>
-
-function mounted() {
-  throw new Error('Function not implemented.')
-}

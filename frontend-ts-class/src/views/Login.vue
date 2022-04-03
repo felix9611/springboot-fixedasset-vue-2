@@ -56,6 +56,8 @@ import { Component, Vue } from 'vue-property-decorator'
 import Background from '@/assets/img/background3.jpg'
 import qs from 'qs'
 import axios from '@/axios'
+import outAxios from 'axios'
+
 @Component
 export default class Login extends Vue {
 
@@ -82,8 +84,22 @@ export default class Login extends Vue {
     loading: boolean = false
     redirect: undefined
 
+    loginUserIP: string = ''
+
+
     created() {
-         this.getCaptcha()
+        this.getCaptcha()
+        this.getClientIP()
+    }
+
+    getClientIP() {
+        outAxios({
+            url: 'https://jsonip.com/',
+            method: 'get'
+        }).then((rs: any)=>{
+            this.loginUserIP = rs.data.ip
+            console.log(this.loginUserIP)
+        })
     }
 
     submitForm(formName: string) {
@@ -91,15 +107,35 @@ export default class Login extends Vue {
         refs.validate((valid: any) => {
             if(valid) {
                 axios.post('/login?' + qs.stringify(this.loginForm) ).then(res => {
+                    this.saveLoginRecord()
                     const jwt = res.data.data.token
                     this.$store.commit('SET_TOKEN', jwt)
                     this.$router.push('/')
                 })
                 this.getCaptcha()
             } else {
+                this.saveLoginRecordFailure()
                 return false
             }
         })
+    }
+
+    saveLoginRecord() {
+        const record = {
+            username: this.loginForm.username,
+            loginStatus: 'success',
+            ipAddress: this.loginUserIP
+        }
+        axios.post('/sys/user/saveRecord', record)
+    }
+
+    saveLoginRecordFailure() {
+        const record = {
+            username: this.loginForm.username,
+            loginStatus: 'Failure',
+            ipAddress: this.loginUserIP
+        }
+        axios.post('/sys/user/saveRecord', record)
     }
             
     resetForm(formName) {
