@@ -93,7 +93,10 @@ import type { UploadFile } from 'element-plus/es/components/upload/src/upload.ty
 
 @Component
 export default class UserIndex extends Vue {
-  myAccount: any = {}
+  // myAccount: any = {}
+  get myAccount(): any {
+    return this.$store.state.userProfile
+  }
   resetPasswordForm: any = {}
   dialogVisible: boolean = false
   fileList: any = []
@@ -106,12 +109,14 @@ export default class UserIndex extends Vue {
   }
 
   getMyAccount() {
-      axios.get('/sys/userInfo').then((res: any)=>{
-        console.log(res.data)
-        this.myAccount = res.data.data
+    this.myAccount.created = moment(new Date(this.myAccount.created)).format('DD-MM-YYYY HH:MM')
+    this.myAccount.lastLogin = moment(new Date(this.myAccount.lastLogin)).format('DD-MM-YYYY HH:MM')
+    axios.get('/sys/userInfo').then((res: any)=>{
+        const data = res.data.data
 
-        this.myAccount.created = moment(new Date(this.myAccount.created)).format('DD-MM-YYYY HH:MM')
-        this.myAccount.lastLogin = moment(new Date(this.myAccount.lastLogin)).format('DD-MM-YYYY HH:MM')
+        this.myAccount.created = moment(new Date(data.created)).format('DD-MM-YYYY HH:MM')
+        this.myAccount.lastLogin = moment(new Date(data.lastLogin)).format('DD-MM-YYYY HH:MM')
+
       })
   }
 
@@ -212,6 +217,7 @@ export default class UserIndex extends Vue {
           id: this.myAccount.id,
           avatarBase64: this.fileBase64Data
         }).then((res: any) => {
+            this.$store.commit('setUserProfile', { ...this.myAccount, avatarBase64: this.fileBase64Data })
             this.getMyAccount()
             this.$notify({
               title: '',

@@ -64,6 +64,8 @@ router.beforeEach((to, from, next) => {
             }
         }).then((res: { data: { data: { nav: any[]; authoritys: any; } } }) => {
 
+
+            console.log(res.data.data)
             // 拿到menuList
             store.commit("setMenuList", res.data.data.nav)
 

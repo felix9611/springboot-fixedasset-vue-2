@@ -33,11 +33,11 @@
                                     <i class="el-icon-menu"></i>
                                     <span slot="title">{{ subItem.title }}</span>
                                 </template>
-<!--                                <el-menu-item-->
-<!--                                    v-for="(threeItem,i) in subItem.subs"-->
-<!--                                    :key="i"-->
-<!--                                    :index="threeItem.path"-->
-<!--                                >{{ threeItem.title }}</el-menu-item>-->
+<!--                                <el-menu-item
+                                   v-for="(threeItem,i) in subItem.subs"
+                                  :key="i"
+                                   :index="threeItem.path"
+                               >{{ threeItem.title }}</el-menu-item>-->
                             </el-submenu>
                             <el-menu-item
                                 v-else

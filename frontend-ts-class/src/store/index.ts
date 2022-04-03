@@ -10,7 +10,8 @@ export default new Vuex.Store({
     menuList: [],
     permList: [],
     hasRoutes: false,
-    routers: []
+    routers: [],
+    userProfile: {}
   },
   mutations: {
 
@@ -20,25 +21,32 @@ export default new Vuex.Store({
     },
     resetState: (state: any) => {
       state.token = ''
-      localStorage.removeItem('token');
+      localStorage.removeItem('token')
     },
     setMenuList(state: any, menus: any) {
       state.menuList = menus
     },
     setPermList(state: any, perms: any) {
-        state.permList = perms
+      state.permList = perms
     },
     changeRouteStatus(state: any, hasRoutes: any) {
-        state.hasRoutes = hasRoutes
-        localStorage.setItem('hasRouters', hasRoutes)
+      state.hasRoutes = hasRoutes
+      localStorage.setItem('hasRouters', hasRoutes)
     },
     setRouters(state: any, routers: any) {
-        state.routers = routers
-        localStorage.setItem('routers', routers)
+      state.routers = routers
+      localStorage.setItem('routers', routers)
     },
     resetHasRoutes(state: any) {
-        state.hasRoutes = false
-    }
+      state.hasRoutes = false
+    },
+    setUserProfile(state: any, userProfile: any) {
+      state.userProfile = userProfile
+    },
+    resetUserProfile(state: any) {
+      state.userProfile = {}
+      localStorage.removeItem('userProfile')
+    },
   },
   actions: {
   },
