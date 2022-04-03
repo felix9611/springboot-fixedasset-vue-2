@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 功能描述：jwt判断权限
  *
  * @Author WaiterXiaoYY
  * @Date 2022/1/19 1:00

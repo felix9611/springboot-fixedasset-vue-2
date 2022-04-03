@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 功能描述：jwt过期或者未登录
  *
  * @Author WaiterXiaoYY
  * @Date 2022/1/19 0:59

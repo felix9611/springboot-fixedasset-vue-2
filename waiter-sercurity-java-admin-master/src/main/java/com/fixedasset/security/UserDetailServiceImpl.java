@@ -42,14 +42,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
 
     /**
-     * 获取用户权限信息（角色、菜单权限）
      * @param userId
      * @return
      */
-     // 获取用户权限信息
     public List<GrantedAuthority> getUserAuthority(Long userId) {
 
-        // 角色(ROLE_admin)、菜单操作权限
         String authority = sysUserService.getUserAuthorityInfo(userId); //ROLE_admin,sys:user:list
         return AuthorityUtils.commaSeparatedStringToAuthorityList(authority);
     }

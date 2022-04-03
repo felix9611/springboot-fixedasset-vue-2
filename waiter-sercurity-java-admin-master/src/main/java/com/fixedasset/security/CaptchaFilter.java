@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fixedasset.common.exception.CaptchaException;
 import com.fixedasset.common.lang.Const;
 import com.fixedasset.utils.RedisUtil;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -38,7 +40,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
 
         if(url.equals("/login") && httpServletRequest.getMethod().equals("POST")) {
             // Verify verification code 
-            try {
+            try { 
                 validate(httpServletRequest);
             } catch (CaptchaException e) {
                 // If not correct, jump to the authentication failure handler 

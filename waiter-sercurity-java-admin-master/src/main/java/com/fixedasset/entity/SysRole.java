@@ -29,10 +29,7 @@ public class SysRole extends BaseEntity {
 
     @NotBlank(message = "角色编码不能为空")
     private String code;
-
-    /**
-     * 备注
-     */
+    
     private String remark;
 
     @TableField(exist = false)

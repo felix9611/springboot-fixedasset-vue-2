@@ -10,10 +10,11 @@ import com.fixedasset.common.dto.PassDto;
 import com.fixedasset.common.lang.Const;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.dto.ResetPasswordDto;
+import com.fixedasset.entity.LoginRecord;
 import com.fixedasset.entity.SysRole;
 import com.fixedasset.entity.SysUser;
 import com.fixedasset.entity.SysUserRole;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fixedasset.service.LoginRecordService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,8 +41,9 @@ import java.util.List;
 @RequestMapping("/sys/user")
 public class SysUserController extends BaseController {
 
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    @Resource BCryptPasswordEncoder passwordEncoder;
+
+    @Resource private LoginRecordService loginRecordService;
 
     @GetMapping("/info/{id}")
     @PreAuthorize("hasAuthority('sys:user:list')")
@@ -186,5 +189,21 @@ public class SysUserController extends BaseController {
 
         sysUserService.updateById(sysUser);
         return Result.succ("");
+    }
+
+    @PostMapping("/saveRecord")
+    public Result saveRecord(@RequestBody LoginRecord loginRecord) {
+        loginRecordService.saveData(loginRecord);
+        return Result.succ(loginRecord);
+    }
+
+    @PostMapping("/listLoginRecord/{username}")
+    public Result listRecord(@PathVariable("username") String username) {
+        Page<LoginRecord> page = new Page(1, 10);
+        LambdaQueryWrapper<LoginRecord> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(LoginRecord::getUsername,  username);
+        queryWrapper.orderBy(true, false, LoginRecord::getLoginTime);
+        Page<LoginRecord> iPage = loginRecordService.page(page, queryWrapper);
+        return Result.succ(iPage);
     }
 }

@@ -14,7 +14,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -27,10 +26,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setContentType("application/json;charset=UTF-8");
 		ServletOutputStream outputStream = response.getOutputStream();
 
-		// 生成jwt，并放置到请求头中
 		String jwt = jwtUtils.generateToken(authentication.getName());
 		// response.setHeader(jwtUtils.getHeader(), jwt);
-
 		JSONObject loginResult = new JSONObject();
 		loginResult.putOnce("token", jwt);
 

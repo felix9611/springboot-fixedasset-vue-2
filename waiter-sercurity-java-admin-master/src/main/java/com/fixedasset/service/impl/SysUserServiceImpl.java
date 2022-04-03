@@ -1,6 +1,7 @@
 package com.fixedasset.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.SysMenu;
 import com.fixedasset.entity.SysRole;
 import com.fixedasset.entity.SysUser;
@@ -8,11 +9,10 @@ import com.fixedasset.mapper.SysUserMapper;
 import com.fixedasset.service.SysMenuService;
 import com.fixedasset.service.SysRoleService;
 import com.fixedasset.service.SysUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.utils.RedisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,18 +27,13 @@ import java.util.stream.Collectors;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
-    @Autowired
-    SysRoleService sysRoleService;
+    @Resource SysRoleService sysRoleService;
 
-    @Autowired
-    SysUserMapper sysUserMapper;
+    @Resource SysUserMapper sysUserMapper;
 
-    @Autowired
-    SysMenuService sysMenuService;
+    @Resource SysMenuService sysMenuService;
 
-    @Autowired
-    RedisUtil redisUtil;
-
+    @Resource RedisUtil redisUtil;
 
     @Override
     public SysUser getByUsername(String username) {
