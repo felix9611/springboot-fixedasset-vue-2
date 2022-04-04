@@ -150,6 +150,13 @@ export default class UserIndex extends Vue {
     axios.post(`/sys/user/listLoginRecord/${ins}`).then(
       (res: any) => {
         this.loginRecords = res.data.data.records
+        this.loginRecords.forEach(
+          (re: any) => {
+            const loginTimeNew = moment(new Date(re.loginTime)).format('DD-MM-YYYY HH:MM:ss')
+            re['loginTime'] = loginTimeNew
+            return re
+          }
+        )
       }
     )
   }
