@@ -111,7 +111,9 @@ import { pdfColumns } from './exportSetting'
 export default class InvRecord extends Vue {
   searchForm: any = {
     limit: 10,
-    page: 1
+    page: 1,
+    createdFrom: moment().startOf('day'),
+    createdTo: moment().endOf('day')
   }
   tableData: any = []
   exportData: any = []
@@ -163,8 +165,14 @@ export default class InvRecord extends Vue {
     }
 
   invRecordCurAllList() {
-    this.searchForm.limit = 200
     this.searchForm.page = 1
+    if ( this.searchForm.createdFrom === null) {
+      this.searchForm.createdFrom = moment().startOf('day')
+    }
+    if ( this.searchForm.createdto === null) {
+      this.searchForm.createdTo = moment().endOf('day')
+    }
+    console.log(this.searchForm)
     axios.post(
       '/asset/invRecord/listAll',
       this.searchForm

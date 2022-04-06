@@ -18,7 +18,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="dialogVisible = true">Create</el-button>
+                    <el-button type="primary" @click="dialogVisible = true">Check</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -132,7 +132,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="resetForm('editForm')">Cancel</el-button>
-                <el-button type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
+                <el-button type="primary" @click="submitForm('editForm')">{{ 'Checked' }}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -177,9 +177,9 @@ export default class StocktakeItem extends Vue {
                     assetCode: [
                         { required: true, message: 'Asset Code cannot blank!', trigger: 'blur' }
                     ],
-                    place: [
-                        { required: true, message: 'Place cannot blank!', trigger: 'blur' }
-                    ],
+                    // place: [
+                    //     { required: true, message: 'Place cannot blank!', trigger: 'blur' }
+                    // ],
                     status: [
                         { required: true, message: 'Status cannot blank!', trigger: 'blur' }
                     ],
