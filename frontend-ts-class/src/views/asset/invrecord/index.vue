@@ -166,13 +166,6 @@ export default class InvRecord extends Vue {
 
   invRecordCurAllList() {
     this.searchForm.page = 1
-    if ( this.searchForm.createdFrom === null) {
-      this.searchForm.createdFrom = moment().startOf('day')
-    }
-    if ( this.searchForm.createdto === null) {
-      this.searchForm.createdTo = moment().endOf('day')
-    }
-    console.log(this.searchForm)
     axios.post(
       '/asset/invRecord/listAll',
       this.searchForm
