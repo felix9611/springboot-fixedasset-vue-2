@@ -240,7 +240,8 @@ export default class Role extends Vue {
     }
 
     handleClose() {
-        this.resetForm('editForm')
+        // this.resetForm('editForm')
+        this.dialogVisible = false
     }
         
     getRoleList() {
