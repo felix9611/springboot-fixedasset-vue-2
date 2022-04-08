@@ -32,11 +32,8 @@ export class SysUserTabeService{
       }
     })
     const check = await comparePw(password, userExist.password)
-    if (check) {
-      let today = new Date()
-      const next = Math.floor(today.setHours(today.getHours() + 6))
-          
-      const payload = { username }
+    if (check) {       
+      const payload = { username, id: userExist.id }
       return {
         token: this.jwtTokenService.sign(payload)
       }

@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { SysRole } from 'src/module/base/model/sysRole'
+import { SysRoleMenu } from 'src/module/base/model/sysRoleMenu'
 import { QueryTypes } from 'sequelize'
 import { 
   Query, 
@@ -22,7 +23,9 @@ import { queryFindRole } from 'src/module/base/dto/queryFindList'
 export class SysRoleTableService{
   constructor(
     @Inject('sysRoleRepository')
-    protected readonly sysRoleRepository: typeof SysRole
+    protected readonly sysRoleRepository: typeof SysRole,
+    @Inject('sysRoleMenuRepository')
+    protected readonly sysRoleMenuRepository: typeof SysRoleMenu
   ) {}
 
   async save(data: SysRole) {
@@ -88,5 +91,7 @@ export class SysRoleTableService{
   async findOne(id: number) {
     return this.sysRoleRepository.findOne({ where: { id }})
   }
+
+  
   
 }

@@ -28,4 +28,6 @@ export class SysMenu extends Model<SysMenu> {
 
   @Column(DataType.INTEGER)
   status: number
+
+  children: any
 }

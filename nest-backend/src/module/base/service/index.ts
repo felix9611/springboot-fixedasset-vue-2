@@ -4,6 +4,7 @@ import { SysUserTabeService } from './SysUserService'
 import { CaptcheService } from './CaptchaService'
 import { SysRoleTableService } from './sysRoleTable'
 import { SysMenuTableService } from './sysMenuTable'
+import { SysRoleMenuTableService } from './SysRoleMenuService'
 
 export const baseServices = [
   DepartmentTabeService,
@@ -11,5 +12,6 @@ export const baseServices = [
   SysUserTabeService,
   CaptcheService,
   SysRoleTableService,
-  SysMenuTableService
+  SysMenuTableService,
+  SysRoleMenuTableService
 ]
