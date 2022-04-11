@@ -61,6 +61,7 @@
 
                 <template slot-scope="scope">
                     <el-button
+                      v-if="scope.row.active === 1"
                       size="mini"
                       @click="stockTakeItem(scope.row.id)">Stock Take</el-button>
                     <el-button
