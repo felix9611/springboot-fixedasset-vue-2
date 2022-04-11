@@ -62,6 +62,9 @@
                 <template slot-scope="scope">
                     <el-button
                       size="mini"
+                      @click="stockTakeItem(scope.row.id)">Stock Take</el-button>
+                    <el-button
+                      size="mini"
                       type="danger"
                       @click="delItem(scope.row.id)">Delete</el-button>
                 </template>
@@ -108,6 +111,94 @@
                 <el-button type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
             </div>
         </el-dialog>
+
+
+        <el-dialog
+            title="Stocktake Item"
+            :visible.sync="itemTakeDialog"
+            width="1200px"
+            :before-close="closeItemDialog">
+            <el-form :model="itemTakeForm" ref="itemTakeForm">
+                    <el-form-item label="Asset Code"  prop="assetCode" label-width="100px">
+                        <el-input v-model="itemTakeForm.assetCode" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Place" prop="place" label-width="100px">
+                        <el-select v-model="itemTakeForm.placeId" placeholder="Select" filterable>
+                            <el-option
+                            v-for="item in placeItem"
+                         :key="item.id"
+                            :label="item.placeName"
+                            :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Status" prop="status" label-width="100px">
+                        <el-select v-model="itemTakeForm.status" placeholder="Select" filterable>
+                            <el-option
+                            v-for="item in statusItemNew"
+                            :key="item.valueName"
+                            :label="item.valueName"
+                            :value="item.valueName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Remark"  prop="remark" label-width="100px">
+                        <el-input type="textarea" v-model="itemTakeForm.remark"></el-input>
+                    </el-form-item>
+            </el-form>
+            <div>
+                <el-button  @click="resetItemForm('itemTakeForm')">Reset</el-button>
+                <el-button type="primary" @click="submitItemForm('itemTakeForm')">Submit</el-button>
+            </div>
+            <br>
+            <br>
+
+            <el-table
+                ref="multipleTable"
+                :data="itemDataList"
+                tooltip-effect="dark"
+                style="width: 100%">
+                <el-table-column
+                sortable
+                prop="assetCode"
+                label="Asset Code">
+                </el-table-column>
+                <el-table-column
+                prop="assetName"
+                label="Asset Name">
+                </el-table-column>
+                <el-table-column
+                prop="placeCode"
+                label="Place Code">
+                </el-table-column>
+                <el-table-column
+                prop="placeName"
+                label="Place Name">
+                </el-table-column>
+                <el-table-column
+                prop="status"
+                label="Status">
+                </el-table-column>
+                <el-table-column
+                prop="remark"
+                label="Remark">
+                </el-table-column>
+                <el-table-column
+                sortable
+                prop="checkTime"
+                label="Check At">
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                @size-change="handleItemSizeChange"
+                @current-change="handleItemCurrentChange"
+                layout="total, sizes, prev, pager, next, jumper"
+                :page-sizes="[5, 10, 20, 30]"
+                :current-page="itemCurrent"
+                :page-size="itemSize"
+                :total="itemTotal">
+            </el-pagination>
+        </el-dialog>
     </div>
 </template>
 <script lang="ts">
@@ -152,12 +243,75 @@ export default class Stocktake extends Vue {
                 checkStrictly: boolean = true
                 multipleSelection: any = []
 
-        created() {
-            this.stockTakeList()
-            this.getAllPlace()
-        }
+    itemDataList: any = []
+    itemTakeForm: any = {}
+    itemFindForm: any = {
+        limit: 10,
+        page: 1
+    }
+    itemTotal: number = 0
+    itemSize: number|undefined
+    itemCurrent: number 
 
-        stockTakeList() {
+    stockTakeId: number = 0
+    itemTakeDialog: boolean = false
+
+    statusItemNew: any = []
+    statusItem = [
+        { status: 'Exist' },
+        { status: 'Not Exist' },
+        { status: 'Ready restoration' },
+        { status: 'Under restoration' },
+        { status: 'Other' }
+    ]
+
+    created() {
+        this.stockTakeList()
+        this.getAllPlace()
+        this.getAllValueCode()
+    }
+
+    getAllValueCode() {
+        axios.post(
+            '/base/code_type/getAllValue',
+            { type: 'StockTake' }
+        ).then(
+            (res: any) => {
+                this.statusItemNew = res.data.data
+        })
+    }
+
+    closeItemDialog() {
+        this.itemTakeDialog = false
+    }
+
+    stockTakeItem(id: number) {
+        this.stockTakeId = id
+        this.itemTakeForm.stockTakeId = id
+        this.itemFindForm.stockTakeId = id
+        this.itemTakeDialog = true
+
+        axios.post(
+            '/stock/stock_take/item/list',
+            this.itemFindForm
+        ).then(
+            (res: any) => {
+                this.itemDataList = res.data.data.records
+                this.itemSize = res.data.data.size
+                this.itemCurrent = res.data.data.current
+                this.itemTotal = res.data.data.total
+
+                this.itemDataList.forEach((re: any) => {
+                    const newCheckTime =  re.checkTime ? moment(new Date(re.checkTime)).format('DD-MM-YYYY HH:MM') : null
+
+                    re['checkTime'] = newCheckTime
+                    return re
+                })
+        })
+
+    }
+
+    stockTakeList() {
                 axios.post(
                     '/stock/stock_take/listAll',
                     this.searchForm
@@ -177,7 +331,57 @@ export default class Stocktake extends Vue {
                         return re
                     })
                 })
-          }
+    }
+
+    submitItemForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.validate((valid: any) => {
+           if (valid) {
+
+            axios.post(
+                '/asset/assetList/findAsset',
+                {
+                    assetCode: this.itemTakeForm.assetCode,
+                    placeId: this.itemTakeForm.placeId
+                }
+            ).then(
+                (res: any) => {
+                    if (this.itemTakeForm.placeId === Number(res.data.data.placeId)) {
+                        const assetId = res.data.data.id
+                                        
+                        axios.post('/stock/stock_take/item/save', { 
+                            ...this.itemTakeForm, 
+                            assetId 
+                        }).then((res: any) => {
+                            this.stockTakeItem(this.stockTakeId)
+                            this.$notify({
+                                title: '',
+                                showClose: true,
+                                message: 'Action is successful ',
+                                type: 'success',
+                            })
+                        })
+
+                    } else if(res.data.data === null){
+                        axios.post('/stock/stock_take/item/save', {
+                            ...this.itemTakeForm,
+                            status: 'Incorrect location OR does not exist'
+                        }).then((res: any) => {
+                            this.stockTakeItem(this.stockTakeId)
+                            this.$notify({
+                                title: '',
+                                showClose: true,
+                                message: 'Action is successful ',
+                                type: 'success',
+                            })
+                        })
+                    }
+                })          
+            } else {
+                return false;
+           }
+        })
+    }
 
           getAllPlace() {
                 axios.get(
@@ -208,15 +412,31 @@ export default class Stocktake extends Vue {
                 this.delBtlStatu = val.length == 0
             }
 
-            handleSizeChange(val: number) {
-                this.searchForm.limit = val
-                this.stockTakeList()
-            }
+    handleSizeChange(val: number) {
+        this.searchForm.limit = val
+        this.stockTakeList()
+    }
 
-            handleCurrentChange(val: number) {
-                this.searchForm.page = val
-                this.stockTakeList()
-            }
+    handleCurrentChange(val: number) {
+        this.searchForm.page = val
+        this.stockTakeList()
+    }
+
+    handleItemSizeChange(val: number) {
+        this.itemFindForm.limit = val
+        this.stockTakeItem(this.stockTakeId)
+    }
+
+    handleItemCurrentChange(val: number) {
+        this.itemFindForm.page = val
+        this.stockTakeItem(this.stockTakeId)
+    }
+
+    resetItemForm(formName: string) {
+        const refs: any = this.$refs[formName]
+        refs.resetFields();
+        this.itemTakeForm = {}
+    }
 
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
