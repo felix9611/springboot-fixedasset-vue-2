@@ -11,7 +11,7 @@
             router
         >
             <template v-for="item in menuList">
-                <template v-if="item.children.length === 0">
+                <template v-if="item.children.length === 0 && item.type !== 3">
                     <el-menu-item :index="item.path" :key="item.index">
                         <i :class="item.icon"></i>
                         <span slot="title">{{ item.title }}</span>
@@ -25,7 +25,7 @@
                         </template>
                         <template v-for="subItem in item.children">
                             <el-submenu
-                                v-if="subItem.children"
+                                v-if="subItem.children && subItem.type !== 3"
                                 :index="subItem.path"
                                 :key="subItem.index"
                             >
