@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <div class="handle-box">
+            
             <el-row :gutter="24">
                 <el-col :span="4">
                     <v-card
@@ -97,9 +98,14 @@
                     <el-button @click="assetAllList">Find</el-button>
                 </el-form-item>
 
-                <el-form-item>
+                <!--<el-form-item>
                     <el-button type="primary" @click="dialogVisible = true">Create</el-button>
+                </el-form-item> -->
+                <el-form-item>
+                    <el-button type="primary" @click="goToCreate()">New Create</el-button>
                 </el-form-item>
+
+                
             </el-form>
         </div>
 
@@ -171,7 +177,7 @@
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="520px"
+                    width="430px"
                     label="Action">
 
                 <template slot-scope="scope">
@@ -187,12 +193,7 @@
                     <el-divider direction="vertical"></el-divider>
                     <el-button
                       size="mini"
-                      type="success"
-                      @click="readHandle(scope.row.id)">Detail</el-button>
-                    <el-divider direction="vertical"></el-divider>
-                    <el-button
-                      size="mini"
-                      @click="editHandle(scope.row.id)">Edit</el-button>
+                      @click="editHandle(scope.row.id)">Detail</el-button>
                     <el-divider direction="vertical"></el-divider>
                     <el-button
                       size="mini"
@@ -482,6 +483,10 @@ export default class AssetList extends Vue {
         { id: 0, label: 'No' },
         { id: 1, label: 'Yes' },
     ]
+
+    goToCreate() {
+        this.$router.push({ path: '/asset/assetList/create' })
+    }
 
     clickUploadExcelDialog() {
         this.excelFileList = []
@@ -871,12 +876,13 @@ export default class AssetList extends Vue {
     }
 
     editHandle(id: number) {
-        axios.get(`/asset/assetList/${id}`).then((res: any) => {
+        this.$router.push({ path: `/asset/assetList/${id}` })
+        /* axios.get(`/asset/assetList/${id}`).then((res: any) => {
             console.log(this.placeItem)
             this.readonlyForm = false
             this.editForm = res.data.data
             this.dialogVisible = true
-        })
+        }) */
     }
 
     delItem(id: number) {
