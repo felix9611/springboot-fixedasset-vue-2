@@ -65,9 +65,10 @@
                       size="mini"
                       @click="stockTakeItem(scope.row.id)">Stock Take</el-button>
                     <el-button
+                      v-if="scope.row.active === 1"
                       size="mini"
                       type="danger"
-                      @click="delItem(scope.row.id)">Delete</el-button>
+                      @click="delItem(scope.row.id)">Finish</el-button>
                 </template>
             </el-table-column>
 
