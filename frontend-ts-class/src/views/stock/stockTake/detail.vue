@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <!--<div class="handle-box">
-      <el-button icon="el-icon-back" circle @click=""></el-button>
+    <div class="handle-box">
+      <el-button icon="el-icon-back" circle @click="back"></el-button>
       Back
-    </div> -->
+    </div>
     <el-form :model="itemTakeForm" ref="itemTakeForm">
                     <el-form-item label="Asset Code"  prop="assetCode" label-width="100px">
                         <el-input v-model="itemTakeForm.assetCode" autocomplete="off"></el-input>
