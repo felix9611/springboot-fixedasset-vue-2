@@ -177,7 +177,7 @@
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="430px"
+                    width="460px"
                     label="Action">
 
                 <template slot-scope="scope">
