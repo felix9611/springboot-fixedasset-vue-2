@@ -2,7 +2,7 @@
   <div div class="container">
     <div class="handle-box">
         <el-button icon="el-icon-back" circle @click="back"></el-button>
-        <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm = true" @click="startEdit()"></el-button>
+        <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm === true" @click="startEdit()"></el-button>
     </div>
     <el-form :model="editForm" ref="editForm" :disabled="readonlyForm">
         <el-form-item>
