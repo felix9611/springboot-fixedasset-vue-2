@@ -92,6 +92,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             dto.setComponent(m.getComponent());
             dto.setPath(m.getPath());
             dto.setIcon(m.getIcon());
+            dto.setType(m.getType());
 
             if (m.getChildren().size() > 0) {
 

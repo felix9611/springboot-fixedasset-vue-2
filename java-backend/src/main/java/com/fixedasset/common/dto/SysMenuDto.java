@@ -33,6 +33,7 @@ public class SysMenuDto implements Serializable {
 	private String icon;
 	private String path;
 	private String component;
+	private int type;
 	private List<SysMenuDto> children = new ArrayList<>();
 
 }

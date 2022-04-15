@@ -147,7 +147,7 @@
           </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetForm('editForm')">Cancel</el-button>
+        <el-button @click="resetForm('editForm')">Reset</el-button>
         <el-button :disabled="hideSaveBtn" type="primary" @click="submitForm('editForm')" v-if="!readonlyForm">{{ editForm.id? 'Update' : 'Create' }}</el-button>
       </div>
     </div>
