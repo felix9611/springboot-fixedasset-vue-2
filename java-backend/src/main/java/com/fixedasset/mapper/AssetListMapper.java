@@ -22,6 +22,19 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "LEFT JOIN location AS lo ON al.place_id = lo.id";
     String wrapperSql = "SELECT * from ( " + querySql + " ) AS q ${ew.customSqlSegment}";
 
+    String querySqlInWriteOff = "SELECT al.* ," +
+            "at.type_name AS typeName, at.type_code AS typeCode, " +
+            "d.dept_name AS deptName, d.dept_code AS deptCode, " +
+            "lo.place_code AS placeCode, lo.place_name AS placeName , " +
+            "wo.reason As writeOffReason, wo.last_day AS writeOffTime " +
+            "FROM asset_list AS al " +
+            "LEFT JOIN asset_type AS at ON al.type_id = at.id " +
+            "LEFT JOIN department AS d ON al.dept_id = d.id " +
+            "LEFT JOIN location AS lo ON al.place_id = lo.id " +
+            "LEFT JOIN write_off AS wo ON al.id = wo.asset_id";
+    String wrapperSqlInWriteOff  = "SELECT * from ( " + querySqlInWriteOff + " ) AS q ${ew.customSqlSegment}";
+
+
 
     String getCostYearMonth = "SELECT " +
             "sum(cost) as totalCost," +
@@ -77,6 +90,9 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
+
+    @Select(wrapperSqlInWriteOff)
+    Page<AssetListViewDTO> pageInWriteOff(Page page, @Param("ew") Wrapper queryWrapper);
 
     String sumCostQuery = "SELECT sum(cost) costs FROM asset_list ${ew.customSqlSegment}";
     @Select(sumCostQuery )

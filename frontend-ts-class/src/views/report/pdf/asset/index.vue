@@ -94,6 +94,16 @@
                     label="Update At"
                     >
                     </el-table-column>
+                    <el-table-column                
+                        prop="newWriteOffTime"
+                        width="140"
+                        label="Write Off Date"
+                    ></el-table-column>
+                    <el-table-column
+                        prop="writeOffReason"
+                        width="140"
+                        label="Write Off Reason"
+                    ></el-table-column>
                 </el-table>
             </div>
 
@@ -210,12 +220,19 @@ export default class AssetList extends Vue {
                 const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
                 const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
 
+                let newWriteOffTime: any
+                if (re.writeOffTime) {
+                    newWriteOffTime =  re.writeOffTime? moment(new Date(re.writeOffTime)).format('DD-MM-YYYY HH:MM') : null
+                }
+
+                re['newWriteOffTime'] = newWriteOffTime
                 re['buyDate'] = newBuyDate
                 re['created'] = newCreated
                 re['updated'] = newUpdated
                 re['invoiceDate'] = newInvoiceDate
                 return re
             })
+            console.log(this.tableData)
         })
     }
 

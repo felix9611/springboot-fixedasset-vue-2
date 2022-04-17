@@ -278,7 +278,7 @@ export default class StockTakeDetail extends Vue {
         })
   }
 
-      submitForm(formName: string) {
+  submitForm(formName: string) {
         const refs: any = this.$refs[formName]
         refs.validate((valid: any) => {
             if (valid) {

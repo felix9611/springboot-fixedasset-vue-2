@@ -198,7 +198,7 @@
                     <el-button
                       size="mini"
                       type="danger"
-                      @click="delItem(scope.row.id)">Delete</el-button>
+                      @click="delItem(scope.row)">Write Off</el-button>
                 </template>
             </el-table-column>
 
@@ -222,7 +222,7 @@
                 <div v-for="item in fileBase64Data" :key="item.fileName">
                     <el-row  :gutter="20">
                         <el-col :span="15">
-                            <p>Uploaded File Name:   {{ item.fileName }}</p>
+                            <p>Uploaded File Name: {{ item.fileName }}</p>
                         </el-col>
                         <el-col :span="5">
                             <el-button
@@ -243,143 +243,6 @@
         </el-dialog>
 
         <el-dialog
-                title="Form Box"
-                :visible.sync="dialogVisible"
-                width="700px"
-                :before-close="handleClose">
-
-                 
-                 <el-button
-                    size="mini"
-                    type="success"
-                    @click="formToImage(editForm.id)">Read File(Image)</el-button>
-
-                    <br>
-                    <br>
-
-            <el-form :model="editForm" :rules="editFormRules" ref="editForm" :disabled="readonlyForm">
-                <el-form-item>
-                    <el-upload
-                        class="upload-demo"
-                        :auto-upload="false"
-                        :file-list="fileList"
-                        :on-change="onChangeUpload"
-                        :on-remove="removeUploaded"
-                        >
-                        <el-button size="small" type="primary">Upload</el-button>
-                        <div slot="tip" class="el-upload__tip">Only upload JPG or PNG</div>
-                    </el-upload>
-                </el-form-item>
-
-                <el-form-item label="Asset Code"  prop="assetCode" label-width="100px">
-                    <el-input v-model="editForm.assetCode" autocomplete="off" readonly></el-input>
-                </el-form-item>
-                <el-form-item label="Asset Name"  prop="assetName" label-width="100px">
-                    <el-input v-model="editForm.assetName" autocomplete="off"></el-input>
-                </el-form-item>
-
-                <el-form-item label="Type" prop="type" label-width="100px">
-                    <el-select v-model="editForm.typeId" placeholder="Select" filterable>
-                        <el-option
-                        v-for="typeItems in typeItem"
-                        :key="typeItems.id"
-                        :label="typeItems.typeName"
-                        :value="typeItems.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="Place" prop="place" label-width="100px">
-                    <el-select v-model="editForm.placeId" placeholder="Select" filterable>
-                        <el-option
-                        v-for="placeItems in placeItem"
-                        :key="placeItems.id"
-                        :label="placeItems.placeName"
-                        :value="placeItems.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="Dept" prop="Dept" label-width="100px">
-                    <el-select v-model="editForm.deptId" placeholder="Select" filterable>
-                        <el-option
-                        v-for="deptItems in deptItem"
-                        :key="deptItems.id"
-                        :label="deptItems.deptName"
-                        :value="deptItems.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="Buy Date" prop="Dept" label-width="100px">
-                  <el-date-picker
-                    v-model="editForm.buyDate"
-                    type="datetime"
-                    placeholder="Select date and time">
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item label="Description"  prop="description" label-width="100px">
-                    <el-input type="textarea" v-model="editForm.description"></el-input>
-                </el-form-item>
-               
-               <el-form-item label="Vendor" prop="vendor" label-width="100px">
-                    <el-select v-model="editForm.vendorId" placeholder="Select" filterable>
-                        <el-option
-                        v-for="vendorItems in vendorItem"
-                        :key="vendorItems.id"
-                        :label="vendorItems.vendorName"
-                        :value="vendorItems.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="Sponsor" prop="sponsor" label-width="100px">
-                    <el-select v-model="editForm.sponsor" placeholder="Select" filterable>
-                        <el-option
-                        v-for="items in sponsorOpts"
-                        :key="items.id"
-                        :label="items.label"
-                        :value="items.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="Sponsor Name"  prop="sponsorName" label-width="100px">
-                    <el-input v-model="editForm.sponsorName" autocomplete="off"></el-input>
-                </el-form-item>
-
-
-                <el-form-item label="Cost"  prop="cost" label-width="100px">
-                    <el-input v-model="editForm.cost" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="Serial No."  prop="serialNum" label-width="100px">
-                    <el-input v-model="editForm.serialNum" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="Invoice No."  prop="invoiceNo" label-width="100px">
-                    <el-input v-model="editForm.invoiceNo" autocomplete="off"></el-input>
-                </el-form-item>
-
-                <el-form-item label="Invoice Date" prop="invoiceDate" label-width="100px">
-                  <el-date-picker
-                    v-model="editForm.invoiceDate"
-                    type="datetime"
-                    placeholder="Select date and time">
-                  </el-date-picker>
-                </el-form-item>
-
-                <el-form-item label="Remark"  prop="remark" label-width="100px">
-                    <el-input type="textarea" v-model="editForm.remark"></el-input>
-                </el-form-item>
-
-                <!-- < -->
-
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="resetForm('editForm')">Cancel</el-button>
-                <el-button :disabled="hideSaveBtn" type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
-            </div>
-        </el-dialog>
-
-        <el-dialog
                 title="Upload Excel"
                 :visible.sync="excelUploaderDialog"
                 width="700px"
@@ -394,6 +257,14 @@
                         <el-button size="small" type="primary">Upload</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
+        </el-dialog>
+
+        <el-dialog
+                title="Photos View"
+                :visible.sync="photoViewDialog"
+                width="900px"
+                :before-close="closephotoViewDialog">
+
         </el-dialog>
 
 
@@ -414,6 +285,41 @@
                         <div>
                         </div>
                     <qrcode-vue :value="qrTagContent" :size="250" level="M" />
+                </div>
+        </el-dialog>
+
+        <el-dialog
+                title="Write Off Form"
+                :visible.sync="writeOffDialog"
+                width="700px"
+                :before-close="closeWriteOffDialog">
+                <div>
+                    <el-form :model="writeOffForm">
+                        <el-form-item label="Asset Code"  prop="assetCode" label-width="130px">
+                            <el-input v-model="writeOffForm.assetCode" autocomplete="off" readonly></el-input>
+                        </el-form-item>
+                        <el-form-item label="Asset Name"  prop="assetName" label-width="130px">
+                            <el-input v-model="writeOffForm.assetName" autocomplete="off" readonly></el-input>
+                        </el-form-item>
+                        <el-form-item label="Place Code"  prop="placeCode" label-width="130px">
+                            <el-input v-model="writeOffForm.placeCode" autocomplete="off" readonly></el-input>
+                        </el-form-item>
+                        <el-form-item label="Place Name"  prop="placeName" label-width="130px">
+                            <el-input v-model="writeOffForm.placeName" autocomplete="off" readonly></el-input>
+                        </el-form-item>
+                        <el-form-item label="Last Updated"  prop="updated" label-width="130px">
+                            <el-input v-model="writeOffForm.updated" autocomplete="off" readonly></el-input>
+                        </el-form-item>
+                        <el-form-item label="Write Off Reason"  prop="reason" label-width="130px">
+                            <el-input type="textarea" v-model="writeOffForm.reason"></el-input>
+                        </el-form-item>
+
+                        <div>
+                            <el-button @click="cancelWriteOff()">Reset</el-button>
+                            <el-button :disabled="hideSaveBtn" type="primary" @click="writeOff()">Confirm Write Off</el-button>
+                        </div>
+                         
+                    </el-form>
                 </div>
         </el-dialog>
     </div>
@@ -464,6 +370,10 @@ export default class AssetList extends Vue {
 
     hideSaveBtn: boolean =  false
     showImageDialog: boolean =  false
+    writeOffDialog: boolean =  false
+
+    writeOffForm: any = {}
+
     editFormRules = {
         assetName: [
             { required: true, message: 'Asset Name cannot blank!', trigger: 'blur' }
@@ -484,8 +394,14 @@ export default class AssetList extends Vue {
         { id: 1, label: 'Yes' },
     ]
 
+    photoViewDialog: boolean = false
+
     goToCreate() {
         this.$router.push({ path: '/asset/assetList/create' })
+    }
+
+    closeWriteOffDialog() {
+        this.writeOffDialog = false
     }
 
     clickUploadExcelDialog() {
@@ -519,6 +435,10 @@ export default class AssetList extends Vue {
 
     closeQRCodeDialog() {
         this.qrCodeTagDialog = false
+    }
+
+    closephotoViewDialog() {
+        this.photoViewDialog = false
     }
 
     async uploadExcelFile(file: any) {
@@ -885,8 +805,11 @@ export default class AssetList extends Vue {
         }) */
     }
 
-    delItem(id: number) {
-        axios.delete(`/asset/assetList/remove/${id}`).then(res => {
+    delItem(asset: any) {
+        this.writeOffDialog = true
+        this.writeOffForm = asset
+
+        /* axios.delete(`/asset/assetList/remove/${id}`).then(res => {
             this.assetAllList()
             this.getTotalCost()
             this.sumCostWithSponsor()
@@ -895,6 +818,28 @@ export default class AssetList extends Vue {
                 showClose: true,
                 message: 'Action is successful ',
                 type: 'success'
+            })
+        }) */
+    }
+
+    writeOff() {
+        const assetId = this.writeOffForm.id
+        axios.post('/asset/assetList/writeOff', {
+            assetId: this.writeOffForm.id,
+            lastPlaceId: this.writeOffForm.placeId,
+            reason: this.writeOffForm.reason
+        }).then(res => {
+             axios.delete(`/asset/assetList/remove/${assetId}`).then(res => {
+                this.assetAllList()
+                this.getTotalCost()
+                this.sumCostWithSponsor()
+                this.$notify({
+                    title: '',
+                    showClose: true,
+                    message: 'Action is successful ',
+                    type: 'success'
+                })
+                this.writeOffDialog = false
             })
         })
     }
@@ -912,6 +857,11 @@ export default class AssetList extends Vue {
             this.getTotalCost()
             this.sumCostWithSponsor()
         })
+    }
+
+    cancelWriteOff() {
+        this.writeOffForm = {}
+        this.writeOffDialog = false
     }
 }
 </script>

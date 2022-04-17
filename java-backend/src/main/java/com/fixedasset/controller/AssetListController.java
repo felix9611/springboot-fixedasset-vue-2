@@ -8,9 +8,11 @@ import com.fixedasset.common.lang.Result;
 import com.fixedasset.dto.AssetListViewDTO;
 import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.AssetListFile;
+import com.fixedasset.entity.WriteOff;
 import com.fixedasset.service.AssetListFileService;
 import com.fixedasset.service.AssetListService;
 // import org.springframework.util.StringUtils;
+import com.fixedasset.service.WriteOffService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,6 +24,8 @@ public class AssetListController extends BaseController {
     @Resource AssetListService assetListService;
 
     @Resource AssetListFileService assetListFileService;
+
+    @Resource WriteOffService writeOffService;
 
     @PostMapping("/listAll")
     public Result listAll(@RequestBody AssetList assetList) {
@@ -77,7 +81,7 @@ public class AssetListController extends BaseController {
 
         queryWrapper.orderByDesc(true, AssetList::getAssetCode);
         queryWrapper.eq(AssetList::getStatu, 0);
-        Page<AssetListViewDTO> iPage = assetListService.newPage(page, queryWrapper);
+        Page<AssetListViewDTO> iPage = assetListService.newPageInWriteOff(page, queryWrapper);
         return Result.succ(iPage);
     }
 
@@ -167,4 +171,10 @@ public class AssetListController extends BaseController {
 
     @GetMapping("/getCostWithDept")
     public Result getCostWithDept() { return Result.succ(assetListService.getCostWithDept()); }
+
+    @PostMapping("/writeOff")
+    public Result writeItem(@RequestBody WriteOff writeOff) {
+        writeOffService.saveWriteOff(writeOff);
+        return Result.succ("");
+    }
 }

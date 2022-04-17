@@ -16,7 +16,9 @@ export const exportExcelHeader1: any = [
   'Place Name',
   'Remark',
   'Created At',
-  'Updated At'
+  'Updated At',
+  'Write Off Date',
+  'Write Off Reason'
 ]
 
 export const exportExcelHeader2: any = [
@@ -37,7 +39,9 @@ export const exportExcelHeader2: any = [
   'placeName',
   'remark',
   'created',
-  'updated'
+  'updated',
+  'newWriteOffTime',
+  'writeOffReason'
 ]
 
 export const columnsStyle: any = {

@@ -13,6 +13,8 @@ public interface AssetListService extends IService<AssetList> {
 
     Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper);
 
+    Page<AssetListViewDTO> newPageInWriteOff(Page page, LambdaQueryWrapper<AssetList> queryWrapper);
+
     void remove(Long id);
 
     void update(AssetList assetList);
