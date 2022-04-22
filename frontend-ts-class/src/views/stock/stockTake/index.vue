@@ -37,7 +37,8 @@
                     label="Status">
                 <template slot-scope="scope">
                     <el-tag size="small" v-if="scope.row.active === 1" type="success">In Progress</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.active === 0" type="danger">Finished</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.active === 2" type="danger">Finished</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.active === 0" type="danger">Delete</el-tag>
                 </template>
 
             </el-table-column>
@@ -56,7 +57,7 @@
             </el-table-column>
             <el-table-column
                     prop="icon"
-                    width="200px"
+                    width="320px"
                     label="Action">
 
                 <template slot-scope="scope">
@@ -68,7 +69,7 @@
                       v-if="scope.row.active === 1"
                       size="mini"
                       type="danger"
-                      @click="voidItem(scope.row.id)">Finish</el-button>
+                      @click="voidItem(scope.row.id)">Delete</el-button>
                       <el-button
                       v-if="scope.row.active === 1"
                       size="mini"
