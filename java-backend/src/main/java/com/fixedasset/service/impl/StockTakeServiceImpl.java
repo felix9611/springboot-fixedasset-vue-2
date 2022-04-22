@@ -55,10 +55,24 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
     public void remove(Long id) {
         stockTake.setId(id);
         stockTake.setActive(0);
+        stockTakeMapper.updateById(stockTake);
+
+        actionRecord.setActionName("Delete Stock  Form");
+        actionRecord.setActionMethod("Delete");
+        actionRecord.setActionFrom("Stock Take");
+        actionRecord.setActionData(stockTake.toString());
+        actionRecord.setActionSuccess("Success");
+        actionRecord.setCreated(LocalDateTime.now());
+        this.createdAction(actionRecord);
+    }
+
+    public void finish(Long id) {
+        stockTake.setId(id);
+        stockTake.setActive(2);
         stockTake.setFinishTime(LocalDateTime.now());
         stockTakeMapper.updateById(stockTake);
 
-        actionRecord.setActionName("Stop Stock take");
+        actionRecord.setActionName("Finish Stock take");
         actionRecord.setActionMethod("Delete");
         actionRecord.setActionFrom("Stock Take");
         actionRecord.setActionData(stockTake.toString());

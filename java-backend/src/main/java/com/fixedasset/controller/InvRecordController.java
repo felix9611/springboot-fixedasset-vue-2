@@ -25,7 +25,7 @@ public class InvRecordController {
         Page page = new Page(findInvRecordDto.getPage(), findInvRecordDto.getLimit());
         LambdaQueryWrapper<FindInvRecordDto> queryWrapper = Wrappers.lambdaQuery();
 
-        if ( findInvRecordDto.getCreatedFrom() != null && findInvRecordDto.getCreatedTo() != null ) {
+        if ( !(findInvRecordDto.getCreatedFrom() == null) && !(findInvRecordDto.getCreatedTo() == null )) {
             queryWrapper.between(InvRecord::getCreated, findInvRecordDto.getCreatedFrom(), findInvRecordDto.getCreatedTo());
         }
 

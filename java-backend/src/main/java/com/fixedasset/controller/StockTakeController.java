@@ -49,6 +49,12 @@ public class StockTakeController extends BaseController {
         return Result.succ(id);
     }
 
+    @DeleteMapping("/finish/{id}")
+    public  Result finished(@PathVariable("id") Long id) {
+        stockTakeService.finish(id);
+        return Result.succ(id);
+    }
+
     @GetMapping("/getAllST")
     public Result getAll() {
         return Result.succ(stockTakeService.getAllActive());
