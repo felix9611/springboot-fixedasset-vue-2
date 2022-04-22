@@ -68,7 +68,12 @@
                       v-if="scope.row.active === 1"
                       size="mini"
                       type="danger"
-                      @click="delItem(scope.row.id)">Finish</el-button>
+                      @click="voidItem(scope.row.id)">Finish</el-button>
+                      <el-button
+                      v-if="scope.row.active === 1"
+                      size="mini"
+                      type="danger"
+                      @click="finishItem(scope.row.id)">Finish</el-button>
                 </template>
             </el-table-column>
 
@@ -292,8 +297,20 @@ export default class Stocktake extends Vue {
                 });
             }
 
-            delItem(id: number) {
+            voidItem(id: number) {
                 axios.delete(`/stock/stock_take/remove/${id}`).then(res => {
+                    this.stockTakeList()
+                    this.$notify({
+                        title: '',
+                        showClose: true,
+                        message: 'Action is successful ',
+                        type: 'success'
+                    });
+                })
+            }
+
+            finishItem(id: number) {
+                axios.delete(`/stock/stock_take/finish/${id}`).then(res => {
                     this.stockTakeList()
                     this.$notify({
                         title: '',
