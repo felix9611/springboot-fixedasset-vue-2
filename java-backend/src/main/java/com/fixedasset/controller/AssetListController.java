@@ -16,6 +16,7 @@ import com.fixedasset.service.WriteOffService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/asset/assetList")
@@ -56,9 +57,17 @@ public class AssetListController extends BaseController {
         return Result.succ(iPage);
     }
 
+    @PostMapping("/report/listAll")
+    public Result reportListAll(@RequestBody AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.orderByDesc(true, AssetList::getAssetCode);
+        queryWrapper.eq(AssetList::getStatu, 1);
+        List<AssetListViewDTO> iPage = assetListService.newReport(queryWrapper);
+        return Result.succ(iPage);
+    }
+
     @PostMapping("/writeOff/listAll")
     public Result listAllWriteOff(@RequestBody AssetList assetList) {
-        Page page = new Page(assetList.getPage(), assetList.getLimit());
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
 
         if (!StringUtils.isBlank(assetList.getAssetCode())){
@@ -81,7 +90,7 @@ public class AssetListController extends BaseController {
 
         queryWrapper.orderByDesc(true, AssetList::getAssetCode);
         queryWrapper.eq(AssetList::getStatu, 0);
-        Page<AssetListViewDTO> iPage = assetListService.newPageInWriteOff(page, queryWrapper);
+        List<AssetListViewDTO> iPage = assetListService.newPageInWriteOff(queryWrapper);
         return Result.succ(iPage);
     }
 

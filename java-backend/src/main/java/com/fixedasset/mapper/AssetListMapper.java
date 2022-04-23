@@ -91,8 +91,11 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(wrapperSql)
     Page<AssetListViewDTO> page(Page page, @Param("ew") Wrapper queryWrapper);
 
+    @Select(wrapperSql)
+    List<AssetListViewDTO> newReport(@Param("ew") Wrapper queryWrapper);
+
     @Select(wrapperSqlInWriteOff)
-    Page<AssetListViewDTO> pageInWriteOff(Page page, @Param("ew") Wrapper queryWrapper);
+    List<AssetListViewDTO> pageInWriteOff(@Param("ew") Wrapper queryWrapper);
 
     String sumCostQuery = "SELECT sum(cost) costs FROM asset_list ${ew.customSqlSegment}";
     @Select(sumCostQuery )

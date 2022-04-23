@@ -36,8 +36,12 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         return this.assetListMapper.page(page, queryWrapper);
     }
 
-    public Page<AssetListViewDTO> newPageInWriteOff(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
-        return this.assetListMapper.pageInWriteOff(page, queryWrapper);
+    public List<AssetListViewDTO> newPageInWriteOff(LambdaQueryWrapper<AssetList> queryWrapper){
+        return this.assetListMapper.pageInWriteOff(queryWrapper);
+    }
+
+    public List<AssetListViewDTO> newReport(LambdaQueryWrapper<AssetList> queryWrapper){
+        return this.assetListMapper.newReport(queryWrapper);
     }
 
     public int sumTotal(AssetList assetList) {

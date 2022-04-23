@@ -120,13 +120,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class AssetList extends Vue {
-    searchForm: any = {
-        limit: 500,
-        page: 1,
-        typeId: 0,
-        placeId: 0,
-        deptId: 0
-    }
+    searchForm: any = {}
     editForm: any = {}
 
     delBtlStatu: boolean = true
@@ -205,14 +199,12 @@ export default class AssetList extends Vue {
 
     assetAllList() {
         axios.post(
-            this.apiSelector === 0 ? '/asset/assetList/listAll' : '/asset/assetList/writeOff/listAll',
+            this.apiSelector === 0 ? '/asset/assetList/report/listAll' : '/asset/assetList/writeOff/listAll',
             this.searchForm
         ).then(
             (res: any) => {
-            this.tableData = res.data.data.records
-            this.size = res.data.data.size
-            this.current = res.data.data.current
-            this.total = res.data.data.total
+            this.tableData = res.data.data
+
 
             this.tableData.forEach((re: any) => {
                 const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
