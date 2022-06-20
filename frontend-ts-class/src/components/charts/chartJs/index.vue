@@ -2,8 +2,8 @@
   <div>
     <component
     :is="chartType"
-    :chart-data="chartData"
-    :chart-options="chartOptions"
+    :chartData="chartData"
+    :chartOptions="customChartOptions"
     :width="width"
     :height="height"
   />
@@ -13,12 +13,14 @@
 import { Component, Mixins, Prop, Watch, Vue } from 'vue-property-decorator'
 import LineChart from './LineChart'
 import BarChart from './BarChart'
+import LineChartWithLabel from './LineChartWithLabel'
 import { COLORS, getRandomInt } from './interface'
 
 @Component({
   components: {
     LineChart,
-    BarChart
+    BarChart,
+    LineChartWithLabel,
   }
 })
 export default class ChartJs extends Vue {
@@ -37,13 +39,18 @@ export default class ChartJs extends Vue {
   @Prop({ type: String })
   value: string
   @Prop({ type: String })
-  colors: string
+  colors: string | string[]
   @Prop({ type: String, default: '' })
   title: string
   @Prop({ type: [String, Array] })
   xAxis: string | string[]
   @Prop({ type: [String, Array] })
   yAxis: string | string[]
+  @Prop({ type: Object })
+  pluginsOption: any
+  @Prop({ type: Object })
+  chartOptions: any
+  
 
   get categoriesKey() {
     const map = this.data.map(r => r[this.datasetKey])
@@ -63,6 +70,9 @@ export default class ChartJs extends Vue {
       case 'line': {
         return 'LineChart'
       }
+      case 'lineWithLabel': {
+        return 'LineChartWithLabel'
+      }
       case 'bar': {
         return 'BarChart'
       }
@@ -79,15 +89,23 @@ export default class ChartJs extends Vue {
       case 'bar': {
         setContent = {
           ...setContent,
-          backgroundColor: this.colors ? this.colors : COLORS[getRandomInt()]
+          backgroundColor: this.colors ? `${this.colors}50`: `${COLORS[getRandomInt()]}50`,
+          borderColor: this.colors ? this.colors : COLORS[getRandomInt()],
+          borderWidth: 1
         }
       }
       case 'line': {
         setContent = {
           ...setContent,
           fill: false,
-          borderColor: this.colors ? this.colors : COLORS[getRandomInt()],
-          backgroundColor: this.colors ? this.colors : COLORS[getRandomInt()]
+          borderColor: this.colors ? this.colors : COLORS[getRandomInt()]
+        }
+      }
+      case 'lineWithLabel': {
+        setContent = {
+          ...setContent,
+          fill: false,
+          borderColor: this.colors ? this.colors : COLORS[getRandomInt()]
         }
       }
     }
@@ -103,12 +121,19 @@ export default class ChartJs extends Vue {
     }
   }
 
-  get chartOptions() {
+  get customChartOptions() {
     return {
+      ...this.chartOptions,
       maintainAspectRatio:false,
-      plugins: {},
+      plugins: {
+        ...this.pluginsOption
+      },
       scales: {}
     }
+  }
+
+  created() {
+    console.log(this.datasets)
   }
 }
 </script>

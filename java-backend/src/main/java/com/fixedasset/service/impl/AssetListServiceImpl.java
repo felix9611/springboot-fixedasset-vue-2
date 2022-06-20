@@ -180,6 +180,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
     public List<CostWithDeptDto> getCostWithDept() { return assetListMapper.getCostWithDept(); }
 
+    public List<AssetYearQtyType> assetYearQtyType() { return assetListMapper.assetYearQtyType(); }
+
     public String getNewAssetCode() {
         LambdaQueryWrapper<AssetList> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.select(AssetList::getAssetCode);

@@ -41,4 +41,6 @@ public interface AssetListService extends IService<AssetList> {
 
     List<CostWithDeptDto> getCostWithDept();
 
+    List<AssetYearQtyType> assetYearQtyType();
+
 }

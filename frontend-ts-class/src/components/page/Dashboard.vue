@@ -42,7 +42,7 @@
                         Group By Department
                     </div>
                     <div class="card-content">
-                        <ChartJs v-bind="chartsSetD" /> 
+                        <ChartJs v-bind="chartsSetDe" /> 
                     </div> 
                 </v-card> 
             </el-col>
@@ -69,21 +69,22 @@
                         Group By Location
                     </div>
                     <div class="card-content">
-                        <ChartJs v-bind="chartsSetC1" /> 
+                        <ChartJs v-bind="chartsSetC2" /> 
                     </div> 
                 </v-card> 
             </el-col>
         </el-row>
+
         <el-row :gutter="24">
             <el-col :span="24">
                 <v-card
                     max-width="1700"
                 >
                     <div class="card-title">
-                        Buy Date & Items (By year-month)
+                        Buy Year-month and Type
                     </div>
                     <div class="card-content">
-                        <chart-js v-bind="chartsSetC2" /> 
+                        <ChartJsStackedChart :data="getAssetYearQtyTypeData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetD" /> 
                     </div> 
                 </v-card> 
             </el-col>
@@ -111,7 +112,7 @@
                         </el-col>    
                 </template>              
             </div>
-        </el-row>
+        </el-row>    
     </div>
 </template>
 
@@ -121,11 +122,13 @@ import axios from '@/axios'
 import { Component, Vue } from 'vue-property-decorator'
 import ApexChartOne from '@/components/charts/apex/apexOne.vue'
 import ChartJs from '@/components/charts/chartJs/index.vue'
+import ChartJsStackedChart from '@/components/charts/chartJs/StackedChart.vue'
 
 @Component({
     components: {
         ApexChartOne,
-        ChartJs
+        ChartJs,
+        ChartJsStackedChart
     }
 })
 export default class Dashboard extends Vue {
@@ -138,6 +141,20 @@ export default class Dashboard extends Vue {
     getAssetGroupDeptData: any = []
     getAssetGroupPlaceData: any = []
     getCostWithDeptData: any = []
+    getAssetYearQtyTypeData: any = []
+
+
+    get getAssetYearQtyTypeHeader() {
+        const header: any = []
+        this.getAssetYearQtyTypeData.reduce((finalRes, r) => {
+            header.push({
+              key: 'items',
+              label: r['yearMonth'],
+              test: `return row.yearMonth == '${r['yearMonth']}'`,
+            })
+        })
+        return header
+    }
 
     get chartsSetA() {
         return {
@@ -200,7 +217,6 @@ export default class Dashboard extends Vue {
                 },
                 yaxis: {
                     title: {
-                        text: 'Cost(HKD)'
                     }
                 }
             },
@@ -213,11 +229,17 @@ export default class Dashboard extends Vue {
             width: 1700,
             heigh: 90,
             type: 'line',
-            datasetKey: 'yearMonth',
+            text: 'Cost(HKD)',
+            Key: 'yearMonth',
             value: 'totalCost',
             label: 'Total Cost($)',
             data: this.costYearMonthData,
-            colors: '#00CCCC'
+            colors: '#00CCCC',
+            pluginsOption: {
+                datalabels: {
+                    display: false
+                }
+            }
         }
     }
 
@@ -231,20 +253,17 @@ export default class Dashboard extends Vue {
             type: 'line',
             colors: '#ff4d88',
             data: this.itemYearMonthData,
-            chartOptions: {
-                stroke: {
-                    curve: 'smooth'
-                },
-                yaxis: {
-                    title: {
-                        text: 'Item Unit'
-                    }
+            pluginsOption: {
+                datalabels: {
+                    display: false
                 }
             }
         }      
     }
 
-    get chartsSetD() {
+    
+
+    get chartsSetDe() {
         return {
             type: 'bar',
             datasetKey: 'deptName',
@@ -252,6 +271,28 @@ export default class Dashboard extends Vue {
             data: this.getAssetGroupDeptData,
             label: 'Total Items',
             colors: '#66ccff'
+        }
+    }
+
+    get chartsSetD() {
+        return {
+            heigh: 200,
+            type: 'bar',
+            datasetKey: 'typeName',
+            alwaysMultipleDatasets: true,
+            value: 'items',
+            label: 'Total Items',
+            colors: '#66ccff',
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { stacked: true }
+                    ],
+                    yAxes: [
+                    { stacked: true }
+                    ]
+                }
+            }
         }
     }
 
@@ -284,6 +325,7 @@ export default class Dashboard extends Vue {
         this.getAssetGroupPlace()
         this.getItemYearMonth()
         this.getCostWithDept()
+        this.getAssetYearQtyType()
     }
 
     getCostWithDept() {
@@ -345,6 +387,18 @@ export default class Dashboard extends Vue {
             }
         )
     }
+
+    getAssetYearQtyType() {
+        axios.get(
+            '/asset/assetList/getAssetYearQtyType'
+        ).then(
+            (res: any) => {
+                this.getAssetYearQtyTypeData = res.data.data
+            }
+        )
+    }
+
+    
 
     name = localStorage.getItem('ms_username')
 
