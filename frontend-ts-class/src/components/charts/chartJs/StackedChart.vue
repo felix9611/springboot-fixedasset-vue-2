@@ -87,16 +87,6 @@ export default class ChartJsStackedChart extends Vue {
     }
   }
 
-  get dataSets() {
-    const dac: any = []
-    if (!Array.isArray(this.value)) {
-      this.data.forEach( re => {
-        dac.push(re[this.value])
-      })
-    }
-    return dac
-  }
-
   get chartType() {
     switch(this.type){
       case 'line': {
@@ -159,8 +149,6 @@ export default class ChartJsStackedChart extends Vue {
     } 
     return data
   }
-
-
 
   get chartOptions(): ChartOptions {
     return {

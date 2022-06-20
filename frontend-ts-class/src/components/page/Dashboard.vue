@@ -112,7 +112,7 @@
                         </el-col>    
                 </template>              
             </div>
-        </el-row>    
+        </el-row>  
     </div>
 </template>
 
@@ -146,13 +146,19 @@ export default class Dashboard extends Vue {
 
     get getAssetYearQtyTypeHeader() {
         const header: any = []
-        this.getAssetYearQtyTypeData.reduce((finalRes, r) => {
+        const test = this.getAssetYearQtyTypeData.map(x=> {  
+            return x.yearMonth
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
             header.push({
               key: 'items',
-              label: r['yearMonth'],
-              test: `return row.yearMonth == '${r['yearMonth']}'`,
+              label: r,
+              test: `return row.yearMonth == '${r}'`,
             })
         })
+        
+
         return header
     }
 
