@@ -54,7 +54,7 @@ export default class ChartJsStackedChart extends Vue {
   @Prop({ type: Object })
   pluginsOption: any
   @Prop({ type: Object })
-  customChartOptions: chartOptions
+  customChartOptions: ChartOptions
   @Prop({ type: Boolean })
   alwaysMultipleDatasets: boolean
   @Prop({ type: Array, default: () => [] })
