@@ -137,4 +137,14 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
     @Select(assetYearQtyTypeQuery)
     List<AssetYearQtyType> assetYearQtyType();
+
+    String assetYearCostTypeQuery = "SELECT sum(cost) as costs,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName\n" +
+            "FROM asset_list " +
+            "left join asset_type as at on asset_list.type_id = at.id " +
+            "where buy_date is not null and not(cost = 0) and asset_list.statu = 1 " +
+            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
+            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
+
+    @Select(assetYearQtyTypeQuery)
+    List<AssetYearCostType> assetYearCostType();
 }
