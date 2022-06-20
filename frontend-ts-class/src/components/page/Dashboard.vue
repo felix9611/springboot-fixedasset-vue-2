@@ -81,10 +81,24 @@
                     max-width="1700"
                 >
                     <div class="card-title">
-                        Buy Year-month and Type
+                        Buy Year-month and Type - Items
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="getAssetYearQtyTypeData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetD" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+        </el-row>
+        <el-row :gutter="24">
+            <el-col :span="24">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Buy Year-month and Type - Cost
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetD" /> 
                     </div> 
                 </v-card> 
             </el-col>
@@ -142,6 +156,24 @@ export default class Dashboard extends Vue {
     getAssetGroupPlaceData: any = []
     getCostWithDeptData: any = []
     getAssetYearQtyTypeData: any = []
+    getAssetYearCostTypeData: any = []
+
+
+    get getAssetYearCostTypeHeader() {
+        const header: any = []
+        const test = this.getAssetYearCostTypeData.map(x=> {  
+            return x.yearMonth
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
+            header.push({
+              key: 'costs',
+              label: r,
+              test: `return row.yearMonth == '${r}'`,
+            })
+        })
+        return header
+    }
 
 
     get getAssetYearQtyTypeHeader() {
@@ -157,8 +189,6 @@ export default class Dashboard extends Vue {
               test: `return row.yearMonth == '${r}'`,
             })
         })
-        
-
         return header
     }
 
@@ -332,6 +362,7 @@ export default class Dashboard extends Vue {
         this.getItemYearMonth()
         this.getCostWithDept()
         this.getAssetYearQtyType()
+        this.getAssetYearCostType()
     }
 
     getCostWithDept() {
@@ -400,6 +431,16 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.getAssetYearQtyTypeData = res.data.data
+            }
+        )
+    }
+
+    getAssetYearCostType() {
+        axios.get(
+            '/asset/assetList/getAssetYearCostType'
+        ).then(
+            (res: any) => {
+                this.getAssetYearCostTypeData = res.data.data
             }
         )
     }
