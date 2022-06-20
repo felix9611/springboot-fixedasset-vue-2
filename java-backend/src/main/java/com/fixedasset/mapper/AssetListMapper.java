@@ -145,6 +145,6 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
             "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
 
-    @Select(assetYearQtyTypeQuery)
+    @Select(assetYearCostTypeQuery)
     List<AssetYearCostType> assetYearCostType();
 }
