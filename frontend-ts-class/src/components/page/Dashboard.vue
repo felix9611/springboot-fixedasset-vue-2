@@ -28,7 +28,8 @@
                         Total Item by Department
                     </div>
                     <div class="card-content">
-                        <ChartJs v-bind="chartsSetA1" /> 
+                        <ChartJsStackedChart :data="getAssetGroupTypeData" :headers="getAssetGroupTypeHeader" v-bind="chartsSetA1" /> 
+                        <!--<ChartJs v-bind="chartsSetA1" /> -->
                     </div> 
                 </v-card>
             </el-col>
@@ -192,38 +193,16 @@ export default class Dashboard extends Vue {
         return header
     }
 
-    get chartsSetA() {
-        return {
-            width: 1000,
-            heigh: 90,
-            datasetKey: 'typeName',
-            value: 'items',
-            label: 'Total Items',
-            type: 'bar',
-            chartOptions: {
-                stroke: {
-                curve: 'smooth'
-                },
-                chart: {
-                    toolbar: {
-                        show: true
-                    },
-                },
-                title: {
-                    text: 'Group By Type',
-                    align: 'left'
-                },
-                yaxis: {
-                    title: {
-                        text: 'Item'
-                    }
-                },
-                dataLabels: {
-                enabled: false
-                }
-            },
-            data: this.getAssetGroupTypeData
-        }
+    get getAssetGroupTypeHeader() {
+        const header: any = []
+        this.getAssetGroupTypeData.reduce((finalRes, r) => {
+            header.push({
+              key: 'items',
+              label: r['typeName'],
+              test: `return row.typeName == '${r['typeName']}'`,
+            })
+        })
+        return header
     }
 
     get chartsSetA1() {
@@ -231,52 +210,23 @@ export default class Dashboard extends Vue {
             width: 1000,
             heigh: 90,
             type: 'bar',
-            datasetKey: 'typeName',
-            value: 'items',
-            data: this.getAssetGroupTypeData,
-            label: 'Total Items',
-            colors: '#a1d41b'
+            // datasetKey: 'typeName',
+            labelData: 'Total Items',
+            colors: '#a1d41b',
+
         }
     }
 
-    get chartsSetB() {
-        return {
-            width: 1600,
-            heigh: 90,
-            datasetKey: 'yearMonth',
-            value: 'totalCost',
-            label: 'Total Cost(HKD)',
-            type: 'line',
-            chartOptions: {
-                stroke: {
-                    curve: 'smooth'
-                },
-                yaxis: {
-                    title: {
-                    }
-                }
-            },
-            data: this.costYearMonthData
-        }
-    }
-
-    get chartsSetC1() {
-        return {
-            width: 1700,
-            heigh: 90,
-            type: 'line',
-            text: 'Cost(HKD)',
-            Key: 'yearMonth',
-            value: 'totalCost',
-            label: 'Total Cost($)',
-            data: this.costYearMonthData,
-            colors: '#00CCCC',
-            pluginsOption: {
-                datalabels: {
-                    display: false
-                }
-            }
-        }
+    get itemYearMonthHeader() {
+        const header: any = []
+        this.itemYearMonthData.reduce((finalRes, r) => {
+            header.push({
+              key: 'items',
+              label: r['yearMonth'],
+              test: `return row.typeName == '${r['yearMonth']}'`,
+            })
+        })
+        return header
     }
 
     get chartsSetC2() {
@@ -318,7 +268,8 @@ export default class Dashboard extends Vue {
             alwaysMultipleDatasets: true,
             value: 'items',
             label: 'Total Items',
-            colors: '#66ccff',
+            // colors: '#66ccff',
+            fill: true,
             customChartOptions: {
                 scales: {
                     xAxes: [

@@ -63,6 +63,10 @@ export default class ChartJsStackedChart extends Vue {
   specials: string[]
   @Prop({ type: String })
   fillBgLevel: string
+  @Prop({ type: String })
+  labelData: string
+  @Prop({ type: Boolean, default: false })
+  fill: boolean
 
   get categoriesKey() {
     const map = this.data.map(r => r[this.datasetKey])
@@ -127,19 +131,19 @@ export default class ChartJsStackedChart extends Vue {
             return row[key2] || 0
           })
         }
-        if (this.hasMultipleDatasets) dataset.label = key
-        const color = this.colors[key] || this.colors[`dataset#${i + 1}`] || COLORS[i]
-        const fill = this.specials.indexOf('fill') > -1
+        if (this.hasMultipleDatasets) { dataset.label = key } else {  dataset.label = this.labelData }
+
+        const color = this.colors? this.colors[key] : COLORS[i]
+        const fill = this.fill
         switch (this.type) {
           case 'bar': {
             return {
               ...dataset,
-              ...(!color ? {} : dataset.type !== 'line' ? { backgroundColor: color } : {
-                backgroundColor: fill ? chroma(color).alpha(this.fillBgLevel ? Number(this.fillBgLevel) : 0.3).css() : 'transparent',
-                borderColor: color,
-                fill,
-                pointBackgroundColor: chroma(color).alpha(0.7).css()
-              }),
+              backgroundColor: chroma(color).alpha(this.fillBgLevel ? Number(this.fillBgLevel) : 0.6).css(),
+              borderColor: color,
+              fill,
+              pointBackgroundColor: chroma(color).alpha(this.fillBgLevel ? Number(this.fillBgLevel) : 0.6).css(),
+              borderWidth: 1,
               stack: this.specials.indexOf('stacked') > -1 ? 'default' : undefined
             }
           }
