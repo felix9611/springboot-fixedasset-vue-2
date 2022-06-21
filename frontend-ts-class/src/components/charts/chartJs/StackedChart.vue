@@ -29,7 +29,7 @@ import { ChartData, ChartOptions, ChartDataSets, ChartPluginsOptions } from 'cha
 export default class ChartJsStackedChart extends Vue {
   @Prop({ type: Number, default: 600 })
   width: number
-  @Prop({ type: Number, default: 200 })
+  @Prop({ type: Number, default: 250 })
   height: number
   @Prop({ type: String, default: 'line' })
   type: string
@@ -144,6 +144,17 @@ export default class ChartJsStackedChart extends Vue {
               fill,
               pointBackgroundColor: chroma(color).alpha(this.fillBgLevel ? Number(this.fillBgLevel) : 0.6).css(),
               borderWidth: 1,
+              // stack: this.specials.indexOf('stacked') > -1 ? 'default' : undefined
+            }
+          }
+          case 'line': {
+            return {
+              ...dataset,
+              backgroundColor: fill ? chroma(color).alpha(this.fillBgLevel ? Number(this.fillBgLevel) : 0.6).css() : null,
+              borderColor: color,
+              fill,
+              pointBackgroundColor: chroma(color).alpha(this.fillBgLevel ? Number(this.fillBgLevel) : 0.6).css(),
+              borderWidth: 2,
               // stack: this.specials.indexOf('stacked') > -1 ? 'default' : undefined
             }
           }

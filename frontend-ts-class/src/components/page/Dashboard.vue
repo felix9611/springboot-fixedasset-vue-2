@@ -25,11 +25,10 @@
                     max-width="1200"
                 >
                     <div class="card-title">
-                        Total Item by Department
+                        Total Item by type
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="getAssetGroupTypeData" :headers="getAssetGroupTypeHeader" v-bind="chartsSetA1" /> 
-                        <!--<ChartJs v-bind="chartsSetA1" /> -->
                     </div> 
                 </v-card>
             </el-col>
@@ -67,10 +66,10 @@
                     max-width="1700"
                 >
                     <div class="card-title">
-                        Group By Location
+                        Total Item by Year-Month
                     </div>
                     <div class="card-content">
-                        <ChartJs v-bind="chartsSetC2" /> 
+                        <ChartJsStackedChart :data="itemYearMonthData" :headers="itemYearMonthHeader" v-bind="chartsSetC2" />
                     </div> 
                 </v-card> 
             </el-col>
@@ -212,7 +211,7 @@ export default class Dashboard extends Vue {
             type: 'bar',
             // datasetKey: 'typeName',
             labelData: 'Total Items',
-            colors: '#a1d41b',
+            // colors: '#a1d41b',
 
         }
     }
@@ -223,7 +222,7 @@ export default class Dashboard extends Vue {
             header.push({
               key: 'items',
               label: r['yearMonth'],
-              test: `return row.typeName == '${r['yearMonth']}'`,
+              test: `return row.yearMonth == '${r['yearMonth']}'`,
             })
         })
         return header
@@ -232,18 +231,11 @@ export default class Dashboard extends Vue {
     get chartsSetC2() {
         return {
             width: 1600,
-            heigh: 90,
-            datasetKey: 'yearMonth',
+            heigh: 250,
+            fill: false,
             value: 'items',
-            label: 'Total Items',
+            labelData: 'Total Items',
             type: 'line',
-            colors: '#ff4d88',
-            data: this.itemYearMonthData,
-            pluginsOption: {
-                datalabels: {
-                    display: false
-                }
-            }
         }      
     }
 
