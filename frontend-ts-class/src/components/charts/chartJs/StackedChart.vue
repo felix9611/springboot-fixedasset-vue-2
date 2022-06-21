@@ -144,7 +144,7 @@ export default class ChartJsStackedChart extends Vue {
               fill,
               pointBackgroundColor: chroma(color).alpha(this.fillBgLevel ? Number(this.fillBgLevel) : 0.6).css(),
               borderWidth: 1,
-              stack: this.specials.indexOf('stacked') > -1 ? 'default' : undefined
+              // stack: this.specials.indexOf('stacked') > -1 ? 'default' : undefined
             }
           }
         }
