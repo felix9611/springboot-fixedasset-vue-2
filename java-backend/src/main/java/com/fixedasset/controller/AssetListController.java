@@ -187,6 +187,9 @@ public class AssetListController extends BaseController {
     @GetMapping("/getAssetYearCostType")
     public Result assetYearCostType() { return Result.succ(assetListService.assetYearCostType()); }
 
+    @GetMapping("/getAssetYearCostDept")
+    public Result assetYearCostDept() { return Result.succ(assetListService.assetYearCostDept()); }
+
     @PostMapping("/writeOff")
     public Result writeItem(@RequestBody WriteOff writeOff) {
         writeOffService.saveWriteOff(writeOff);

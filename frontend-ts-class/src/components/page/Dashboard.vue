@@ -103,6 +103,20 @@
                 </v-card> 
             </el-col>
         </el-row>
+         <el-row :gutter="24">
+            <el-col :span="24">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Buy Year-month and Type - Cost
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetG" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+        </el-row>
         <el-row :gutter="24">
             <div v-for="item in getCostWithDeptData" :key="item.deptName">
                     <template>
@@ -157,6 +171,7 @@ export default class Dashboard extends Vue {
     getCostWithDeptData: any = []
     getAssetYearQtyTypeData: any = []
     getAssetYearCostTypeData: any = []
+    getAssetYearCostDeptData: any = []
 
 
     get getAssetYearCostTypeHeader() {
@@ -297,7 +312,28 @@ export default class Dashboard extends Vue {
         }
     }
 
+    get chartsSetG() {
+        return {
+            heigh: 200,
+            type: 'bar',
+            datasetKey: 'deptName',
+            alwaysMultipleDatasets: true,
+            fill: true,
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { stacked: true }
+                    ],
+                    yAxes: [
+                    { stacked: true }
+                    ]
+                }
+            }
+        }
+    }
+
     created() {
+        this.getAssetYearCostDept()
         this.getCostYearMonth()
         this.groupByTypeWithAsset()
         this.getAssetGroupDept()
@@ -306,6 +342,7 @@ export default class Dashboard extends Vue {
         this.getCostWithDept()
         this.getAssetYearQtyType()
         this.getAssetYearCostType()
+        
     }
 
     getCostWithDept() {
@@ -384,6 +421,18 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.getAssetYearCostTypeData = res.data.data
+            }
+        )
+    }
+
+    
+
+    getAssetYearCostDept() {
+        axios.get(
+            '/asset/assetList/getAssetYearCostDept'
+        ).then(
+            (res: any) => {
+                this.getAssetYearCostDeptData = res.data.data
             }
         )
     }

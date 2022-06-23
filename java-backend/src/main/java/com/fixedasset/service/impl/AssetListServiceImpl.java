@@ -184,6 +184,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
     public List<AssetYearCostType> assetYearCostType() { return assetListMapper.assetYearCostType(); }
 
+    public List<AssetYearCostDept> assetYearCostDept() { return assetListMapper.assetYearCostDept(); }
+
     public String getNewAssetCode() {
         LambdaQueryWrapper<AssetList> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.select(AssetList::getAssetCode);
