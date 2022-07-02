@@ -26,7 +26,7 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item>
-                            <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>>
+                            <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>
                                 <el-option
                                 v-for="item in deptItem"
                                 :key="item.id"

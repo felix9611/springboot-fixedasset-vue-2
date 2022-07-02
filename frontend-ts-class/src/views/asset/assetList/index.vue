@@ -80,7 +80,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>>
+                    <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>
                         <el-option
                         v-for="item in deptItem"
                         :key="item.id"
