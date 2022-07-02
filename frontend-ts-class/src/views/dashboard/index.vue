@@ -14,7 +14,7 @@
                     </el-col>
                     <el-col :span="5">
                         <el-form-item label="Type" prop="type">
-                            <el-select v-model="searchForm.typeId" placeholder="Select" filterable>
+                            <el-select v-model="searchForm.typeId" placeholder="Select" filterable clearable>
                             <el-option
                                 v-for="typeItems in typeItem"
                                 :key="typeItems.id"
