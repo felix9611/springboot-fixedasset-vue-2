@@ -51,12 +51,6 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "and sponsor = 1 and sponsor_name is null " +
             "group by YEAR(buy_date), MONTH(buy_date) " +
             "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
-    String getItemYearMonth = "SELECT " +
-            "count(*) as items," +
-            "CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth " +
-            "FROM asset_list where buy_date is not null and not(cost = 0) and  asset_list.statu = 1 " +
-            "group by YEAR(buy_date), MONTH(buy_date) " +
-            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
 
     String groupByType = "SELECT at.type_name as typeName , count(*) as items " +
             "FROM asset_list as al " +
@@ -106,57 +100,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(sponsorQuery)
     int sumCostWithSponsor(@Param("ew") Wrapper queryWrapper);
 
-    @Select(getCostYearMonth)
-    List<AssetCostYearMonthDto> getCostYearMonth();
-
-    @Select(getCostYearMonthSponsor)
-    List<AssetCostYearMonthDto> getCostYearMonthWithSponsor();
-
-    @Select(getItemYearMonth)
-    List<AssetItemYearMonthDto> getItemYearMonth();
-
-    @Select(groupByType)
-    List<GroupByAssetOfTypeDto>  groupByType();
-
-    @Select(groupByDept)
-    List<AssetGroupDeptDto> getAssetGroupDept();
-
-    @Select(groupByPlace)
-    List<AssetGroupPlaceDto> getAssetGroupPlace();
-
     @Select(costWithDept)
     List<CostWithDeptDto> getCostWithDept();
-
-
-    String assetYearQtyTypeQuery = "SELECT count(*) as items,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName\n" +
-            "FROM asset_list " +
-            "left join asset_type as at on asset_list.type_id = at.id " +
-            "where buy_date is not null and not(cost = 0) and asset_list.statu = 1 " +
-            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
-            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
-
-    @Select(assetYearQtyTypeQuery)
-    List<AssetYearQtyType> assetYearQtyType();
-
-    String assetYearCostTypeQuery = "SELECT sum(cost) as costs,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName\n" +
-            "FROM asset_list " +
-            "left join asset_type as at on asset_list.type_id = at.id " +
-            "where buy_date is not null and not(cost = 0) and asset_list.statu = 1 " +
-            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
-            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
-
-    @Select(assetYearCostTypeQuery)
-    List<AssetYearCostType> assetYearCostType();
-
-    String assetYearCostDeptQuery = "SELECT sum(cost) as costs, CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth, " +
-            "dept.dept_name as deptName " +
-            "FROM fixedasset_springboot_vue_3.asset_list  " +
-            "left join department as dept on asset_list.dept_id = dept.id " +
-            // "where asset_list.buy_date is not null  and asset_list.statu = 1 " +
-            "group by year(asset_list.buy_date), week(asset_list.buy_date), dept_id  " +
-            "order by year(asset_list.buy_date), week(asset_list.buy_date), dept_id";
-    @Select(assetYearCostDeptQuery)
-    List<AssetYearCostDept> assetYearCostDept();
 
     String assetYearCostDeptFindQuery  = "SELECT sum(cost) as costs, CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth, " +
             "dept.dept_name as deptName " +
@@ -165,10 +110,6 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             " ${ew.customSqlSegment} " +
             "group by year(asset_list.buy_date), week(asset_list.buy_date), dept_id  " +
             "order by year(asset_list.buy_date), week(asset_list.buy_date), dept_id";
-
-
-
-            //"SELECT * from ( " + assetYearCostDeptQuery + " ) AS q ${ew.customSqlSegment}";
     @Select(assetYearCostDeptFindQuery)
     List<AssetYearCostDept> assetYearCostDeptFind(@Param("ew") Wrapper queryWrapper);
 
@@ -191,4 +132,40 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
     @Select(assetYearCostTypeFindQuery)
     List<AssetYearCostType> assetYearCostTypeFind(@Param("ew") Wrapper queryWrapper);
+
+    String groupByTypeFind = "SELECT at.type_name as typeName , count(*) as items " +
+            "FROM asset_list as al " +
+            "left join asset_type as at on al.type_id = at.id " +
+            " ${ew.customSqlSegment} " +
+            "group by type_id;";
+    @Select(groupByTypeFind)
+    List<GroupByAssetOfTypeDto>  groupByTypeFind(@Param("ew") Wrapper queryWrapper);
+
+    String groupByPlaceFind = "SELECT count(*) as items, loc.place_name as placeName " +
+            "FROM asset_list as al " +
+            "left join location as loc on al.place_id = loc.id " +
+            " ${ew.customSqlSegment} " +
+            "group by al.place_id;";
+    @Select(groupByPlaceFind)
+    List<AssetGroupPlaceDto> getAssetGroupPlaceFind(@Param("ew") Wrapper queryWrapper);
+    String assetYearQtyTypeQueryFind = "SELECT count(*) as items,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName " +
+            "FROM asset_list " +
+            "left join asset_type as at on asset_list.type_id = at.id " +
+            " ${ew.customSqlSegment} " +
+            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
+            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
+
+    @Select(assetYearQtyTypeQueryFind)
+    List<AssetYearQtyType> getAssetYearQtyTypeFind(@Param("ew") Wrapper queryWrapper);
+
+    String assetYearQtyDeptQueryFind = "SELECT count(*) as items,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , dept.dept_name as deptName " +
+            "FROM asset_list " +
+            "left join department as dept on asset_list.dept_id = dept.id " +
+            " ${ew.customSqlSegment} " +
+            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
+            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
+
+    @Select(assetYearQtyDeptQueryFind)
+    List<AssetYearQtyDept> getAssetYearQtyDeptFind(@Param("ew") Wrapper queryWrapper);
+
 }

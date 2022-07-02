@@ -84,6 +84,61 @@
                 </v-card> 
             </el-col>
         </el-row>
+
+        <el-row :gutter="24">
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Total Item by type
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetGroupTypeData" :headers="getAssetGroupTypeHeader" v-bind="chartsSetAssetGroupType" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Total Item by Department
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetGroupPlaceData" :headers="getAssetGroupPlaceHeader" v-bind="chartsSetAssetGroupPlace" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+        </el-row>
+
+        <el-row :gutter="24">
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Total Item by Department & year week
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearQtyDeptData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyDept" /> 
+                    </div> 
+                    <div>{{getAssetYearDeptTypeHeader}}</div>
+                </v-card> 
+            </el-col>
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Total Item by Type & year week
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearQtyTypeData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyType" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -216,6 +271,125 @@ export default class Dashboard extends Vue {
         }
     }
 
+    getAssetGroupTypeData: any = []
+    get getAssetGroupTypeHeader() {
+       const header: any = []
+        const test = this.getAssetGroupTypeData.map(x=> {  
+            return x.typeName
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
+            header.push({
+              key: 'items',
+              label: r,
+              test: `return row.typeName == '${r}'`,
+            })
+        })
+        return header
+    }
+    get chartsSetAssetGroupType() {
+        return {
+            width: 600,
+            heigh: 200,
+            type: 'bar',
+            // datasetKey: 'typeName',
+            labelData: 'Total Items',
+            // colors: '#a1d41b',
+
+        }
+    }
+
+    getAssetGroupPlaceData: any = []
+    get getAssetGroupPlaceHeader() {
+        const header: any = []
+        const test = this.getAssetGroupPlaceData.map(x=> {  
+            return x.placeName
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
+            header.push({
+              key: 'items',
+              label: r,
+              test: `return row.placeName == '${r}'`,
+            })
+        })
+        return header
+    }
+    get chartsSetAssetGroupPlace() {
+        return {
+            width: 600,
+            heigh: 200,
+            type: 'bar',
+            // datasetKey: 'typeName',
+            labelData: 'Total Items',
+            // colors: '#a1d41b',
+
+        }
+    }
+
+    getAssetYearQtyTypeData: any = []
+    get getAssetYearQtyTypeHeader() {
+        const header: any = []
+        const test = this.getAssetYearQtyTypeData.map(x=> {  
+            return x.yearMonth
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
+            header.push({
+              key: 'items',
+              label: r,
+              test: `return row.yearMonth == '${r}'`,
+            })
+        })
+        return header
+    }
+    get chartsSetAssetYearQtyType() {
+        return {
+            heigh: 200,
+            type: 'bar',
+            datasetKey: 'typeName',
+            alwaysMultipleDatasets: true,
+            value: 'items',
+            label: 'Total Items',
+            // colors: '#66ccff',
+            fill: true,
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { stacked: true }
+                    ],
+                    yAxes: [
+                    { stacked: true }
+                    ]
+                }
+            }
+        }
+    }
+
+
+    getAssetYearQtyDeptData: any = []
+    get chartsSetAssetYearQtyDept() {
+        return {
+            heigh: 200,
+            type: 'bar',
+            datasetKey: 'deptName',
+            alwaysMultipleDatasets: true,
+            value: 'items',
+            label: 'Total Items',
+            // colors: '#66ccff',
+            fill: true,
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { stacked: true }
+                    ],
+                    yAxes: [
+                    { stacked: true }
+                    ]
+                }
+            }
+        }
+    }
 
     goToFind() {
         const [from, to] = this.buyDateForm
@@ -226,13 +400,22 @@ export default class Dashboard extends Vue {
         }
         this.getItemYearMonth()
         this.getAssetYearCostDeptFind()
-        this.getAssetYearCostType()      
+        this.getAssetYearCostType()
+        this.groupByTypeFind()
+        this.groupByPlaceFind()
+        this.getAssetYearQtyTypeFind()
+        this.getAssetYearQtyDeptDataFind()
     }
 
     created() {
         this.getItemYearMonth()
         this.getAssetYearCostDeptFind()
         this.getAssetYearCostType()
+        this.groupByTypeFind()
+        this.groupByPlaceFind()
+        this.getAssetYearQtyTypeFind()
+        this.getAssetYearQtyDeptDataFind()
+
         this.getAllType()
         this.getAlldept()
     }
@@ -268,7 +451,47 @@ export default class Dashboard extends Vue {
             }
         )
     }
+    groupByTypeFind() {
+        axios.post(
+            '/asset/assetList/groupByTypeFind',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.getAssetGroupTypeData = res.data.data
+            }
+        )
+    }
+    groupByPlaceFind() {
+        axios.post(
+            '/asset/assetList/getAssetGroupPlaceFind',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.getAssetGroupPlaceData = res.data.data
+            }
+        )
+    }
+    getAssetYearQtyTypeFind() {
+        axios.post(
+            '/asset/assetList/getAssetYearQtyTypeFind',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.getAssetYearQtyTypeData = res.data.data
+            }
+        )
+    }
 
+    getAssetYearQtyDeptDataFind() {
+        axios.post(
+            '/asset/assetList/getAssetYearQtyDeptFind',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.getAssetYearQtyDeptData = res.data.data
+            }
+        )
+    }
 
 }
 </script>

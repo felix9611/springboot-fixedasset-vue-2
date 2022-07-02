@@ -157,38 +157,9 @@ public class AssetListController extends BaseController {
         return Result.succ(id);
     }
 
-    @GetMapping("/getCostYearMonth")
-    public Result getCostYearMonth() {
-        return Result.succ(assetListService.getCostYearMonth());
-    }
-
-    @GetMapping("/getItemYearMonth")
-    public Result getItemYearMonth() {
-        return Result.succ(assetListService.getItemYearMonth());
-    }
-
-    @GetMapping("/groupByType")
-    public Result groupByType() {
-        return Result.succ(assetListService.groupByType());
-    }
-
-    @GetMapping("/getAssetGroupDept")
-    public Result getAssetGroupDept() { return Result.succ(assetListService.getAssetGroupDept()); }
-
-    @GetMapping("/getAssetGroupPlace")
-    public Result getAssetGroupPlace() { return Result.succ(assetListService.getAssetGroupPlace()); }
-
     @GetMapping("/getCostWithDept")
     public Result getCostWithDept() { return Result.succ(assetListService.getCostWithDept()); }
 
-    @GetMapping("/getAssetYearQtyType")
-    public Result assetYearQtyType() { return Result.succ(assetListService.assetYearQtyType()); }
-
-    @GetMapping("/getAssetYearCostType")
-    public Result assetYearCostType() { return Result.succ(assetListService.assetYearCostType()); }
-
-    @GetMapping("/getAssetYearCostDept")
-    public Result assetYearCostDept() { return Result.succ(assetListService.assetYearCostDept()); }
 
     @PostMapping("/getAssetYearCostDeptFind")
     public Result assetYearCostDeptFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.assetYearCostDeptFind(assetList)); }
@@ -196,7 +167,14 @@ public class AssetListController extends BaseController {
     public Result getItemYearMonthFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.getItemYearMonthFind(assetList)); }
     @PostMapping("/getAssetYearCostTypeFind")
     public Result getAssetYearCostTypeFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.assetYearCostTypeFind(assetList)); }
-
+    @PostMapping("/groupByTypeFind")
+    public Result groupByTypeFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.groupByTypeFind(assetList)); }
+    @PostMapping("/getAssetGroupPlaceFind")
+    public Result getAssetGroupPlaceFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.getAssetGroupPlaceFind(assetList)); }
+    @PostMapping("/getAssetYearQtyTypeFind")
+    public Result getAssetYearQtyTypeFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.getAssetYearQtyTypeFind(assetList)); }
+    @PostMapping("/getAssetYearQtyDeptFind")
+    public Result getAssetYearQtyDeptFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.getAssetYearQtyDeptFind(assetList)); }
 
     @PostMapping("/writeOff")
     public Result writeItem(@RequestBody WriteOff writeOff) {

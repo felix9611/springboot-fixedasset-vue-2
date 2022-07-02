@@ -29,26 +29,16 @@ public interface AssetListService extends IService<AssetList> {
 
     AssetList findOneByAssetCode(AssetList assetList);
 
-    List<AssetCostYearMonthDto> getCostYearMonth();
-
-    List<AssetItemYearMonthDto> getItemYearMonth();
-
-    List<GroupByAssetOfTypeDto> groupByType();
-
-    List<AssetGroupDeptDto> getAssetGroupDept();
-
-    List<AssetGroupPlaceDto> getAssetGroupPlace();
 
     List<CostWithDeptDto> getCostWithDept();
-
-    List<AssetYearQtyType> assetYearQtyType();
-
-    List<AssetYearCostType> assetYearCostType();
-
-    List<AssetYearCostDept> assetYearCostDept();
 
     List<AssetYearCostDept> assetYearCostDeptFind(AssetList assetList);
     List<AssetItemYearMonthDto> getItemYearMonthFind(AssetList assetList);
     List<AssetYearCostType> assetYearCostTypeFind(AssetList assetList);
+    List<GroupByAssetOfTypeDto> groupByTypeFind(AssetList assetList);
+    List<AssetGroupPlaceDto> getAssetGroupPlaceFind(AssetList assetList);
+    List<AssetYearQtyType> getAssetYearQtyTypeFind(AssetList assetList);
+    List<AssetYearQtyDept> getAssetYearQtyDeptFind(AssetList assetList);
+
 
 }
