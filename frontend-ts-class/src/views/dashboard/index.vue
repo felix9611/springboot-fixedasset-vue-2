@@ -14,7 +14,7 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="Type" prop="type">
-                            <el-select v-model="serachFrom.typeId" placeholder="Select" filterable>
+                            <el-select v-model="searchForm.typeId" placeholder="Select" filterable>
                             <el-option
                                 v-for="typeItems in typeItem"
                                 :key="typeItems.id"
@@ -103,7 +103,7 @@ import ChartJsStackedChart from '@/components/charts/chartJs/StackedChart.vue'
 })
 export default class Dashboard extends Vue {
     buyDateForm: any = []
-    serachFrom: any = {}
+    searchForm: any = {}
 
     //ITEM
     typeItem: any = []
@@ -233,13 +233,14 @@ export default class Dashboard extends Vue {
         this.getAssetYearCostType()
         this.getItemYearMonth()
         this.getAllType()
+        this.getAlldept()
     }
 
     // charts data
     getAssetYearCostDeptFind() {
         axios.post(
             '/asset/assetList/getAssetYearCostDeptFind',
-            this.serachFrom
+            this.searchForm
         ).then(
             (res: any) => {
                 this.getAssetYearCostDeptData = res.data.data
@@ -249,7 +250,7 @@ export default class Dashboard extends Vue {
     getItemYearMonth() {
         axios.post(
             '/asset/assetList/getItemYearMonthFind',
-            this.serachFrom
+            this.searchForm
         ).then(
             (res: any) => {
                 this.itemYearMonthData = res.data.data
@@ -259,7 +260,7 @@ export default class Dashboard extends Vue {
     getAssetYearCostType() {
         axios.post(
             '/asset/assetList/getAssetYearCostTypeFind',
-            this.serachFrom
+            this.searchForm
         ).then(
             (res: any) => {
                 this.getAssetYearCostTypeData = res.data.data
