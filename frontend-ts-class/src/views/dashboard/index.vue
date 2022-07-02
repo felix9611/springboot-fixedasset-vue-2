@@ -215,8 +215,8 @@ export default class Dashboard extends Vue {
 
     goToFind() {
         const [from, to] = this.buyDateForm
-        this.serachForm = {
-            ...this.serachForm,
+        this.searchForm = {
+            ...this.searchForm,
             buyDateFrom: from,
             buyDateTo: to
         }
