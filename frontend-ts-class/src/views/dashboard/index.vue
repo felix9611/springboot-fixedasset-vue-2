@@ -80,7 +80,7 @@
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="itemYearMonthData" :headers="itemYearMonthHeader" v-bind="chartsSetItemYearMonth" />
-                    </div> 
+                    </div>
                 </v-card> 
             </el-col>
         </el-row>
@@ -168,11 +168,15 @@ export default class Dashboard extends Vue {
     itemYearMonthData: any = []
     get itemYearMonthHeader() {
         const header: any = []
-        this.itemYearMonthData.reduce((finalRes, r) => {
+        const test = this.getAssetYearCostDeptData.map(x=> {  
+            return x.yearMonth
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
             header.push({
-                key: 'items',
-                label: r['yearMonth'],
-                test: `return row.yearMonth == '${r['yearMonth']}'`,
+              key: 'items',
+              label: r,
+              test: `return row.yearMonth == '${r}'`,
             })
         })
         return header
@@ -220,16 +224,15 @@ export default class Dashboard extends Vue {
             buyDateFrom: from,
             buyDateTo: to
         }
-        this.getAssetYearCostDeptFind()
-        this.getAssetYearCostType()
         this.getItemYearMonth()
-        
+        this.getAssetYearCostDeptFind()
+        this.getAssetYearCostType()      
     }
 
     created() {
+        this.getItemYearMonth()
         this.getAssetYearCostDeptFind()
         this.getAssetYearCostType()
-        this.getItemYearMonth()
         this.getAllType()
         this.getAlldept()
     }
