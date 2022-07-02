@@ -148,13 +148,27 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(assetYearCostTypeQuery)
     List<AssetYearCostType> assetYearCostType();
 
-    String assetYearCostDeptQuery = "SELECT sum(cost) as costs, CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth, " +
+    String assetYearCostDeptQuery = "SELECT sum(cost) as costs, CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth, " +
             "dept.dept_name as deptName " +
             "FROM fixedasset_springboot_vue_3.asset_list  " +
             "left join department as dept on asset_list.dept_id = dept.id " +
-            "where asset_list.buy_date is not null  and asset_list.statu = 1 " +
-            "group by year(buy_date), week(buy_date), dept_id  " +
-            "order by year(buy_date), week(buy_date), dept_id;";
+            // "where asset_list.buy_date is not null  and asset_list.statu = 1 " +
+            "group by year(asset_list.buy_date), week(asset_list.buy_date), dept_id  " +
+            "order by year(asset_list.buy_date), week(asset_list.buy_date), dept_id";
     @Select(assetYearCostDeptQuery)
     List<AssetYearCostDept> assetYearCostDept();
+
+    String assetYearCostDeptFindQuery  = "SELECT sum(cost) as costs, CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth, " +
+            "dept.dept_name as deptName " +
+            "FROM fixedasset_springboot_vue_3.asset_list  " +
+            "left join department as dept on asset_list.dept_id = dept.id " +
+            " ${ew.customSqlSegment} " +
+            "group by year(asset_list.buy_date), week(asset_list.buy_date), dept_id  " +
+            "order by year(asset_list.buy_date), week(asset_list.buy_date), dept_id";
+
+
+
+            //"SELECT * from ( " + assetYearCostDeptQuery + " ) AS q ${ew.customSqlSegment}";
+    @Select(assetYearCostDeptFindQuery)
+    List<AssetYearCostDept> assetYearCostDeptFind(@Param("ew") Wrapper queryWrapper);
 }

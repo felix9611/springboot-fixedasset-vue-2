@@ -68,4 +68,10 @@ public class AssetList extends BaseEntity{
     @TableField(exist = false)
     private int limit;
 
+    @TableField(exist = false)
+    private LocalDateTime buyDateTo;
+
+    @TableField(exist = false)
+    private LocalDateTime buyDateFrom;
+
 }
