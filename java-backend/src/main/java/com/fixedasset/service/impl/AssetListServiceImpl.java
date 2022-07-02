@@ -198,8 +198,46 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         if (!(assetList.getTypeId() == 0)) {
             queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
         }
-
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
         return assetListMapper.assetYearCostDeptFind(queryWrapper);
+    }
+
+    public List<AssetItemYearMonthDto> getItemYearMonthFind(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+        queryWrapper.isNotNull(AssetList::getBuyDate);
+        queryWrapper.notIn(AssetList::getDeptId, 0);
+
+        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
+            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
+        }
+        if (!(assetList.getTypeId() == 0)) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
+        return  assetListMapper.getItemYearMonthFind(queryWrapper);
+    }
+
+    public List<AssetYearCostType> assetYearCostTypeFind(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+        queryWrapper.isNotNull(AssetList::getBuyDate);
+        queryWrapper.notIn(AssetList::getDeptId, 0);
+
+        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
+            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
+        }
+        if (!(assetList.getTypeId() == 0)) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
+        return  assetListMapper.assetYearCostTypeFind(queryWrapper);
     }
 
     public String getNewAssetCode() {

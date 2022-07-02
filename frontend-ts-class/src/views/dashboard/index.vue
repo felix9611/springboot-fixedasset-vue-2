@@ -24,6 +24,18 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="6">
+                        <el-form-item>
+                            <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>>
+                                <el-option
+                                v-for="item in deptItem"
+                                :key="item.id"
+                                :label="item.deptName"
+                                :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
                     <el-col :span="2">
                         <el-form-item>
                             <el-button type="primary" @click="goToFind()">Find</el-button>
@@ -34,7 +46,7 @@
 
          <br>
         <el-row :gutter="24">
-            <el-col :span="24">
+            <el-col :span="12">
                 <v-card
                     max-width="1700"
                 >
@@ -43,6 +55,31 @@
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostDept" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Buy Year-month and Type - Cost
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostType" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+        </el-row>
+
+        <el-row :gutter="24">
+            <el-col :span="24">
+                <v-card>
+                    <div class="card-title">
+                        Total Item by Year-Month
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="itemYearMonthData" :headers="itemYearMonthHeader" v-bind="chartsSetItemYearMonth" />
                     </div> 
                 </v-card> 
             </el-col>
@@ -60,7 +97,8 @@ import ChartJsStackedChart from '@/components/charts/chartJs/StackedChart.vue'
 @Component({
     components: {
         ApexChartOne,
-        ChartJsStackedChart
+        ChartJsStackedChart,
+
     }
 })
 export default class Dashboard extends Vue {
@@ -69,6 +107,7 @@ export default class Dashboard extends Vue {
 
     //ITEM
     typeItem: any = []
+    deptItem: any = []
 
 
     //base
@@ -78,6 +117,14 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
             this.typeItem = res.data.data
+        })
+    }
+    getAlldept() {
+        axios.get(
+            '/base/department/getAll'
+        ).then(
+            (res: any) => {
+            this.deptItem = res.data.data
         })
     }
 
@@ -100,10 +147,57 @@ export default class Dashboard extends Vue {
     }
     get chartsSetAssetYearCostDept() {
         return {
-            heigh: 200,
+            heigh: 300,
             type: 'bar',
             datasetKey: 'deptName',
             alwaysMultipleDatasets: true,
+            fill: true,
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { stacked: true }
+                    ],
+                    yAxes: [
+                    { stacked: true }
+                    ]
+                }
+            }
+        }
+    }
+
+    itemYearMonthData: any = []
+    get itemYearMonthHeader() {
+        const header: any = []
+        this.itemYearMonthData.reduce((finalRes, r) => {
+            header.push({
+                key: 'items',
+                label: r['yearMonth'],
+                test: `return row.yearMonth == '${r['yearMonth']}'`,
+            })
+        })
+        return header
+    }
+    get chartsSetItemYearMonth() {
+        return {
+            width: 1600,
+            heigh: 900,
+            fill: false,
+            value: 'items',
+            labelData: 'Total Items',
+            type: 'line',
+        }      
+    }
+
+    getAssetYearCostTypeData: any = []
+    get chartsSetAssetYearCostType() {
+        return {
+            heigh: 200,
+            type: 'bar',
+            datasetKey: 'typeName',
+            alwaysMultipleDatasets: true,
+            value: 'items',
+            label: 'Total Items',
+            // colors: '#66ccff',
             fill: true,
             customChartOptions: {
                 scales: {
@@ -129,11 +223,15 @@ export default class Dashboard extends Vue {
 
         console.log(this.serachFrom)
         this.getAssetYearCostDeptFind()
+        this.getAssetYearCostType()
+        this.getItemYearMonth()
         
     }
 
     created() {
         this.getAssetYearCostDeptFind()
+        this.getAssetYearCostType()
+        this.getItemYearMonth()
         this.getAllType()
     }
 
@@ -145,6 +243,26 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.getAssetYearCostDeptData = res.data.data
+            }
+        )
+    }
+    getItemYearMonth() {
+        axios.post(
+            '/asset/assetList/getItemYearMonthFind',
+            this.serachFrom
+        ).then(
+            (res: any) => {
+                this.itemYearMonthData = res.data.data
+            }
+        )
+    }
+    getAssetYearCostType() {
+        axios.post(
+            '/asset/assetList/getAssetYearCostTypeFind',
+            this.serachFrom
+        ).then(
+            (res: any) => {
+                this.getAssetYearCostTypeData = res.data.data
             }
         )
     }
