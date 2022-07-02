@@ -12,7 +12,7 @@
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="5">
                         <el-form-item label="Type" prop="type">
                             <el-select v-model="searchForm.typeId" placeholder="Select" filterable>
                             <el-option
@@ -24,8 +24,8 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
-                        <el-form-item>
+                    <el-col :span="5">
+                        <el-form-item label="Department">
                             <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>
                                 <el-option
                                 v-for="item in deptItem"
@@ -215,13 +215,11 @@ export default class Dashboard extends Vue {
 
     goToFind() {
         const [from, to] = this.buyDateForm
-        this.serachFrom = {
-            ...this.serachFrom,
+        this.serachForm = {
+            ...this.serachForm,
             buyDateFrom: from,
             buyDateTo: to
         }
-
-        console.log(this.serachFrom)
         this.getAssetYearCostDeptFind()
         this.getAssetYearCostType()
         this.getItemYearMonth()
