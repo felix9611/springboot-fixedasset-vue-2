@@ -175,6 +175,8 @@ public class AssetListController extends BaseController {
     public Result getAssetYearQtyTypeFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.getAssetYearQtyTypeFind(assetList)); }
     @PostMapping("/getAssetYearQtyDeptFind")
     public Result getAssetYearQtyDeptFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.getAssetYearQtyDeptFind(assetList)); }
+    @PostMapping("/getAssetCostYearMonthFind")
+    public Result getAssetCostYearMonthFind(@RequestBody AssetList assetList) { return Result.succ(assetListService.getAssetCostYearMonthFind(assetList)); }
 
     @PostMapping("/writeOff")
     public Result writeItem(@RequestBody WriteOff writeOff) {

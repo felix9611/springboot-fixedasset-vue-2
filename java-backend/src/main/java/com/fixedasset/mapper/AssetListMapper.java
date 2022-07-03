@@ -168,4 +168,12 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(assetYearQtyDeptQueryFind)
     List<AssetYearQtyDept> getAssetYearQtyDeptFind(@Param("ew") Wrapper queryWrapper);
 
+
+    String AssetCostYearMonth = "SELECT sum(cost) as costs ,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) as yearMonth FROM fixedasset_springboot_vue_3.asset_list " +
+            " ${ew.customSqlSegment} " +
+            "group by YEAR(buy_date), MONTH(buy_date) " +
+            "order by YEAR(buy_date),  MONTH(buy_date);";
+    @Select(AssetCostYearMonth)
+    List<AssetCostYearMonthDto> getAssetCostYearMonthFind(@Param("ew") Wrapper queryWrapper);
+
 }

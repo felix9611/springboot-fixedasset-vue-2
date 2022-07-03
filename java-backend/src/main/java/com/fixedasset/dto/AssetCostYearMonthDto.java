@@ -9,5 +9,5 @@ import javax.persistence.Transient;
 public class AssetCostYearMonthDto{
     @Transient private String yearMonth;
 
-    @Transient private int totalCost;
+    @Transient private int costs;
 }
