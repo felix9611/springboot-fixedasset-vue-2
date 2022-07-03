@@ -258,6 +258,26 @@ export default class Dashboard extends Vue {
             value: 'items',
             labelData: 'Total Items',
             type: 'line',
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { 
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                    ],
+                    yAxes: [
+                    { 
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                    ]
+                }
+            }
         }      
     }
 
@@ -433,10 +453,20 @@ export default class Dashboard extends Vue {
             customChartOptions: {
                 scales: {
                     xAxes: [
-                    { stacked: true }
+                    { 
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
                     ],
                     yAxes: [
-                    { stacked: true }
+                    { 
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
                     ]
                 }
             }
