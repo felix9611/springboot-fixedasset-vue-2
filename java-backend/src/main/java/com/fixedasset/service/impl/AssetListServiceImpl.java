@@ -321,6 +321,44 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         return  assetListMapper.getAssetCostYearMonthFind(queryWrapper);
     }
 
+    public List<AssetYearQtyPlaceDto> getAssetYearQtyPlaceFind(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+        queryWrapper.isNotNull(AssetList::getBuyDate);
+        queryWrapper.notIn(AssetList::getDeptId, 0);
+        queryWrapper.notIn(AssetList::getTypeId, 0);
+
+        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
+            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
+        }
+        if (!(assetList.getTypeId() == 0)) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
+        return  assetListMapper.getAssetYearQtyPlaceFind(queryWrapper);
+    }
+
+    public List<AssetYearQtyPlaceDto> getAssetYearCostPlaceFind(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+        queryWrapper.isNotNull(AssetList::getBuyDate);
+        queryWrapper.notIn(AssetList::getDeptId, 0);
+        queryWrapper.notIn(AssetList::getTypeId, 0);
+
+        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
+            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
+        }
+        if (!(assetList.getTypeId() == 0)) {
+            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
+        }
+        if (!(assetList.getDeptId() == 0)) {
+            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
+        }
+        return  assetListMapper.getAssetYearCostPlaceFind(queryWrapper);
+    }
+
     public String getNewAssetCode() {
         LambdaQueryWrapper<AssetList> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.select(AssetList::getAssetCode);

@@ -51,7 +51,7 @@
                     max-width="1700"
                 >
                     <div class="card-title">
-                        Buy Year-month and Type - Cost
+                        Buy Year-month and Department - Cost
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostDept" /> 
@@ -63,7 +63,7 @@
                     max-width="1700"
                 >
                     <div class="card-title">
-                        Buy Year-month and Department - Cost
+                        Buy Year-month and Type - Cost
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostDeptHeader" v-bind="chartsSetAssetYearCostType" /> 
@@ -117,7 +117,7 @@
                     max-width="1700"
                 >
                     <div class="card-title">
-                        Total Item by Department
+                        Total Item by Place
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="getAssetGroupPlaceData" :headers="getAssetGroupPlaceHeader" v-bind="chartsSetAssetGroupPlace" /> 
@@ -153,6 +153,34 @@
                 </v-card> 
             </el-col>
         </el-row>
+        <el-row :gutter="24">
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Total Item by Place & year week
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearQtyPlaceData" :headers="getAssetYearQtyPlaceHeader" v-bind="chartsSetAssetYearQtyPlace" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Total Cost by Place & year week
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearCostPlaceData" :headers="getAssetYearCostPlaceHeader" v-bind="chartsSetAssetYearCostPlace" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+        </el-row>
+
+        
     </div>
 </template>
 
@@ -487,6 +515,86 @@ export default class Dashboard extends Vue {
         })
         return header
     }
+    
+
+
+    getAssetYearQtyPlaceData: any = []
+    get chartsSetAssetYearQtyPlace() {
+        return {
+            heigh: 200,
+            type: 'bar',
+            datasetKey: 'placeName',
+            alwaysMultipleDatasets: true,
+            value: 'items',
+            label: 'Total Items',
+            // colors: '#66ccff',
+            fill: true,
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { stacked: true }
+                    ],
+                    yAxes: [
+                    { stacked: true }
+                    ]
+                }
+            }
+        }
+    }
+    get getAssetYearQtyPlaceHeader() {
+        const header: any = []
+        const test = this.getAssetYearQtyPlaceData.map(x=> {  
+            return x.yearMonth
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
+            header.push({
+              key: 'items',
+              label: r,
+              test: `return row.yearMonth == '${r}'`,
+            })
+        })
+        return header
+    }
+
+    getAssetYearCostPlaceData: any = []
+    get chartsSetAssetYearCostPlace() {
+        return {
+            heigh: 200,
+            type: 'bar',
+            datasetKey: 'placeName',
+            alwaysMultipleDatasets: true,
+            value: 'items',
+            label: 'Total Items',
+            // colors: '#66ccff',
+            fill: true,
+            customChartOptions: {
+                scales: {
+                    xAxes: [
+                    { stacked: true }
+                    ],
+                    yAxes: [
+                    { stacked: true }
+                    ]
+                }
+            }
+        }
+    }
+    get getAssetYearCostPlaceHeader() {
+        const header: any = []
+        const test = this.getAssetYearCostPlaceData.map(x=> {  
+            return x.yearMonth
+        })
+        const xu = [ ...new Set(test) ]
+        xu.forEach(r => {
+            header.push({
+              key: 'costs',
+              label: r,
+              test: `return row.yearMonth == '${r}'`,
+            })
+        })
+        return header
+    }
 
     goToFind() {
         const [from, to] = this.buyDateForm
@@ -503,6 +611,8 @@ export default class Dashboard extends Vue {
         this.getAssetYearQtyTypeFind()
         this.getAssetYearQtyDeptDataFind()
         this.getAssetCostYearMonthFind()
+        this.getAssetYearQtyPlaceFind()
+        this.getAssetYearCostPlaceFind()
     }
 
     created() {
@@ -514,6 +624,8 @@ export default class Dashboard extends Vue {
         this.getAssetYearQtyTypeFind()
         this.getAssetYearQtyDeptDataFind()
         this.getAssetCostYearMonthFind()
+        this.getAssetYearQtyPlaceFind()
+        this.getAssetYearCostPlaceFind()
 
         this.getAllType()
         this.getAlldept()
@@ -599,6 +711,28 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.getAssetCostYearMonthData = res.data.data
+            }
+        )
+    }
+
+    getAssetYearQtyPlaceFind() {
+        axios.post(
+            '/asset/assetList/getAssetYearQtyPlaceFind',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.getAssetYearQtyPlaceData = res.data.data
+            }
+        )
+    }
+
+    getAssetYearCostPlaceFind() {
+        axios.post(
+            '/asset/assetList/getAssetYearCostPlaceFind',
+            this.searchForm
+        ).then(
+            (res: any) => {
+                this.getAssetYearCostPlaceData = res.data.data
             }
         )
     }
