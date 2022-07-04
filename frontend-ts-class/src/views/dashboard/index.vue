@@ -45,32 +45,7 @@
               </el-row>
 
          <br>
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Buy Year-month and Department - Cost
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostDept" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Buy Year-month and Type - Cost
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostDeptHeader" v-bind="chartsSetAssetYearCostType" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
+        
 
         <el-row :gutter="24">
             <el-col :span="24">
@@ -175,6 +150,32 @@
                     </div>
                     <div class="card-content">
                         <ChartJsStackedChart :data="getAssetYearCostPlaceData" :headers="getAssetYearCostPlaceHeader" v-bind="chartsSetAssetYearCostPlace" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+        </el-row>
+        <el-row :gutter="24">
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Buy Year-month and Department - Cost
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostDept" /> 
+                    </div> 
+                </v-card> 
+            </el-col>
+            <el-col :span="12">
+                <v-card
+                    max-width="1700"
+                >
+                    <div class="card-title">
+                        Buy Year-month and Type - Cost
+                    </div>
+                    <div class="card-content">
+                        <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostDeptHeader" v-bind="chartsSetAssetYearCostType" /> 
                     </div> 
                 </v-card> 
             </el-col>
