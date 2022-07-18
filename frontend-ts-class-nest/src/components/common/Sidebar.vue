@@ -10,12 +10,24 @@
             unique-opened
             router
         >
-            <template v-for="item in menuList">
-                <template v-if="item.children.length > 0">
+            <template v-for="item in menuLists">
+                <el-submenu :index="item.path" :key="item.index">
+                     <template slot="title">
+                            <i :class="item.icon"></i>
+                            <span slot="title">{{ item.name }}</span>
+                    </template>
+                    <template v-for="subItem in item.children">
+                        <el-menu-item
+                                :index="subItem.path"
+                                :key="subItem.index"
+                            >{{ subItem.name }}</el-menu-item>
+                    </template>
+                </el-submenu>
+                <!--<template v-if="item.children.length > 0">
                     <el-submenu :index="item.path" :key="item.index">
                         <template slot="title">
                             <i :class="item.icon"></i>
-                            <span slot="title">{{ item.title }}</span>
+                            <span slot="title">{{ item.name }}</span>
                         </template>
                         <template v-for="subItem in item.children">
                             <el-submenu
@@ -32,12 +44,12 @@
 <!--                                    :key="i"-->
 <!--                                    :index="threeItem.path"-->
 <!--                                >{{ threeItem.title }}</el-menu-item>-->
-                            </el-submenu>
+                            <!--</el-submenu>
                             <el-menu-item
                                 v-else
                                 :index="subItem.path"
                                 :key="subItem.index"
-                            >{{ subItem.title }}</el-menu-item>
+                            >{{ subItem.name }}</el-menu-item>
                         </template>
                     </el-submenu>
                 </template>
@@ -46,7 +58,7 @@
                         <i :class="item.icon"></i>
                         <span slot="title">{{ item.title }}</span>
                     </el-menu-item>
-                </template>
+                </template>-->
             </template>
         </el-menu>
     </div>
@@ -55,12 +67,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import bus from './bus'
+import axios from '@/axios'
 
 @Component
 export default class vSidebar extends Vue {
 
     collapse: boolean = false
-
+    menuLists: any = []
 
     get menuList() {
         return this.$store.state.menuList
@@ -71,7 +84,18 @@ export default class vSidebar extends Vue {
         return this.$route.path;
     }
 
+    async getMenuList() {
+        await axios.get('/sys/menu/nav').then(
+            (res: any) => {
+                console.log(res.data.nav)
+                this.menuLists = res.data.nav
+                this.$store.commit('setMenuList', res.data.nav)
+            }
+        )
+    }
+
     created() {
+        this.getMenuList()
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
             this.collapse = msg;

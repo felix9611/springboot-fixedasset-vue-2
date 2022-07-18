@@ -58,28 +58,21 @@ router.beforeEach((to, from, next) => {
     } else if (!token) {
         next({path: '/login'})
     } else if(token && !hasRoute) {
-        axios.get("/sys/menu/nav", {
-            headers: {
-                Authorization: localStorage.getItem("token")
-            }
-        }).then((res: { data: { data: { nav: any[]; authoritys: any; } } }) => {
+        axios.get("/sys/menu/nav").then((res: { data: { nav: any[]; authoritys: any[]; } }) => {
 
             // 拿到menuList
-            store.commit("setMenuList", res.data.data.nav)
+            store.commit("setMenuList", res.data.nav)
 
             // 拿到用户权限
-            store.commit("setPermList", res.data.data.authoritys)
+            store.commit("setPermList", res.data.authoritys)
 
             // 动态绑定路由
             let newRoutes = router.options.routes
 
-            console.log(res.data.data.nav)
-            res.data.data.nav.forEach((menu: any) => {
+            console.log(res.data.nav)
+            res.data.nav.forEach((menu: any) => {
                 if (menu.children.length > 0) {
                     menu.children.forEach((e: any) => {
-                        if(e.children.length == 0) {
-                            delete e.children
-                        }
                         // 转成路由
                         let route = menuToRoute(e)
 
@@ -87,7 +80,6 @@ router.beforeEach((to, from, next) => {
                         if (route) {
                             routes[1].children?.push(route)
                         }
-
                     })
                 } else {
 
@@ -136,4 +128,3 @@ export const loadView = (view: any) => { // 路由懒加载
 }
 
 export default router
-

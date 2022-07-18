@@ -17,28 +17,29 @@ request.interceptors.request.use((config: any) => {
     return config
 })
 
-request.interceptors.response.use((response: any) => {
-    let res = response.data
+request.interceptors.response.use((response: AxiosResponse) => {
+    let res = response
 
-    if(res.code === 200) {
+    if (res.status === 200) {
         return response
+        
     } else {
         Notification.error({
             title: 'Failure',
-            message: res.msg
+            message: res.data.msg
         })
     }
-    }, (error: AxiosError) => {
-        if (error.response && error.response.data) {
-            error.message = error.response.data.msg
-        }
+}, (error: AxiosError) => {
+    if (error.response && error.response.data) {
+        error.message = error.response.data.msg
+    }
 
-        if (error.response && error.response.status === 401) {
-            router.push("/login")
-        }
-        Notification.error(error.message)
-        return Promise.reject(error)
+    if (error.response && error.response.status === 401) {
+        router.push("/login")
+    }
+    Notification.error(error.message)
+    return Promise.reject(error)
 
-    })
+})
 
 export default request

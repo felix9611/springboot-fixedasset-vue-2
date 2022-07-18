@@ -55,7 +55,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Background from '@/assets/img/background3.jpg'
 import qs from 'qs'
-import axios from '../axios'
+import axios from '@/axios'
 @Component
 export default class Login extends Vue {
 
@@ -83,23 +83,19 @@ export default class Login extends Vue {
     redirect: undefined
 
     created() {
-         this.getCaptcha()
+        // this.getCaptcha()
     }
 
-    submitForm(formName: string) {
-        const refs: any = this.$refs[formName]
-        refs.validate((valid: any) => {
-            if(valid) {
-                axios.post('/auth/login', this.loginForm).then(res => {
-                    const jwt = res.data.data.token
-                    this.$store.commit('SET_TOKEN', jwt)
-                    this.$router.push('/')
-                })
-                this.getCaptcha()
-            } else {
-                return false
+    submitForm() {
+        axios.post('/auth/login', this.loginForm).then(
+            (res: any) => {
+                console.log(res)
+                const jwt = res.data.token
+                this.$store.commit('SET_TOKEN', jwt)
+                this.$router.push('/')
+                
             }
-        })
+        )
     }
             
     resetForm(formName) {
@@ -107,10 +103,10 @@ export default class Login extends Vue {
         const refs: any = this.$refs[formName]
         refs.resetFields()
         this.$router.push('/login')
-        this.getCaptcha()
+        // this.getCaptcha()
     }
             
-    getCaptcha() {
+    /* getCaptcha() {
         axios.get('/captcha').then(res => {
             this.loginForm.token = res.data.data.token
             this.captchaImg = res.data.data.captchaImg
@@ -118,7 +114,7 @@ export default class Login extends Vue {
                 this.loginForm.code = ''
             }
         })
-    }
+    } */
 }
 </script>
 
