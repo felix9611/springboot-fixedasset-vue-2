@@ -23,7 +23,11 @@ import 'babel-polyfill'
 import VueBase64FileUpload from 'vue-base64-file-upload'
 import VueApexCharts from 'vue-apexcharts'
 import VueHtmlToPaper from 'vue-html-to-paper'
+import FormBuilderPlugin from '@fext/vue-form-builder'
+import VueCompositionApi from '@vue/composition-api'
 
+Vue.use(VueCompositionApi)
+Vue.use(FormBuilderPlugin)
 Vue.use(VueHtmlToPaper)
 Vue.prototype.$htmlToPaper = VueHtmlToPaper
 

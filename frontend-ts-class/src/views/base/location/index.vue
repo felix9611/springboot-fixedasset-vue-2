@@ -20,7 +20,8 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="dialogVisible = true">Create</el-button>
+                    <!--<el-button type="primary" @click="dialogVisible = true">Create</el-button>-->
+                    <el-button type="primary" @click="newFormCreate()">Create</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -202,6 +203,10 @@ export default class Location extends Vue {
                 file = undefined
             })
         })
+    }
+
+    newFormCreate() {
+        this.$router.push({ path: `/newForm/place/create` })
     }
 
     placeAllList() {

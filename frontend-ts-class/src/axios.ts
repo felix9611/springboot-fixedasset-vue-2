@@ -20,7 +20,7 @@ request.interceptors.request.use((config: any) => {
 
 request.interceptors.response.use((response: any) => {
     let res = response.data
-
+    
     if(res.code === 200) {
         return response
     } else {
