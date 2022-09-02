@@ -21,8 +21,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { readJson } from '@/utils/formJsonHelp'
 import axios from '@/axios'
-
+import localizeEn from 'ajv-i18n/localize/en'
+import { i18n } from '@lljj/vue-json-schema-form'
 import VueForm from '@lljj/vue-json-schema-form'
+
+i18n.useLocal(localizeEn)
 
 
 @Component({
@@ -47,6 +50,7 @@ export default class TestCode extends Vue {
   }
 
   created() {
+    console.log(this.path)
     readJson(this.path, this.mode).then((res: any)=> {
       this.formConfig = res
     })

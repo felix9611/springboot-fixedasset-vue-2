@@ -14,6 +14,7 @@
     "@lljj/vue-json-schema-form": "^1.14.0",
     "@vue/composition-api": "^1.7.0",
     "FileSaver": "^0.10.0",
+    "ajv-i18n": "^4.2.0",
     "apexcharts": "^3.33.2",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",

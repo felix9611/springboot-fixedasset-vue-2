@@ -13,8 +13,8 @@ public class Location extends BaseEntity {
     @TableField("place_name")
     private String placeName;
 
-    @TableField("place_other_name")
-    private String placeOtherName;
+    @TableField("flexData")
+    private String flexData;
 
     @TableField("remark")
     private String remark;

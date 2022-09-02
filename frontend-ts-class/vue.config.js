@@ -8,7 +8,8 @@ module.exports = {
     productionSourceMap: false,
     devServer: {
         allowedHosts: [
-            'localhost/fixedasset-vue'
+            'localhost/fixedasset-vue',
+            'localhost'
         ],
         host: 'localhost',
         port: 8080,
@@ -42,5 +43,23 @@ module.exports = {
                 symbolId: 'icon-[name]'
             });
     },
-    lintOnSave: false
+    lintOnSave: false,
+    configureWebpack: () => {
+        var obj = {
+            externals: {
+                './cptable': 'var cptable',
+                '../xlsx.js': 'var _XLSX'
+            }
+        };
+       /* if (process.env.NODE_ENV == "production") {
+            obj.plugins = [
+                new CompressionPlugin({
+                    test: /\.js$|\.html$|\.css/,
+                    threshold: 10240,
+                    deleteOriginalAssets: false
+                }),
+            ];
+        } */
+        return obj;
+    },
 }
