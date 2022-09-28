@@ -148,6 +148,7 @@ export default class Login extends Vue {
             
     getCaptcha() {
         axios.get('/captcha').then(res => {
+            console.log(res)
             this.loginForm.token = res.data.data.token
             this.captchaImg = res.data.data.captchaImg
             if(this.loginForm === {}) {

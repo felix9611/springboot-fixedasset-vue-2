@@ -723,6 +723,11 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.getAssetYearQtyPlaceData = res.data.data
+                this.getAssetYearQtyPlaceData.map(
+                    _res => {
+                        _res['yearMonth'] = `${_res.years}-${_res.months}`
+                    }
+                )
             }
         )
     }
@@ -734,6 +739,11 @@ export default class Dashboard extends Vue {
         ).then(
             (res: any) => {
                 this.getAssetYearCostPlaceData = res.data.data
+                this.getAssetYearCostPlaceData.map(
+                    _res => {
+                        _res['yearMonth'] = `${_res.years}-${_res.months}`
+                    }
+                )
             }
         )
     }

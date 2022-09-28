@@ -176,17 +176,17 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(AssetCostYearMonth)
     List<AssetCostYearMonthDto> getAssetCostYearMonthFind(@Param("ew") Wrapper queryWrapper);
 
-    String assetYearQtyPlaceQueryFind = "SELECT count(*) as items, location.place_name as placeName , CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) as yearMonth " +
+    String assetYearQtyPlaceQueryFind = "SELECT count(*) as items, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months " +
             "FROM fixedasset_springboot_vue_3.asset_list " +
             "left join location on asset_list .place_id = location.id " +
-            " ${ew.customSqlSegment} group by place_id, buy_date order by buy_date";
+            " ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by buy_date";
     @Select(assetYearQtyPlaceQueryFind)
     List<AssetYearQtyPlaceDto> getAssetYearQtyPlaceFind(@Param("ew") Wrapper queryWrapper);
 
-    String assetYearCostPlaceQueryFind = "SELECT sum(cost) as costs, location.place_name as placeName , CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) as yearMonth " +
+    String assetYearCostPlaceQueryFind = "SELECT sum(cost) as costs, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months " +
             "FROM fixedasset_springboot_vue_3.asset_list " +
             "left join location on asset_list .place_id = location.id " +
-            " ${ew.customSqlSegment} group by place_id, buy_date order by buy_date";
+            " ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by buy_date";
     @Select(assetYearCostPlaceQueryFind)
     List<AssetYearQtyPlaceDto> getAssetYearCostPlaceFind(@Param("ew") Wrapper queryWrapper);
 
