@@ -31,7 +31,7 @@ export class SysMenuController {
 
   @Delete('void/:id')
   async voidOne(@Param('id') id: number) {
-    return await this.service.getOne(id)
+    return await this.service.voidOne(id)
   }
 
   @UseGuards(JwtAuthGuardUser)

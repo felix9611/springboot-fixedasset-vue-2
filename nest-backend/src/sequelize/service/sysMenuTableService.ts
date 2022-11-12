@@ -24,6 +24,10 @@ export class SysMenuTableService {
     private sysRoleMenuRepository: typeof SysRoleMenu
   ) {}
 
+  async voidOne(id: number) {
+    return await this.sysMenuRepository.update({ status: 0 }, { where: { id} })
+  }
+
   async getOne(id: number) {
     return await this.sysMenuRepository.findOne({ where: { id } })
   }
