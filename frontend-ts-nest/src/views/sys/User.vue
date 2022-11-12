@@ -4,7 +4,7 @@
             <el-form :inline="true">
                 <el-form-item>
                     <el-input
-                            v-model="searchForm.username"
+                            v-model="searchForm.keyword"
                             placeholder="Username"
                             clearable
                     >
@@ -37,13 +37,13 @@
                     label="ICON"
                     width="100">
                 <template slot-scope="scope">
-                    <el-avatar :src="scope.row.avatarBase64"></el-avatar>
+                    <el-avatar :src="scope.row.avatar"></el-avatar>
                 </template>
             </el-table-column>
 
             <el-table-column
-                    prop="username"
-                    label="Username"
+                    prop="name"
+                    label="name"
                     width="120">
             </el-table-column>
             <el-table-column
@@ -67,13 +67,13 @@
                     prop="statu"
                     label="Status">
                 <template slot-scope="scope">
-                    <el-tag size="small" v-if="scope.row.statu === 1" type="success">Active</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.statu === 0" type="danger">Stop</el-tag>
+                    <el-tag size="small" v-if="scope.row.status === 1" type="success">Active</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.status === 0" type="danger">Stop</el-tag>
                 </template>
 
             </el-table-column>
             <el-table-column
-                    prop="created"
+                    prop="createdAt"
                     width="200"
                     label="Created At"
             >
@@ -244,7 +244,7 @@ export default class User extends Vue {
 
     created() {
         this.getUserList()
-        this.getAlldept()
+        // this.getAlldept()
     }
 
     removeUploaded() {
@@ -294,8 +294,8 @@ export default class User extends Vue {
     }
 
     getRoleList() {
-        axios.get('/sys/role/list').then((res: any) => {
-            this.roleTreeData = res.data.data.records
+        axios.get('/api/sys/role/get/all').then((res: any) => {
+            this.roleTreeData = res
         })
     }
 
@@ -338,8 +338,8 @@ export default class User extends Vue {
         this.resetForm('editForm')
     }
 
-            getUserList() {
-                axios.post('/sys/user/list',
+    getUserList() {
+                axios.post('/api/users/list',
                     this.searchForm
                 /* {
                     params: {
@@ -348,21 +348,21 @@ export default class User extends Vue {
                         size: this.size
                     } */
                 ).then((res: any) => {
-                    this.tableData = res.data.data.records
-                    this.size = res.data.data.size
-                    this.current = res.data.data.current
-                    this.total = res.data.data.total
+                    this.tableData = res.data
+                    this.size = res.size
+                    this.current = res.current
+                    this.total = res.total
 
                     this.tableData.forEach((re: any) => {
-                        const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                        const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                        const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
+                        const newUpdated =  re.updatedAt ? moment(new Date(re.updatedAt)).format('DD-MM-YYYY HH:MM') : null
 
-                        re['created'] = newCreated
-                        re['updated'] = newUpdated
+                        re['createdAt'] = newCreated
+                        re['updatedAt'] = newUpdated
                         return re
                     })
                 })
-            }
+    }
 
     submitForm(formName: string) {
         const formNames :any = this.$refs[formName]

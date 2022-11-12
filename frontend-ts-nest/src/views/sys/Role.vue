@@ -75,11 +75,7 @@
                     <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
 
-                    <template>
-                        <el-popconfirm title="Is this a piece of content to delete? ？" @onConfirm="delHandle(scope.row.id)">
-                            <el-button size="mini" type="danger" slot="reference">Delete</el-button>
-                        </el-popconfirm>
-                    </template>
+                    <el-button size="mini" type="danger" slot="reference" @click="delHandle(scope.row.id)">Delete</el-button>
 
                 </template>
             </el-table-column>
@@ -257,7 +253,16 @@ export default class Role extends Vue {
     }
 
     delHandle(id: number) {
-        console.log(id)
+        axios.delete(`/api/sys/role/void/${id}`)
+                    .then(res => {
+                        this.getRoleList()
+                        this.$notify({
+                            title: '',
+                            showClose: true,
+                            message: 'Action is successful ',
+                            type: 'success'
+                        })
+                })
     }
 
     submitForm(formName: string) {

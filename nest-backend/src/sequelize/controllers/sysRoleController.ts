@@ -32,6 +32,12 @@ export class SysRoleController {
   }
 
   @UseGuards(JwtAuthGuardUser)
+  @Get('/get/all')
+  async getAll() {
+    return await this.service.getAll()
+  }
+
+  @UseGuards(JwtAuthGuardUser)
   @Post('list')
   async listOnPages(@Body() sysRole: SysRole) {
     return await this.service.findWithList(sysRole)
@@ -44,7 +50,7 @@ export class SysRoleController {
   }
 
   @UseGuards(JwtAuthGuardUser)
-  @Post('remove/:id')
+  @Delete('void/:id')
   async voidOne(@Param('id') id: number) {
     return await this.service.voidOne(id)
   }

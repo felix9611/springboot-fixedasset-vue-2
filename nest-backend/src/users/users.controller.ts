@@ -71,9 +71,9 @@ export class UsersController {
 
   // 列表
   // @UseGuards(JwtAuthGuard)
-  @Get()
+  @Post('list')
   @ApiOperation({ summary: '列表' })
-  async findAll(@Query() query: FindUserDto): Promise<User> {
+  async findAll(@Body() query: FindUserDto): Promise<User> {
     return await this.usersService.findAll(query);
   }
 

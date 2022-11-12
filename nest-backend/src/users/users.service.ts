@@ -86,7 +86,7 @@ export class UsersService {
 
     params = Object.assign(
       {
-        select: ['id', 'name', 'updatedAt', 'status'],
+        select: ['id', 'name', 'avatar', 'status', 'createdAt', 'updatedAt', 'status'],
       },
       params,
       {

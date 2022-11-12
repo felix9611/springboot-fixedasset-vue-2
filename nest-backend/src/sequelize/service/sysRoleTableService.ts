@@ -50,6 +50,10 @@ export class SysRoleTableService {
     return await this.sysRoleRepository.findOne({ where: { id } })
   }
 
+  async getAll() {
+    return await this.sysRoleRepository.findAll({ where: { status: 1 } })
+  }
+
   async getAllRole(roles: any) {
     return await this.sysRoleRepository.findAll({ where: { id: roles } })
   }
@@ -102,7 +106,7 @@ export class SysRoleTableService {
     query.$where = new BinaryExpression(new ColumnExpression(baseTableName, 'status'), '=', new Value(1))
     if (name) query.$where = new LikeExpression(new ColumnExpression(baseTableName, 'name'), false, `%${name}%`)
     if (code) query.$where = new LikeExpression(new ColumnExpression(baseTableName, 'code'), false, `%${code}%`)
-    // if (code) query.$limit = new LimitOffset(limit)
+    if (limit) query.$limit = new LimitOffset(limit)
 
     const queryCount = new Query({
       $select: [
