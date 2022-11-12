@@ -71,11 +71,7 @@
                     <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
                     <el-divider direction="vertical"></el-divider>
 
-                    <template>
-                        <el-popconfirm title="Is this a piece of content to delete?" confirm-button-text="Confirm" cancel-button-text="Cancel" @onConfirm="delHandle(scope.row.id)">
-                            <el-button size="mini" type="danger" slot="reference">Remove</el-button>
-                        </el-popconfirm>
-                    </template>
+                    <el-button size="mini" type="danger" slot="reference" @click="delHandle(scope.row.id)">Remove</el-button>
 
                 </template>
             </el-table-column>
@@ -115,8 +111,8 @@
                 <el-form-item label="Icon" prop="icon" label-width="100px">
                     <el-input v-model="editForm.icon" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Meun URL" prop="path" label-width="100px">
-                    <el-input v-model="editForm.path" autocomplete="off"></el-input>
+                <el-form-item label="Meun URL" prop="paths" label-width="100px">
+                    <el-input v-model="editForm.paths" autocomplete="off"></el-input>
                 </el-form-item>
 
                 <el-form-item label="Component" prop="component" label-width="100px">
@@ -131,8 +127,8 @@
                     </el-radio-group>
                 </el-form-item>
 
-                <el-form-item label="Status" prop="statu" label-width="100px">
-                    <el-radio-group v-model="editForm.statu">
+                <el-form-item label="Status" prop="status" label-width="100px">
+                    <el-radio-group v-model="editForm.status">
                         <el-radio :label=0>Stop</el-radio>
                         <el-radio :label=1>Active</el-radio>
                     </el-radio-group>
@@ -235,16 +231,15 @@ export default class Menu extends Vue {
     }
 
     delHandle(id: number) {
-        axios.post(`/sys/menu/delete/${id}`).then(res => {
+        console.log(id)
+        axios.delete(`/api/sys/menu/void/${id}`).then(res => {
             this.getMenuTree()
-            if(res.data.code === 200) {
-                this.$notify({
+            this.$notify({
                     title: '',
                     showClose: true,
                     message: 'Action is successful ',
                     type: 'success'
                 })
-            }
         })
     }
 }

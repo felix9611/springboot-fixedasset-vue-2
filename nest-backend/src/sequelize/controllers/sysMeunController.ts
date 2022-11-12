@@ -40,7 +40,7 @@ export class SysMenuController {
     return await this.service.getAllPage()
   }
 
-  @Put('/update') 
+  @Post('/update') 
   async update(@Body() sysMenu: SysMenu) {
     return await this.service.updateOne(sysMenu)
   }
