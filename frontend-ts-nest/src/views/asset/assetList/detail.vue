@@ -184,13 +184,13 @@ export default class StockTakeDetail extends Vue {
   ]
 
   created() {
-    this.getAlldept()
-    this.getAllType()
-    this.getAllPlace()
-    this.getAllVendor()
+   this.getAlldept()
+   this.getAllType()
+   this.getAllPlace()
+    // this.getAllVendor()
     if (this.$route.params.id) {
       this.editForm.id = Number(this.$route.params.id)
-      this.editHandle()      
+      this.editHandle()
     }
   }
 
@@ -242,35 +242,34 @@ export default class StockTakeDetail extends Vue {
 
   getAlldept() {
         axios.get(
-            '/base/department/getAll'
+            '/api/department/getAll'
         ).then(
             (res: any) => {
-            this.deptItem = res.data.data
+            this.deptItem = res
         })
   }
 
   getAllType() {
         axios.get(
-            '/base/asset_type/getAll'
+            '/api/asset/type/getAll'
         ).then(
             (res: any) => {
-            this.typeItem = res.data.data
+            this.typeItem = res
         })
   }
 
   getAllPlace() {
         axios.get(
-            '/base/location/getAll'
+            '/api/location/getAll'
         ).then(
             (res: any) => {
-            // console.log(res.data.data)
-            this.placeItem = res.data.data
+            this.placeItem = res
         })
   }
 
   getAllVendor() {
         axios.get(
-            '/base/vendor/getAll'
+            '/api/vendor/getAll'
         ).then(
             (res: any) => {
             // console.log(res.data.data)
@@ -327,7 +326,7 @@ export default class StockTakeDetail extends Vue {
             }
         })
   }
-  
+
   resetForm(formName: string) {
     const refs: any = this.$refs[formName]
     refs.resetFields()

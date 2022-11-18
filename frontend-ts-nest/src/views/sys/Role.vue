@@ -194,7 +194,7 @@ export default class Role extends Vue {
         label: 'name'
     }
     permTreeData: any = []
-            
+
     created() {
         this.getRoleList()
 
@@ -214,7 +214,7 @@ export default class Role extends Vue {
             multipleTable.clearSelection();
         }
     }
-            
+
     handleSelectionChange(val: any) {
         this.multipleSelection = val;
         this.delBtlStatu = val.length == 0
@@ -242,13 +242,13 @@ export default class Role extends Vue {
         // this.resetForm('editForm')
         this.dialogVisible = false
     }
-        
+
     getRoleList() {
         axios.post('/api/sys/role/list', this.searchForm).then((res: any) => {
-            this.tableData = res.record[0]
-            this.size = res.size
-            this.current = res.current
-            this.total = res.total
+            this.tableData = res.rows
+            //this.size = res.size
+            //this.current = res.current
+            this.total = res.count
         })
     }
 

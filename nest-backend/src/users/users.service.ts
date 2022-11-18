@@ -167,10 +167,11 @@ export class UsersService {
   }
 
   // 更新头像
-  async updateAvatar(params): Promise<any> {
-    const { id, updateUserAvatar } = params;
+  async updateAvatar(data: any): Promise<any> {
+    const { id, updateUserAvatar } = data
     updateUserAvatar.updatedAt = new Date();
-    return await this.usersRepository.update(id, updateUserAvatar);
+    return await this.usersRepository.update(id, { ...updateUserAvatar })
+    // return await this.usersRepository.update(id, updateUserAvatar);
   }
 
   // 数量

@@ -14,7 +14,7 @@ export class User {
   @Column({
     nullable: true,
   })
-  avatar: string;
+  avatar: string
 
   @Column('simple-array', {
     nullable: true,

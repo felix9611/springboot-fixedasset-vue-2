@@ -7,8 +7,7 @@ export class UpdateUserDto {
   name: string;
 
   @ApiProperty()
-  @IsString()
-  avatar: string;
+  avatar: string
 
   @ApiProperty()
   roles: string[];

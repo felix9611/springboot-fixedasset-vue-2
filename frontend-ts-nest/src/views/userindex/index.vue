@@ -2,7 +2,7 @@
     <div class="container">
       <el-form :model="myAccount" ref="editForm">
         <el-form-item>
-          <img :src="myAccount.avatarBase64" width="20%" height="20%"/>
+          <img :src="myAccount.avatar" width="20%" height="20%"/>
         </el-form-item>
         <el-form-item label="Username"  label-width="100px">
           <el-input v-model="myAccount.username" autocomplete="off" readonly></el-input>
@@ -23,7 +23,7 @@
         size="mini"
         @click="resetAvatar()">Change Avatar</el-button>
       </div>
-      
+
       <div class="handle-box">
         <el-button
         size="mini"
@@ -48,7 +48,7 @@
             prop="loginStatus"
             label="Status">
             </el-table-column>
-            
+
         </el-table>
       </div>
 
@@ -136,13 +136,13 @@ export default class UserIndex extends Vue {
 
   getMyAccount() {
     axios.get('/api/users/profile').then((res: any)=>{
-      const data = res.data
+      const data = res
       this.myAccount.username = data.username
       // this.myAccount.created = moment(new Date(data.created)).format('DD-MM-YYYY HH:MM')
       // this.myAccount.lastLogin = moment(new Date(data.lastLogin)).format('DD-MM-YYYY HH:MM')
       // this.getLoginRecord()
     })
-    
+
   }
 
   getLoginRecord() {
@@ -190,11 +190,11 @@ export default class UserIndex extends Vue {
               '/sys/user/self/repass',
               {
                 username: this.myAccount.username,
-                newPassword 
+                newPassword
               }
             ).then(
               res => {
-                if (res.data.code === 200) {
+                // if (res.data.code === 200) {
                   this.$notify({
                     title: '',
                     showClose: true,
@@ -203,7 +203,7 @@ export default class UserIndex extends Vue {
                   })
                   this.dialogVisible = false
                   this.handleClose()
-                }
+                // }
               }
             )
           } else {
@@ -253,12 +253,12 @@ export default class UserIndex extends Vue {
     }
 
     changeAvatar() {
-        axios.put('/sys/user/updateIcon', 
+      console.log(this.myAccount, 'this.myAccount.id')
+        axios.put(`/api/users/avatar/${this.myAccount.userId}`,
         {
-          id: this.myAccount.id,
-          avatarBase64: this.fileBase64Data
+          avatar: this.fileBase64Data
         }).then((res: any) => {
-            this.$store.commit('setUserProfile', { ...this.myAccount, avatarBase64: this.fileBase64Data })
+            this.$store.commit('setUserProfile', { ...this.myAccount, avatar: this.fileBase64Data })
             this.getMyAccount()
             this.$notify({
               title: '',

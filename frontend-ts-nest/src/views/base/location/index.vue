@@ -44,13 +44,13 @@
               label="Place Name">
             </el-table-column>
             <el-table-column
-                    prop="created"
+                    prop="createdAt"
                     width="200"
                     label="Created At"
             >
             </el-table-column>
             <el-table-column
-                    prop="updated"
+                    prop="updatedAt"
                     width="200"
                     label="Update At"
             >
@@ -96,9 +96,9 @@
                     <el-input v-model="editForm.placeName" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="Other Name"  prop="deptOtherName" label-width="100px">
+                <!-- <el-form-item label="Other Name"  prop="deptOtherName" label-width="100px">
                     <el-input type="textarea" v-model="editForm.placeOtherName"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="Remark"  prop="deptOtherName" label-width="100px">
                     <el-input type="textarea" v-model="editForm.remark"></el-input>
                 </el-form-item>
@@ -187,9 +187,8 @@ export default class Location extends Vue {
     async uploadFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-        axios.post('/base/location/create', res).then((res: any) => {
-                        
+        axios.post('/api/location/batch/create', reData).then((res: any) => {
+
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
@@ -202,30 +201,30 @@ export default class Location extends Vue {
                 this.fileList = []
                 file = undefined
             })
-        })
     }
 
     newFormCreate() {
-        this.$router.push({ path: `/newForm/place/create` })
+      this.dialogVisible = true
+        // this.$router.push({ path: `/newForm/place/create` })
     }
 
     placeAllList() {
         axios.post(
-            '/base/location/listAll',
+            '/api/location/listAll',
             this.searchForm
         ).then(
             (res: any) => {
-                this.tableData = res.data.data.records
-                this.size = res.data.data.size
-                this.current = res.data.data.current
-                this.total = res.data.data.total
+                this.tableData = res.rows
+                this.size = res.count
+              //  this.current = res.data.data.current
+                // this.total = res.data.data.total
 
                 this.tableData.forEach((re: any) => {
-                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                    const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updatedAt ? moment(new Date(re.updatedAt)).format('DD-MM-YYYY HH:MM') : null
 
-                    re['created'] = newCreated
-                    re['updated'] = newUpdated
+                    re['createdAt'] = newCreated
+                    re['updatedAt'] = newUpdated
                     return re
                 })
             }
@@ -275,12 +274,12 @@ export default class Location extends Vue {
     handleClose() {
         this.resetForm('editForm')
     }
-    
+
     submitForm(formName: string) {
         const refs: any = this.$refs[formName]
         refs.validate((valid: any) => {
             if (valid) {
-                axios.post('/base/location/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                axios.post('/api/location/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then(res => {
                         this.placeAllList()
                         this.$notify({
@@ -300,15 +299,14 @@ export default class Location extends Vue {
     }
 
      editHandle(id: number) {
-        axios.get('/base/location/' + id).then(res => {
-            console.log(res.data.data)
-            this.editForm = res.data.data
+        axios.get('/api/location/' + id).then(res => {
+            this.editForm = res
             this.dialogVisible = true
          })
     }
 
     delItem(id: number) {
-        axios.delete('/base/location/remove/'+ id).then(res => {
+        axios.delete('/api/location/void/'+ id).then(res => {
             this.placeAllList()
             this.$notify({
                 title: '',

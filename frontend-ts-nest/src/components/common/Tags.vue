@@ -3,7 +3,7 @@
         <ul>
             <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
                 <router-link :to="item.path" class="tags-li-title">
-                    {{item.title}}
+                    {{item.name}}
                 </router-link>
                 <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
             </li>
@@ -65,7 +65,7 @@ export default class vTags extends Vue {
                         this.tagsList.shift()
                     }
                     this.tagsList.push({
-                        title: route.meta.title,
+                        title: route.meta.name,
                         path: route.fullPath
                         //name: route.matched[1].components.default.name
                     })
@@ -77,7 +77,7 @@ export default class vTags extends Vue {
                 command === 'other' ? this.closeOther() : this.closeAll()
             }
 
-            
+
         get showTags() {
             const tagsList: any = this.tagsList
             return tagsList.length > 0

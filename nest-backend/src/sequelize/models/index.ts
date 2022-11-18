@@ -4,6 +4,8 @@ import { SysMenu } from './sysMenu'
 import { SysRoleMenu } from './SysRoleMenu'
 import { SysUserRole } from './SysUserRole'
 import { AssetType } from './assetType'
+import { Location } from './location'
+import { Department } from './department'
 
 export const models = [
   Test,
@@ -11,5 +13,7 @@ export const models = [
   SysMenu,
   SysRoleMenu,
   SysUserRole,
-  AssetType
+  AssetType,
+  Location,
+  Department
 ]

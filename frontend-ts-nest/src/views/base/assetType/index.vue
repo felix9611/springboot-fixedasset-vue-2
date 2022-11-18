@@ -47,13 +47,13 @@
               width="200">
             </el-table-column>
             <el-table-column
-                    prop="created"
+                    prop="createdAt"
                     width="200"
                     label="Created At"
             >
             </el-table-column>
             <el-table-column
-                    prop="updated"
+                    prop="updatedAt"
                     width="200"
                     label="Update At"
             >
@@ -150,12 +150,14 @@ export default class AssetType extends Vue {
 
     testEcelHeader1 = [
         'Type Code',
-        'Type Name'
+        'Type Name',
+        'Remark'
     ]
 
     testEcelHeader2 = [
         'typeCode',
-        'typeName'
+        'typeName',
+        'remark'
     ]
 
     searchForm: any = {
@@ -188,7 +190,7 @@ export default class AssetType extends Vue {
     clearFile() {
             this.fileList = []
     }
-            
+
     clickUploadDialog() {
         this.fileList = []
         this.uploaderDialog = true
@@ -202,46 +204,44 @@ export default class AssetType extends Vue {
     async uploadFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-            axios.post('/base/asset_type/create', res).then((res: any) => {
-                        
+        axios.post('/api/asset/type/batch/create', reData).then((res: any) => {
+
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
                     message: 'Upload success',
                     type: 'success',
                 })
-                
+
                 this.uploaderDialog = false
                 this.typeAllList()
                 this.fileList = []
                 file = undefined
-            })
-        })
+      })
     }
 
     typeAllList() {
         axios.post(
-            '/base/asset_type/listAll',
+            '/api/asset/type/listAll',
             this.searchForm
         ).then(
             (res: any) => {
-                this.tableData = res.data.data.records
-                this.size = res.data.data.size
-                this.current = res.data.data.current
-                this.total = res.data.data.total
+                this.tableData = res.rows
+                this.total = res.count
+                // this.current = res.current
+                // this.total = res.total
 
                 this.tableData.forEach((re: any) => {
-                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                    const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updatedAt ? moment(new Date(re.updatedAt)).format('DD-MM-YYYY HH:MM') : null
 
-                    re['created'] = newCreated
-                    re['updated'] = newUpdated
+                    re['createdAt'] = newCreated
+                    re['updatedAt'] = newUpdated
                 return re
                 })
         })
     }
-            
+
     toggleSelection(rows: any) {
         if (rows) {
             rows.forEach((row: any) => {
@@ -253,17 +253,17 @@ export default class AssetType extends Vue {
                 multipleTable.clearSelection();
         }
     }
-    
+
     handleSelectionChange(val: any) {
         this.multipleSelection = val;
         this.delBtlStatu = val.length == 0
     }
-            
+
     handleSizeChange(val: number) {
         this.searchForm.limit = val
         this.typeAllList()
     }
-    
+
     handleCurrentChange(val: number) {
         this.searchForm.page = val
         this.typeAllList()
@@ -284,13 +284,13 @@ export default class AssetType extends Vue {
     handleClose() {
         this.resetForm('editForm')
     }
-    
+
     submitForm(formName: string) {
         const refs: any = this.$refs[formName]
         refs.validate(async (valid: any) => {
             if (valid) {
                 console.log(this.editForm)
-                await axios.post('/base/asset_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                await axios.post('/api/asset/type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
                         this.typeAllList()
                         this.$notify({
@@ -310,14 +310,14 @@ export default class AssetType extends Vue {
     }
 
     async editHandle(id: number) {
-        await axios.get('/base/asset_type/' + id).then(res => {
-            this.editForm = res.data.data
+        await axios.get(`/api/asset/type/get/${id}`).then((res: any) => {
+            this.editForm = res
             this.dialogVisible = true
         })
     }
-    
+
     async delItem(id: number) {
-        await axios.delete('/base/asset_type/remove/'+ id).then((res: any) => {
+        await axios.delete('/api/asset/type/remove/'+ id).then((res: any) => {
             this.typeAllList()
             this.$notify({
                 title: '',

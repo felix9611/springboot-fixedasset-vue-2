@@ -119,7 +119,7 @@ const menuToRoute = (menu: any) => {
     let route: any = {
         path: menu.path,
         meta: {
-            title: menu.title
+            title: menu.name
         }
 
     }
@@ -134,4 +134,3 @@ export const loadView = (view: any) => { // 路由懒加载
 }
 
 export default router
-

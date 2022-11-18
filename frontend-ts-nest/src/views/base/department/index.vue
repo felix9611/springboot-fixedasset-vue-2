@@ -59,13 +59,13 @@
               label="Department Name">
             </el-table-column>
             <el-table-column
-                    prop="created"
+                    prop="createdAt"
                     width="200"
                     label="Created At"
             >
             </el-table-column>
             <el-table-column
-                    prop="updated"
+                    prop="updatedAt"
                     width="200"
                     label="Update At"
             >
@@ -116,8 +116,8 @@
                     <el-input v-model="editForm.deptName" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="Other Name"  prop="deptOtherName" label-width="150px">
-                    <el-input type="textarea" v-model="editForm.deptOtherName"></el-input>
+                <el-form-item label="Remark"  prop="remark" label-width="150px">
+                    <el-input type="textarea" v-model="editForm.remark"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -186,7 +186,7 @@ export default class Department extends Vue {
     clickUploadDialog() {
         this.uploaderDialog = true
     }
-    
+
     closerUploadDialog() {
         this.uploaderDialog = false
     }
@@ -195,8 +195,8 @@ export default class Department extends Vue {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
         reData.forEach( (res: any) => {
-        axios.post('/base/department/create', res).then((res: any) => {
-                        
+        axios.post('/api/department/create', res).then((res: any) => {
+
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
@@ -213,23 +213,20 @@ export default class Department extends Vue {
 
     deptAllList() {
         axios.post(
-            '/base/department/listAll',
+            '/api/department/listAll',
             this.searchForm
         ).then(
             (res: any) => {
-                this.tableData = res.data.data.records
-                this.size = res.data.data.size
-                this.current = res.data.data.current
-                this.total = res.data.data.total
+                this.tableData = res.rows
 
                 this.tableData.forEach((re: any) => {
-                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                    const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updatedAt ? moment(new Date(re.updatedAt)).format('DD-MM-YYYY HH:MM') : null
 
-                    re['created'] = newCreated
-                    re['updated'] = newUpdated
+                    re['createdAt'] = newCreated
+                    re['updatedAt'] = newUpdated
                     return re
-                
+
             })
         })
     }
@@ -281,7 +278,7 @@ export default class Department extends Vue {
         validData.validate((valid: any) => {
             if (valid) {
                 console.log(this.editForm)
-                axios.post('/base/department/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                axios.post('/api/department/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
                         this.deptAllList()
                         this.$notify({
@@ -300,14 +297,14 @@ export default class Department extends Vue {
     }
 
     editHandle(id: number) {
-        axios.get('/base/department/' + id).then((res: any) => {
-            this.editForm = res.data.data
+        axios.get('/api/department/' + id).then((res: any) => {
+            this.editForm = res
             this.dialogVisible = true
         })
     }
 
     delItem(id: number) {
-        axios.delete('/base/department/remove/'+ id).then((res: any) => {
+        axios.delete('/api/department/void/'+ id).then((res: any) => {
             this.deptAllList()
             this.$notify({
                 title: '',
@@ -317,7 +314,7 @@ export default class Department extends Vue {
             })
         })
     }
-        
+
 }
 </script>
 

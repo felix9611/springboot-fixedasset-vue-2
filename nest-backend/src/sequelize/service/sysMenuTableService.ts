@@ -2,7 +2,7 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { SysMenu } from 'src/sequelize/models/sysMenu'
 import { SysRoleMenu } from 'src/sequelize/models/SysRoleMenu'
-import { 
+import {
   Query,
   FromTable,
   BinaryExpression,
@@ -57,7 +57,7 @@ export class SysMenuTableService {
 
   async findWithList(sysMenu: SysMenu) {
     const baseTableName = 'sys_menu'
-
+    
     const query = new Query({
       $from: new FromTable({
         table: baseTableName
@@ -68,10 +68,10 @@ export class SysMenuTableService {
 
     query.$select = [
       new ResultColumn(new ColumnExpression(baseTableName, 'parentId'), 'parentId'),
-      new ResultColumn(new ColumnExpression(baseTableName, 'path'), 'path'), 
-      new ResultColumn(new ColumnExpression(baseTableName, 'perms'), 'perms'), 
-      new ResultColumn(new ColumnExpression(baseTableName, 'component'), 'component'), 
-      new ResultColumn(new ColumnExpression(baseTableName, 'type'), 'type'), 
+      new ResultColumn(new ColumnExpression(baseTableName, 'path'), 'path'),
+      new ResultColumn(new ColumnExpression(baseTableName, 'perms'), 'perms'),
+      new ResultColumn(new ColumnExpression(baseTableName, 'component'), 'component'),
+      new ResultColumn(new ColumnExpression(baseTableName, 'type'), 'type'),
       new ResultColumn(new ColumnExpression(baseTableName, 'icon'), 'icon'),
       new ResultColumn(new ColumnExpression(baseTableName, 'orderNum'), 'orderNum'),
     ]
@@ -86,7 +86,7 @@ export class SysMenuTableService {
 
   async getAllPage() {
     const main = await this.sysMenuRepository.findAll({where: {  status: 1, type: [0, 1], parentId: 0 }})
-    const pages = await this.sysMenuRepository.findAll({where: {  status: 1}})
+    const pages = await this.sysMenuRepository.findAll({where: { status: 1 }})
 
     return this.makeTree(main, pages)
   }

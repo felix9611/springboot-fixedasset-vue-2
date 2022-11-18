@@ -60,11 +60,11 @@ export class UsersController {
   @Put(':id')
   @ApiOperation({ summary: '更新' })
   async update(
-    @Param() params: RetrieveUserDto,
+    @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<any> {
     return await this.usersService.update({
-      id: params.id,
+      id,
       updateUserDto,
     });
   }
@@ -117,13 +117,13 @@ export class UsersController {
   @Put('avatar/:id')
   @ApiOperation({ summary: '设置头像' })
   async updateAvatar(
-    @Param() params: RetrieveUserDto,
-    @Body() updateUserAvatar: UpdataUserAvatarDto,
+    @Param('id') id: string,
+    @Body() updateUserAvatar: any,
   ): Promise<any> {
     return await this.usersService.updateAvatar({
-      id: params.id,
+      id,
       updateUserAvatar,
-    });
+    })
   }
 
   // 数量

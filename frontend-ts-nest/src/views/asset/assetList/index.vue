@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="handle-box">
-            
+
             <el-row :gutter="24">
                 <el-col :span="4">
                     <v-card
@@ -17,7 +17,7 @@
                             </div>
                             <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
                                 HKD ${{ sumTotal }}
-                            </div>    
+                            </div>
                         </div>
                     </v-card>
                 </el-col>
@@ -31,13 +31,13 @@
                                 Total with Sponsor
                             </div>
                             <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
-                                Used Cost 
+                                Used Cost
                             </div>
                             <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
                                 HKD ${{ sumTotalWithSponsor }}
-                            </div>    
+                            </div>
                         </div>
-                    </v-card> 
+                    </v-card>
                 </el-col>
             </el-row>
         </div>
@@ -68,7 +68,7 @@
                         :value="item.id">
                         </el-option>
                     </el-select>
-                </el-form-item>  
+                </el-form-item>
                 <el-form-item>
                     <el-select v-model="searchForm.placeId" placeholder="Select" filterable clearable>
                         <el-option
@@ -105,7 +105,7 @@
                     <el-button type="primary" @click="goToCreate()">New Create</el-button>
                 </el-form-item>
 
-                
+
             </el-form>
         </div>
 
@@ -318,9 +318,16 @@
                             <el-button @click="cancelWriteOff()">Reset</el-button>
                             <el-button :disabled="hideSaveBtn" type="primary" @click="writeOff()">Confirm Write Off</el-button>
                         </div>
-                         
+
                     </el-form>
                 </div>
+        </el-dialog>
+
+        <el-dialog
+                title="提示"
+                :visible.sync="dialogEditVisible"
+                width="700px"
+                :before-close="handleEditClose">
         </el-dialog>
     </div>
 </template>
@@ -371,6 +378,7 @@ export default class AssetList extends Vue {
     hideSaveBtn: boolean =  false
     showImageDialog: boolean =  false
     writeOffDialog: boolean =  false
+    dialogEditVisible: boolean = false
 
     writeOffForm: any = {}
 
@@ -422,7 +430,7 @@ export default class AssetList extends Vue {
         this.getTotalCost()
         this.getAllVendor()
     }
-        
+
     formToImage(id: number) {
         this.dialogVisible = false
         this.getAllBase64File(id)
@@ -448,7 +456,7 @@ export default class AssetList extends Vue {
         let importArray: any = []
         reData.forEach(
             (res: any, i: number) => {
-                
+
                 let newBuyDate: string = ''
                 let newInvoiceDate: string = ''
                 let typeId: number = 0
@@ -456,13 +464,13 @@ export default class AssetList extends Vue {
 
                 if (res.buyDate) {
                     const utc_days  = Math.floor(res.buyDate - 25569)
-                    const utc_value = utc_days * 86400                                      
+                    const utc_value = utc_days * 86400
                     saveJson.buyDate = new Date(utc_value * 1000)
                 }
 
                 if (res.buyDate) {
                     const utc_days  = Math.floor(res.buyDate - 25569)
-                    const utc_value = utc_days * 86400                                      
+                    const utc_value = utc_days * 86400
                     saveJson.invoiceDate = new Date(utc_value * 1000)
                 }
 
@@ -510,7 +518,7 @@ export default class AssetList extends Vue {
                     )
                 }
 
-                
+
 
                 saveJson.assetName = res.assetName
                 saveJson.description = res.description
@@ -519,7 +527,7 @@ export default class AssetList extends Vue {
                 saveJson.serialNum = res.serialNum
                 saveJson.invoiceNo = res.invoiceNo
                 saveJson.remark = res.remark
-                
+
                 importArray.push(saveJson)
                 console.log(importArray)
         })
@@ -541,7 +549,7 @@ export default class AssetList extends Vue {
                 })
                 this.excelUploaderDialog = false
                 setTimeout(
-                ()=> { 
+                ()=> {
                     console.log(moment().format('DD-MM-YYYY HH:MM:ss'))
                     this.assetAllList()
                 }
@@ -583,7 +591,7 @@ export default class AssetList extends Vue {
         const download = moment().format('DD-MM-YYYY HH:MM')
         this.qrTagContent = `${assetCode}|${assetName}|${placeName}|Buy Date:${buyDate}|Updated At:${updated}|Download Tag:${download}`
     }
- 
+
     sumCostWithSponsor() {
         axios.post(
             '/asset/assetList/sumCostWithSponsor',
@@ -601,36 +609,36 @@ export default class AssetList extends Vue {
             this.searchForm
         ).then(
             (res: any) => {
-                this.sumTotal = res.data.data
+                this.sumTotal = res
             }
         )
     }
 
     getAlldept() {
         axios.get(
-            '/base/department/getAll'
+            '/api/department/getAll'
         ).then(
             (res: any) => {
-            this.deptItem = res.data.data
+            this.deptItem = res
         })
     }
 
     getAllType() {
         axios.get(
-            '/base/asset_type/getAll'
+            '/api/asset/type/getAll'
         ).then(
             (res: any) => {
-            this.typeItem = res.data.data
+            this.typeItem = res
         })
     }
 
     getAllPlace() {
         axios.get(
-            '/base/location/getAll'
+            '/api/location/getAll'
         ).then(
             (res: any) => {
             // console.log(res.data.data)
-            this.placeItem = res.data.data
+            this.placeItem = res
         })
     }
 
@@ -694,7 +702,7 @@ export default class AssetList extends Vue {
         this.searchForm.limit = val
         this.assetAllList()
     }
-            
+
     handleCurrentChange(val: number) {
         this.searchForm.page = val
         this.assetAllList()
@@ -776,7 +784,7 @@ export default class AssetList extends Vue {
 
     getAllBase64File(assetId: number) {
         axios.post(
-            '/asset/assetList/loadFile', 
+            '/asset/assetList/loadFile',
             { assetId })
         .then((res: any)=>{
             this.fileBase64Data = res.data.data

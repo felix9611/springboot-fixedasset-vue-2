@@ -85,4 +85,17 @@ export class SysRoleController {
   async menuhandleUpdate(@Param('roleId') roleId: number, @Body() menuIds: any) {
     return await this.service.menuhandleUpdate(roleId, menuIds)
   }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Post('handle/update/:userId')
+  async roleshandleUpdate(@Param('userId') userId: string, @Body() roleIds: any) {
+    return await this.service.roleshandleUpdate(roleIds, userId)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Get('user/:userId')
+  async getUserRole(@Param('userId') userId: string) {
+    return await this.service.getUserRole(userId)
+  }
+
 }

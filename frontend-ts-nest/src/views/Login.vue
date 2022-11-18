@@ -67,7 +67,7 @@ export default class Login extends Vue {
 
     codeUrl: string = ''
     cookiePass: string = ''
-    
+
     loginForm: any = {
         username: 'admin',
         password: '111111',
@@ -106,8 +106,8 @@ export default class Login extends Vue {
         const refs: any = this.$refs[formName]
         refs.validate((valid: any) => {
             if(valid) {
-                axios.post('api/auth/login', this.loginForm).then(res => {
-                    const { access_token } = res.data
+                axios.post('api/auth/login', this.loginForm).then((res: any) => {
+                    const { access_token } = res
 
                     localStorage.setItem('token', access_token)
                     sessionStorage.setItem('token', access_token)
@@ -116,11 +116,11 @@ export default class Login extends Vue {
                     // this.$store.commit('SET_TOKEN', access_token)
 
                     /* if (localStorage.getItem('token')) {
-                        
+
                     } */
                     // this.saveLoginRecord()
-                    
-                    
+
+
                 })
                 // this.getCaptcha()
             } else {
@@ -147,7 +147,7 @@ export default class Login extends Vue {
         }
         axios.post('/sys/user/saveRecord', record)
     }
-            
+
     resetForm(formName) {
         // this.$store.commit('resetState', '')
         const refs: any = this.$refs[formName]
@@ -155,7 +155,7 @@ export default class Login extends Vue {
         this.$router.push('/login')
         this.getCaptcha()
     }
-            
+
     getCaptcha() {
         axios.get('/captcha').then(res => {
             console.log(res)

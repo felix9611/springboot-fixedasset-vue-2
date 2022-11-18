@@ -17,4 +17,8 @@ export class AssetType extends Model {
 
   @Column(DataType.BIGINT)
   status: string
+
+  limit: number
+  page: number
+  dataValue: any
 }
