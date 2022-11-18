@@ -6,6 +6,7 @@ import { SysUserRole } from './SysUserRole'
 import { AssetType } from './assetType'
 import { Location } from './location'
 import { Department } from './department'
+import { Vendor } from './vendor'
 
 export const models = [
   Test,
@@ -15,5 +16,6 @@ export const models = [
   SysUserRole,
   AssetType,
   Location,
-  Department
+  Department,
+  Vendor
 ]
