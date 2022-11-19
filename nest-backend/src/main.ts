@@ -4,17 +4,18 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 
 import { Log4jsLogger } from './libs/log4js/'
 import * as bodyParser from 'body-parser'
+import { NestExpressApplication } from '@nestjs/platform-express'
 
 const ENV = process.env.NODE_ENV;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
-  app.use(bodyParser.json({ limit: '50mb'}))
-  app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true })
   app.enableCors({
     origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     maxAge: 1728000,
+    allowedHeaders: '*',
   })
 
   app.useLogger(app.get(Log4jsLogger))

@@ -187,7 +187,7 @@ export default class StockTakeDetail extends Vue {
    this.getAlldept()
    this.getAllType()
    this.getAllPlace()
-    // this.getAllVendor()
+   this.getAllVendor()
     if (this.$route.params.id) {
       this.editForm.id = Number(this.$route.params.id)
       this.editHandle()
@@ -273,7 +273,7 @@ export default class StockTakeDetail extends Vue {
         ).then(
             (res: any) => {
             // console.log(res.data.data)
-            this.vendorItem = res.data.data
+            this.vendorItem = res
         })
   }
 
