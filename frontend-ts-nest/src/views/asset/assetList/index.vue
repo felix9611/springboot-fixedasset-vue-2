@@ -164,13 +164,13 @@
               width="180">
             </el-table-column>
             <el-table-column
-              prop="created"
+              prop="createdAt"
               width="140"
               label="Created At"
             >
             </el-table-column>
             <el-table-column
-              prop="updated"
+              prop="updatedAt"
               width="140"
               label="Update At"
             >
@@ -648,7 +648,7 @@ export default class AssetList extends Vue {
         ).then(
             (res: any) => {
             // console.log(res.data.data)
-            this.vendorItem = res.data.data
+            this.vendorItem = res
         })
     }
 
@@ -668,13 +668,13 @@ export default class AssetList extends Vue {
 
                 this.tableData.forEach((re: any) => {
                     const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
-                    const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                    const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                    const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
+                    const newUpdated =  re.updatedAt ? moment(new Date(re.updatedAt)).format('DD-MM-YYYY HH:MM') : null
                     const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
 
                     re['buyDate'] = newBuyDate
-                    re['created'] = newCreated
-                    re['updated'] = newUpdated
+                    re['createdAt'] = newCreated
+                    re['updatedAt'] = newUpdated
                     re['invoiceDate'] = newInvoiceDate
                     return re
                 })
