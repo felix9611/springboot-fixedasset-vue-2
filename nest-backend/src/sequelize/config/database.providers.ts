@@ -16,6 +16,15 @@ if (ENV === 'prod') {
   dbInfo.password = ''
 }
 
+export const sequelize = new Sequelize({
+  dialect: 'mysql',
+  host: dbInfo.host,
+  port: dbInfo.port,
+  username: dbInfo.username,
+  password: dbInfo.password,
+  database: dbInfo.database,
+})
+
 export const databaseProviders = [
   {
     provide: 'SEQUELIZE',

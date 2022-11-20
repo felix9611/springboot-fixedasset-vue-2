@@ -427,7 +427,7 @@ export default class AssetList extends Vue {
         this.getAllType()
         this.getAllPlace()
         this.getAlldept()
-        this.getTotalCost()
+      //   this.getTotalCost()
         this.getAllVendor()
     }
 
@@ -644,7 +644,7 @@ export default class AssetList extends Vue {
 
     getAllVendor() {
         axios.get(
-            '/base/vendor/getAll'
+            '/api/vendor/getAll'
         ).then(
             (res: any) => {
             // console.log(res.data.data)
@@ -654,17 +654,15 @@ export default class AssetList extends Vue {
 
     assetAllList() {
         axios.post(
-            '/asset/assetList/listAll',
+            '/api/asset/list/listAll',
             this.searchForm
         ).then(
             (res: any) => {
-                this.tableData = res.data.data.records
-                this.size = res.data.data.size
-                this.current = res.data.data.current
-                this.total = res.data.data.total
+                this.tableData = res.rows
+                this.total = res.count
 
-                this.sumCostWithSponsor()
-                this.getTotalCost()
+                // this.sumCostWithSponsor()
+                // this.getTotalCost()
 
                 this.tableData.forEach((re: any) => {
                     const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null

@@ -282,7 +282,7 @@ export default class StockTakeDetail extends Vue {
         refs.validate((valid: any) => {
             if (valid) {
                 console.log(this.fileBase64Data[0])
-                axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                axios.post('api/asset/list/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
                         if (this.fileBase64Data[0]) {
                             const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data

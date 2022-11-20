@@ -8,6 +8,7 @@ import { AssetType } from 'src/sequelize/models/assetType'
 import { Location } from 'src/sequelize/models/location'
 import { Department } from 'src/sequelize/models/department'
 import { Vendor } from 'src/sequelize/models/vendor'
+import { AssetList } from 'src/sequelize/models/assetList'
 
 export const mainProviders = [
   { provide: 'testRepository', useValue: Test },
@@ -19,4 +20,5 @@ export const mainProviders = [
   { provide: 'locationRepository', useValue: Location },
   { provide: 'departmentRepository', useValue: Department },
   { provide: 'vendorRepository', useValue: Vendor },
+  { provide: 'assetListRepository', useValue: AssetList },
 ]

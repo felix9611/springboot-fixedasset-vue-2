@@ -5,6 +5,7 @@ import { AssetTypeTableService } from './assetTypeTableService'
 import { LocationTableService } from './locationTableService'
 import { DepartmentTableService } from './departmentTableService'
 import { VendorTableService } from './vendorTableService'
+import { AssetListTableService } from './assetListTableService'
 
 export const services = [
   TestTableService,
@@ -14,4 +15,5 @@ export const services = [
   LocationTableService,
   DepartmentTableService,
   VendorTableService,
+  AssetListTableService,
 ]

@@ -7,6 +7,7 @@ import { AssetType } from './assetType'
 import { Location } from './location'
 import { Department } from './department'
 import { Vendor } from './vendor'
+import { AssetList } from './assetList'
 
 export const models = [
   Test,
@@ -17,5 +18,6 @@ export const models = [
   AssetType,
   Location,
   Department,
-  Vendor
+  Vendor,
+  AssetList,
 ]

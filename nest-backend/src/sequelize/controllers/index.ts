@@ -5,6 +5,7 @@ import { AssetTypeController } from './AssetTypeController'
 import { LocationController } from './locationController'
 import { DepartmentController } from './deprtmentController'
 import { VendorController } from './vendorController'
+import { AssetListController } from './assetListController'
 
 export const controllers = [
   TestController,
@@ -14,4 +15,5 @@ export const controllers = [
   LocationController,
   DepartmentController,
   VendorController,
+  AssetListController,
 ]

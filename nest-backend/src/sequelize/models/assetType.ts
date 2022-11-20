@@ -1,4 +1,6 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript'
+import { Table, Column, Model, DataType, Sequelize } from 'sequelize-typescript'
+import { AssetList } from './assetList'
+import { sequelize  } from 'src/sequelize/config/database.providers'
 
 @Table({ tableName: 'asset_type' })
 export class AssetType extends Model {
@@ -22,3 +24,17 @@ export class AssetType extends Model {
   page: number
   dataValue: any
 }
+/*
+AssetList.init({
+
+}, {
+  sequelize,
+  modelName: 'asset_type'
+})
+
+
+AssetType.belongsTo(AssetList)
+
+
+export default AssetType
+*/
