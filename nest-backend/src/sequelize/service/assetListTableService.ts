@@ -19,7 +19,7 @@ import {
   ConditionalExpression
 } from 'node-jql'
 import { Op } from 'sequelize'
-import { Sequelize, HasOne } from 'sequelize-typescript'
+import { Sequelize, HasOne, HasMany } from 'sequelize-typescript'
 
 @Injectable()
 export class AssetListTableService {
@@ -33,26 +33,32 @@ export class AssetListTableService {
 
     const offset: number = page * limit - limit
 
+    AssetList.belongsTo(AssetType, {
+        foreignKey: 'typeId'
+    })
+
+    AssetList.belongsTo(Department, {
+        foreignKey: 'deptId'
+    })
+
+    AssetList.belongsTo(Location, {
+        foreignKey: 'placeId'
+    })
+
     const data = this.assetListRepository.findAndCountAll({
       include:[
-        /* {
-           model: Department,
-           as:'dept',
-           required: false,
-           attributes: { exclude: ['createdAt', 'updatedAt', 'id',  'remark'] }
+        {
+          model: AssetType,
+          required: false
         },
         {
-           model: AssetType,
-           as:'type',
-           required: false,
-           attributes: { exclude: ['createdAt', 'updatedAt', 'id', 'remark'] }
+          model: Department,
+          required: false
         },
         {
-           model: Location,
-           as:'place',
-           required: false,
-           attributes: { exclude: ['createdAt', 'updatedAt', 'id', 'remark'] }
-        } */
+          model: Location,
+          required: false
+        },
       ],
       where: {
         ... assetCode ? { assetCode: { [Op.like]: `%${assetCode}%` } } : {},
@@ -74,33 +80,27 @@ export class AssetListTableService {
     return await this.assetListRepository.findOne({ where: { id } })
   }
 
-  async createOne(assetList: AssetList) {
-    const data: any = await this.findMaxIdAndCode()
+  async findByCode(assetCode: string) {
+    return await this.assetListRepository.findOne({ where: { assetCode, status: 1 } })
+  }
 
-    const { code } = data[0][0]
+  async createOne(assetList: AssetList) {
+    const code = await this.assetListRepository.max('assetCode', { where: { status: 1 } })
     if (code) {
-      const newCode = this.newCodeGen(6, code)
-      return await this.assetListRepository.create({ status: 1, assetCod: newCode, ...assetList})
+      const newCode = this.newCodeGen(6, code.toString())
+      return await this.assetListRepository.create({ status: 1, assetCode: newCode, ...assetList})
     } else {
       return await this.assetListRepository.create({ status: 1, assetCode: '000001', ...assetList})
     }
   }
 
-  async findMaxIdAndCode() {
-    const baseTableName = 'asset_list'
-    const query = new Query({
-      $select: [
-        new ResultColumn(new FunctionExpression('Max', new ColumnExpression(baseTableName, 'assetCode')), 'assetCode')
-      ],
-      $from: new FromTable({
-        table: baseTableName
-      }),
-      $where: [
-        new BinaryExpression(new ColumnExpression(baseTableName, 'status'), '=', new Value(1))
-      ]
-    })
+  async updateOne(assetList: AssetList) {
+    const { id, ..._assetList } = assetList
+    return await this.assetListRepository.update(_assetList, { where: { id } })
+  }
 
-    return await this.assetListRepository.sequelize.query(query.toString('mysql'))
+  async voidOne(id: number) {
+    return await this.assetListRepository.update({ status: 0 }, { where: { id } })
   }
 
   newCodeGen(len: number, code?: string) {

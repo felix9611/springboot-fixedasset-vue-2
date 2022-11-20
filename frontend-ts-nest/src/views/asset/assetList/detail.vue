@@ -199,9 +199,13 @@ export default class StockTakeDetail extends Vue {
   }
 
   editHandle() {
-    axios.get(`/asset/assetList/${this.$route.params.id}`).then((res: any) => {
+    axios.get(`api/asset/list/${this.$route.params.id}`).then((res: any) => {
       this.readonlyForm = true
-      this.editForm = res.data.data
+      this.editForm = res
+      this.editForm.placeId = Number(res.placeId)
+      this.editForm.deptId = Number(res.deptId)
+      this.editForm.typeId = Number(res.typeId)
+      this.editForm.vendorId = Number(res.vendorId) 
     })
   }
 

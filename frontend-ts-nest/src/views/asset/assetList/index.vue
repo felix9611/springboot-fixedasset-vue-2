@@ -134,32 +134,32 @@
               width="180">
             </el-table-column>
             <el-table-column
-              prop="typeCode"
+              prop="AssetType.typeCode"
               label="Type Code"
               width="150">
             </el-table-column>
             <el-table-column
-              prop="typeName"
+              prop="AssetType.typeName"
               label="Type Name"
               width="150">
             </el-table-column>
             <el-table-column
-              prop="placeCode"
+              prop="Location.placeCode"
               label="Place Code"
               width="150">
             </el-table-column>
             <el-table-column
-              prop="placeName"
+              prop=".Location.placeName"
               label="Place Name"
               width="140">
             </el-table-column>
             <el-table-column
-              prop="deptCode"
+              prop="Department.deptCode"
               label="Department Code"
               width="180">
             </el-table-column>
             <el-table-column
-              prop="deptName"
+              prop="Department.deptName"
               label="Department Name"
               width="180">
             </el-table-column>
@@ -308,7 +308,7 @@
                             <el-input v-model="writeOffForm.placeName" autocomplete="off" readonly></el-input>
                         </el-form-item>
                         <el-form-item label="Last Updated"  prop="updated" label-width="130px">
-                            <el-input v-model="writeOffForm.updated" autocomplete="off" readonly></el-input>
+                            <el-input v-model="writeOffForm.updatedAt" autocomplete="off" readonly></el-input>
                         </el-form-item>
                         <el-form-item label="Write Off Reason"  prop="reason" label-width="130px">
                             <el-input type="textarea" v-model="writeOffForm.reason"></el-input>
@@ -793,8 +793,7 @@ export default class AssetList extends Vue {
 
     readHandle(id: number) {
         axios.get(`/asset/assetList/${id}`).then((res: any) => {
-            console.log(res.data.data)
-            this.editForm = res.data.data
+            this.editForm = res
             this.dialogVisible = true
             this.readonlyForm = true
             this.hideSaveBtn = true
@@ -812,20 +811,11 @@ export default class AssetList extends Vue {
     }
 
     delItem(asset: any) {
+
         this.writeOffDialog = true
         this.writeOffForm = asset
-
-        /* axios.delete(`/asset/assetList/remove/${id}`).then(res => {
-            this.assetAllList()
-            this.getTotalCost()
-            this.sumCostWithSponsor()
-            this.$notify({
-                title: '',
-                showClose: true,
-                message: 'Action is successful ',
-                type: 'success'
-            })
-        }) */
+        this.writeOffForm.placeCode = asset.Location.placeCode
+        this.writeOffForm.placeName = asset.Location.placeName
     }
 
     writeOff() {
@@ -835,7 +825,7 @@ export default class AssetList extends Vue {
             lastPlaceId: this.writeOffForm.placeId,
             reason: this.writeOffForm.reason
         }).then(res => {
-             axios.delete(`/asset/assetList/remove/${assetId}`).then(res => {
+             axios.delete(`api/asset/list/void/${assetId}`).then(res => {
                 this.assetAllList()
                 this.getTotalCost()
                 this.sumCostWithSponsor()

@@ -23,9 +23,31 @@ export class AssetListController {
     return await this.service.listPage(assetList)
   }
 
+  @Get(':id')
+  async getOne(@Param('id') id: number) {
+    return await this.service.getOne(id)
+  }
+
+  @Get('code/:assetCode')
+  async findByCode(@Param('assetCode') assetCode: string) {
+    return await this.service.findByCode(assetCode)
+  }
+
   @UseGuards(JwtAuthGuardUser)
   @Post('create')
   async createOne(@Body() assetList: AssetList) {
     return await this.service.createOne(assetList)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Post('update')
+  async updateOne(@Body() assetList: AssetList) {
+    return await this.service.updateOne(assetList)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Delete(':id')
+  async voidOne(@Param('id') id: number) {
+    return await this.service.voidOne(id)
   }
 }
