@@ -820,15 +820,15 @@ export default class AssetList extends Vue {
 
     writeOff() {
         const assetId = this.writeOffForm.id
-        axios.post('/asset/assetList/writeOff', {
-            assetId: this.writeOffForm.id,
+        axios.post('api/asset/list/writeoff/form', {
+            assetId,
             lastPlaceId: this.writeOffForm.placeId,
             reason: this.writeOffForm.reason
         }).then(res => {
              axios.delete(`api/asset/list/void/${assetId}`).then(res => {
                 this.assetAllList()
-                this.getTotalCost()
-                this.sumCostWithSponsor()
+                // this.getTotalCost()
+                // this.sumCostWithSponsor()
                 this.$notify({
                     title: '',
                     showClose: true,

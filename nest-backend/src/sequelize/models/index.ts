@@ -8,6 +8,7 @@ import { Location } from './location'
 import { Department } from './department'
 import { Vendor } from './vendor'
 import { AssetList } from './assetList'
+import { WriteOff } from './writeOff'
 
 export const models = [
   Test,
@@ -20,4 +21,5 @@ export const models = [
   Department,
   Vendor,
   AssetList,
+  WriteOff
 ]

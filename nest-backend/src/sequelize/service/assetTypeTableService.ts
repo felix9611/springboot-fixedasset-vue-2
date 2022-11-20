@@ -64,67 +64,9 @@ export class AssetTypeTableService {
     })
 
     return data
-    /*
-    const baseTableName = 'asset_type'
-    const dbName = 'fixedasset_nest_vue'
+  }
 
-    const query = new Query({
-      $from: new FromTable({
-        table: baseTableName
-      }),
-      $where: [
-        new BinaryExpression(new ColumnExpression(baseTableName, 'status'), '=', new Value(1))
-      ]
-    })
-
-    query.$select = [
-      new ResultColumn(new ColumnExpression(baseTableName, 'id'), 'id'),
-      new ResultColumn(new ColumnExpression(baseTableName, 'typeCode'), 'typeCode'),
-      new ResultColumn(new ColumnExpression(baseTableName, 'typeName'), 'typeName'),
-      new ResultColumn(new ColumnExpression(baseTableName, 'remark'), 'remark'),
-      new ResultColumn(new ColumnExpression(baseTableName, 'createdAt'), 'createdAt'),
-      new ResultColumn(new ColumnExpression(baseTableName, 'updatedAt'), 'updatedAt'),
-      new ResultColumn(new ColumnExpression(baseTableName, 'status'), 'status'),
-    ]
-
-
-    query.$where = new BinaryExpression(new ColumnExpression(baseTableName, 'status'), '=', new Value(1))
-    if (typeCode) query.$where = new LikeExpression(new ColumnExpression(baseTableName, 'typeCode'), false, `%${typeCode}%`)
-    if (typeName) query.$where = new LikeExpression(new ColumnExpression(baseTableName, 'typeName'), false, `%${typeName}%`)
-
-    const offset: number = page * limit - limit
-    if (limit) {
-      if (page>1) {
-        query.$limit = new LimitOffset(limit, offset)
-      } else if (page === 1) {
-        query.$limit = new LimitOffset(limit)
-      }
-    }
-
-
-    const queryCount = new Query({
-      $select: [
-        new ResultColumn(new FunctionExpression('count', new ColumnExpression('*')), 'count')
-      ],
-      $from: new FromTable({
-        database: dbName,
-        table: baseTableName
-      }),
-      $where: [
-
-      ]
-    })
-
-    queryCount.$where = query.$where
-
-    const dataCount = await this.assetTypeRepository.sequelize.query(queryCount.toString('mysql'))
-    const [ total ] = dataCount
-
-    return {
-      record: await this.assetTypeRepository.sequelize.query(query.toString('mysql')),
-      total: total[0]['count'],
-      size: limit,
-      current: page
-    }*/
+  async findInfo(typeCode?: string, typeName?: string) {
+    return await this.assetTypeRepository.findOne({ where: { typeCode, typeName, status: 1 } })
   }
 }

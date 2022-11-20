@@ -4,6 +4,7 @@ import { AssetList } from 'src/sequelize/models/assetList'
 import { Department } from 'src/sequelize/models/department'
 import { AssetType } from 'src/sequelize/models/assetType'
 import { Location } from 'src/sequelize/models/location'
+import { WriteOff } from 'src/sequelize/models/writeOff'
 
 import {
   Query,
@@ -20,12 +21,16 @@ import {
 } from 'node-jql'
 import { Op } from 'sequelize'
 import { Sequelize, HasOne, HasMany } from 'sequelize-typescript'
+const moment = require('moment')
+
 
 @Injectable()
 export class AssetListTableService {
   constructor(
     @Inject('assetListRepository')
     private assetListRepository: typeof AssetList,
+    @Inject('writeOffRepository')
+    private writeOffRepository: typeof WriteOff,
   ){}
 
   async listPage(assetList: AssetList) {
@@ -97,6 +102,10 @@ export class AssetListTableService {
   async updateOne(assetList: AssetList) {
     const { id, ..._assetList } = assetList
     return await this.assetListRepository.update(_assetList, { where: { id } })
+  }
+
+  async writteOffPrcoess(writeOff: WriteOff) {
+    return await this.writeOffRepository.create({ ...writeOff , lastDay: moment().format() })
   }
 
   async voidOne(id: number) {

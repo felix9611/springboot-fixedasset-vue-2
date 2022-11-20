@@ -60,4 +60,8 @@ export class LocationTableService {
 
     return data
   }
+
+  async findInfo(placeCode?: string, placeName?: string) {
+    return await this.locationRepository.findOne({ where: { placeCode, placeName, status: 1 } })
+  }
 }

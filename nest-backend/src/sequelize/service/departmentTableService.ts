@@ -68,4 +68,8 @@ export class DepartmentTableService {
     return data
   }
 
+  async findInfo(deptCode?: string, deptName?: string) {
+    return await this.departmentRepository.findOne({ where: { deptCode, deptName, status: 1 } })
+  }
+
 }

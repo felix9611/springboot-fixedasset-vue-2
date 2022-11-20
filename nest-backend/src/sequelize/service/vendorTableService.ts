@@ -61,4 +61,8 @@ export class VendorTableService {
 
     return data
   }
+
+  async findInfo(vendorCode?: string, vendorName?: string) {
+    return await this.vendorRepository.findOne({ where: { vendorCode, vendorName, status: 1 } })
+  }
 }
