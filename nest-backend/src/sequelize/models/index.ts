@@ -9,6 +9,8 @@ import { Department } from './department'
 import { Vendor } from './vendor'
 import { AssetList } from './assetList'
 import { WriteOff } from './writeOff'
+import { AssetListFiles } from './assetListFiles'
+import { LoginRecord } from './loginRecords'
 
 export const models = [
   Test,
@@ -21,5 +23,7 @@ export const models = [
   Department,
   Vendor,
   AssetList,
-  WriteOff
+  AssetListFiles,
+  WriteOff,
+  LoginRecord
 ]

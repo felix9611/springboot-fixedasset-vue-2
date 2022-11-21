@@ -18,14 +18,6 @@
                     <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>
                 </el-input>
             </el-form-item>
-            <el-form-item prop="code">
-                <el-input v-model="loginForm.code" auto-complete="off" placeholder="Captcha Code" style="width: 63%">
-                    <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/>
-                </el-input>
-                <div class="login-code">
-                    <el-image :src="captchaImg" class="captchaImg" @click="getCaptcha"></el-image>
-                </div>
-            </el-form-item>
             <!--
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">
         记住我
@@ -107,6 +99,7 @@ export default class Login extends Vue {
         refs.validate((valid: any) => {
             if(valid) {
                 axios.post('api/auth/login', this.loginForm).then((res: any) => {
+                    this.saveLoginRecord()
                     const { access_token } = res
 
                     localStorage.setItem('token', access_token)
@@ -136,7 +129,7 @@ export default class Login extends Vue {
             loginStatus: 'success',
             ipAddress: this.loginUserIP
         }
-        axios.post('/sys/user/saveRecord', record)
+        axios.post('/api/auth/record/create', record)
     }
 
     saveLoginRecordFailure() {

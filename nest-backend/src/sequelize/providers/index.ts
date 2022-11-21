@@ -10,6 +10,8 @@ import { Department } from 'src/sequelize/models/department'
 import { Vendor } from 'src/sequelize/models/vendor'
 import { AssetList } from 'src/sequelize/models/assetList'
 import { WriteOff } from 'src/sequelize/models/writeOff'
+import { AssetListFiles } from 'src/sequelize/models/assetListFiles'
+import { LoginRecord } from 'src/sequelize/models/loginRecords'
 
 export const mainProviders = [
   { provide: 'testRepository', useValue: Test },
@@ -22,5 +24,7 @@ export const mainProviders = [
   { provide: 'departmentRepository', useValue: Department },
   { provide: 'vendorRepository', useValue: Vendor },
   { provide: 'assetListRepository', useValue: AssetList },
+  { provide: 'assetListFilesRepository', useValue: AssetListFiles },
   { provide: 'writeOffRepository', useValue: WriteOff },
+  { provide: 'loginRecordRepository', useValue: LoginRecord },
 ]

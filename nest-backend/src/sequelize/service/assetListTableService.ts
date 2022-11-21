@@ -5,7 +5,6 @@ import { Department } from 'src/sequelize/models/department'
 import { AssetType } from 'src/sequelize/models/assetType'
 import { Location } from 'src/sequelize/models/location'
 import { WriteOff } from 'src/sequelize/models/writeOff'
-
 import {
   Query,
   FromTable,
@@ -23,6 +22,11 @@ import { Op } from 'sequelize'
 import { Sequelize, HasOne, HasMany } from 'sequelize-typescript'
 const moment = require('moment')
 
+import { VendorTableService } from 'src/sequelize/service/vendorTableService'
+import { DepartmentTableService } from 'src/sequelize/service/departmentTableService'
+import { AssetTypeTableService } from 'src/sequelize/service/assetTypeTableService'
+import { LocationTableService } from 'src/sequelize/service/locationTableService'
+import { ImportAsset } from 'src/sequelize/interface/import'
 
 @Injectable()
 export class AssetListTableService {
@@ -31,6 +35,10 @@ export class AssetListTableService {
     private assetListRepository: typeof AssetList,
     @Inject('writeOffRepository')
     private writeOffRepository: typeof WriteOff,
+    private vendorTableService: VendorTableService,
+    private departmentTableService: DepartmentTableService,
+    private assetTypeTableService: AssetTypeTableService,
+    private locationTableService: LocationTableService,
   ){}
 
   async listPage(assetList: AssetList) {
@@ -54,15 +62,18 @@ export class AssetListTableService {
       include:[
         {
           model: AssetType,
-          required: false
+          required: false,
+          where: { status: 1 }
         },
         {
           model: Department,
-          required: false
+          required: false,
+          where: { status: 1 }
         },
         {
           model: Location,
-          required: false
+          required: false,
+          where: { status: 1 }
         },
       ],
       where: {
@@ -110,6 +121,61 @@ export class AssetListTableService {
 
   async voidOne(id: number) {
     return await this.assetListRepository.update({ status: 0 }, { where: { id } })
+  }
+
+  async importAsset(asset: ImportAsset) {
+    const {
+      assetName,
+      typeCode,
+      typeName,
+      unit,
+      buyDate,
+      description,
+      cost,
+      serialNum,
+      invoiceNo,
+      invoiceDate,
+      deptCode,
+      deptName,
+      placeCode,
+      placeName,
+      vendorCode,
+      vendorName,
+      remark
+    } = asset
+
+    let data: any = {
+      assetName,
+      unit,
+      buyDate,
+      description,
+      cost,
+      serialNumber: serialNum,
+      invoiceNo,
+      invoiceDate,
+      remark
+    }
+    if ( typeName || typeCode ) {
+      const { id } = await this.assetTypeTableService.findInfo(typeCode, typeName)
+      data.typeId = id
+    }
+
+    if ( placeCode || placeName ) {
+      const { id } = await this.locationTableService.findInfo(placeCode, placeName)
+      data.placeId = id
+    }
+
+    if ( deptCode || deptName ) {
+      const { id } = await this.departmentTableService.findInfo(deptCode, deptName)
+      data.deptId = id
+    }
+
+    if ( vendorCode || vendorName ) {
+      const { id } = await this.vendorTableService.findInfo(vendorCode, vendorName)
+      data.deptId = id
+    }
+
+    return this.createOne(data)
   }
 
   newCodeGen(len: number, code?: string) {
