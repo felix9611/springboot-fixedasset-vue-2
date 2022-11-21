@@ -681,11 +681,9 @@ export default class AssetList extends Vue {
     }
 
     getAllBase64File(assetId: number) {
-        axios.post(
-            '/asset/assetList/loadFile',
-            { assetId })
+        axios.get(`/api/asset/list/images/${assetId}`)
         .then((res: any)=>{
-            this.fileBase64Data = res.data.data
+            this.fileBase64Data = res
             this.showImageDialog = true
             console.log(this.fileBase64Data)
         })

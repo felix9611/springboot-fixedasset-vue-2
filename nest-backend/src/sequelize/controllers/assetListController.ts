@@ -52,11 +52,21 @@ export class AssetListController {
   async voidOne(@Param('id') id: number) {
     return await this.service.voidOne(id)
   }
-
-  @UseGuards(JwtAuthGuardUser)
   @Post('writeoff/form')
   async writteOffPrcoess(@Body() writeOff: WriteOff) {
     return await this.service.writteOffPrcoess(writeOff)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Get('images/:assetId')
+  async findFile(@Param('assetId') assetId: number) {
+    return await this.service.getPhotoData(assetId)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Delete('images/void/:id')
+  async voidFile(@Param('id') id: number) {
+    return await this.service.voidFile(id)
   }
 
   @UseGuards(JwtAuthGuardUser)

@@ -5,6 +5,7 @@ import { Department } from 'src/sequelize/models/department'
 import { AssetType } from 'src/sequelize/models/assetType'
 import { Location } from 'src/sequelize/models/location'
 import { WriteOff } from 'src/sequelize/models/writeOff'
+import { AssetListFiles } from 'src/sequelize/models/assetListFiles'
 import {
   Query,
   FromTable,
@@ -28,6 +29,7 @@ import { AssetTypeTableService } from 'src/sequelize/service/assetTypeTableServi
 import { LocationTableService } from 'src/sequelize/service/locationTableService'
 import { ImportAsset } from 'src/sequelize/interface/import'
 
+
 @Injectable()
 export class AssetListTableService {
   constructor(
@@ -35,11 +37,26 @@ export class AssetListTableService {
     private assetListRepository: typeof AssetList,
     @Inject('writeOffRepository')
     private writeOffRepository: typeof WriteOff,
+    @Inject('assetListFilesRepository')
+    private assetListFilesRepository: typeof AssetListFiles,
     private vendorTableService: VendorTableService,
     private departmentTableService: DepartmentTableService,
     private assetTypeTableService: AssetTypeTableService,
     private locationTableService: LocationTableService,
   ){}
+
+  async getPhotoData(assetId: number) {
+    return await this.assetListFilesRepository.findAll({
+      where: {
+        status: 1,
+        assetId
+      }
+    })
+  }
+
+  async voidFile(id: number) {
+    return await this.assetListFilesRepository.update({ status: 0 }, { where: { id } })
+  }
 
   async listPage(assetList: AssetList) {
     let { assetCode, assetName, placeId, deptId, buyDate, typeId, limit, page } = assetList
@@ -86,7 +103,8 @@ export class AssetListTableService {
         status: 1
       },
       limit,
-      ... (page>1) ? { offset } : { }
+      ... (page>1) ? { offset } : { },
+      order: [['assetCode', 'DESC']]
     })
 
     return data

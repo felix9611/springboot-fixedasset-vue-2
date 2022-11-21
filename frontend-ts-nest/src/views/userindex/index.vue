@@ -11,7 +11,7 @@
           <el-input v-model="myAccount.email" autocomplete="off" readonly></el-input>
         </el-form-item>
         <el-form-item label="Created At"  label-width="100px">
-          <el-input v-model="myAccount.created" autocomplete="off" readonly></el-input>
+          <el-input v-model="myAccount.createdAt" autocomplete="off" readonly></el-input>
         </el-form-item>
         <el-form-item label="Last Login At"  label-width="100px">
           <el-input v-model="myAccount.lastLogin" autocomplete="off" readonly></el-input>
