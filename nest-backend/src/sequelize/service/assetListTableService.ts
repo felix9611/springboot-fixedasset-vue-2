@@ -28,7 +28,7 @@ import { DepartmentTableService } from 'src/sequelize/service/departmentTableSer
 import { AssetTypeTableService } from 'src/sequelize/service/assetTypeTableService'
 import { LocationTableService } from 'src/sequelize/service/locationTableService'
 import { ImportAsset } from 'src/sequelize/interface/import'
-
+import { AssetFileImport } from 'src/sequelize/interface/index'
 
 @Injectable()
 export class AssetListTableService {
@@ -44,6 +44,20 @@ export class AssetListTableService {
     private assetTypeTableService: AssetTypeTableService,
     private locationTableService: LocationTableService,
   ){}
+
+  async saveImage(assetFileImport: AssetFileImport) {
+    let { assetId, fileList } = assetFileImport
+    return fileList.forEach( async fl => {
+      const { fileName, dataBase64 } = fl
+      return await this.assetListFilesRepository.create({
+        assetId,
+        fileName,
+        base64: dataBase64,
+        status: 1
+      })
+
+    } )
+  }
 
   async getPhotoData(assetId: number) {
     return await this.assetListFilesRepository.findAll({
@@ -112,6 +126,10 @@ export class AssetListTableService {
 
   async getOne(id: number) {
     return await this.assetListRepository.findOne({ where: { id } })
+  }
+
+  async getOneByCode(assetCode: string) {
+    return await this.assetListRepository.findOne({ where: { assetCode } })
   }
 
   async findByCode(assetCode: string) {

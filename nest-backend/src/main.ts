@@ -18,6 +18,9 @@ async function bootstrap() {
     allowedHeaders: '*',
   })
 
+  app.use(bodyParser.json({limit: '5000mb'}))
+  app.use(bodyParser.urlencoded({limit: '5000mb', extended: true}))
+
   app.useLogger(app.get(Log4jsLogger))
 
   if (ENV !== 'prod') {

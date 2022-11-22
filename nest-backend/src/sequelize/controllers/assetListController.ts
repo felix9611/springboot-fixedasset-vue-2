@@ -15,6 +15,7 @@ import { AssetList } from 'src/sequelize/models/assetList'
 import { WriteOff } from 'src/sequelize/models/writeOff'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
 import { ImportAsset } from 'src/sequelize/interface/import'
+import { AssetFileImport } from 'src/sequelize/interface/index'
 
 @Controller('api/asset/list')
 export class AssetListController {
@@ -28,6 +29,11 @@ export class AssetListController {
   @Get(':id')
   async getOne(@Param('id') id: number) {
     return await this.service.getOne(id)
+  }
+
+  @Get('code/:assetCode')
+  async getOneByCode(@Param('assetCode') assetCode: string) {
+    return await this.service.getOneByCode(assetCode)
   }
 
   @Get('code/:assetCode')
@@ -67,6 +73,12 @@ export class AssetListController {
   @Delete('images/void/:id')
   async voidFile(@Param('id') id: number) {
     return await this.service.voidFile(id)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Post('images/save')
+  async saveImage(@Body() assetFileImport: AssetFileImport) {
+    return await this.service.saveImage(assetFileImport)
   }
 
   @UseGuards(JwtAuthGuardUser)

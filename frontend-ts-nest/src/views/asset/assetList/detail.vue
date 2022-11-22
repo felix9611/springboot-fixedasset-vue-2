@@ -205,7 +205,7 @@ export default class StockTakeDetail extends Vue {
       this.editForm.placeId = Number(res.placeId)
       this.editForm.deptId = Number(res.deptId)
       this.editForm.typeId = Number(res.typeId)
-      this.editForm.vendorId = Number(res.vendorId) 
+      this.editForm.vendorId = Number(res.vendorId)
     })
   }
 
@@ -283,47 +283,41 @@ export default class StockTakeDetail extends Vue {
 
   submitForm(formName: string) {
         const refs: any = this.$refs[formName]
+        console.log(this.fileBase64Data, 'test')
         refs.validate((valid: any) => {
             if (valid) {
                 console.log(this.fileBase64Data[0])
                 axios.post('api/asset/list/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
-                        if (this.fileBase64Data[0]) {
-                            const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data
-                            axios.get(`/asset/assetList/assetCode/${assetCode}`).then(
-                                ((res: any) => {
-                                    const assetId = res.data.data.id
-                                    this.fileBase64Data.forEach( (dataFile: any) => {
-                                        console.log(dataFile)
-                                        const { fileName, dataBase64 } = dataFile
-                                        axios.post(
-                                            '/asset/assetList/addFile',
-                                            { assetId, fileName, base64: dataBase64 }
-                                        ).then(
-                                            res=> {
-                                                this.$notify({
-                                                    title: '',
-                                                    showClose: true,
-                                                    message: 'Success to save',
-                                                    type: 'success',
-                                                })
+                      if (this.fileBase64Data[0]) {
+                        const assetCode = this.editForm.assetCode
+                        console.log(assetCode)
+                        axios.get(`/api/asset/list/code/${assetCode}`).then((res: any) => {
+                            const assetId = res.id
 
-                                                this.fileList = []
-                                                this.fileBase64Data = []
-                                                this.back()
-                                            })
-                                        })
-                                    })
-                                )
-                            } else {
-                                this.$notify({
-                                    title: '',
-                                    showClose: true,
-                                    message: 'Success to save',
-                                    type: 'success',
-                                })
-                                this.back()
-                            }
+                            axios.post(
+                              '/api/asset/list/images/save',
+                              { assetId, fileList: this.fileBase64Data }
+                            )
+
+                            this.$notify({
+                              title: '',
+                              showClose: true,
+                              message: 'Success to save',
+                              type: 'success',
+                            })
+                            this.back()
+                        })
+
+                      } else {
+                          this.$notify({
+                              title: '',
+                              showClose: true,
+                              message: 'Success to save',
+                              type: 'success',
+                          })
+                          this.back()
+                      }
                 })
             } else {
                 return false;

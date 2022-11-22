@@ -739,7 +739,7 @@ export default class AssetList extends Vue {
     }
 
     delItemFile(id: number, assetId: number) {
-        axios.delete(`/asset/assetList/removeFile/${id}`).then(res => {
+        axios.delete(`/api/asset/list/images/void/${id}`).then(res => {
             this.getAllBase64File(assetId)
             this.$notify({
                 title: '',
@@ -748,8 +748,8 @@ export default class AssetList extends Vue {
                 type: 'success'
             })
             this.assetAllList()
-            this.getTotalCost()
-            this.sumCostWithSponsor()
+            // this.getTotalCost()
+            // this.sumCostWithSponsor()
         })
     }
 
