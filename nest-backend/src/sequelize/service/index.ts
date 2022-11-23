@@ -7,8 +7,11 @@ import { DepartmentTableService } from './departmentTableService'
 import { VendorTableService } from './vendorTableService'
 import { AssetListTableService } from './assetListTableService'
 import { LoginRecordTableService } from './loginRecordTableService'
+import { BaseTableService } from './baseTableService'
+import { InvRecordTableService } from './invRecordTableService'
 
 export const services = [
+  // BaseTableService,
   TestTableService,
   SysMenuTableService,
   SysRoleTableService,
@@ -17,5 +20,6 @@ export const services = [
   DepartmentTableService,
   VendorTableService,
   AssetListTableService,
-  LoginRecordTableService
+  LoginRecordTableService,
+  InvRecordTableService,
 ]

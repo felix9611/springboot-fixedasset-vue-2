@@ -3,7 +3,7 @@
         <div class="handle-box">
             <el-form :inline="true">
                 <el-form-item>
-                    <el-select v-model="apiSelector" placeholder="Select" filterable clearable>
+                    <el-select v-model="searchForm.status" placeholder="Select" filterable clearable>
                         <el-option
                         v-for="item in apiSelectorList"
                         :key="item.value"
@@ -11,7 +11,7 @@
                         :value="item.value">
                         </el-option>
                     </el-select>
-                </el-form-item> 
+                </el-form-item>
                 <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
                 </el-form-item>
@@ -53,22 +53,22 @@
                     width="180">
                     </el-table-column>
                     <el-table-column
-                    prop="typeCode"
+                    prop="AssetType.typeCode"
                     label="Type Code"
                     width="150">
                     </el-table-column>
                     <el-table-column
-                    prop="typeName"
+                    prop="AssetType.typeName"
                     label="Type Name"
                     width="150">
                     </el-table-column>
                     <el-table-column
-                    prop="placeCode"
+                    prop="Location.placeCode"
                     label="Place Code"
                     width="150">
                     </el-table-column>
                     <el-table-column
-                    prop="placeName"
+                    prop="Location.placeName"
                     label="Place Name"
                     width="140">
                     </el-table-column>
@@ -83,7 +83,7 @@
                     width="180">
                     </el-table-column>
                     <el-table-column
-                    prop="created"
+                    prop="createdAt"
                     width="140"
                     label="Created At"
                     >
@@ -94,7 +94,7 @@
                     label="Update At"
                     >
                     </el-table-column>
-                    <el-table-column                
+                    <el-table-column
                         prop="newWriteOffTime"
                         width="140"
                         label="Write Off Date"
@@ -137,8 +137,8 @@ export default class AssetList extends Vue {
     apiSelector: number = 0
 
     apiSelectorList: any = [
-        { value: 0, text: 'Active' },
-        { value: 1, text: 'Write Off' }
+        { value: 1, text: 'Active' },
+        { value: 0, text: 'Write Off' }
     ]
 
     created() {
@@ -148,11 +148,11 @@ export default class AssetList extends Vue {
 
     async exportExcel() {
         await saveJsonToExcel(
-            exportExcelHeader2, 
-            this.tableData, 
+            exportExcelHeader2,
+            this.tableData,
             exportExcelHeader1,
-            'asset_list_report.xlsx', 
-            columnsStyle, 
+            'asset_list_report.xlsx',
+            columnsStyle,
             headerColSeetting
         )
     }
@@ -170,7 +170,7 @@ export default class AssetList extends Vue {
         if (this.apiSelector === 0) {
             doc.text('Active Asset Report', 40, 45)
             doc.text(`Total Cost: $${this.sumTotal}`, 40, 65)
-        } 
+        }
         if (this.apiSelector === 1) {
             doc.text('Write Off List', 40, 50)
         }
@@ -183,7 +183,7 @@ export default class AssetList extends Vue {
                 font: 'NotoSansCJKtc'
             }
         })
-        doc.save('asset_list.pdf')         
+        doc.save('asset_list.pdf')
     }
 
     getTotalCost() {
@@ -199,17 +199,17 @@ export default class AssetList extends Vue {
 
     assetAllList() {
         axios.post(
-            this.apiSelector === 0 ? '/asset/assetList/report/listAll' : '/asset/assetList/writeOff/listAll',
+            '/api/asset/list/list',
             this.searchForm
         ).then(
             (res: any) => {
-            this.tableData = res.data.data
+            this.tableData = res.rows
 
 
             this.tableData.forEach((re: any) => {
                 const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
-                const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
+                const newUpdated =  re.updatedAt ? moment(new Date(re.updatedAt)).format('DD-MM-YYYY HH:MM') : null
                 const newInvoiceDate =  re.invoiceDate? moment(new Date(re.invoiceDate)).format('DD-MM-YYYY HH:MM') : null
 
                 let newWriteOffTime: any
@@ -219,8 +219,8 @@ export default class AssetList extends Vue {
 
                 re['newWriteOffTime'] = newWriteOffTime
                 re['buyDate'] = newBuyDate
-                re['created'] = newCreated
-                re['updated'] = newUpdated
+                re['createdAt'] = newCreated
+                re['updatedAt'] = newUpdated
                 re['invoiceDate'] = newInvoiceDate
                 return re
             })

@@ -11,6 +11,7 @@ import { AssetList } from './assetList'
 import { WriteOff } from './writeOff'
 import { AssetListFiles } from './assetListFiles'
 import { LoginRecord } from './loginRecords'
+import { InvRecord } from './invrecord'
 
 export const models = [
   Test,
@@ -25,5 +26,6 @@ export const models = [
   AssetList,
   AssetListFiles,
   WriteOff,
-  LoginRecord
+  LoginRecord,
+  InvRecord,
 ]

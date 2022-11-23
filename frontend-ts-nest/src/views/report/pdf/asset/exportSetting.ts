@@ -30,7 +30,7 @@ export const exportExcelHeader2: any = [
   'buyDate',
   'description',
   'cost',
-  'serialNum',
+  'serialNumber',
   'invoiceNo',
   'invoiceDate',
   'deptCode',

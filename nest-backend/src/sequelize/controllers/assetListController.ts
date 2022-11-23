@@ -21,6 +21,11 @@ import { AssetFileImport } from 'src/sequelize/interface/index'
 export class AssetListController {
   constructor(private readonly service: AssetListTableService) {}
 
+  @Post('list')
+  async list(@Body() assetList: AssetList) {
+    return await this.service.listAll(assetList)
+  }
+
   @Post('listAll')
   async listAll(@Body() assetList: AssetList) {
     return await this.service.listPage(assetList)

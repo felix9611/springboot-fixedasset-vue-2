@@ -120,8 +120,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="18">
-              <el-form-item label="Serial No."  prop="serialNum" label-width="130px">
-                <el-input v-model="editForm.serialNum" autocomplete="off"></el-input>
+              <el-form-item label="Serial No."  prop="serialNumber" label-width="130px">
+                <el-input v-model="editForm.serialNumber" autocomplete="off"></el-input>
               </el-form-item>
             </el-col>
           </el-row>

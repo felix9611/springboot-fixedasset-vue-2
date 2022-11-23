@@ -27,6 +27,7 @@ import { VendorTableService } from 'src/sequelize/service/vendorTableService'
 import { DepartmentTableService } from 'src/sequelize/service/departmentTableService'
 import { AssetTypeTableService } from 'src/sequelize/service/assetTypeTableService'
 import { LocationTableService } from 'src/sequelize/service/locationTableService'
+import { InvRecordTableService } from 'src/sequelize/service/invRecordTableService'
 import { ImportAsset } from 'src/sequelize/interface/import'
 import { AssetFileImport } from 'src/sequelize/interface/index'
 
@@ -43,6 +44,7 @@ export class AssetListTableService {
     private departmentTableService: DepartmentTableService,
     private assetTypeTableService: AssetTypeTableService,
     private locationTableService: LocationTableService,
+    private invRecordTableService: InvRecordTableService
   ){}
 
   async saveImage(assetFileImport: AssetFileImport) {
@@ -124,6 +126,58 @@ export class AssetListTableService {
     return data
   }
 
+  async listAll(assetList: AssetList) {
+    let { status } = assetList
+
+    AssetList.belongsTo(AssetType, {
+        foreignKey: 'typeId'
+    })
+
+    AssetList.belongsTo(Department, {
+        foreignKey: 'deptId'
+    })
+
+    AssetList.belongsTo(Location, {
+        foreignKey: 'placeId'
+    })
+
+    AssetList.belongsTo(WriteOff, {
+        targetKey: 'assetId',
+        foreignKey: 'id'
+    })
+
+    const data = this.assetListRepository.findAndCountAll({
+      include:[
+        {
+          model: AssetType,
+          required: false,
+          where: { status: 1 }
+        },
+        {
+          model: Department,
+          required: false,
+          where: { status: 1 }
+        },
+        {
+          model: Location,
+          required: false,
+          where: { status: 1 }
+        },
+        {
+          model: WriteOff,
+          required: false,
+          // where: { status: 1 }
+        },
+      ],
+      where: {
+        status
+      },
+      order: [['assetCode', 'DESC']]
+    })
+
+    return data
+  }
+
   async getOne(id: number) {
     return await this.assetListRepository.findOne({ where: { id } })
   }
@@ -140,14 +194,21 @@ export class AssetListTableService {
     const code = await this.assetListRepository.max('assetCode', { where: { status: 1 } })
     if (code) {
       const newCode = this.newCodeGen(6, code.toString())
+      await this.invRecordTableService.createOne({ assetCode: newCode, placeTo: assetList.placeId, placeFrom: 0 })
       return await this.assetListRepository.create({ status: 1, assetCode: newCode, ...assetList})
     } else {
+      await this.invRecordTableService.createOne({ assetCode: '000001', placeTo: assetList.placeId, placeFrom: 0 })
       return await this.assetListRepository.create({ status: 1, assetCode: '000001', ...assetList})
     }
   }
 
   async updateOne(assetList: AssetList) {
     const { id, ..._assetList } = assetList
+    const asset = await this.getOne(id)
+    const { placeId: oldPlaceId } = asset.toJSON()
+    if ( _assetList.placeId !== oldPlaceId) {
+      await this.invRecordTableService.createOne({assetCode: _assetList.assetCode, placeTo: assetList.placeId, placeFrom: oldPlaceId  })
+    }
     return await this.assetListRepository.update(_assetList, { where: { id } })
   }
 

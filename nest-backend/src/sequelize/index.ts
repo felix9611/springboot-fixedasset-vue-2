@@ -5,6 +5,7 @@ import { mainProviders } from './providers'
 import { services } from './service'
 import { controllers } from './controllers'
 import { models } from './models'
+import { BaseTableService } from './service/baseTableService'
 
 @Module({
   imports: [...models],
