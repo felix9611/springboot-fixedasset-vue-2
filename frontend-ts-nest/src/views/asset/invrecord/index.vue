@@ -146,7 +146,8 @@ export default class InvRecord extends Vue {
   generatePDF() {
         const doc = new jsPDF('p', 'pt', 'a4', true)
 
-        let body: any = this.exportData
+        // let body: any = this.tableData
+
 
         doc.addFont('NotoSansCJKjp-Regular.ttf', 'NotoSansCJKjp', 'normal')
         doc.setFont('NotoSansCJKjp')
@@ -160,6 +161,26 @@ export default class InvRecord extends Vue {
           const nowTime = moment().format('DD-MM-YYYY HH:mm')
           doc.text(`Date: ${from} to ${to}`, 40, 50)
         }
+
+        let body: any[] = this.tableData.map(
+          xl => {
+            const { toPlace, fromPlace, ..._otherDatas } = xl
+
+            const fromPlaceName = fromPlace && fromPlace.placeName ? fromPlace.placeName : ''
+            const fromPlaceCode = fromPlace && fromPlace.placeCode ? fromPlace.placeCode : ''
+
+            const toPlaceName = toPlace && toPlace.placeName ? toPlace.placeName : ''
+            const toPlaceCode = toPlace && toPlace.placeCode ? toPlace.placeCode : ''
+
+            return {
+              fromPlaceName,
+              fromPlaceCode,
+              toPlaceName,
+              toPlaceCode,
+              ..._otherDatas
+            }
+          }
+        )
 
         autoTable(doc, {
             startY: 60,
@@ -184,7 +205,6 @@ export default class InvRecord extends Vue {
         this.exportData.forEach((re: any) => {
           const newCreatedAt =  moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM')
           re['createdAt'] = newCreatedAt
-          re['fromPlaceName'] = re.fromPlace.placeName
           return re
         })
       }
