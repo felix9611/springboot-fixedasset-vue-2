@@ -47,43 +47,51 @@
       <el-table-column
         sortable
         fixed="left"
-        prop="fromPlaceCode"
+        prop="assetName"
+        label="Asset Name"
+        width="140">
+      </el-table-column>
+      <el-table-column
+        sortable
+        fixed="left"
+        prop="fromPlace.placeCode"
         label="From Place Code"
         width="200">
       </el-table-column>
       <el-table-column
         sortable
         fixed="left"
-        prop="fromPlaceName"
+        prop="fromPlace.placeName"
         label="From Place Name"
         width="200">
       </el-table-column>
       <el-table-column
         sortable
         fixed="left"
-        prop="toPlaceCode"
+        prop="toPlace.placeCode"
         label="To Place Code"
         width="200">
       </el-table-column>
       <el-table-column
         sortable
         fixed="left"
-        prop="toPlaceName"
+        prop="toPlace.placeName"
         label="To Place Name"
         width="200">
       </el-table-column>
        <el-table-column
         sortable
         fixed="left"
-        prop="created"
+        prop="createdAt"
         label="Created At">
       </el-table-column>
       <el-table-column
-        prop="statu"
-        label="Status">
+        prop="status"
+        label="Status"
+        width="100">
         <template slot-scope="scope">
-          <el-tag size="small" v-if="scope.row.statu === 1" type="success">Active</el-tag>
-          <el-tag size="small" v-else-if="scope.row.statu === 0" type="danger">Write Off</el-tag>
+          <el-tag size="small" v-if="scope.row.status === 1" type="success">Active</el-tag>
+          <el-tag size="small" v-else-if="scope.row.status === 0" type="danger">Write Off</el-tag>
         </template>
 
       </el-table-column>
@@ -129,7 +137,7 @@ export default class InvRecord extends Vue {
     this.searchForm.limit = val
     this.invRecordAllList()
   }
-            
+
   handleCurrentChange(val: number) {
     this.searchForm.page = val
     this.invRecordAllList()
@@ -161,21 +169,22 @@ export default class InvRecord extends Vue {
                 font: 'NotoSansCJKtc'
             }
         })
-        doc.save('asset_list.pdf')         
+        doc.save('asset_list.pdf')
     }
 
   invRecordCurAllList() {
     this.searchForm.page = 1
     axios.post(
-      '/asset/invRecord/listAll',
+      '/api/invrecord/list',
       this.searchForm
     ).then(
       (res: any) => {
-        this.exportData = res.data.data.records
+        this.exportData = res.rows
 
         this.exportData.forEach((re: any) => {
-          const newCreated =  moment(new Date(re.created)).format('DD-MM-YYYY HH:MM')
-          re['created'] = newCreated
+          const newCreatedAt =  moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM')
+          re['createdAt'] = newCreatedAt
+          re['fromPlaceName'] = re.fromPlace.placeName
           return re
         })
       }
@@ -184,20 +193,18 @@ export default class InvRecord extends Vue {
 
   invRecordAllList() {
     axios.post(
-      '/asset/invRecord/listAll',
+      '/api/invrecord/list',
       this.searchForm
     ).then(
       (res: any) => {
-        this.tableData = res.data.data.records
-        this.size = res.data.data.size
-        this.current = res.data.data.current
-        this.total = res.data.data.total
+        this.tableData = res.rows
+        this.size = res.count
 
         this.invRecordCurAllList()
 
         this.tableData.forEach((re: any) => {
-          const newCreated =  moment(new Date(re.created)).format('DD-MM-YYYY HH:MM')
-          re['created'] = newCreated
+          const newCreated =  moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM')
+          re['createdAt'] = newCreated
           return re
         })
       }

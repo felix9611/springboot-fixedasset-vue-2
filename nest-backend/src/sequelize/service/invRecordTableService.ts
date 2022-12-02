@@ -1,6 +1,8 @@
 
 import { Injectable, Inject } from '@nestjs/common'
 import { InvRecord } from 'src/sequelize/models/invrecord'
+import { Location } from 'src/sequelize/models/location'
+import { AssetList } from 'src/sequelize/models/assetList'
 import {
   Query,
   FromTable,
@@ -16,12 +18,15 @@ import {
   OrderBy
 } from 'node-jql'
 import { Op } from 'sequelize'
+import { invrecordList } from 'src/sequelize/interface/index'
+import { LocationTableService } from 'src/sequelize/service/locationTableService'
 
 @Injectable()
 export class InvRecordTableService {
   constructor(
     @Inject('invRecordRepository')
     private invRecordRepository: typeof InvRecord,
+    private locationTableService: LocationTableService,
   ) {}
 
   async createOne(invrecord: any){
@@ -31,77 +36,70 @@ export class InvRecordTableService {
     })
   }
 
-  async findAll(invrecord: InvRecord) {
+  async findAll(invrecord: invrecordList) {
 
-    const { status } = invrecord
+    const { createdFrom, createdTo, page, limit } = invrecord
 
-    const baseTableName = 'invrecord'
+    const locList = await this.locationTableService.getAll()
+    let allLocList : any[] = []
 
-    const query = new Query({
-      $from: new FromTable({
-        table: baseTableName,
-        joinClauses: [
-          {
-            operator: 'LEFT',
-            table: new FromTable({
-              table: 'asset_list',
-              $as: 'asset'
-            }),
-            $on: [
-              new BinaryExpression(
-                new ColumnExpression(baseTableName, 'assetCode'),
-                '=',
-                new ColumnExpression('asset', 'assetCode')
-              ),
-            ],
-          },
-          {
-            operator: 'LEFT',
-            table: new FromTable({
-              table: 'location',
-              $as: 'fromLoc'
-            }),
-            $on: [
-              new BinaryExpression(
-                new ColumnExpression(baseTableName, 'placeFrom'),
-                '=',
-                new ColumnExpression('fromLoc', 'id')
-              ),
-            ],
-          },
-          {
-            operator: 'LEFT',
-            table: new FromTable({
-              table: 'location',
-              $as: 'toLoc'
-            }),
-            $on: [
-              new BinaryExpression(
-                new ColumnExpression(baseTableName, 'placeTo'),
-                '=',
-                new ColumnExpression('toLoc', 'id')
-              ),
-            ],
+    locList.map( loc => {
+      allLocList.push(loc['dataValues'])
+    })
+
+
+    InvRecord.belongsTo(AssetList, {
+      targetKey: 'assetCode',
+      foreignKey: 'assetCode'
+    })
+
+    const offset: number = page * limit - limit
+
+    const invRecordListJSON = await this.invRecordRepository.findAndCountAll({
+      include:[
+        {
+          model: AssetList,
+          required: false,
+          where: { status: 1 }
+        },
+      ],
+      where: {
+        ... (createdFrom && createdTo) ? {
+          createdAt: {
+            [Op.between]: [createdFrom, createdTo]
           }
-        ]
+        } : {}
+      },
+      limit,
+      ... (page>1) ? { offset } : { },
+      order: [['assetCode', 'DESC']]
+    })
+
+    let newRows: any[] = []
+
+    invRecordListJSON.rows.forEach( x => {
+      const mainObject = x['dataValues']
+
+      const { AssetList: assetInform , placeFrom, placeTo, ..._mainObject } = mainObject
+
+      const { assetName } = assetInform['dataValues']
+
+      const fromPlace = allLocList.find( from => from.id === placeFrom )
+      const toPlace = allLocList.find( from => from.id === placeTo )
+
+
+      newRows.push({
+        ..._mainObject,
+        assetName,
+        fromPlace,
+        toPlace
       })
     })
 
-    query.$select = [
-      new ResultColumn(new ColumnExpression(baseTableName, 'assetCode'), 'assetCode'),
-      new ResultColumn(new ColumnExpression('asset', 'assetName'), 'assetName'),
-      new ResultColumn(new ColumnExpression('fromLoc', 'placeName'), 'fromPlaceName'),
-    ]
-
-    if (status) {
-      query.$where = new BinaryExpression(new ColumnExpression('asset', 'status'), '=', new Value(status))
+    return {
+      count: invRecordListJSON.count,
+      rows: newRows
     }
-
-    query.$order = [new OrderBy(new ColumnExpression(baseTableName, 'createdAt'), 'ASC')]
-
-
-
-    return await this.invRecordRepository.sequelize.query(query.toString())
 
   }
 }

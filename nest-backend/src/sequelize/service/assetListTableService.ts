@@ -91,7 +91,7 @@ export class AssetListTableService {
         foreignKey: 'placeId'
     })
 
-    const data = this.assetListRepository.findAndCountAll({
+    const data = await this.assetListRepository.findAndCountAll({
       include:[
         {
           model: AssetType,

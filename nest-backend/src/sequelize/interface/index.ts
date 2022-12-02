@@ -17,3 +17,10 @@ export class fileLists {
   dataBase64: string
   fileName: string
 }
+
+export class invrecordList {
+  limit: number
+  page: number
+  createdFrom: string
+  createdTo: string
+}
