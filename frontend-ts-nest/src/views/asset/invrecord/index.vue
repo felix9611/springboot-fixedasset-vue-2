@@ -49,7 +49,7 @@
         fixed="left"
         prop="assetName"
         label="Asset Name"
-        width="140">
+        width="400">
       </el-table-column>
       <el-table-column
         sortable
