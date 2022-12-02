@@ -13,6 +13,8 @@ import { WriteOff } from 'src/sequelize/models/writeOff'
 import { AssetListFiles } from 'src/sequelize/models/assetListFiles'
 import { LoginRecord } from 'src/sequelize/models/loginRecords'
 import { InvRecord } from 'src/sequelize/models/invrecord'
+import { CodeType } from 'src/sequelize/models/codeType'
+
 
 export const mainProviders = [
   { provide: 'testRepository', useValue: Test },
@@ -29,4 +31,5 @@ export const mainProviders = [
   { provide: 'writeOffRepository', useValue: WriteOff },
   { provide: 'loginRecordRepository', useValue: LoginRecord },
   { provide: 'invRecordRepository', useValue: InvRecord },
+  { provide: 'codeTypeRepository', useValue: CodeType },
 ]

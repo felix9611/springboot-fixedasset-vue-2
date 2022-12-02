@@ -12,9 +12,11 @@ import { WriteOff } from './writeOff'
 import { AssetListFiles } from './assetListFiles'
 import { LoginRecord } from './loginRecords'
 import { InvRecord } from './invrecord'
+import { CodeType } from './codeType'
 
 export const models = [
   Test,
+  CodeType,
   SysRole,
   SysMenu,
   SysRoleMenu,

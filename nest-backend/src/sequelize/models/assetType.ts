@@ -18,7 +18,7 @@ export class AssetType extends Model {
   remark: string
 
   @Column(DataType.BIGINT)
-  status: string
+  status: number
 
   limit: number
   page: number

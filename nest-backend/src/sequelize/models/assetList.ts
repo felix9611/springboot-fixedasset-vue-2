@@ -59,7 +59,7 @@ export class AssetList extends Model {
   flexData: any
 
   @Column(DataType.INTEGER)
-  status: string
+  status: number
 
   limit: number
   page: number

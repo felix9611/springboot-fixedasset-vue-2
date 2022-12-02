@@ -8,9 +8,11 @@ import { VendorController } from './vendorController'
 import { AssetListController } from './assetListController'
 import { LoginRecordController } from './loginRecordController'
 import { InvRecordController } from './invRecordController'
+import { CodeTypeController } from './codeTypeController'
 
 export const controllers = [
   TestController,
+  CodeTypeController,
   SysMenuController,
   SysRoleController,
   AssetTypeController,

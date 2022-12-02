@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        
+
         <div class="handle-box">
             <el-form :inline="true">
                 <el-form-item>
@@ -55,13 +55,13 @@
             </el-table-column>
             <el-table-column
                 sortable
-                prop="created"
+                prop="createdAt"
                 width="200"
                 label="Created At"
             >
             </el-table-column>
             <el-table-column
-                    prop="updated"
+                    prop="updatedAt"
                     width="200"
                     label="Update At"
             >
@@ -189,7 +189,7 @@ export default class CodeType extends Vue {
     async exportExcel() {
         await saveJsonToExcel(this.testEcelHeader2, this.tableData, this.testEcelHeader1,'code_type.xlsx')
     }
-    
+
     clearFile() {
         this.fileList = []
     }
@@ -206,8 +206,8 @@ export default class CodeType extends Vue {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
         reData.forEach( (res: any) => {
-            axios.post('/base/code_type/create', res).then((res: any) => {
-                        
+            axios.post('api/code/type/create', res).then((res: any) => {
+
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
@@ -228,21 +228,19 @@ export default class CodeType extends Vue {
 
     codeTypeAllList() {
         axios.post(
-            '/base/code_type/listAll',
+            '/api/code/type/listPage',
             this.searchForm
         ).then(
             (res: any) => {
-            this.tableData = res.data.data.records
-            this.size = res.data.data.size
-            this.current = res.data.data.current
-            this.total = res.data.data.total
+            this.tableData = res.rows
+            this.total = res.count
 
             this.tableData.forEach((re: any) => {
-                const newCreated =  re.created ? moment(new Date(re.created)).format('DD-MM-YYYY HH:MM') : null
-                const newUpdated =  re.updated ? moment(new Date(re.updated)).format('DD-MM-YYYY HH:MM') : null
+                const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
+                const newUpdated =  re.updatedAt ? moment(new Date(re.updatedAt)).format('DD-MM-YYYY HH:MM') : null
 
-                re['created'] = newCreated
-                re['updated'] = newUpdated
+                re['createdAt'] = newCreated
+                re['updatedAt'] = newUpdated
                 return re
             })
         })
@@ -290,7 +288,7 @@ export default class CodeType extends Vue {
         refs.validate((valid: any) => {
             if (valid) {
                 console.log(this.editForm)
-                axios.post('/base/code_type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                axios.post('/api/code/type/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
                         this.codeTypeAllList()
                         this.$notify({
@@ -309,14 +307,14 @@ export default class CodeType extends Vue {
     }
 
     editHandle(id: number) {
-        axios.get('/base/code_type/' + id).then(res => {
+        axios.get('/api/code/type/void/' + id).then(res => {
             this.editForm = res.data.data
             this.dialogVisible = true
         })
     }
 
     delItem(id: number) {
-        axios.delete('/base/code_type/remove/'+ id)
+        axios.delete('/api/code/type/void/'+ id)
         .then((res: any) => {
             this.codeTypeAllList()
             this.$notify({

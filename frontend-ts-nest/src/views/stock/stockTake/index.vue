@@ -42,7 +42,7 @@
                 </template>
 
             </el-table-column>
-            
+
             <el-table-column
               prop="createdAt"
               width="200"
@@ -171,13 +171,13 @@ export default class Stocktake extends Vue {
     }
     itemTotal: number = 0
     itemSize: number|undefined
-    itemCurrent: number 
+    itemCurrent: number
 
     stockTakeId: number = 0
     itemTakeDialog: boolean = false
 
     statusItemNew: any = []
-    
+
 
     created() {
         this.stockTakeList()
@@ -221,7 +221,7 @@ export default class Stocktake extends Vue {
                 })
     }
 
-    
+
 
           getAllPlace() {
                 axios.get(
@@ -261,7 +261,7 @@ export default class Stocktake extends Vue {
         this.searchForm.page = val
         this.stockTakeList()
     }
-    
+
 
             resetForm(formName: string) {
                 const refs: any = this.$refs[formName]
