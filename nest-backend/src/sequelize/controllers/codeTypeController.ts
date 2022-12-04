@@ -24,14 +24,31 @@ export class CodeTypeController {
     return await this.service.createOne(codeType)
   }
 
+  @UseGuards(JwtAuthGuardUser)
+  @Post('update')
+  async updateOne(@Body() codeType: CodeType) {
+    return await this.service.updateOne(codeType)
+  }
+
   @Post('listPage')
   async listPage(@Body() codeType: CodeType) {
     return await this.service.listPage(codeType)
   }
 
-    @UseGuards(JwtAuthGuardUser)
+  @UseGuards(JwtAuthGuardUser)
   @Delete('void/:id')
-  async voidOne(@Param(':id') id: number) {
+  async voidOne(@Param('id') id: number) {
     return await this.service.voidOne(id)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
+  @Get(':id')
+  async getOne(@Param('id') id: number) {
+    return await this.service.getOne(id)
+  }
+
+  @Post('findByType')
+  async findByType(@Body() codeType: CodeType) {
+    return await this.service.findByType(codeType)
   }
 }

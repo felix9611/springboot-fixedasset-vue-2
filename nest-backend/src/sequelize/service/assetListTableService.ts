@@ -275,6 +275,11 @@ export class AssetListTableService {
     return this.createOne(data)
   }
 
+  async findAsset(assetList: AssetList) {
+    const { placeId, assetCode } = assetList
+    return await this.assetListRepository.findOne({ where: { placeId, assetCode, status: 1 } })
+  }
+
   newCodeGen(len: number, code?: string) {
     let intCode = Number(code)
     let str = String(intCode + 1)

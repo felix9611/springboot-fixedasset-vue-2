@@ -13,6 +13,8 @@ import { AssetListFiles } from './assetListFiles'
 import { LoginRecord } from './loginRecords'
 import { InvRecord } from './invrecord'
 import { CodeType } from './codeType'
+import { StockTake } from './stocktake'
+import { StockTakeItem } from './stockTakeItem'
 
 export const models = [
   Test,
@@ -30,4 +32,6 @@ export const models = [
   WriteOff,
   LoginRecord,
   InvRecord,
+  StockTake,
+  StockTakeItem,
 ]

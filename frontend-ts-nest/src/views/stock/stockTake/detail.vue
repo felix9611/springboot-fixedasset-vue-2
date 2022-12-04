@@ -44,19 +44,19 @@
       style="width: 100%">
     <el-table-column
       sortable
-      prop="assetCode"
+      prop="AssetList.assetCode"
       label="Asset Code">
     </el-table-column>
     <el-table-column
-      prop="assetName"
+      prop="AssetList.assetName"
       label="Asset Name">
     </el-table-column>
     <el-table-column
-      prop="placeCode"
+      prop="Location.placeCode"
       label="Place Code">
     </el-table-column>
     <el-table-column
-      prop="placeName"
+      prop="Location.placeName"
       label="Place Name">
     </el-table-column>
     <el-table-column
@@ -109,16 +109,29 @@ export default class StockTakeDetail extends Vue {
   }
   itemTotal: number = 0
   itemSize: number|undefined
-  itemCurrent: number 
+  itemCurrent: number
   statusItemNew: any = []
   placeItem: any = []
 
+  stockTakeBaseForm: any = {}
+
   created() {
-    this.itemFindForm.stockTakeId = Number(this.$route.params.id)
-    this.itemTakeForm.stockTakeId = Number(this.$route.params.id)
+    this.itemFindForm.stocktakeId = Number(this.$route.params.id)
+    this.itemTakeForm.stocktakeId = Number(this.$route.params.id)
     this.stockTakeItems()
     this.getAllPlace()
     this.getAllValueCode()
+    this.getBaseForm()
+  }
+
+  getBaseForm() {
+    axios.get(
+      `/api/stocktake/${this.$route.params.id}`
+    ).then(
+      (res: any) => {
+        this.stockTakeBaseForm = res
+      }
+    )
   }
 
   back() {
@@ -127,10 +140,10 @@ export default class StockTakeDetail extends Vue {
 
   getAllPlace() {
     axios.get(
-      '/base/location/getAll'
+      '/api/location/GetAll'
     ).then(
       (res: any) => {
-        this.placeItem = res.data.data
+        this.placeItem = res
       }
     )
   }
@@ -143,24 +156,22 @@ export default class StockTakeDetail extends Vue {
 
   getAllValueCode() {
     axios.post(
-      '/base/code_type/getAllValue',
+      '/api/code/type/findByType',
       { type: 'StockTake' }
     ).then(
       (res: any) => {
-        this.statusItemNew = res.data.data
+        this.statusItemNew = res
     })
   }
 
   stockTakeItems() {
     axios.post(
-      '/stock/stock_take/item/list',
+      '/api/stocktake/item/listAll',
       this.itemFindForm
     ).then(
       (res: any) => {
-        this.stockTakeItemList = res.data.data.records
-        this.itemSize = res.data.data.size
-        this.itemCurrent = res.data.data.current
-        this.itemTotal = res.data.data.total
+        this.stockTakeItemList = res.rows
+        this.itemTotal = res.count
 
         this.stockTakeItemList.forEach((re: any) => {
           const newCheckTime =  re.checkTime ? moment(new Date(re.checkTime)).format('DD-MM-YYYY HH:MM') : null
@@ -187,44 +198,44 @@ export default class StockTakeDetail extends Vue {
            if (valid) {
 
             axios.post(
-                '/asset/assetList/findAsset',
+                '/api/asset/list/findAsset',
                 {
                     assetCode: this.itemTakeForm.assetCode,
                     placeId: this.itemTakeForm.placeId
                 }
             ).then(
-                (res: any) => {
-                    if (this.itemTakeForm.placeId === Number(res.data.data.placeId)) {
-                        const assetId = res.data.data.id
-                                        
-                        axios.post('/stock/stock_take/item/save', { 
-                            ...this.itemTakeForm, 
-                            assetId 
-                        }).then((res: any) => {
-                            this.stockTakeItems()
-                            this.$notify({
-                                title: '',
-                                showClose: true,
-                                message: 'Action is successful ',
-                                type: 'success',
-                            })
-                        })
-
-                    } else if(res.data.data === null){
-                        axios.post('/stock/stock_take/item/save', {
-                            ...this.itemTakeForm,
-                            status: 'Incorrect location OR does not exist'
-                        }).then((res: any) => {
-                            this.stockTakeItems()
-                            this.$notify({
-                                title: '',
-                                showClose: true,
-                                message: 'Action is successful ',
-                                type: 'success',
-                            })
-                        })
-                    }
-                })          
+              (res: any) => {
+                const assetId = res.id
+                if (this.stockTakeBaseForm.actionPlace === Number(res.placeId)) {
+                  axios.post('/api/stocktake/item', {
+                      ...this.itemTakeForm,
+                      assetId
+                  }).then((res: any) => {
+                      this.stockTakeItems()
+                      this.$notify({
+                          title: '',
+                          showClose: true,
+                          message: 'Action is successful ',
+                          type: 'success',
+                      })
+                  })
+                } else  {
+                  axios.post('/api/stocktake/item', {
+                      ...this.itemTakeForm,
+                      assetId,
+                      status: 'Incorrect location OR does not exist'
+                  }).then((res: any) => {
+                      this.stockTakeItems()
+                      this.$notify({
+                          title: '',
+                          showClose: true,
+                          message: 'Action is successful ',
+                          type: 'success',
+                      })
+                  })
+                }
+              }
+              )
             } else {
                 return false;
            }

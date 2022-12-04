@@ -33,12 +33,17 @@
               width="200">
             </el-table-column>
             <el-table-column
-                    prop="statu"
+              prop="Location.placeName"
+              label="Action Place"
+              width="200">
+            </el-table-column>
+            <el-table-column
+                    prop="status"
                     label="Status">
                 <template slot-scope="scope">
-                    <el-tag size="small" v-if="scope.row.active === 1" type="success">In Progress</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.active === 2" type="danger">Finished</el-tag>
-                    <el-tag size="small" v-else-if="scope.row.active === 0" type="danger">Delete</el-tag>
+                    <el-tag size="small" v-if="scope.row.status === 1" type="success">In Progress</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.status === 2" type="danger">Finished</el-tag>
+                    <el-tag size="small" v-else-if="scope.row.status === 0" type="danger">Delete</el-tag>
                 </template>
 
             </el-table-column>
@@ -62,16 +67,16 @@
 
                 <template slot-scope="scope">
                     <el-button
-                      v-if="scope.row.active === 1"
+                      v-if="scope.row.status === 1"
                       size="mini"
                       @click="stockTakeItem(scope.row.id)">Stock Take</el-button>
                     <el-button
-                      v-if="scope.row.active === 1"
+                      v-if="scope.row.status === 1"
                       size="mini"
                       type="danger"
                       @click="voidItem(scope.row.id)">Delete</el-button>
                       <el-button
-                      v-if="scope.row.active === 1"
+                      v-if="scope.row.status === 1"
                       size="mini"
                       type="danger"
                       @click="finishItem(scope.row.id)">Finish</el-button>
@@ -201,14 +206,12 @@ export default class Stocktake extends Vue {
 
     stockTakeList() {
                 axios.post(
-                    '/stock/stock_take/listAll',
+                    '/api/stocktake/listAll',
                     this.searchForm
                 ).then(
                     (res: any) => {
-                    this.tableData = res.data.data.records
-                    this.size = res.data.data.size
-                    this.current = res.data.data.current
-                    this.total = res.data.data.total
+                    this.tableData = res.rows
+                    this.total = res.count
 
                     this.tableData.forEach((re: any) => {
                         const newCreated =  re.createdAt ? moment(new Date(re.createdAt)).format('DD-MM-YYYY HH:MM') : null
@@ -225,11 +228,11 @@ export default class Stocktake extends Vue {
 
           getAllPlace() {
                 axios.get(
-                    '/base/location/getAll'
+                    '/api/location/GetAll'
                 ).then(
                     (res: any) => {
                         // console.log(res.data.data)
-                        this.placeItem = res.data.data
+                        this.placeItem = res
                     }
                 )
             }
@@ -279,7 +282,7 @@ export default class Stocktake extends Vue {
                 refs.validate((valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
-                        axios.post('/stock/stock_take/create', this.editForm)
+                        axios.post('/api/stocktake/create', this.editForm)
                             .then((res: any) => {
                                 this.stockTakeList()
                                 this.$notify({
@@ -299,7 +302,7 @@ export default class Stocktake extends Vue {
             }
 
             voidItem(id: number) {
-                axios.delete(`/stock/stock_take/remove/${id}`).then(res => {
+                axios.delete(`/api/stocktake/void/${id}`).then(res => {
                     this.stockTakeList()
                     this.$notify({
                         title: '',

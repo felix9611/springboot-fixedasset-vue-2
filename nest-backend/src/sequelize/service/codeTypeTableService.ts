@@ -30,6 +30,12 @@ export class CodeTypeTableService {
     })
   }
 
+  async updateOne(codeType: CodeType) {
+    const { id, ..._codeType } = codeType
+
+    return await this.codeTypeRepository.update({ ..._codeType }, { where: { id } })
+  }
+
   async listPage(codeType: CodeType) {
     const { valueCode, limit, page } = codeType
 
@@ -47,5 +53,18 @@ export class CodeTypeTableService {
 
   async voidOne(id: number) {
     return await this.codeTypeRepository.update({ status: 0 }, { where: { id } })
+  }
+
+  async getOne(id: number) {
+    return await this.codeTypeRepository.findOne({ where: { id } })
+  }
+
+  async getAll() {
+    return await this.codeTypeRepository.findAll({ where: { status: 1 } })
+  }
+
+  async findByType(codeType: CodeType) {
+    const { type } = codeType
+    return await this.codeTypeRepository.findAll({ where: { type } })
   }
 }

@@ -59,6 +59,12 @@ export class AssetListController {
   }
 
   @UseGuards(JwtAuthGuardUser)
+  @Post('findAsset')
+  async findAsset(@Body() assetList: AssetList) {
+    return await this.service.findAsset(assetList)
+  }
+
+  @UseGuards(JwtAuthGuardUser)
   @Delete('void/:id')
   async voidOne(@Param('id') id: number) {
     return await this.service.voidOne(id)

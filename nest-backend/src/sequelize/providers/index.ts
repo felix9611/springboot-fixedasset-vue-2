@@ -14,7 +14,8 @@ import { AssetListFiles } from 'src/sequelize/models/assetListFiles'
 import { LoginRecord } from 'src/sequelize/models/loginRecords'
 import { InvRecord } from 'src/sequelize/models/invrecord'
 import { CodeType } from 'src/sequelize/models/codeType'
-
+import { StockTake } from 'src/sequelize/models/stocktake'
+import { StockTakeItem } from 'src/sequelize/models/stockTakeItem'
 
 export const mainProviders = [
   { provide: 'testRepository', useValue: Test },
@@ -32,4 +33,6 @@ export const mainProviders = [
   { provide: 'loginRecordRepository', useValue: LoginRecord },
   { provide: 'invRecordRepository', useValue: InvRecord },
   { provide: 'codeTypeRepository', useValue: CodeType },
+  { provide: 'stockTakeRepository', useValue: StockTake },
+  { provide: 'stockTakeItemRepository', useValue: StockTakeItem },
 ]

@@ -307,14 +307,14 @@ export default class CodeType extends Vue {
     }
 
     editHandle(id: number) {
-        axios.get('/api/code/type/void/' + id).then(res => {
-            this.editForm = res.data.data
+        axios.get(`/api/code/type/${id}`).then(res => {
+            this.editForm = res
             this.dialogVisible = true
         })
     }
 
     delItem(id: number) {
-        axios.delete('/api/code/type/void/'+ id)
+        axios.delete(`/api/code/type/void/${id}`)
         .then((res: any) => {
             this.codeTypeAllList()
             this.$notify({

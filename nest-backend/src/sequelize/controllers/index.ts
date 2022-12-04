@@ -9,6 +9,7 @@ import { AssetListController } from './assetListController'
 import { LoginRecordController } from './loginRecordController'
 import { InvRecordController } from './invRecordController'
 import { CodeTypeController } from './codeTypeController'
+import { StockTakeController } from './stockTakeController'
 
 export const controllers = [
   TestController,
@@ -22,4 +23,5 @@ export const controllers = [
   AssetListController,
   LoginRecordController,
   InvRecordController,
+  StockTakeController,
 ]
