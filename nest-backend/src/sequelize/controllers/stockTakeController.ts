@@ -53,4 +53,9 @@ export class StockTakeController {
     return await this.service.voidOne(id)
   }
 
+  @Post('finish/:id')
+  async finishOne(@Param('id') id: number) {
+    return await this.service.finishOne(id)
+  }
+
 }

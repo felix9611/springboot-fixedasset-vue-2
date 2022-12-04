@@ -20,6 +20,10 @@ export class StockTakeTableService {
     return await this.stockTakeRepository.update({ status: 0 }, { where: { id } })
   }
 
+  async finishOne(id: number) {
+    return await this.stockTakeRepository.update({ status: 2, finishTime: moment().format('DD-MM-YYYY HH:MM') }, { where: { id } })
+  }
+
   async itemStockTakeAction(stockTakeItem: StockTakeItem) {
     return await this.stockTakeItemRepository.create({
       ...stockTakeItem,

@@ -314,7 +314,7 @@ export default class Stocktake extends Vue {
             }
 
             finishItem(id: number) {
-                axios.delete(`/stock/stock_take/finish/${id}`).then(res => {
+                axios.post(`/api/stocktake/finish/${id}`).then(res => {
                     this.stockTakeList()
                     this.$notify({
                         title: '',
