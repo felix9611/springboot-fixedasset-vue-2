@@ -44,13 +44,13 @@ export class CodeTypeFindDto {
   valueName: string
 
   @ApiProperty({
-    example: 1,
+    example: 10,
     description: 'The page of listing'
   })
   limit: number
 
   @ApiProperty({
-    example: 10,
+    example: 1,
     description: 'The page items limit of listing'
   })
   page: number
@@ -107,13 +107,13 @@ export class AssetTypeFindDTO {
   typeName: string
 
   @ApiProperty({
-    example: 1,
+    example: 10,
     description: 'The page of listing'
   })
   limit: number
 
   @ApiProperty({
-    example: 10,
+    example: 1,
     description: 'The page items limit of listing'
   })
   page: number
@@ -133,13 +133,13 @@ export class VendorFindDTO {
   vendorName: string
 
   @ApiProperty({
-    example: 1,
+    example: 10,
     description: 'The page of listing'
   })
   limit: number
 
   @ApiProperty({
-    example: 10,
+    example: 1,
     description: 'The page items limit of listing'
   })
   page: number
@@ -215,4 +215,52 @@ export class vendorCreateDTO {
     required: false
   })
   flexData: any
+}
+
+export class departmentCreateDTO {
+  @ApiProperty({
+    example: 'Test',
+    description: 'The department code'
+  })
+  deptCode: string
+
+  @ApiProperty({
+    example: 'Test',
+    description: 'The department name'
+  })
+  deptName: string
+
+  @ApiProperty({
+    example: '',
+    description: 'Remark',
+    required: false
+  })
+  remark: string
+
+}
+
+export class departmentFindDTO {
+  @ApiProperty({
+    example: 'Test',
+    description: 'The department code'
+  })
+  deptCode: string
+
+  @ApiProperty({
+    example: 'Test',
+    description: 'The department name'
+  })
+  deptName: string
+
+  @ApiProperty({
+    example: 10,
+    description: 'The page of listing'
+  })
+  limit: number
+
+  @ApiProperty({
+    example: 1,
+    description: 'The page items limit of listing'
+  })
+  page: number
 }

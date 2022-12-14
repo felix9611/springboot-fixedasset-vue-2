@@ -1,5 +1,6 @@
 import { Model } from 'sequelize-typescript';
 export declare class Department extends Model {
+    id: number;
     deptCode: string;
     deptName: string;
     remark: string;

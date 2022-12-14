@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vendorCreateDTO = exports.VendorFindDTO = exports.AssetTypeFindDTO = exports.AssetTypeCreateDTO = exports.CodeTypeFindByTypeDto = exports.CodeTypeFindDto = exports.CodeTypeCreatedDto = void 0;
+exports.departmentFindDTO = exports.departmentCreateDTO = exports.vendorCreateDTO = exports.VendorFindDTO = exports.AssetTypeFindDTO = exports.AssetTypeCreateDTO = exports.CodeTypeFindByTypeDto = exports.CodeTypeFindDto = exports.CodeTypeCreatedDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class CodeTypeCreatedDto {
 }
@@ -63,14 +63,14 @@ __decorate([
 ], CodeTypeFindDto.prototype, "valueName", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 1,
+        example: 10,
         description: 'The page of listing'
     }),
     __metadata("design:type", Number)
 ], CodeTypeFindDto.prototype, "limit", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 10,
+        example: 1,
         description: 'The page items limit of listing'
     }),
     __metadata("design:type", Number)
@@ -138,14 +138,14 @@ __decorate([
 ], AssetTypeFindDTO.prototype, "typeName", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 1,
+        example: 10,
         description: 'The page of listing'
     }),
     __metadata("design:type", Number)
 ], AssetTypeFindDTO.prototype, "limit", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 10,
+        example: 1,
         description: 'The page items limit of listing'
     }),
     __metadata("design:type", Number)
@@ -169,14 +169,14 @@ __decorate([
 ], VendorFindDTO.prototype, "vendorName", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 1,
+        example: 10,
         description: 'The page of listing'
     }),
     __metadata("design:type", Number)
 ], VendorFindDTO.prototype, "limit", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 10,
+        example: 1,
         description: 'The page items limit of listing'
     }),
     __metadata("design:type", Number)
@@ -266,4 +266,60 @@ __decorate([
     __metadata("design:type", Object)
 ], vendorCreateDTO.prototype, "flexData", void 0);
 exports.vendorCreateDTO = vendorCreateDTO;
+class departmentCreateDTO {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Test',
+        description: 'The department code'
+    }),
+    __metadata("design:type", String)
+], departmentCreateDTO.prototype, "deptCode", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Test',
+        description: 'The department name'
+    }),
+    __metadata("design:type", String)
+], departmentCreateDTO.prototype, "deptName", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '',
+        description: 'Remark',
+        required: false
+    }),
+    __metadata("design:type", String)
+], departmentCreateDTO.prototype, "remark", void 0);
+exports.departmentCreateDTO = departmentCreateDTO;
+class departmentFindDTO {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Test',
+        description: 'The department code'
+    }),
+    __metadata("design:type", String)
+], departmentFindDTO.prototype, "deptCode", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Test',
+        description: 'The department name'
+    }),
+    __metadata("design:type", String)
+], departmentFindDTO.prototype, "deptName", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 10,
+        description: 'The page of listing'
+    }),
+    __metadata("design:type", Number)
+], departmentFindDTO.prototype, "limit", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The page items limit of listing'
+    }),
+    __metadata("design:type", Number)
+], departmentFindDTO.prototype, "page", void 0);
+exports.departmentFindDTO = departmentFindDTO;
 //# sourceMappingURL=dto.js.map

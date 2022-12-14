@@ -18,6 +18,7 @@ const departmentTableService_1 = require("../service/departmentTableService");
 const department_1 = require("../models/department");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const swagger_1 = require("@nestjs/swagger");
+const dto_1 = require("../interface/dto");
 let DepartmentController = class DepartmentController {
     constructor(service) {
         this.service = service;
@@ -47,12 +48,15 @@ let DepartmentController = class DepartmentController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get All' }),
     (0, common_1.Get)('getAll'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], DepartmentController.prototype, "getAll", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Create' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.departmentCreateDTO }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),
@@ -61,6 +65,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DepartmentController.prototype, "createOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Update' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('update'),
     __param(0, (0, common_1.Body)()),
@@ -69,6 +74,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DepartmentController.prototype, "updateOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get by ID' }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -76,6 +82,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DepartmentController.prototype, "getOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Void by ID' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -84,6 +91,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DepartmentController.prototype, "voidOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'List by Page ' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.departmentFindDTO }),
     (0, common_1.Post)('listAll'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -91,7 +100,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DepartmentController.prototype, "listAll", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Batch to create ' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
+    (0, swagger_1.ApiBody)({ type: [dto_1.departmentCreateDTO] }),
     (0, common_1.Post)('batch/create'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

@@ -44,3 +44,14 @@ export declare class vendorCreateDTO {
     remark: string;
     flexData: any;
 }
+export declare class departmentCreateDTO {
+    deptCode: string;
+    deptName: string;
+    remark: string;
+}
+export declare class departmentFindDTO {
+    deptCode: string;
+    deptName: string;
+    limit: number;
+    page: number;
+}

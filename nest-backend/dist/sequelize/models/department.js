@@ -15,22 +15,51 @@ const swagger_1 = require("@nestjs/swagger");
 let Department = class Department extends sequelize_typescript_1.Model {
 };
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The id PK number'
+    }),
+    __metadata("design:type", Number)
+], Department.prototype, "id", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Test',
+        description: 'The department code'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], Department.prototype, "deptCode", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Test',
+        description: 'The department name'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], Department.prototype, "deptName", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '',
+        description: 'Remark',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.TEXT),
     __metadata("design:type", String)
 ], Department.prototype, "remark", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: {},
+        description: 'The other information by json or array',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", Object)
 ], Department.prototype, "flexData", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'This will default 0 or 1'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", Number)
 ], Department.prototype, "status", void 0);
