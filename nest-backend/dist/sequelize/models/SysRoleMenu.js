@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SysRoleMenu = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
+const swagger_1 = require("@nestjs/swagger");
 let SysRoleMenu = class SysRoleMenu extends sequelize_typescript_1.Model {
 };
 __decorate([
@@ -21,6 +22,20 @@ __decorate([
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", Number)
 ], SysRoleMenu.prototype, "menuId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], SysRoleMenu.prototype, "updatedAt", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], SysRoleMenu.prototype, "createdAt", void 0);
 SysRoleMenu = __decorate([
     (0, sequelize_typescript_1.Table)({ tableName: 'sys_role_menu' })
 ], SysRoleMenu);

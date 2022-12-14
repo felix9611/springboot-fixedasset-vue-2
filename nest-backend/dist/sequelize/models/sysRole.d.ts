@@ -7,5 +7,6 @@ export declare class SysRole extends Model {
     status: number;
     limit: number;
     page: number;
-    dataValue: any;
+    updatedAt: Date;
+    createdAt: Date;
 }

@@ -14,7 +14,7 @@ import { CodeTypeTableService } from 'src/sequelize/service/codeTypeTableService
 import { CodeType } from 'src/sequelize/models/codeType'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
 import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
-import { CodeTypeCreatedDto } from 'src/sequelize/interface/dto'
+import { CodeTypeCreatedDto, CodeTypeFindDto, CodeTypeFindByTypeDto } from 'src/sequelize/interface/dto'
 
 @ApiTags('Code Type')
 @Controller('api/code/type')
@@ -37,6 +37,7 @@ export class CodeTypeController {
   }
 
   @ApiOperation({ summary: 'Page Listing' })
+  @ApiBody({ type: CodeTypeFindDto })
   @Post('listPage')
   async listPage(@Body() codeType: CodeType) {
     return await this.service.listPage(codeType)
@@ -57,6 +58,7 @@ export class CodeTypeController {
   }
 
   @ApiOperation({ summary: 'Find by the type' })
+  @ApiBody({ type: CodeTypeFindByTypeDto })
   @Post('findByType')
   async findByType(@Body() codeType: CodeType) {
     return await this.service.findByType(codeType)

@@ -10,6 +10,11 @@ export interface ModelMapping {
   [modelName: string]: ModelCtor<any>
 }
 
+const fileListsExaple = {
+  dataBase64: 'wfsqwawa8s85a5sadd13a2===',
+  fileName: 'test.png',
+}
+
 export class AssetFileImport {
   @ApiProperty({
     example: 1,
@@ -18,7 +23,8 @@ export class AssetFileImport {
   assetId: number
 
   @ApiProperty({
-    example: [],
+    type: 'any',
+    example: [fileListsExaple],
     description: 'The Asset image file listing'
   })
   fileList: fileLists[]

@@ -5,6 +5,12 @@ import { ApiProperty } from '@nestjs/swagger'
 export class WriteOff extends Model {
   @ApiProperty({
     example: 1,
+    description: 'The id PK number'
+  })
+  id: number
+
+  @ApiProperty({
+    example: 1,
     description: 'The Asset id PK number'
   })
   @Column(DataType.INTEGER)
@@ -29,6 +35,18 @@ export class WriteOff extends Model {
   })
   @Column(DataType.DATE)
   lastDay: Date
+
+  @ApiProperty({
+    description: 'This will auto save',
+    required: false
+  })
+  updatedAt: Date
+
+  @ApiProperty({
+    description: 'This will auto save',
+    required: false
+  })
+  createdAt: Date
 
   limit: number
   page: number

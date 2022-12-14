@@ -18,6 +18,7 @@ const assetTypeTableService_1 = require("../service/assetTypeTableService");
 const assetType_1 = require("../models/assetType");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const swagger_1 = require("@nestjs/swagger");
+const dto_1 = require("../interface/dto");
 let AssetTypeController = class AssetTypeController {
     constructor(service) {
         this.service = service;
@@ -48,6 +49,7 @@ let AssetTypeController = class AssetTypeController {
 };
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Create Type' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.AssetTypeCreateDTO }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('/create'),
     __param(0, (0, common_1.Body)()),
@@ -57,6 +59,7 @@ __decorate([
 ], AssetTypeController.prototype, "create", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Batching Create Type' }),
+    (0, swagger_1.ApiBody)({ type: [dto_1.AssetTypeCreateDTO] }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('batch/create'),
     __param(0, (0, common_1.Body)()),
@@ -66,6 +69,7 @@ __decorate([
 ], AssetTypeController.prototype, "batchCreate", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'List Type by page' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.AssetTypeFindDTO }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('/listAll'),
     __param(0, (0, common_1.Body)()),

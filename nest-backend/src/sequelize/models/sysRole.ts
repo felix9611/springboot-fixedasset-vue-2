@@ -1,4 +1,5 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript'
+import { ApiProperty } from '@nestjs/swagger'
 
 @Table({ tableName: 'sys_role' })
 export class SysRole extends Model {
@@ -19,5 +20,16 @@ export class SysRole extends Model {
 
   limit: number
   page: number
-  dataValue: any
+
+  @ApiProperty({
+    description: 'This will auto save',
+    required: false
+  })
+  updatedAt: Date
+
+  @ApiProperty({
+    description: 'This will auto save',
+    required: false
+  })
+  createdAt: Date
 }

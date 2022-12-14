@@ -17,6 +17,13 @@ let WriteOff = class WriteOff extends sequelize_typescript_1.Model {
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: 1,
+        description: 'The id PK number'
+    }),
+    __metadata("design:type", Number)
+], WriteOff.prototype, "id", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
         description: 'The Asset id PK number'
     }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
@@ -45,6 +52,20 @@ __decorate([
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.DATE),
     __metadata("design:type", Date)
 ], WriteOff.prototype, "lastDay", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], WriteOff.prototype, "updatedAt", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], WriteOff.prototype, "createdAt", void 0);
 WriteOff = __decorate([
     (0, sequelize_typescript_1.Table)({ tableName: 'write_off' })
 ], WriteOff);

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Test = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
+const swagger_1 = require("@nestjs/swagger");
 let Test = class Test extends sequelize_typescript_1.Model {
 };
 __decorate([
@@ -30,9 +31,27 @@ __decorate([
     __metadata("design:type", Number)
 ], Test.prototype, "testJson", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'This will default 0 (Void) or 1 (Active)'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", Number)
 ], Test.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], Test.prototype, "updatedAt", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], Test.prototype, "createdAt", void 0);
 Test = __decorate([
     sequelize_typescript_1.Table
 ], Test);

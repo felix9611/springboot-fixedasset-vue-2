@@ -5,4 +5,6 @@ export declare class Test extends Model {
     testTwo: number;
     testJson: number;
     status: number;
+    updatedAt: Date;
+    createdAt: Date;
 }

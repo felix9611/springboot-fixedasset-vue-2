@@ -11,6 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FindAssetList = exports.FindAssetListAll = exports.AssetLists = exports.invrecordList = exports.fileLists = exports.AssetFileImport = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const fileListsExaple = {
+    dataBase64: 'wfsqwawa8s85a5sadd13a2===',
+    fileName: 'test.png',
+};
 class AssetFileImport {
 }
 __decorate([
@@ -22,7 +26,8 @@ __decorate([
 ], AssetFileImport.prototype, "assetId", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: [],
+        type: 'any',
+        example: [fileListsExaple],
         description: 'The Asset image file listing'
     }),
     __metadata("design:type", Array)

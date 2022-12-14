@@ -6,4 +6,6 @@ export declare class InvRecord extends Model {
     status?: string;
     limit?: number;
     page?: number;
+    updatedAt: Date;
+    createdAt: Date;
 }

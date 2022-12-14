@@ -14,4 +14,6 @@ export declare class SysMenu extends Model {
     limit: number;
     page: number;
     active: number;
+    updatedAt: Date;
+    createdAt: Date;
 }

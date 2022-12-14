@@ -8,4 +8,6 @@ export declare class Location extends Model {
     limit: number;
     page: number;
     active: number;
+    updatedAt: Date;
+    createdAt: Date;
 }

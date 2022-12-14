@@ -63,6 +63,7 @@ __decorate([
 ], CodeTypeController.prototype, "updateOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Page Listing' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.CodeTypeFindDto }),
     (0, common_1.Post)('listPage'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -89,6 +90,7 @@ __decorate([
 ], CodeTypeController.prototype, "getOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Find by the type' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.CodeTypeFindByTypeDto }),
     (0, common_1.Post)('findByType'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

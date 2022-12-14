@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SysRole = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
+const swagger_1 = require("@nestjs/swagger");
 let SysRole = class SysRole extends sequelize_typescript_1.Model {
 };
 __decorate([
@@ -33,6 +34,20 @@ __decorate([
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", Number)
 ], SysRole.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], SysRole.prototype, "updatedAt", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'This will auto save',
+        required: false
+    }),
+    __metadata("design:type", Date)
+], SysRole.prototype, "createdAt", void 0);
 SysRole = __decorate([
     (0, sequelize_typescript_1.Table)({ tableName: 'sys_role' })
 ], SysRole);

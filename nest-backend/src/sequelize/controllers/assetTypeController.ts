@@ -13,14 +13,15 @@ import {
 import { AssetTypeTableService } from 'src/sequelize/service/assetTypeTableService'
 import { AssetType } from 'src/sequelize/models/assetType'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
-import { ApiTags, ApiOperation } from '@nestjs/swagger'
-
+import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger'
+import { AssetTypeCreateDTO, AssetTypeFindDTO } from 'src/sequelize/interface/dto'
 @ApiTags('Assets Type')
 @Controller('api/asset/type')
 export class AssetTypeController {
   constructor(private readonly service: AssetTypeTableService) {}
 
   @ApiOperation({ summary: 'Create Type' })
+  @ApiBody({ type:AssetTypeCreateDTO  })
   @UseGuards(JwtAuthGuardUser)
   @Post('/create')
   async create(@Body() assetType: AssetType) {
@@ -28,6 +29,7 @@ export class AssetTypeController {
   }
 
   @ApiOperation({ summary: 'Batching Create Type' })
+  @ApiBody({ type: [AssetTypeCreateDTO] })
   @UseGuards(JwtAuthGuardUser)
   @Post('batch/create')
   async batchCreate(@Body() assetTypes: AssetType[]) {
@@ -39,6 +41,7 @@ export class AssetTypeController {
   }
 
   @ApiOperation({ summary: 'List Type by page' })
+  @ApiBody({ type: AssetTypeFindDTO })
   @UseGuards(JwtAuthGuardUser)
   @Post('/listAll')
   async listAllPage(@Body() assetType: AssetType) {
