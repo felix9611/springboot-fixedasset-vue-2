@@ -15,18 +15,45 @@ const swagger_1 = require("@nestjs/swagger");
 let Test = class Test extends sequelize_typescript_1.Model {
 };
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The id PK number'
+    }),
+    __metadata("design:type", Number)
+], Test.prototype, "id", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'ABC',
+        description: 'Testing for CODE',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], Test.prototype, "code", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'ABC',
+        description: 'Testing for string',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], Test.prototype, "testOne", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'Testing for number',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.BIGINT),
     __metadata("design:type", Number)
 ], Test.prototype, "testTwo", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: {},
+        description: 'Testing JSON/Array',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.JSON),
     __metadata("design:type", Number)
 ], Test.prototype, "testJson", void 0);

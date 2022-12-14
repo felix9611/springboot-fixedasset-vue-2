@@ -37,7 +37,7 @@ export class TestController {
   @ApiOperation({ summary: 'Void by Id' })
   @UseGuards(JwtAuthGuardUser)
   @Delete('remove/:id')
-  async remove(@Param() id: number) {
+  async remove(@Param('id') id: number) {
     return await this.service.removeOne(id)
   }
 
@@ -51,7 +51,7 @@ export class TestController {
   @ApiOperation({ summary: 'Get by Id' })
   @UseGuards(JwtAuthGuardUser)
   @Get('/:id')
-  async getOne(@Param() id: number) {
+  async getOne(@Param('id') id: number) {
     return await this.service.findOne(id)
   }
 

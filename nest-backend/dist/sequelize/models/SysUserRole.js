@@ -15,10 +15,25 @@ const swagger_1 = require("@nestjs/swagger");
 let SysUserRole = class SysUserRole extends sequelize_typescript_1.Model {
 };
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The id PK number'
+    }),
+    __metadata("design:type", Number)
+], SysUserRole.prototype, "id", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'uu9999-8885-saDAD',
+        description: 'The USER UUID'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], SysUserRole.prototype, "userId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The ROLE PK ID'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", String)
 ], SysUserRole.prototype, "roleId", void 0);
