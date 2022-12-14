@@ -15,18 +15,41 @@ const swagger_1 = require("@nestjs/swagger");
 let InvRecord = class InvRecord extends sequelize_typescript_1.Model {
 };
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The id PK number'
+    }),
+    __metadata("design:type", Number)
+], InvRecord.prototype, "id", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '000001',
+        description: 'The Asset Code'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], InvRecord.prototype, "assetCode", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 3,
+        description: 'The Place from of loction PK Id'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", Number)
 ], InvRecord.prototype, "placeFrom", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 2,
+        description: 'The Place to of loction PK Id'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", Number)
 ], InvRecord.prototype, "placeTo", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'This will default 0 or 1'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", String)
 ], InvRecord.prototype, "status", void 0);
