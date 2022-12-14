@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const vendorTableService_1 = require("../service/vendorTableService");
 const vendor_1 = require("../models/vendor");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let VendorController = class VendorController {
     constructor(service) {
         this.service = service;
@@ -98,6 +99,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], VendorController.prototype, "batchCreate", null);
 VendorController = __decorate([
+    (0, swagger_1.ApiTags)('Vendor'),
     (0, common_1.Controller)('api/vendor'),
     __metadata("design:paramtypes", [vendorTableService_1.VendorTableService])
 ], VendorController);

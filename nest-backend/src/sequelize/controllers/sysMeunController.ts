@@ -13,7 +13,9 @@ import {
 import { SysMenuTableService } from 'src/sequelize/service/sysMenuTableService'
 import { SysMenu } from 'src/sequelize/models/sysMenu'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
+@ApiTags('System Menu')
 @Controller('api/sys/menu')
 export class SysMenuController {
   constructor(private readonly service: SysMenuTableService) {}
@@ -40,7 +42,7 @@ export class SysMenuController {
     return await this.service.getAllPage()
   }
 
-  @Post('/update') 
+  @Post('/update')
   async update(@Body() sysMenu: SysMenu) {
     return await this.service.updateOne(sysMenu)
   }
@@ -49,6 +51,6 @@ export class SysMenuController {
   async listAll(@Body() sysMenu: SysMenu) {
     return await this.service.findWithList(sysMenu)
   }
-  
+
 
 }

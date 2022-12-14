@@ -14,7 +14,9 @@ import { SysRoleTableService } from 'src/sequelize/service/sysRoleTableService'
 import { SysRole } from 'src/sequelize/models/sysRole'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
 import { Roles } from 'src/sequelize/interface'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
+@ApiTags('System Roles')
 @Controller('api/sys/role')
 export class SysRoleController {
   constructor(private readonly service: SysRoleTableService) {}

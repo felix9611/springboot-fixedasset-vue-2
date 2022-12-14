@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const locationTableService_1 = require("../service/locationTableService");
 const location_1 = require("../models/location");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let LocationController = class LocationController {
     constructor(service) {
         this.service = service;
@@ -98,6 +99,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "batchCreate", null);
 LocationController = __decorate([
+    (0, swagger_1.ApiTags)('Location'),
     (0, common_1.Controller)('api/location'),
     __metadata("design:paramtypes", [locationTableService_1.LocationTableService])
 ], LocationController);

@@ -13,7 +13,9 @@ import {
 import { LocationTableService } from 'src/sequelize/service/locationTableService'
 import { Location } from 'src/sequelize/models/location'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
+@ApiTags('Location')
 @Controller('api/location')
 export class LocationController {
   constructor(private readonly service: LocationTableService) {}

@@ -19,7 +19,6 @@ import { ImportAsset } from 'src/sequelize/interface/import'
 import { AssetFileImport, AssetLists, FindAssetList, FindAssetListAll } from 'src/sequelize/interface/index'
 import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
-@ApiSecurity('basic')
 @ApiTags('Assets')
 @Controller('api/asset/list')
 export class AssetListController {

@@ -13,7 +13,9 @@ import {
 import { DepartmentTableService } from 'src/sequelize/service/departmentTableService'
 import { Department } from 'src/sequelize/models/department'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
+@ApiTags('Department')
 @Controller('api/department')
 export class DepartmentController {
   constructor(private readonly service: DepartmentTableService) {}

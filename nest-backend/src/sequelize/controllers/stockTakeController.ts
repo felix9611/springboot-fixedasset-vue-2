@@ -14,7 +14,9 @@ import { StockTakeTableService } from 'src/sequelize/service/stockTakeTableServi
 import { StockTake } from 'src/sequelize/models/stocktake'
 import { StockTakeItem } from 'src/sequelize/models/stockTakeItem'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
+@ApiTags('Stock Take')
 @Controller('api/stocktake')
 export class StockTakeController {
   constructor(private readonly service: StockTakeTableService) {}

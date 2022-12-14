@@ -17,8 +17,8 @@ export declare class fileLists {
 export declare class invrecordList {
     limit: number;
     page: number;
-    createdFrom: string;
-    createdTo: string;
+    createdFrom: Date;
+    createdTo: Date;
 }
 export declare class AssetLists {
     rows: AssetList[];

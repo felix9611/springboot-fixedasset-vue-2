@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const loginRecordTableService_1 = require("../service/loginRecordTableService");
 const loginRecords_1 = require("../models/loginRecords");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let LoginRecordController = class LoginRecordController {
     constructor(service) {
         this.service = service;
@@ -45,6 +46,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LoginRecordController.prototype, "findAle", null);
 LoginRecordController = __decorate([
+    (0, swagger_1.ApiTags)('Auth Login Record'),
     (0, common_1.Controller)('api/auth/record'),
     __metadata("design:paramtypes", [loginRecordTableService_1.LoginRecordTableService])
 ], LoginRecordController);

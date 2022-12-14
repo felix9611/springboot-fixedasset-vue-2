@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const sysRoleTableService_1 = require("../service/sysRoleTableService");
 const sysRole_1 = require("../models/sysRole");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let SysRoleController = class SysRoleController {
     constructor(service) {
         this.service = service;
@@ -168,6 +169,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysRoleController.prototype, "getUserRole", null);
 SysRoleController = __decorate([
+    (0, swagger_1.ApiTags)('System Roles'),
     (0, common_1.Controller)('api/sys/role'),
     __metadata("design:paramtypes", [sysRoleTableService_1.SysRoleTableService])
 ], SysRoleController);

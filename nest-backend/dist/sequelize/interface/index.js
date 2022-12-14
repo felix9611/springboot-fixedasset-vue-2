@@ -47,6 +47,32 @@ __decorate([
 exports.fileLists = fileLists;
 class invrecordList {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The page of listing'
+    }),
+    __metadata("design:type", Number)
+], invrecordList.prototype, "limit", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 10,
+        description: 'The page items limit of listing'
+    }),
+    __metadata("design:type", Number)
+], invrecordList.prototype, "page", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'The date range to find the create date start at'
+    }),
+    __metadata("design:type", Date)
+], invrecordList.prototype, "createdFrom", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'The date range to find the create date end at'
+    }),
+    __metadata("design:type", Date)
+], invrecordList.prototype, "createdTo", void 0);
 exports.invrecordList = invrecordList;
 class AssetLists {
 }

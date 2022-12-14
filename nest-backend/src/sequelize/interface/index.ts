@@ -39,10 +39,27 @@ export class fileLists {
 }
 
 export class invrecordList {
+  @ApiProperty({
+    example: 1,
+    description: 'The page of listing'
+  })
   limit: number
+
+  @ApiProperty({
+    example: 10,
+    description: 'The page items limit of listing'
+  })
   page: number
-  createdFrom: string
-  createdTo: string
+
+  @ApiProperty({
+    description: 'The date range to find the create date start at'
+  })
+  createdFrom: Date
+
+  @ApiProperty({
+    description: 'The date range to find the create date end at'
+  })
+  createdTo: Date
 }
 
 export class AssetLists {

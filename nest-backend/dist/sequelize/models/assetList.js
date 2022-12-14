@@ -186,14 +186,16 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: '2022-12-11T01:49:14.286Z',
-        description: 'This will auto save'
+        description: 'This will auto save',
+        required: false
     }),
     __metadata("design:type", Date)
 ], AssetList.prototype, "updatedAt", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: '2022-12-11T01:49:14.286Z',
-        description: 'This will auto save'
+        description: 'This will auto save',
+        required: false
     }),
     __metadata("design:type", Date)
 ], AssetList.prototype, "createdAt", void 0);

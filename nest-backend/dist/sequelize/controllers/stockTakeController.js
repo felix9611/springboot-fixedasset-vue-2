@@ -18,6 +18,7 @@ const stockTakeTableService_1 = require("../service/stockTakeTableService");
 const stocktake_1 = require("../models/stocktake");
 const stockTakeItem_1 = require("../models/stockTakeItem");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let StockTakeController = class StockTakeController {
     constructor(service) {
         this.service = service;
@@ -98,6 +99,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StockTakeController.prototype, "finishOne", null);
 StockTakeController = __decorate([
+    (0, swagger_1.ApiTags)('Stock Take'),
     (0, common_1.Controller)('api/stocktake'),
     __metadata("design:paramtypes", [stockTakeTableService_1.StockTakeTableService])
 ], StockTakeController);

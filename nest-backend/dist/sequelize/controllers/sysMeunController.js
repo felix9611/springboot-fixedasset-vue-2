@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const sysMenuTableService_1 = require("../service/sysMenuTableService");
 const sysMenu_1 = require("../models/sysMenu");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let SysMenuController = class SysMenuController {
     constructor(service) {
         this.service = service;
@@ -83,6 +84,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysMenuController.prototype, "listAll", null);
 SysMenuController = __decorate([
+    (0, swagger_1.ApiTags)('System Menu'),
     (0, common_1.Controller)('api/sys/menu'),
     __metadata("design:paramtypes", [sysMenuTableService_1.SysMenuTableService])
 ], SysMenuController);

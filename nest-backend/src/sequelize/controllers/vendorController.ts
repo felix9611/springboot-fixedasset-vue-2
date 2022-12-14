@@ -13,7 +13,9 @@ import {
 import { VendorTableService } from 'src/sequelize/service/vendorTableService'
 import { Vendor } from 'src/sequelize/models/vendor'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
+@ApiTags('Vendor')
 @Controller('api/vendor')
 export class VendorController {
   constructor(private readonly service: VendorTableService) {}

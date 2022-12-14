@@ -13,7 +13,9 @@ import {
 import { LoginRecordTableService } from 'src/sequelize/service/loginRecordTableService'
 import { LoginRecord } from 'src/sequelize/models/loginRecords'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 
+@ApiTags('Auth Login Record')
 @Controller('api/auth/record')
 export class LoginRecordController {
   constructor(private readonly service: LoginRecordTableService) {}

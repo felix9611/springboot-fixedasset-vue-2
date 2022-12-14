@@ -184,7 +184,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AssetListController.prototype, "importData", null);
 AssetListController = __decorate([
-    (0, swagger_1.ApiSecurity)('basic'),
     (0, swagger_1.ApiTags)('Assets'),
     (0, common_1.Controller)('api/asset/list'),
     __metadata("design:paramtypes", [assetListTableService_1.AssetListTableService])

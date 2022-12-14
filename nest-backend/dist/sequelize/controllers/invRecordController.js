@@ -16,6 +16,7 @@ exports.InvRecordController = void 0;
 const common_1 = require("@nestjs/common");
 const invRecordTableService_1 = require("../service/invRecordTableService");
 const index_1 = require("../interface/index");
+const swagger_1 = require("@nestjs/swagger");
 let InvRecordController = class InvRecordController {
     constructor(service) {
         this.service = service;
@@ -32,6 +33,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], InvRecordController.prototype, "listData", null);
 InvRecordController = __decorate([
+    (0, swagger_1.ApiTags)('Record for Inv'),
     (0, common_1.Controller)('api/invrecord'),
     __metadata("design:paramtypes", [invRecordTableService_1.InvRecordTableService])
 ], InvRecordController);
