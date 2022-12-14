@@ -3,6 +3,12 @@ import { ApiProperty } from '@nestjs/swagger'
 
 @Table({ tableName: 'location' })
 export class Location extends Model {
+  @ApiProperty({
+    example: 1,
+    description: 'The id PK number'
+  })
+  id: number
+  
   @Column(DataType.STRING)
   placeCode: string
 

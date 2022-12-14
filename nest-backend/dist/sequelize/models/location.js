@@ -15,6 +15,13 @@ const swagger_1 = require("@nestjs/swagger");
 let Location = class Location extends sequelize_typescript_1.Model {
 };
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The id PK number'
+    }),
+    __metadata("design:type", Number)
+], Location.prototype, "id", void 0);
+__decorate([
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], Location.prototype, "placeCode", void 0);

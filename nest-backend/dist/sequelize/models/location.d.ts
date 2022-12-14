@@ -1,5 +1,6 @@
 import { Model } from 'sequelize-typescript';
 export declare class Location extends Model {
+    id: number;
     placeCode: string;
     placeName: string;
     remark: string;
