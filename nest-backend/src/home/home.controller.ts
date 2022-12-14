@@ -21,7 +21,7 @@ import { FindHomeDto } from './dto/find-home.dto'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
 
 import { Log } from 'src/libs/utils';
-@ApiTags('首页')
+@ApiTags('Home')
 @Controller('api/home')
 export class HomeController {
   constructor(private readonly homesService: HomeService) {}
@@ -29,7 +29,7 @@ export class HomeController {
   // 增加
   @UseGuards(JwtAuthGuardUser)
   @Post()
-  @ApiOperation({ summary: '增加' })
+  @ApiOperation({ summary: 'Add' })
   async create(@Body() createHomeDto: CreateHomeDto): Promise<Home> {
     return await this.homesService.create(createHomeDto);
   }
@@ -37,7 +37,7 @@ export class HomeController {
   // 删除
   @UseGuards(JwtAuthGuardUser)
   @Delete()
-  @ApiOperation({ summary: '删除' })
+  @ApiOperation({ summary: 'Remove' })
   async remove(
     @Body() removeHomeDto: RemoveHomeDto,
     @Request() req,
@@ -49,7 +49,7 @@ export class HomeController {
   // 更新
   @UseGuards(JwtAuthGuardUser)
   @Put(':id')
-  @ApiOperation({ summary: '更新' })
+  @ApiOperation({ summary: 'Update' })
   async update(
     @Param() params: RetrieveHomeDto,
     @Body() updateHomeDto: UpdateHomeDto,
@@ -63,21 +63,21 @@ export class HomeController {
   // 列表
   // @UseGuards(JwtAuthGuard)
   @Get()
-  @ApiOperation({ summary: '列表' })
+  @ApiOperation({ summary: 'List' })
   async findAll(@Query() query: FindHomeDto): Promise<Home> {
     return await this.homesService.findAll(query);
   }
 
   // 根据 id 查找
   @Get(':id')
-  @ApiOperation({ summary: '根据 id 查找' })
+  @ApiOperation({ summary: 'Find By ID' })
   async findOneById(@Param() params: RetrieveHomeDto): Promise<any> {
     return await this.homesService.findOneById(params.id);
   }
 
   // 数量
   @Get('list/count')
-  @ApiOperation({ summary: '用户数量' })
+  @ApiOperation({ summary: 'Count' })
   async getCount() {
     return await this.homesService.getCount();
   }

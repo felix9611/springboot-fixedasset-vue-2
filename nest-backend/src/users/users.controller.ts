@@ -22,31 +22,28 @@ import { UpdataUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdataUserAvatarDto } from './dto/update-user-avatar.dto';
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard';
 import { Log } from 'src/libs/utils';
-@ApiTags('用户')
+@ApiTags('User')
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // 获取用户信息
   @UseGuards(JwtAuthGuardUser)
   @Get('profile')
-  @ApiOperation({ summary: '用户信息' })
+  @ApiOperation({ summary: 'Get User Detail' })
   getProfile(@Request() req) {
     return req.user;
   }
 
-  // 增加
   @UseGuards(JwtAuthGuardUser)
   @Post()
-  @ApiOperation({ summary: '增加' })
+  @ApiOperation({ summary: 'Create User' })
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return await this.usersService.create(createUserDto);
   }
 
-  // 删除
   @UseGuards(JwtAuthGuardUser)
   @Delete()
-  @ApiOperation({ summary: '删除' })
+  @ApiOperation({ summary: 'Void User' })
   async remove(
     @Body() removeUserDto: RemoveUserDto,
     @Request() req,
@@ -58,7 +55,7 @@ export class UsersController {
   // 更新
   @UseGuards(JwtAuthGuardUser)
   @Put(':id')
-  @ApiOperation({ summary: '更新' })
+  @ApiOperation({ summary: 'Update User' })
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -72,21 +69,21 @@ export class UsersController {
   // 列表
   // @UseGuards(JwtAuthGuard)
   @Post('list')
-  @ApiOperation({ summary: '列表' })
+  @ApiOperation({ summary: 'Listing POST' })
   async findAll(@Body() query: FindUserDto): Promise<User> {
     return await this.usersService.findAll(query);
   }
 
   // @UseGuards(JwtAuthGuardUser)
   @Get('list')
-  @ApiOperation({ summary: '列表' })
+  @ApiOperation({ summary: 'Listing GET' })
   async findAllFE(@Query() query: FindUserDto): Promise<User> {
     return await this.usersService.findAll(query);
   }
 
   // 根据 id 查找
   @Get(':id')
-  @ApiOperation({ summary: '根据 id 查找' })
+  @ApiOperation({ summary: 'Find By Id' })
   async findOneById(@Param() params: RetrieveUserDto): Promise<any> {
     return await this.usersService.findOneById(params.id);
   }
@@ -94,7 +91,7 @@ export class UsersController {
   // 根据 id 更新密码
   @UseGuards(JwtAuthGuardUser)
   @Put('password/:id')
-  @ApiOperation({ summary: '更新密码' })
+  @ApiOperation({ summary: 'Update Password' })
   async updatePassword(
     @Param() params: RetrieveUserDto,
     @Body() updataUserPasswordDto: UpdataUserPasswordDto,
@@ -108,14 +105,14 @@ export class UsersController {
   // 根据 id 重置密码
   @UseGuards(JwtAuthGuardUser)
   @Put('password/reset/:id')
-  @ApiOperation({ summary: '重置密码' })
+  @ApiOperation({ summary: 'Reset Password' })
   async resetPassword(@Param() params: RetrieveUserDto): Promise<any> {
     return await this.usersService.resetPassword(params);
   }
 
   // 根据 id 设置头像
   @Put('avatar/:id')
-  @ApiOperation({ summary: '设置头像' })
+  @ApiOperation({ summary: 'Setting Avatar' })
   async updateAvatar(
     @Param('id') id: string,
     @Body() updateUserAvatar: any,
@@ -128,11 +125,12 @@ export class UsersController {
 
   // 数量
   @Get('list/count')
-  @ApiOperation({ summary: '用户数量' })
+  @ApiOperation({ summary: 'Users Count' })
   async getCount() {
     return await this.usersService.getCount();
   }
 
+  @ApiOperation({ summary: 'User Info' })
   @Get('userInfo')
   @UseGuards(JwtAuthGuardUser)
   async getUserInfo(@Request() req: any) {

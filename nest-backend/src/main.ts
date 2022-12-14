@@ -5,6 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { Log4jsLogger } from './libs/log4js/'
 import * as bodyParser from 'body-parser'
 import { NestExpressApplication } from '@nestjs/platform-express'
+import { ExpressSwaggerCustomOptions, iconImg } from 'src/interface/index'
 
 const ENV = process.env.NODE_ENV;
 
@@ -23,15 +24,23 @@ async function bootstrap() {
 
   app.useLogger(app.get(Log4jsLogger))
 
-  if (ENV !== 'prod') {
-    const options = new DocumentBuilder()
+  const customOptions: ExpressSwaggerCustomOptions = {
+    explorer: true,
+    customSiteTitle: 'Nestjs Version Fixed Asset API Docs',
+    customfavIcon: iconImg
+}
+
+  // if (ENV !== 'prod') {
+  const options = new DocumentBuilder()
       .setTitle('API')
-      .setDescription('API description')
+      .setDescription('API Document')
       .setVersion('1.0')
-      .build();
-    const document = SwaggerModule.createDocument(app, options)
-    SwaggerModule.setup('api', app, document)
-  }
+      .addServer('http://localhost:8450')
+      .addBearerAuth()
+      .build()
+  const document = SwaggerModule.createDocument(app, options)
+  SwaggerModule.setup('api', app, document, customOptions)
+  // }
 
   await app.listen(8450)
 }

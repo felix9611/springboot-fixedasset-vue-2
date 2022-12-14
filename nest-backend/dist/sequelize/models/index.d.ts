@@ -1,0 +1,18 @@
+import { Test } from './test';
+import { SysRole } from './sysRole';
+import { SysMenu } from './sysMenu';
+import { SysRoleMenu } from './SysRoleMenu';
+import { SysUserRole } from './SysUserRole';
+import { AssetType } from './assetType';
+import { Location } from './location';
+import { Department } from './department';
+import { Vendor } from './vendor';
+import { AssetList } from './assetList';
+import { WriteOff } from './writeOff';
+import { AssetListFiles } from './assetListFiles';
+import { LoginRecord } from './loginRecords';
+import { InvRecord } from './invrecord';
+import { CodeType } from './codeType';
+import { StockTake } from './stocktake';
+import { StockTakeItem } from './stockTakeItem';
+export declare const models: (typeof WriteOff | typeof AssetList | typeof AssetType | typeof Department | typeof Location | typeof AssetListFiles | typeof InvRecord | typeof Vendor | typeof Test | typeof SysMenu | typeof SysRole | typeof SysRoleMenu | typeof SysUserRole | typeof LoginRecord | typeof CodeType | typeof StockTake | typeof StockTakeItem)[];

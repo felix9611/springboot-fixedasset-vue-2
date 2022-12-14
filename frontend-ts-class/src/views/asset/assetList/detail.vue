@@ -115,18 +115,23 @@
 
           <el-row :span="24">
             <el-col :span="6">
+              <el-form-item label="Unit"  prop="cost" label-width="130px">
+                <el-input v-model="editForm.unit" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item label="Cost"  prop="cost" label-width="130px">
                 <el-input v-model="editForm.cost" autocomplete="off"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="18">
+            <el-col :span="12">
               <el-form-item label="Serial No."  prop="serialNum" label-width="130px">
                 <el-input v-model="editForm.serialNum" autocomplete="off"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :span="24">
-            <el-col :span="18">
+            <el-col :span="15">
               <el-form-item label="Invoice No."  prop="invoiceNo" label-width="130px">
                 <el-input v-model="editForm.invoiceNo" autocomplete="off"></el-input>
               </el-form-item>
@@ -190,7 +195,7 @@ export default class StockTakeDetail extends Vue {
     this.getAllVendor()
     if (this.$route.params.id) {
       this.editForm.id = Number(this.$route.params.id)
-      this.editHandle()      
+      this.editHandle()
     }
   }
 
@@ -327,7 +332,7 @@ export default class StockTakeDetail extends Vue {
             }
         })
   }
-  
+
   resetForm(formName: string) {
     const refs: any = this.$refs[formName]
     refs.resetFields()

@@ -1,0 +1,13 @@
+import { TestTableService } from './testTableService';
+import { SysMenuTableService } from './sysMenuTableService';
+import { SysRoleTableService } from './sysRoleTableService';
+import { AssetTypeTableService } from './assetTypeTableService';
+import { LocationTableService } from './locationTableService';
+import { DepartmentTableService } from './departmentTableService';
+import { VendorTableService } from './vendorTableService';
+import { AssetListTableService } from './assetListTableService';
+import { LoginRecordTableService } from './loginRecordTableService';
+import { InvRecordTableService } from './invRecordTableService';
+import { CodeTypeTableService } from './codeTypeTableService';
+import { StockTakeTableService } from './stockTakeTableService';
+export declare const services: (typeof AssetListTableService | typeof TestTableService | typeof SysMenuTableService | typeof SysRoleTableService | typeof AssetTypeTableService | typeof LocationTableService | typeof DepartmentTableService | typeof VendorTableService | typeof LoginRecordTableService | typeof InvRecordTableService | typeof CodeTypeTableService | typeof StockTakeTableService)[];

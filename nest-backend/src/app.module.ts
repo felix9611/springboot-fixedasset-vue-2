@@ -3,7 +3,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { UsersModule } from './users/users.module'
-import { AboutModule } from './about/about.module'
+// import { AboutModule } from './about/about.module'
 import { HomeModule } from './home/home.module'
 import { UploadModule } from './upload/upload.module'
 import { AuthModule } from './auth/auth.module'
@@ -45,7 +45,7 @@ const { host, port, username, password, database } = dbInfo
     UsersModule,
     // ProductsModule,
     // ProductCategoriesModule,
-    AboutModule,
+  //   AboutModule,
     HomeModule,
     // BannerModule,
     UploadModule,

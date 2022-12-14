@@ -115,11 +115,16 @@
 
           <el-row :span="24">
             <el-col :span="6">
+              <el-form-item label="Unit"  prop="cost" label-width="130px">
+                <el-input v-model="editForm.unit" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item label="Cost"  prop="cost" label-width="130px">
                 <el-input v-model="editForm.cost" autocomplete="off"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="18">
+            <el-col :span="12">
               <el-form-item label="Serial No."  prop="serialNumber" label-width="130px">
                 <el-input v-model="editForm.serialNumber" autocomplete="off"></el-input>
               </el-form-item>
