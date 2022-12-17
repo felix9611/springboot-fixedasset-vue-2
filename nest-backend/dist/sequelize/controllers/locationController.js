@@ -18,6 +18,7 @@ const locationTableService_1 = require("../service/locationTableService");
 const location_1 = require("../models/location");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const swagger_1 = require("@nestjs/swagger");
+const list_1 = require("../interface/list");
 let LocationController = class LocationController {
     constructor(service) {
         this.service = service;
@@ -47,6 +48,8 @@ let LocationController = class LocationController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Create' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully created.', type: location_1.Location }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),
@@ -55,6 +58,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "createOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Update' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully updated.', type: location_1.Location }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('update'),
     __param(0, (0, common_1.Body)()),
@@ -63,12 +68,17 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "updateOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get All Location' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully get all.', type: location_1.Location, isArray: true }),
     (0, common_1.Get)('GetAll'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "getAll", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get by ID' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully get one.', type: location_1.Location }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -76,6 +86,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "getOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Void by ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -84,6 +96,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "voidOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Listing By Page' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully updated.', type: list_1.listLocation }),
     (0, common_1.Post)('listAll'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -91,6 +105,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "listAll", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Batching Create' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully get all.', type: location_1.Location, isArray: true }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('batch/create'),
     __param(0, (0, common_1.Body)()),

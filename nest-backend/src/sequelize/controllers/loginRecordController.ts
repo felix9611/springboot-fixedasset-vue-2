@@ -20,12 +20,14 @@ import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
 export class LoginRecordController {
   constructor(private readonly service: LoginRecordTableService) {}
 
+  @ApiOperation({ summary: 'Create Login Record', description: 'This for create by the user when login, cannot API to create when not login' })
   @UseGuards(JwtAuthGuardUser)
   @Post('create')
   async createOne(@Body() loginRecord: LoginRecord) {
     return await this.service.createOne(loginRecord)
   }
 
+  @ApiOperation({ summary: 'Get All' })
   @UseGuards(JwtAuthGuardUser)
   @Post('all/:username')
   async findAle(@Param('username') username: string) {

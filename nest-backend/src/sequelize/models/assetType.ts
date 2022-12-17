@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType, Sequelize } from 'sequelize-typescript'
 import { ApiProperty } from '@nestjs/swagger'
+
 @Table({ tableName: 'asset_type' })
 export class AssetType extends Model {
 

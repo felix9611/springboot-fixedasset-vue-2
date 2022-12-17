@@ -16,8 +16,8 @@ async function bootstrap() {
         maxAge: 1728000,
         allowedHeaders: '*',
     });
-    app.use(bodyParser.json({ limit: '5000mb' }));
-    app.use(bodyParser.urlencoded({ limit: '5000mb', extended: true }));
+    app.use(bodyParser.json({ limit: '1000mb' }));
+    app.use(bodyParser.urlencoded({ limit: '1000mb', extended: true }));
     app.useLogger(app.get(log4js_1.Log4jsLogger));
     const customOptions = {
         explorer: true,
@@ -32,7 +32,7 @@ async function bootstrap() {
         .addBearerAuth()
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, options);
-    swagger_1.SwaggerModule.setup('api', app, document, customOptions);
+    swagger_1.SwaggerModule.setup('api-doc', app, document, customOptions);
     await app.listen(8450);
 }
 bootstrap();

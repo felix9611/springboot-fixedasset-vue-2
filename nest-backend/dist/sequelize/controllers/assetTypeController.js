@@ -19,6 +19,7 @@ const assetType_1 = require("../models/assetType");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const swagger_1 = require("@nestjs/swagger");
 const dto_1 = require("../interface/dto");
+const list_1 = require("../interface/list");
 let AssetTypeController = class AssetTypeController {
     constructor(service) {
         this.service = service;
@@ -48,8 +49,9 @@ let AssetTypeController = class AssetTypeController {
     }
 };
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Create Type' }),
+    (0, swagger_1.ApiOperation)({ summary: 'Create' }),
     (0, swagger_1.ApiBody)({ type: dto_1.AssetTypeCreateDTO }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully created.', type: assetType_1.AssetType }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('/create'),
     __param(0, (0, common_1.Body)()),
@@ -58,8 +60,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AssetTypeController.prototype, "create", null);
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Batching Create Type' }),
-    (0, swagger_1.ApiBody)({ type: [dto_1.AssetTypeCreateDTO] }),
+    (0, swagger_1.ApiOperation)({ summary: 'Batching Create' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.AssetTypeCreateDTO, isArray: true }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'These record has been successfully batch created.', type: assetType_1.AssetType, isArray: true }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('batch/create'),
     __param(0, (0, common_1.Body)()),
@@ -70,6 +73,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'List Type by page' }),
     (0, swagger_1.ApiBody)({ type: dto_1.AssetTypeFindDTO }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'These record has been successfully listing.', type: list_1.listAssetType }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('/listAll'),
     __param(0, (0, common_1.Body)()),
@@ -79,6 +83,8 @@ __decorate([
 ], AssetTypeController.prototype, "listAllPage", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get one by Id' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'These record has been successfully get the item by id.', type: assetType_1.AssetType }),
     (0, common_1.Get)('/get/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -87,6 +93,7 @@ __decorate([
 ], AssetTypeController.prototype, "getOneData", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Update Type' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'These record has been successfully update.', type: assetType_1.AssetType }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('/update'),
     __param(0, (0, common_1.Body)()),
@@ -96,6 +103,8 @@ __decorate([
 ], AssetTypeController.prototype, "updateOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Void one by Id' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'These record has been successfully void.' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('remove/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -105,6 +114,7 @@ __decorate([
 ], AssetTypeController.prototype, "voidOneData", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get All Type as active' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'These record has been successfully list all.', type: assetType_1.AssetType, isArray: true }),
     (0, common_1.Get)('getAll'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

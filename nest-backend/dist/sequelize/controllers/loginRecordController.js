@@ -30,6 +30,7 @@ let LoginRecordController = class LoginRecordController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Create Login Record', description: 'This for create by the user when login, cannot API to create when not login' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),
@@ -38,6 +39,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LoginRecordController.prototype, "createOne", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get All' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('all/:username'),
     __param(0, (0, common_1.Param)('username')),

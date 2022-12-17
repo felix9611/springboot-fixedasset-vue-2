@@ -8,19 +8,41 @@ export class Location extends Model {
     description: 'The id PK number'
   })
   id: number
-  
+
+  @ApiProperty({
+    example: 'MY',
+    description: 'The Location Code'
+  })
   @Column(DataType.STRING)
   placeCode: string
 
+  @ApiProperty({
+    example: 'My Room',
+    description: 'The Location Name'
+  })
   @Column(DataType.STRING)
   placeName: string
 
+  @ApiProperty({
+    example: '',
+    description: 'Remark',
+    required: false
+  })
   @Column(DataType.TEXT)
   remark: string
 
+  @ApiProperty({
+    description: 'Add information',
+    required: false
+  })
   @Column(DataType.STRING)
   flexData: any
 
+  @ApiProperty({
+    example: 1,
+    description: 'The status in 1 (Active) or 0 (Void)',
+    required: false
+  })
   @Column(DataType.INTEGER)
   status: number
 

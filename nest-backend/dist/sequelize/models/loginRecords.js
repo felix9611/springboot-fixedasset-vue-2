@@ -11,8 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginRecord = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
+const swagger_1 = require("@nestjs/swagger");
 let LoginRecord = class LoginRecord extends sequelize_typescript_1.Model {
 };
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The id PK number'
+    }),
+    __metadata("design:type", Number)
+], LoginRecord.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)

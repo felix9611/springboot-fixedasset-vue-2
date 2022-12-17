@@ -10,4 +10,4 @@ import { LoginRecordTableService } from './loginRecordTableService';
 import { InvRecordTableService } from './invRecordTableService';
 import { CodeTypeTableService } from './codeTypeTableService';
 import { StockTakeTableService } from './stockTakeTableService';
-export declare const services: (typeof LoginRecordTableService | typeof TestTableService | typeof SysMenuTableService | typeof SysRoleTableService | typeof AssetTypeTableService | typeof LocationTableService | typeof DepartmentTableService | typeof VendorTableService | typeof AssetListTableService | typeof InvRecordTableService | typeof CodeTypeTableService | typeof StockTakeTableService)[];
+export declare const services: (typeof TestTableService | typeof SysMenuTableService | typeof SysRoleTableService | typeof AssetTypeTableService | typeof LocationTableService | typeof DepartmentTableService | typeof VendorTableService | typeof AssetListTableService | typeof LoginRecordTableService | typeof InvRecordTableService | typeof CodeTypeTableService | typeof StockTakeTableService)[];

@@ -75,6 +75,7 @@ __decorate([
 ], DepartmentController.prototype, "updateOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get by ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -83,6 +84,7 @@ __decorate([
 ], DepartmentController.prototype, "getOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Void by ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -102,7 +104,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Batch to create ' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
-    (0, swagger_1.ApiBody)({ type: [dto_1.departmentCreateDTO] }),
+    (0, swagger_1.ApiBody)({ type: dto_1.departmentCreateDTO, isArray: true }),
     (0, common_1.Post)('batch/create'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

@@ -19,8 +19,8 @@ async function bootstrap() {
     allowedHeaders: '*',
   })
 
-  app.use(bodyParser.json({limit: '5000mb'}))
-  app.use(bodyParser.urlencoded({limit: '5000mb', extended: true}))
+  app.use(bodyParser.json({limit: '1000mb'}))
+  app.use(bodyParser.urlencoded({limit: '1000mb', extended: true }))
 
   app.useLogger(app.get(Log4jsLogger))
 
@@ -39,7 +39,7 @@ async function bootstrap() {
       .addBearerAuth()
       .build()
   const document = SwaggerModule.createDocument(app, options)
-  SwaggerModule.setup('api', app, document, customOptions)
+  SwaggerModule.setup('api-doc', app, document, customOptions)
   // }
 
   await app.listen(8450)

@@ -79,6 +79,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Listing with page' }),
     (0, swagger_1.ApiBody)({ type: index_1.FindAssetList }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, type: index_1.AssetLists, description: 'Listing by Page' }),
     (0, common_1.Post)('listAll'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -87,6 +88,7 @@ __decorate([
 ], AssetListController.prototype, "listAll", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get one by id' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -95,6 +97,7 @@ __decorate([
 ], AssetListController.prototype, "getOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get one by asset code' }),
+    (0, swagger_1.ApiParam)({ name: 'assetCode', required: true, type: 'string', example: '000001' }),
     (0, common_1.Get)('code/:assetCode'),
     __param(0, (0, common_1.Param)('assetCode')),
     __metadata("design:type", Function),
@@ -112,6 +115,7 @@ __decorate([
 ], AssetListController.prototype, "createOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Update Asset' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully updated.', type: assetList_1.AssetList }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('update'),
     __param(0, (0, common_1.Body)()),
@@ -130,6 +134,7 @@ __decorate([
 ], AssetListController.prototype, "findAsset", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Void Asset by id' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -147,7 +152,7 @@ __decorate([
 ], AssetListController.prototype, "writteOffPrcoess", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get Asset Image as one asset' }),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
+    (0, swagger_1.ApiParam)({ name: 'assetId', required: true, type: 'number', example: 1 }),
     (0, common_1.Get)('images/:assetId'),
     __param(0, (0, common_1.Param)('assetId')),
     __metadata("design:type", Function),
@@ -156,6 +161,7 @@ __decorate([
 ], AssetListController.prototype, "findFile", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Void asset images' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('images/void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -175,7 +181,7 @@ __decorate([
 ], AssetListController.prototype, "saveImage", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Import List of asset' }),
-    (0, swagger_1.ApiBody)({ type: [import_1.ImportAsset] }),
+    (0, swagger_1.ApiBody)({ type: import_1.ImportAsset, isArray: true }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('import'),
     __param(0, (0, common_1.Body)()),

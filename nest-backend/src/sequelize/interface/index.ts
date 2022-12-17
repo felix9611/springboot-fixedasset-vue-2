@@ -69,9 +69,18 @@ export class invrecordList {
 }
 
 export class AssetLists {
-  @ApiProperty()
-  rows: AssetList[]
+  @ApiProperty({
+    example: [],
+    isArray: true,
+    type: AssetList,
+    description: 'Listing Data'
+  })
+  rows: AssetList
 
+  @ApiProperty({
+    example: 20,
+    description: 'Count all record'
+  })
   @ApiProperty()
   count: number
 }

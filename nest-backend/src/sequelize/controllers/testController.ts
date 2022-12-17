@@ -13,7 +13,7 @@ import {
 import { TestTableService } from '../service/testTableService'
 import { Test } from '../models/test'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
-import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger'
 
 @ApiTags('Test')
 @Controller('api/test')
@@ -28,6 +28,7 @@ export class TestController {
   }
 
   @ApiOperation({ summary: 'Update by Id' })
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Put('update/:id')
   async update(@Param() id: number, @Body() test: Test) {
@@ -35,6 +36,7 @@ export class TestController {
   }
 
   @ApiOperation({ summary: 'Void by Id' })
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Delete('remove/:id')
   async remove(@Param('id') id: number) {
@@ -49,7 +51,7 @@ export class TestController {
   }
 
   @ApiOperation({ summary: 'Get by Id' })
-  @UseGuards(JwtAuthGuardUser)
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @Get('/:id')
   async getOne(@Param('id') id: number) {
     return await this.service.findOne(id)

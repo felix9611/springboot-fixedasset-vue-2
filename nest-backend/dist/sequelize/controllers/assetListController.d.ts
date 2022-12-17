@@ -3,11 +3,14 @@ import { AssetList } from 'src/sequelize/models/assetList';
 import { AssetListFiles } from 'src/sequelize/models/assetListFiles';
 import { WriteOff } from 'src/sequelize/models/writeOff';
 import { ImportAsset } from 'src/sequelize/interface/import';
-import { AssetFileImport, AssetLists } from 'src/sequelize/interface/index';
+import { AssetFileImport } from 'src/sequelize/interface/index';
 export declare class AssetListController {
     private readonly service;
     constructor(service: AssetListTableService);
-    list(assetList: AssetList): Promise<AssetLists>;
+    list(assetList: AssetList): Promise<{
+        rows: AssetList[];
+        count: number;
+    }>;
     listAll(assetList: AssetList): Promise<{
         rows: AssetList[];
         count: number;

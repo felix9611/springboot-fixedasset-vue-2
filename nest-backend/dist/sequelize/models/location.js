@@ -22,22 +22,44 @@ __decorate([
     __metadata("design:type", Number)
 ], Location.prototype, "id", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'MY',
+        description: 'The Location Code'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], Location.prototype, "placeCode", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'My Room',
+        description: 'The Location Name'
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", String)
 ], Location.prototype, "placeName", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '',
+        description: 'Remark',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.TEXT),
     __metadata("design:type", String)
 ], Location.prototype, "remark", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Add information',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.STRING),
     __metadata("design:type", Object)
 ], Location.prototype, "flexData", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The status in 1 (Active) or 0 (Void)',
+        required: false
+    }),
     (0, sequelize_typescript_1.Column)(sequelize_typescript_1.DataType.INTEGER),
     __metadata("design:type", Number)
 ], Location.prototype, "status", void 0);

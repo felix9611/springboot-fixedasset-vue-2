@@ -14,7 +14,7 @@ import { SysRoleTableService } from 'src/sequelize/service/sysRoleTableService'
 import { SysRole } from 'src/sequelize/models/sysRole'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
 import { Roles } from 'src/sequelize/interface'
-import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger'
 
 @ApiTags('System Roles')
 @Controller('api/sys/role')
@@ -51,12 +51,14 @@ export class SysRoleController {
     return await this.service.getPagesByRole(roles)
   }
 
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Delete('void/:id')
   async voidOne(@Param('id') id: number) {
     return await this.service.voidOne(id)
   }
 
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Get('info/:id')
   async infoOne(@Param('id') id: number) {
@@ -76,24 +78,28 @@ export class SysRoleController {
     return await this.service.getAllRole(roles)
   }
 
+  @ApiParam({ name: 'roleId', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Get('menu/handle/:roleId')
   async menuhandle(@Param('roleId') roleId: number) {
     return await this.service.menuhandle(roleId)
   }
 
+  @ApiParam({ name: 'roleId', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Post('menu/handle/update/:roleId')
   async menuhandleUpdate(@Param('roleId') roleId: number, @Body() menuIds: any) {
     return await this.service.menuhandleUpdate(roleId, menuIds)
   }
 
+  @ApiParam({ name: 'userId', required: true, type: 'string', example: 'abc' })
   @UseGuards(JwtAuthGuardUser)
   @Post('handle/update/:userId')
   async roleshandleUpdate(@Param('userId') userId: string, @Body() roleIds: any) {
     return await this.service.roleshandleUpdate(roleIds, userId)
   }
 
+  @ApiParam({ name: 'userId', required: true, type: 'string', example: 'abc' })
   @UseGuards(JwtAuthGuardUser)
   @Get('user/:userId')
   async getUserRole(@Param('userId') userId: string) {

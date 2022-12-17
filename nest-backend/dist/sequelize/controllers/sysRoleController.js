@@ -103,6 +103,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysRoleController.prototype, "getPagesByRole", null);
 __decorate([
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -111,6 +112,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysRoleController.prototype, "voidOne", null);
 __decorate([
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Get)('info/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -135,6 +137,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysRoleController.prototype, "getAllRole", null);
 __decorate([
+    (0, swagger_1.ApiParam)({ name: 'roleId', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Get)('menu/handle/:roleId'),
     __param(0, (0, common_1.Param)('roleId')),
@@ -143,6 +146,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysRoleController.prototype, "menuhandle", null);
 __decorate([
+    (0, swagger_1.ApiParam)({ name: 'roleId', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('menu/handle/update/:roleId'),
     __param(0, (0, common_1.Param)('roleId')),
@@ -152,6 +156,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysRoleController.prototype, "menuhandleUpdate", null);
 __decorate([
+    (0, swagger_1.ApiParam)({ name: 'userId', required: true, type: 'string', example: 'abc' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('handle/update/:userId'),
     __param(0, (0, common_1.Param)('userId')),
@@ -161,6 +166,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SysRoleController.prototype, "roleshandleUpdate", null);
 __decorate([
+    (0, swagger_1.ApiParam)({ name: 'userId', required: true, type: 'string', example: 'abc' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Get)('user/:userId'),
     __param(0, (0, common_1.Param)('userId')),

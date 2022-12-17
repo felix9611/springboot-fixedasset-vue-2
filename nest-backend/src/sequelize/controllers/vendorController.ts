@@ -13,7 +13,7 @@ import {
 import { VendorTableService } from 'src/sequelize/service/vendorTableService'
 import { Vendor } from 'src/sequelize/models/vendor'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
-import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger'
 import { vendorCreateDTO, VendorFindDTO } from 'src/sequelize/interface/dto'
 
 @ApiTags('Vendor')
@@ -27,7 +27,7 @@ export class VendorController {
     return await this.service.getAll()
   }
 
-  @ApiOperation({ summary: 'Void by ID' })
+
   @ApiBody({ type: VendorFindDTO })
   @Post('listAll')
   async listAll(@Body() vendor: Vendor) {
@@ -35,6 +35,7 @@ export class VendorController {
   }
 
   @ApiOperation({ summary: 'Get by ID' })
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @Get(':id')
   async getOne(@Param('id') id: number) {
     return await this.service.getOne(id)
@@ -56,6 +57,7 @@ export class VendorController {
   }
 
   @ApiOperation({ summary: 'Void by ID' })
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Delete('void/:id')
   async voidOne(@Param('id') id: number) {
@@ -63,7 +65,7 @@ export class VendorController {
   }
 
   @ApiOperation({ summary: 'Batch Create' })
-  @ApiBody({ type: [vendorCreateDTO] })
+  @ApiBody({ type: vendorCreateDTO, isArray: true })
   @UseGuards(JwtAuthGuardUser)
   @Post('batch/create')
   async batchCreate(@Body() vendors: Vendor[]) {

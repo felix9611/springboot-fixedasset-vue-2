@@ -79,6 +79,7 @@ __decorate([
 ], StockTakeController.prototype, "listAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -86,6 +87,7 @@ __decorate([
 ], StockTakeController.prototype, "getOne", null);
 __decorate([
     (0, common_1.Delete)('void/:id'),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -93,6 +95,7 @@ __decorate([
 ], StockTakeController.prototype, "voidOne", null);
 __decorate([
     (0, common_1.Post)('finish/:id'),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

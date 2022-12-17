@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FindAssetList = exports.FindAssetListAll = exports.AssetLists = exports.invrecordList = exports.fileLists = exports.AssetFileImport = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const assetList_1 = require("../models/assetList");
 const fileListsExaple = {
     dataBase64: 'wfsqwawa8s85a5sadd13a2===',
     fileName: 'test.png',
@@ -82,10 +83,19 @@ exports.invrecordList = invrecordList;
 class AssetLists {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", Array)
+    (0, swagger_1.ApiProperty)({
+        example: [],
+        isArray: true,
+        type: assetList_1.AssetList,
+        description: 'Listing Data'
+    }),
+    __metadata("design:type", assetList_1.AssetList)
 ], AssetLists.prototype, "rows", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 20,
+        description: 'Count all record'
+    }),
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
 ], AssetLists.prototype, "count", void 0);

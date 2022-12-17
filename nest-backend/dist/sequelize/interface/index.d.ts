@@ -21,7 +21,7 @@ export declare class invrecordList {
     createdTo: Date;
 }
 export declare class AssetLists {
-    rows: AssetList[];
+    rows: AssetList;
     count: number;
 }
 export declare class FindAssetListAll {

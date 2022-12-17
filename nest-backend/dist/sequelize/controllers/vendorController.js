@@ -55,7 +55,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], VendorController.prototype, "getAll", null);
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Void by ID' }),
     (0, swagger_1.ApiBody)({ type: dto_1.VendorFindDTO }),
     (0, common_1.Post)('listAll'),
     __param(0, (0, common_1.Body)()),
@@ -65,6 +64,7 @@ __decorate([
 ], VendorController.prototype, "listAll", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get by ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -92,6 +92,7 @@ __decorate([
 ], VendorController.prototype, "updateOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Void by ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -101,7 +102,7 @@ __decorate([
 ], VendorController.prototype, "voidOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Batch Create' }),
-    (0, swagger_1.ApiBody)({ type: [dto_1.vendorCreateDTO] }),
+    (0, swagger_1.ApiBody)({ type: dto_1.vendorCreateDTO, isArray: true }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('batch/create'),
     __param(0, (0, common_1.Body)()),

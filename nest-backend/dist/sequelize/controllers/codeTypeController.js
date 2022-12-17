@@ -45,6 +45,7 @@ let CodeTypeController = class CodeTypeController {
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Create' }),
     (0, swagger_1.ApiBody)({ type: dto_1.CodeTypeCreatedDto }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully created.', type: codeType_1.CodeType }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),
@@ -54,6 +55,7 @@ __decorate([
 ], CodeTypeController.prototype, "createOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Update' }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully updated.', type: codeType_1.CodeType }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('update'),
     __param(0, (0, common_1.Body)()),
@@ -72,6 +74,7 @@ __decorate([
 ], CodeTypeController.prototype, "listPage", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Void by Id' }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -81,7 +84,8 @@ __decorate([
 ], CodeTypeController.prototype, "voidOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get by Id' }),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully get one.', type: codeType_1.CodeType }),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

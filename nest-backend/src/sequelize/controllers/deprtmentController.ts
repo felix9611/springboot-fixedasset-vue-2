@@ -13,7 +13,7 @@ import {
 import { DepartmentTableService } from 'src/sequelize/service/departmentTableService'
 import { Department } from 'src/sequelize/models/department'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
-import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger'
 import { departmentCreateDTO, departmentFindDTO } from 'src/sequelize/interface/dto'
 
 @ApiTags('Department')
@@ -43,12 +43,14 @@ export class DepartmentController {
   }
 
   @ApiOperation({ summary: 'Get by ID' })
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @Get(':id')
   async getOne(@Param('id') id: number) {
     return await this.service.getOne(id)
   }
 
   @ApiOperation({ summary: 'Void by ID' })
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   @UseGuards(JwtAuthGuardUser)
   @Delete('void/:id')
   async voidOne(@Param('id') id: number) {
@@ -64,7 +66,7 @@ export class DepartmentController {
 
   @ApiOperation({ summary: 'Batch to create ' })
   @UseGuards(JwtAuthGuardUser)
-  @ApiBody({ type: [departmentCreateDTO] })
+  @ApiBody({ type: departmentCreateDTO, isArray: true })
   @Post('batch/create')
   async batchCreate(@Body() departments: Department[]) {
     return departments.forEach(async dept => {

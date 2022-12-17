@@ -14,7 +14,7 @@ import { StockTakeTableService } from 'src/sequelize/service/stockTakeTableServi
 import { StockTake } from 'src/sequelize/models/stocktake'
 import { StockTakeItem } from 'src/sequelize/models/stockTakeItem'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
-import { ApiTags, ApiOperation, ApiBody, ApiSecurity } from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger'
 
 @ApiTags('Stock Take')
 @Controller('api/stocktake')
@@ -46,16 +46,19 @@ export class StockTakeController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   async getOne(@Param('id') id: number){
     return await this.service.getOne(id)
   }
 
   @Delete('void/:id')
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   async voidOne(@Param('id') id: number) {
     return await this.service.voidOne(id)
   }
 
   @Post('finish/:id')
+  @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
   async finishOne(@Param('id') id: number) {
     return await this.service.finishOne(id)
   }

@@ -43,6 +43,7 @@ let SysMenuController = class SysMenuController {
 };
 __decorate([
     (0, common_1.Post)('create'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [sysMenu_1.SysMenu]),
@@ -50,6 +51,7 @@ __decorate([
 ], SysMenuController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -57,13 +59,14 @@ __decorate([
 ], SysMenuController.prototype, "getOne", null);
 __decorate([
     (0, common_1.Delete)('void/:id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
+    (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], SysMenuController.prototype, "voidOne", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Get)('get/All'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -71,6 +74,7 @@ __decorate([
 ], SysMenuController.prototype, "getAll", null);
 __decorate([
     (0, common_1.Post)('/update'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [sysMenu_1.SysMenu]),
