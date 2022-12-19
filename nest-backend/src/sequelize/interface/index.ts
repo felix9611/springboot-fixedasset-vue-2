@@ -68,21 +68,18 @@ export class invrecordList {
   createdTo: Date
 }
 
-export class AssetLists {
+export class FindLocation {
   @ApiProperty({
-    example: [],
-    isArray: true,
-    type: AssetList,
-    description: 'Listing Data'
+    example: 'MY',
+    description: 'The Location Code'
   })
-  rows: AssetList
+  placeCode: string
 
   @ApiProperty({
-    example: 20,
-    description: 'Count all record'
+    example: 'My Room',
+    description: 'The Location Name'
   })
-  @ApiProperty()
-  count: number
+  placeName: string
 }
 
 export class FindAssetListAll {

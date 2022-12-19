@@ -10,4 +10,4 @@ import { LoginRecordController } from './loginRecordController';
 import { InvRecordController } from './invRecordController';
 import { CodeTypeController } from './codeTypeController';
 import { StockTakeController } from './stockTakeController';
-export declare const controllers: (typeof TestController | typeof SysMenuController | typeof CodeTypeController | typeof SysRoleController | typeof AssetTypeController | typeof LocationController | typeof DepartmentController | typeof VendorController | typeof AssetListController | typeof LoginRecordController | typeof InvRecordController | typeof StockTakeController)[];
+export declare const controllers: (typeof InvRecordController | typeof AssetListController | typeof LocationController | typeof SysRoleController | typeof TestController | typeof CodeTypeController | typeof SysMenuController | typeof AssetTypeController | typeof DepartmentController | typeof VendorController | typeof LoginRecordController | typeof StockTakeController)[];

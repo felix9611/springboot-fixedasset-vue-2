@@ -9,9 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FindAssetList = exports.FindAssetListAll = exports.AssetLists = exports.invrecordList = exports.fileLists = exports.AssetFileImport = void 0;
+exports.FindAssetList = exports.FindAssetListAll = exports.FindLocation = exports.invrecordList = exports.fileLists = exports.AssetFileImport = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const assetList_1 = require("../models/assetList");
 const fileListsExaple = {
     dataBase64: 'wfsqwawa8s85a5sadd13a2===',
     fileName: 'test.png',
@@ -80,26 +79,23 @@ __decorate([
     __metadata("design:type", Date)
 ], invrecordList.prototype, "createdTo", void 0);
 exports.invrecordList = invrecordList;
-class AssetLists {
+class FindLocation {
 }
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: [],
-        isArray: true,
-        type: assetList_1.AssetList,
-        description: 'Listing Data'
+        example: 'MY',
+        description: 'The Location Code'
     }),
-    __metadata("design:type", assetList_1.AssetList)
-], AssetLists.prototype, "rows", void 0);
+    __metadata("design:type", String)
+], FindLocation.prototype, "placeCode", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 20,
-        description: 'Count all record'
+        example: 'My Room',
+        description: 'The Location Name'
     }),
-    (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", Number)
-], AssetLists.prototype, "count", void 0);
-exports.AssetLists = AssetLists;
+    __metadata("design:type", String)
+], FindLocation.prototype, "placeName", void 0);
+exports.FindLocation = FindLocation;
 class FindAssetListAll {
 }
 __decorate([

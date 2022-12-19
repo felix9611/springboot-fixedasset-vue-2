@@ -1,3 +1,8 @@
+export declare class LocationCreatedDto {
+    placeCode: string;
+    placeName: string;
+    remark: string;
+}
 export declare class CodeTypeCreatedDto {
     type: string;
     valueCode: string;
@@ -54,4 +59,23 @@ export declare class departmentFindDTO {
     deptName: string;
     limit: number;
     page: number;
+}
+export declare class AssetListCreateDTO {
+    assetName: string;
+    typeId: number;
+    unit: string;
+    buyDate: string;
+    description: string;
+    sponsor: number;
+    sponsorName: string;
+    cost: string;
+    serialNumber: string;
+    invoiceNo: string;
+    invoiceDate: string;
+    placeId: number;
+    deptId: number;
+    staffId: String;
+    vendorId: number;
+    remark: string;
+    flexData: any;
 }

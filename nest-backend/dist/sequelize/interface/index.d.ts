@@ -1,5 +1,4 @@
 import { ModelCtor } from 'sequelize';
-import { AssetList } from 'src/sequelize/models/assetList';
 export interface Roles {
     roles: any[];
 }
@@ -20,9 +19,9 @@ export declare class invrecordList {
     createdFrom: Date;
     createdTo: Date;
 }
-export declare class AssetLists {
-    rows: AssetList;
-    count: number;
+export declare class FindLocation {
+    placeCode: string;
+    placeName: string;
 }
 export declare class FindAssetListAll {
     status: number;

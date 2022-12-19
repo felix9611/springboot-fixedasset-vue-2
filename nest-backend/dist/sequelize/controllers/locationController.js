@@ -19,6 +19,8 @@ const location_1 = require("../models/location");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const swagger_1 = require("@nestjs/swagger");
 const list_1 = require("../interface/list");
+const dto_1 = require("../interface/dto");
+const index_1 = require("../interface/index");
 let LocationController = class LocationController {
     constructor(service) {
         this.service = service;
@@ -49,6 +51,7 @@ let LocationController = class LocationController {
 };
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Create' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.LocationCreatedDto, description: 'Create' }),
     (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully created.', type: location_1.Location }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('create'),
@@ -88,6 +91,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Void by ID' }),
     (0, swagger_1.ApiParam)({ name: 'id', required: true, type: 'number', example: 1 }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully void.' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Delete)('void/:id'),
     __param(0, (0, common_1.Param)('id')),
@@ -97,6 +101,7 @@ __decorate([
 ], LocationController.prototype, "voidOne", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Listing By Page' }),
+    (0, swagger_1.ApiBody)({ type: index_1.FindLocation, description: 'Find Defind' }),
     (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully updated.', type: list_1.listLocation }),
     (0, common_1.Post)('listAll'),
     __param(0, (0, common_1.Body)()),
@@ -106,6 +111,7 @@ __decorate([
 ], LocationController.prototype, "listAll", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Batching Create' }),
+    (0, swagger_1.ApiBody)({ type: dto_1.LocationCreatedDto, isArray: true, description: 'Batching to create' }),
     (0, swagger_1.ApiCreatedResponse)({ status: 200, description: 'This record has been successfully get all.', type: location_1.Location, isArray: true }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuardUser),
     (0, common_1.Post)('batch/create'),

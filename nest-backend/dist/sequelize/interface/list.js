@@ -9,10 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.listLocation = exports.listAssetType = void 0;
+exports.AssetLists = exports.listLocation = exports.listAssetType = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const assetType_1 = require("../models/assetType");
 const location_1 = require("../models/location");
+const assetList_1 = require("../models/assetList");
 class listAssetType {
 }
 __decorate([
@@ -51,4 +52,23 @@ __decorate([
     __metadata("design:type", Number)
 ], listLocation.prototype, "count", void 0);
 exports.listLocation = listLocation;
+class AssetLists {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        isArray: true,
+        type: assetList_1.AssetList,
+        description: 'Listing Data'
+    }),
+    __metadata("design:type", assetList_1.AssetList)
+], AssetLists.prototype, "rows", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 20,
+        description: 'Count all record'
+    }),
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Number)
+], AssetLists.prototype, "count", void 0);
+exports.AssetLists = AssetLists;
 //# sourceMappingURL=list.js.map

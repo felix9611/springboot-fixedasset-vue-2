@@ -9,8 +9,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.departmentFindDTO = exports.departmentCreateDTO = exports.vendorCreateDTO = exports.VendorFindDTO = exports.AssetTypeFindDTO = exports.AssetTypeCreateDTO = exports.CodeTypeFindByTypeDto = exports.CodeTypeFindDto = exports.CodeTypeCreatedDto = void 0;
+exports.AssetListCreateDTO = exports.departmentFindDTO = exports.departmentCreateDTO = exports.vendorCreateDTO = exports.VendorFindDTO = exports.AssetTypeFindDTO = exports.AssetTypeCreateDTO = exports.CodeTypeFindByTypeDto = exports.CodeTypeFindDto = exports.CodeTypeCreatedDto = exports.LocationCreatedDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+class LocationCreatedDto {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'MY',
+        description: 'The Location Code'
+    }),
+    __metadata("design:type", String)
+], LocationCreatedDto.prototype, "placeCode", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'My Room',
+        description: 'The Location Name'
+    }),
+    __metadata("design:type", String)
+], LocationCreatedDto.prototype, "placeName", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '',
+        description: 'Remark',
+        required: false
+    }),
+    __metadata("design:type", String)
+], LocationCreatedDto.prototype, "remark", void 0);
+exports.LocationCreatedDto = LocationCreatedDto;
 class CodeTypeCreatedDto {
 }
 __decorate([
@@ -322,4 +347,136 @@ __decorate([
     __metadata("design:type", Number)
 ], departmentFindDTO.prototype, "page", void 0);
 exports.departmentFindDTO = departmentFindDTO;
+class AssetListCreateDTO {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'ABC',
+        description: 'The Asset name'
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "assetName", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The Asset type id number'
+    }),
+    __metadata("design:type", Number)
+], AssetListCreateDTO.prototype, "typeId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Box',
+        description: 'This asset item how to unit term'
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "unit", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '2022-12-11T01:49:14.286Z',
+        description: 'This asset buy at the date and time',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "buyDate", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'This is for test',
+        description: 'This asset detail',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "description", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 0,
+        description: 'This sponsor type number'
+    }),
+    __metadata("design:type", Number)
+], AssetListCreateDTO.prototype, "sponsor", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Tom',
+        description: 'This sponsor name',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "sponsorName", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '300',
+        description: 'This asset buy cost',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "cost", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '17516987',
+        description: 'This asset Serial Number'
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "serialNumber", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'T00001',
+        description: 'Buy Invoice Sheet Number',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "invoiceNo", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '2022-12-11T01:49:14.286Z',
+        description: 'Buy Invoice Sheet Iussed Date and time',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "invoiceDate", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 5,
+        description: 'The asset store on where the place id number'
+    }),
+    __metadata("design:type", Number)
+], AssetListCreateDTO.prototype, "placeId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 1,
+        description: 'The asset by which the department id number'
+    }),
+    __metadata("design:type", Number)
+], AssetListCreateDTO.prototype, "deptId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'A001',
+        description: 'The operation staff UUID',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "staffId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 2,
+        description: 'The asset vendor code',
+        required: false
+    }),
+    __metadata("design:type", Number)
+], AssetListCreateDTO.prototype, "vendorId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Testing',
+        description: 'The asset other information remark',
+        required: false
+    }),
+    __metadata("design:type", String)
+], AssetListCreateDTO.prototype, "remark", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: {},
+        description: 'The asset other information by json or array',
+        required: false
+    }),
+    __metadata("design:type", Object)
+], AssetListCreateDTO.prototype, "flexData", void 0);
+exports.AssetListCreateDTO = AssetListCreateDTO;
 //# sourceMappingURL=dto.js.map

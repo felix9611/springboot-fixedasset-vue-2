@@ -15,6 +15,8 @@ import { Location } from 'src/sequelize/models/location'
 import { JwtAuthGuardUser } from 'src/auth/guards/jwt-auth.guard'
 import { ApiTags, ApiOperation, ApiBody, ApiParam, ApiCreatedResponse } from '@nestjs/swagger'
 import { listLocation } from 'src/sequelize/interface/list'
+import { LocationCreatedDto } from 'src/sequelize/interface/dto'
+import { FindLocation } from 'src/sequelize/interface/index'
 
 @ApiTags('Location')
 @Controller('api/location')
@@ -22,6 +24,7 @@ export class LocationController {
   constructor(private readonly service: LocationTableService) {}
 
   @ApiOperation({ summary: 'Create' })
+  @ApiBody({ type: LocationCreatedDto, description: 'Create' })
   @ApiCreatedResponse({ status: 200, description: 'This record has been successfully created.', type: Location })
   @UseGuards(JwtAuthGuardUser)
   @Post('create')
@@ -54,6 +57,7 @@ export class LocationController {
 
   @ApiOperation({ summary: 'Void by ID' })
   @ApiParam({ name: 'id', required: true, type: 'number', example: 1 })
+  @ApiCreatedResponse({ status: 200, description: 'This record has been successfully void.' })
   @UseGuards(JwtAuthGuardUser)
   @Delete('void/:id')
   async voidOne(@Param('id') id: number) {
@@ -61,6 +65,7 @@ export class LocationController {
   }
 
   @ApiOperation({ summary: 'Listing By Page' })
+  @ApiBody({ type: FindLocation, description: 'Find Defind' })
   @ApiCreatedResponse({ status: 200, description: 'This record has been successfully updated.', type: listLocation })
   @Post('listAll')
   async listAll(@Body() location: Location) {
@@ -68,6 +73,7 @@ export class LocationController {
   }
 
   @ApiOperation({ summary: 'Batching Create' })
+  @ApiBody({ type: LocationCreatedDto, isArray: true, description: 'Batching to create' })
   @ApiCreatedResponse({ status: 200, description: 'This record has been successfully get all.', type: Location, isArray: true })
   @UseGuards(JwtAuthGuardUser)
   @Post('batch/create')
