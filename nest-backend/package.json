@@ -1,8 +1,8 @@
 {
-  "name": "project-name",
+  "name": "Fixedasset Nest API",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Felix",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
