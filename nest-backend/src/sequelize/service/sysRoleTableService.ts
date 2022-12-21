@@ -199,7 +199,7 @@ export class SysRoleTableService {
 
   makeTree(mains: any, pages: any) {
     return mains.map( xa => {
-      const testArray = pages.filter(u => xa.id === u.parentId)
+      const testArray = pages.filter(u => xa.id === u.parentId && u.type > 0)
       return {
         ...xa.dataValues,
         children: testArray

@@ -15,4 +15,4 @@ import { InvRecord } from './invrecord';
 import { CodeType } from './codeType';
 import { StockTake } from './stocktake';
 import { StockTakeItem } from './stockTakeItem';
-export declare const models: (typeof LoginRecord | typeof Test | typeof SysMenu | typeof SysRole | typeof SysRoleMenu | typeof SysUserRole | typeof AssetType | typeof Location | typeof Department | typeof Vendor | typeof AssetList | typeof AssetListFiles | typeof WriteOff | typeof InvRecord | typeof CodeType | typeof StockTake | typeof StockTakeItem)[];
+export declare const models: (typeof Test | typeof SysRole | typeof SysMenu | typeof SysRoleMenu | typeof SysUserRole | typeof AssetType | typeof Location | typeof Department | typeof Vendor | typeof AssetList | typeof WriteOff | typeof AssetListFiles | typeof LoginRecord | typeof InvRecord | typeof CodeType | typeof StockTake | typeof StockTakeItem)[];

@@ -3,12 +3,12 @@ function resolve(dir) {
     return path.join(__dirname, '.', dir);
 }
 module.exports = {
-    publicPath: process.env.ENV === 'production' ? '/fixedasset-vue':'/',
+    publicPath: process.env.ENV === 'production' ? '/fixedasset-nest':'/',
     assetsDir: 'static',
     productionSourceMap: false,
     devServer: {
         allowedHosts: [
-            'localhost/fixedasset-vue',
+            'localhost/fixedasset-nest',
             'localhost'
         ],
         host: 'localhost',

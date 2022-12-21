@@ -63,14 +63,15 @@ export default class vHead extends Vue {
         // 用户名下拉菜单选择事件
     handleCommand(command) {
         if (command == 'loginout') {
-            axios.post('/logout').then(res => {
-                localStorage.clear()
+          this.$store.commit('resetState')
+          this.$router.push('/login')
+            /* axios.post('/logout').then(res => {
                 localStorage.clear()
                 // this.$store.commit('resetState')
                 this.$store.commit('resetHasRoutes')
 
                     this.$router.push('/login')
-                })
+            }) */
         }
         if (command == 'userindex') {
             this.$router.push('/userindex')

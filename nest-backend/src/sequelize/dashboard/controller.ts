@@ -1,0 +1,30 @@
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  Get,
+  Delete,
+  Put,
+  Param,
+  Query,
+} from '@nestjs/common'
+import { DasboardService } from 'src/sequelize/dashboard/service'
+import { ApiTags, ApiOperation, ApiBody, ApiSecurity, ApiCreatedResponse, ApiParam } from '@nestjs/swagger'
+
+@ApiTags('Dashboard')
+@Controller('api/dashboard/cards')
+export class DasboardController {
+  constructor(private readonly service: DasboardService) {}
+
+  @Post('getAssetCostYearMonthFind')
+  async getAssetYearCostFind(@Body() findDef: any) {
+    return await this.service.getAssetCostYearMonthFind(findDef)
+  }
+
+  @Post('getAssetItemsYearMonthFind')
+  async getAssetYearItemsFind(@Body() findDef: any) {
+    return await this.service.getAssetItemsYearMonthFind(findDef)
+  }
+}

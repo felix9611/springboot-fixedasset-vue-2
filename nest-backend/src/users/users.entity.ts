@@ -11,29 +11,29 @@ export class User {
   @Column()
   password: string;
 
-/*  @Column({
+  @Column({
     nullable: true,
   })
-  avatar: string */
+  avatar: string
 
   @Column('simple-array', {
     nullable: true,
   })
-  roles: string[];
+  roles: string[]
 
   @Column('mediumtext', {
     nullable: true,
   })
-  intro: string;
+  intro: string
 
   @Column()
-  status: boolean;
+  status: boolean
 
   @Column({
     select: false,
   })
-  createdAt: Date;
+  createdAt: Date
 
   @Column()
-  updatedAt: Date;
+  updatedAt: Date
 }

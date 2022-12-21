@@ -1,12 +1,12 @@
 <template>
     <div class="container">
-        
+
             <el-row :gutter="30">
                 <el-form :model="searchForm">
                     <el-col :span="30">
                         <el-form-item label="Buy Date" prop="Dept" label-width="100px">
                             <el-date-picker
-                            v-model="buyDateForm"
+                            v-model="searchForm.buyDate"
                             type="daterange"
                             placeholder="Select date and time">
                             </el-date-picker>
@@ -45,143 +45,33 @@
               </el-row>
 
          <br>
-        
 
-        <el-row :gutter="24">
-            <el-col :span="24">
-                <v-card>
-                    <div class="card-title">
-                        Total Item by Year-Month
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="itemYearMonthData" :headers="itemYearMonthHeader" v-bind="chartsSetItemYearMonth" />
-                    </div>
-                </v-card> 
-            </el-col>
-        </el-row>
+         <el-row :gutter="24">
+             <el-col :span="24">
+                 <v-card>
+                     <div class="card-title">
+                         Total Costs by Year-Month
+                     </div>
+                     <div class="card-content">
+                         <ChartJsStackedChart :data="assetCostYearMonthFindData" :headers="assetCostYearMonthFindHeader" v-bind="chartGetAssetCostYearMonthFind" />
+                     </div>
+                 </v-card>
+             </el-col>
+         </el-row>
 
-        <el-row :gutter="24">
-            <el-col :span="24">
-                <v-card>
-                    <div class="card-title">
-                        Total Costs by Year-Month
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetCostYearMonthData" :headers="getAssetCostYearMonthHeader" v-bind="chartsSetAssetCostYearMonth" />
-                    </div>
-                </v-card> 
-            </el-col>
-        </el-row>
+         <el-row :gutter="24">
+             <el-col :span="24">
+                 <v-card>
+                     <div class="card-title">
+                         Total Costs by Year-Month
+                     </div>
+                     <div class="card-content">
+                         <ChartJsStackedChart :data="assetItemsYearMonthFindData" :headers="assetItemsYearMonthFindHeader" v-bind="chartGetAssetItemsYearMonthFind" />
+                     </div>
+                 </v-card>
+             </el-col>
+         </el-row>
 
-
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by type
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetGroupTypeData" :headers="getAssetGroupTypeHeader" v-bind="chartsSetAssetGroupType" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Place
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetGroupPlaceData" :headers="getAssetGroupPlaceHeader" v-bind="chartsSetAssetGroupPlace" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
-
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Department & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearQtyDeptData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyDept" /> 
-                    </div> 
-                    <div>{{getAssetYearDeptTypeHeader}}</div>
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Type & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearQtyTypeData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyType" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Place & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearQtyPlaceData" :headers="getAssetYearQtyPlaceHeader" v-bind="chartsSetAssetYearQtyPlace" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Cost by Place & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostPlaceData" :headers="getAssetYearCostPlaceHeader" v-bind="chartsSetAssetYearCostPlace" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Buy Year-month and Department - Cost
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostDept" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Buy Year-month and Type - Cost
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostDeptHeader" v-bind="chartsSetAssetYearCostType" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
-
-        
     </div>
 </template>
 
@@ -207,547 +97,102 @@ export default class Dashboard extends Vue {
     typeItem: any = []
     deptItem: any = []
 
+    // base
+    assetCostYearMonthFindData: any[] = []
+    assetCostYearMonthFindHeader: any[] = []
+
+    assetItemsYearMonthFindData: any[] = []
+    assetItemsYearMonthFindHeader: any[] = []
+
+
+    created() {
+      this.getAssetCostYearMonthFind()
+      this.getAssetItemsYearMonthFind()
+
+      this.getAllType()
+      this.getAlldept()
+    }
+
+    goToFind() {
+      this.assetCostYearMonthFindHeader = []
+      this.assetItemsYearMonthFindHeader = []
+
+      this.getAssetCostYearMonthFind()
+      this.getAssetItemsYearMonthFind()
+    }
+
 
     //base
     getAllType() {
         axios.get(
-            '/base/asset_type/getAll'
+            '/api/asset/type/getAll'
         ).then(
             (res: any) => {
-            this.typeItem = res.data.data
+            this.typeItem = res
         })
     }
     getAlldept() {
         axios.get(
-            '/base/department/getAll'
+            '/api/department/getAll'
         ).then(
             (res: any) => {
-            this.deptItem = res.data.data
+            this.deptItem = res
         })
     }
 
-    // data
-    getAssetYearCostDeptData: any = []
-    get getAssetYearCostDeptHeader() {
-        const header: any = []
-        const test = this.getAssetYearCostDeptData.map(x=> {  
-            return x.yearMonth
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'costs',
-              label: r,
-              test: `return row.yearMonth == '${r}'`,
-            })
-        })
-        return header
+    get chartGetAssetCostYearMonthFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        fill: false,
+        value: 'costs',
+        labelData: 'Total Costs',
+      }
     }
-    get chartsSetAssetYearCostDept() {
-        return {
-            heigh: 300,
-            type: 'bar',
-            datasetKey: 'deptName',
-            alwaysMultipleDatasets: true,
-            fill: true,
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { stacked: true }
-                    ],
-                    yAxes: [
-                    { stacked: true }
-                    ]
-                }
-            }
-        }
-    }
-
-    itemYearMonthData: any = []
-    get itemYearMonthHeader() {
-        const header: any = []
-        const test = this.getAssetYearCostDeptData.map(x=> {  
-            return x.yearMonth
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'items',
-              label: r,
-              test: `return row.yearMonth == '${r}'`,
-            })
-        })
-        return header
-    }
-    get chartsSetItemYearMonth() {
-        return {
-            width: 1500,
-            heigh: 900,
-            fill: false,
-            value: 'items',
-            labelData: 'Total Items',
-            type: 'line',
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { 
-                        stacked: true,
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }
-                    ],
-                    yAxes: [
-                    { 
-                        stacked: true,
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }
-                    ]
-                }
-            }
-        }      
-    }
-
-    getAssetYearCostTypeData: any = []
-    get getAssetYearCostTypeHeader() {
-        const header: any = []
-        const test = this.getAssetYearCostTypeData.map(x=> {  
-            return x.yearMonth
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'costs',
-              label: r,
-              test: `return row.yearMonth == '${r}'`,
-            })
-        })
-        return header
-    }
-    get chartsSetAssetYearCostType() {
-        return {
-            heigh: 200,
-            type: 'bar',
-            datasetKey: 'typeName',
-            alwaysMultipleDatasets: true,
-            value: 'items',
-            label: 'Total Items',
-            // colors: '#66ccff',
-            fill: true,
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { stacked: true }
-                    ],
-                    yAxes: [
-                    { stacked: true }
-                    ]
-                }
-            }
-        }
-    }
-
-    getAssetGroupTypeData: any = []
-    get getAssetGroupTypeHeader() {
-       const header: any = []
-        const test = this.getAssetGroupTypeData.map(x=> {  
-            return x.typeName
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'items',
-              label: r,
-              test: `return row.typeName == '${r}'`,
-            })
-        })
-        return header
-    }
-    get chartsSetAssetGroupType() {
-        return {
-            width: 600,
-            heigh: 200,
-            type: 'bar',
-            // datasetKey: 'typeName',
-            labelData: 'Total Items',
-            // colors: '#a1d41b',
-
-        }
-    }
-
-    getAssetGroupPlaceData: any = []
-    get getAssetGroupPlaceHeader() {
-        const header: any = []
-        const test = this.getAssetGroupPlaceData.map(x=> {  
-            return x.placeName
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'items',
-              label: r,
-              test: `return row.placeName == '${r}'`,
-            })
-        })
-        return header
-    }
-    get chartsSetAssetGroupPlace() {
-        return {
-            width: 600,
-            heigh: 200,
-            type: 'bar',
-            // datasetKey: 'typeName',
-            labelData: 'Total Items',
-            // colors: '#a1d41b',
-
-        }
-    }
-
-    getAssetYearQtyTypeData: any = []
-    get getAssetYearQtyTypeHeader() {
-        const header: any = []
-        const test = this.getAssetYearQtyTypeData.map(x=> {  
-            return x.yearMonth
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'items',
-              label: r,
-              test: `return row.yearMonth == '${r}'`,
-            })
-        })
-        return header
-    }
-    get chartsSetAssetYearQtyType() {
-        return {
-            heigh: 200,
-            type: 'bar',
-            datasetKey: 'typeName',
-            alwaysMultipleDatasets: true,
-            value: 'items',
-            label: 'Total Items',
-            // colors: '#66ccff',
-            fill: true,
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { stacked: true }
-                    ],
-                    yAxes: [
-                    { stacked: true }
-                    ]
-                }
-            }
-        }
-    }
-
-
-    getAssetYearQtyDeptData: any = []
-    get chartsSetAssetYearQtyDept() {
-        return {
-            heigh: 200,
-            type: 'bar',
-            datasetKey: 'deptName',
-            alwaysMultipleDatasets: true,
-            value: 'items',
-            label: 'Total Items',
-            // colors: '#66ccff',
-            fill: true,
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { stacked: true }
-                    ],
-                    yAxes: [
-                    { stacked: true }
-                    ]
-                }
-            }
-        }
-    }
-
-    getAssetCostYearMonthData: any = []
-    get chartsSetAssetCostYearMonth() {
-        return {
-            width: 1500,
-            heigh: 200,
-            type: 'line',
-            alwaysMultipleDatasets: true,
-            value: 'costs',
-            labelData: 'Total Cost',
-            fill: false,
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { 
-                        stacked: true,
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }
-                    ],
-                    yAxes: [
-                    { 
-                        stacked: true,
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }
-                    ]
-                }
-            }
-        }
-    }
-    get getAssetCostYearMonthHeader() {
-        const header: any = []
-        const test = this.getAssetCostYearMonthData.map(x=> {  
-            return x.yearMonth
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'costs',
-              label: r,
-              test: `return row.yearMonth == '${r}'`,
-            })
-        })
-        return header
-    }
-    
-
-
-    getAssetYearQtyPlaceData: any = []
-    get chartsSetAssetYearQtyPlace() {
-        return {
-            heigh: 200,
-            type: 'bar',
-            datasetKey: 'placeName',
-            alwaysMultipleDatasets: true,
-            value: 'items',
-            label: 'Total Items',
-            // colors: '#66ccff',
-            fill: true,
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { stacked: true }
-                    ],
-                    yAxes: [
-                    { stacked: true }
-                    ]
-                }
-            }
-        }
-    }
-    get getAssetYearQtyPlaceHeader() {
-        const header: any = []
-        const test = this.getAssetYearQtyPlaceData.map(x=> {  
-            return x.yearMonth
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'items',
-              label: r,
-              test: `return row.yearMonth == '${r}'`,
-            })
-        })
-        return header
-    }
-
-    getAssetYearCostPlaceData: any = []
-    get chartsSetAssetYearCostPlace() {
-        return {
-            heigh: 200,
-            type: 'bar',
-            datasetKey: 'placeName',
-            alwaysMultipleDatasets: true,
-            value: 'items',
-            label: 'Total Items',
-            // colors: '#66ccff',
-            fill: true,
-            customChartOptions: {
-                scales: {
-                    xAxes: [
-                    { stacked: true }
-                    ],
-                    yAxes: [
-                    { stacked: true }
-                    ]
-                }
-            }
-        }
-    }
-    get getAssetYearCostPlaceHeader() {
-        const header: any = []
-        const test = this.getAssetYearCostPlaceData.map(x=> {  
-            return x.yearMonth
-        })
-        const xu = [ ...new Set(test) ]
-        xu.forEach(r => {
-            header.push({
-              key: 'costs',
-              label: r,
-              test: `return row.yearMonth == '${r}'`,
-            })
-        })
-        return header
-    }
-
-    goToFind() {
-        const [from, to] = this.buyDateForm
-        this.searchForm = {
-            ...this.searchForm,
-            buyDateFrom: from,
-            buyDateTo: to
-        }
-        this.getItemYearMonth()
-        this.getAssetYearCostDeptFind()
-        this.getAssetYearCostType()
-        this.groupByTypeFind()
-        this.groupByPlaceFind()
-        this.getAssetYearQtyTypeFind()
-        this.getAssetYearQtyDeptDataFind()
-        this.getAssetCostYearMonthFind()
-        this.getAssetYearQtyPlaceFind()
-        this.getAssetYearCostPlaceFind()
-    }
-
-    created() {
-        /* this.getItemYearMonth()
-        this.getAssetYearCostDeptFind()
-        this.getAssetYearCostType()
-        this.groupByTypeFind()
-        this.groupByPlaceFind()
-        this.getAssetYearQtyTypeFind()
-        this.getAssetYearQtyDeptDataFind()
-        this.getAssetCostYearMonthFind()
-        this.getAssetYearQtyPlaceFind()
-        this.getAssetYearCostPlaceFind()
-
-        this.getAllType()
-        this.getAlldept() */
-    }
-
-    // charts data
-    getAssetYearCostDeptFind() {
-        axios.post(
-            '/asset/assetList/getAssetYearCostDeptFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetYearCostDeptData = res.data.data
-            }
-        )
-    }
-    getItemYearMonth() {
-        axios.post(
-            '/asset/assetList/getItemYearMonthFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.itemYearMonthData = res.data.data
-            }
-        )
-    }
-    getAssetYearCostType() {
-        axios.post(
-            '/asset/assetList/getAssetYearCostTypeFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetYearCostTypeData = res.data.data
-            }
-        )
-    }
-    groupByTypeFind() {
-        axios.post(
-            '/asset/assetList/groupByTypeFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetGroupTypeData = res.data.data
-            }
-        )
-    }
-    groupByPlaceFind() {
-        axios.post(
-            '/asset/assetList/getAssetGroupPlaceFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetGroupPlaceData = res.data.data
-            }
-        )
-    }
-    getAssetYearQtyTypeFind() {
-        axios.post(
-            '/asset/assetList/getAssetYearQtyTypeFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetYearQtyTypeData = res.data.data
-            }
-        )
-    }
-
-    getAssetYearQtyDeptDataFind() {
-        axios.post(
-            '/asset/assetList/getAssetYearQtyDeptFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetYearQtyDeptData = res.data.data
-            }
-        )
-    }
-
     getAssetCostYearMonthFind() {
-        axios.post(
-            '/asset/assetList/getAssetCostYearMonthFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetCostYearMonthData = res.data.data
-            }
-        )
+      axios.post(
+          '/api/dashboard/cards/getAssetCostYearMonthFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
+          this.assetCostYearMonthFindData = res
+
+          res.map( mp => {
+            this.assetCostYearMonthFindHeader.push({
+              key: 'costs',
+              label: `${mp.year}-${mp.month}`,
+              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+            })
+          })
+      })
     }
 
-    getAssetYearQtyPlaceFind() {
-        axios.post(
-            '/asset/assetList/getAssetYearQtyPlaceFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetYearQtyPlaceData = res.data.data
-                this.getAssetYearQtyPlaceData.map(
-                    _res => {
-                        _res['yearMonth'] = `${_res.years}-${_res.months}`
-                    }
-                )
-            }
-        )
+    get chartGetAssetItemsYearMonthFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        fill: false,
+        value: 'count',
+        labelData: 'Total Costs',
+      }
     }
+    getAssetItemsYearMonthFind() {
+      axios.post(
+          '/api/dashboard/cards/getAssetItemsYearMonthFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
+          this.assetItemsYearMonthFindData = res
 
-    getAssetYearCostPlaceFind() {
-        axios.post(
-            '/asset/assetList/getAssetYearCostPlaceFind',
-            this.searchForm
-        ).then(
-            (res: any) => {
-                this.getAssetYearCostPlaceData = res.data.data
-                this.getAssetYearCostPlaceData.map(
-                    _res => {
-                        _res['yearMonth'] = `${_res.years}-${_res.months}`
-                    }
-                )
-            }
-        )
+          res.map( mp => {
+            this.assetItemsYearMonthFindHeader.push({
+              key: 'count',
+              label: `${mp.year}-${mp.month}`,
+              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+            })
+          })
+      })
     }
-
 }
 </script>
 

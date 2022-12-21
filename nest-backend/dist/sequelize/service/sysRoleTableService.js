@@ -109,7 +109,7 @@ let SysRoleTableService = class SysRoleTableService {
     }
     makeTree(mains, pages) {
         return mains.map(xa => {
-            const testArray = pages.filter(u => xa.id === u.parentId);
+            const testArray = pages.filter(u => xa.id === u.parentId && u.type > 0);
             return Object.assign(Object.assign({}, xa.dataValues), { children: testArray });
         });
     }

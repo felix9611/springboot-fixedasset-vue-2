@@ -41,7 +41,7 @@ const routes = [
 ]
 const router = new Router({
     mode: 'history',
-    base: '/fixedasset-vue/',
+    base: '/fixedasset-nest/',
     routes
 })
 
@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         next()
 
-    } else if (!token) {
+    } else if (token === null) {
         next({path: '/login'})
     } else if(token && !hasRoute) {
         axios.get('/api/sys/role/user/pages', {

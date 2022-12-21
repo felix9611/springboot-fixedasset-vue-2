@@ -13,13 +13,15 @@ const providers_1 = require("./providers");
 const service_1 = require("./service");
 const controllers_1 = require("./controllers");
 const models_1 = require("./models");
+const service_2 = require("./dashboard/service");
+const controller_1 = require("./dashboard/controller");
 let SequelizeDatabaseModule = class SequelizeDatabaseModule {
 };
 SequelizeDatabaseModule = __decorate([
     (0, common_1.Module)({
         imports: [...models_1.models],
-        providers: [...database_providers_1.databaseProviders, ...providers_1.mainProviders, ...service_1.services],
-        controllers: [...controllers_1.controllers],
+        providers: [...database_providers_1.databaseProviders, ...providers_1.mainProviders, ...service_1.services, service_2.DasboardService],
+        controllers: [...controllers_1.controllers, controller_1.DasboardController],
         exports: [...database_providers_1.databaseProviders],
     })
 ], SequelizeDatabaseModule);
