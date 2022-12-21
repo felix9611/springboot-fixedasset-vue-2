@@ -50,7 +50,7 @@
              <el-col :span="24">
                  <v-card>
                      <div class="card-title">
-                         Total Costs by Year-Month
+                         Total Cost by Year-Month
                      </div>
                      <div class="card-content">
                          <ChartJsStackedChart :data="assetCostYearMonthFindData" :headers="assetCostYearMonthFindHeader" v-bind="chartGetAssetCostYearMonthFind" />
@@ -63,7 +63,7 @@
              <el-col :span="24">
                  <v-card>
                      <div class="card-title">
-                         Total Costs by Year-Month
+                         Total Count by Year-Month
                      </div>
                      <div class="card-content">
                          <ChartJsStackedChart :data="assetItemsYearMonthFindData" :headers="assetItemsYearMonthFindHeader" v-bind="chartGetAssetItemsYearMonthFind" />
@@ -71,6 +71,34 @@
                  </v-card>
              </el-col>
          </el-row>
+
+         <el-row :gutter="24">
+             <el-col :span="24">
+                 <v-card>
+                     <div class="card-title">
+                         Total Cost By Department & Year-Month
+                     </div>
+                     <div class="card-content">
+                         <ChartJsStackedChart :data="assetCostsYearMonthByDeptFindData" :headers="assetCostsYearMonthByDeptFindHeader" v-bind="chartGetAssetCostsYearMonthByDeptFind" />
+                     </div>
+                 </v-card>
+             </el-col>
+         </el-row>
+
+         <el-row :gutter="24">
+             <el-col :span="24">
+                 <v-card>
+                     <div class="card-title">
+                         Total Count By Department & Year-Month
+                     </div>
+                     <div class="card-content">
+                         <ChartJsStackedChart :data="assetCountYearMonthByDeptFindData" :headers="assetCountYearMonthByDeptFindHeader" v-bind="chartGetAssetCountYearMonthByDeptFind" />
+                     </div>
+                 </v-card>
+             </el-col>
+         </el-row>
+
+
 
     </div>
 </template>
@@ -104,10 +132,18 @@ export default class Dashboard extends Vue {
     assetItemsYearMonthFindData: any[] = []
     assetItemsYearMonthFindHeader: any[] = []
 
+    assetCountYearMonthByDeptFindData: any[] = []
+    assetCountYearMonthByDeptFindHeader: any[] = []
+
+    assetCostsYearMonthByDeptFindData: any[] = []
+    assetCostsYearMonthByDeptFindHeader: any[] = []
+
 
     created() {
       this.getAssetCostYearMonthFind()
       this.getAssetItemsYearMonthFind()
+      this.getAssetCountYearMonthByDeptFind()
+      this.getAssetCostsYearMonthByDeptFind()
 
       this.getAllType()
       this.getAlldept()
@@ -116,9 +152,12 @@ export default class Dashboard extends Vue {
     goToFind() {
       this.assetCostYearMonthFindHeader = []
       this.assetItemsYearMonthFindHeader = []
+      this.assetCountYearMonthByDeptFindHeader = []
 
       this.getAssetCostYearMonthFind()
       this.getAssetItemsYearMonthFind()
+      this.getAssetCountYearMonthByDeptFind()
+      this.getAssetCostsYearMonthByDeptFind()
     }
 
 
@@ -147,6 +186,7 @@ export default class Dashboard extends Vue {
         fill: false,
         value: 'costs',
         labelData: 'Total Costs',
+        type: 'line'
       }
     }
     getAssetCostYearMonthFind() {
@@ -174,6 +214,7 @@ export default class Dashboard extends Vue {
         fill: false,
         value: 'count',
         labelData: 'Total Costs',
+        type: 'line'
       }
     }
     getAssetItemsYearMonthFind() {
@@ -193,6 +234,104 @@ export default class Dashboard extends Vue {
           })
       })
     }
+
+    get chartGetAssetCountYearMonthByDeptFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        fill: false,
+        value: 'count',
+        labelData: 'Total Counts',
+        datasetKey: 'deptName',
+        alwaysMultipleDatasets: true,
+        type: 'bar',
+        customChartOptions: {
+            scales: {
+                xAxes: [
+                { stacked: true }
+                ],
+                yAxes: [
+                { stacked: true }
+                ]
+            }
+        }
+      }
+    }
+    getAssetCountYearMonthByDeptFind() {
+      axios.post(
+          '/api/dashboard/cards/getAssetCountsYearMonthByDeptFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
+
+          this.assetCountYearMonthByDeptFindData = res.map((asa: any) => {
+            const { Department, ..._asa } = asa
+            const { deptName } = Department
+            return {
+              deptName,
+              ..._asa
+            }
+          } )
+
+          res.map( mp => {
+            this.assetCountYearMonthByDeptFindHeader.push({
+              key: 'count',
+              label: `${mp.year}-${mp.month}`,
+              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+            })
+          })
+      })
+    }
+
+    get chartGetAssetCostsYearMonthByDeptFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        fill: false,
+        value: 'costs',
+        labelData: 'Total costs',
+        datasetKey: 'deptName',
+        alwaysMultipleDatasets: true,
+        type: 'bar',
+        customChartOptions: {
+            scales: {
+                xAxes: [
+                { stacked: true }
+                ],
+                yAxes: [
+                { stacked: true }
+                ]
+            }
+        }
+      }
+    }
+    getAssetCostsYearMonthByDeptFind() {
+      axios.post(
+          '/api/dashboard/cards/getAssetCostsYearMonthByDeptFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
+
+          this.assetCostsYearMonthByDeptFindData = res.map((asa: any) => {
+            const { Department, ..._asa } = asa
+            const { deptName } = Department
+            return {
+              deptName,
+              ..._asa
+            }
+          } )
+
+          res.map( mp => {
+            this.assetCostsYearMonthByDeptFindHeader.push({
+              key: 'costs',
+              label: `${mp.year}-${mp.month}`,
+              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+            })
+          })
+      })
+    }
+
+
 }
 </script>
 

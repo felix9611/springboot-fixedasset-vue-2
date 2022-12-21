@@ -5,4 +5,6 @@ export declare class DasboardService {
     constructor(assetListRepository: typeof AssetList);
     getAssetCostYearMonthFind(findDef: findDef): Promise<AssetList[]>;
     getAssetItemsYearMonthFind(findDef: findDef): Promise<AssetList[]>;
+    getAssetCountsYearMonthByDeptFind(findDef: findDef): Promise<AssetList[]>;
+    getAssetCostsYearMonthByDeptFind(findDef: findDef): Promise<AssetList[]>;
 }

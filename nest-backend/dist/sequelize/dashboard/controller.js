@@ -26,6 +26,12 @@ let DasboardController = class DasboardController {
     async getAssetYearItemsFind(findDef) {
         return await this.service.getAssetItemsYearMonthFind(findDef);
     }
+    async getAssetCountsYearMonthByDeptFind(findDef) {
+        return await this.service.getAssetCountsYearMonthByDeptFind(findDef);
+    }
+    async getAssetCostsYearMonthByDeptFind(findDef) {
+        return await this.service.getAssetCostsYearMonthByDeptFind(findDef);
+    }
 };
 __decorate([
     (0, common_1.Post)('getAssetCostYearMonthFind'),
@@ -41,6 +47,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], DasboardController.prototype, "getAssetYearItemsFind", null);
+__decorate([
+    (0, common_1.Post)('getAssetCountsYearMonthByDeptFind'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], DasboardController.prototype, "getAssetCountsYearMonthByDeptFind", null);
+__decorate([
+    (0, common_1.Post)('getAssetCostsYearMonthByDeptFind'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], DasboardController.prototype, "getAssetCostsYearMonthByDeptFind", null);
 DasboardController = __decorate([
     (0, swagger_1.ApiTags)('Dashboard'),
     (0, common_1.Controller)('api/dashboard/cards'),
