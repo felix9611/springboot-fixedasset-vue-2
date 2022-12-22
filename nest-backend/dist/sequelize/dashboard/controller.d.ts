@@ -6,4 +6,6 @@ export declare class DasboardController {
     getAssetYearItemsFind(findDef: any): Promise<import("../models/assetList").AssetList[]>;
     getAssetCountsYearMonthByDeptFind(findDef: any): Promise<import("../models/assetList").AssetList[]>;
     getAssetCostsYearMonthByDeptFind(findDef: any): Promise<import("../models/assetList").AssetList[]>;
+    getAssetCostsYearMonthByTypeFind(findDef: any): Promise<import("../models/assetList").AssetList[]>;
+    getAssetCountYearMonthByTypeFind(findDef: any): Promise<import("../models/assetList").AssetList[]>;
 }

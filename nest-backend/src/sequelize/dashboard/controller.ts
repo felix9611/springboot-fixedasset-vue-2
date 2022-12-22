@@ -37,4 +37,14 @@ export class DasboardController {
   async getAssetCostsYearMonthByDeptFind(@Body() findDef: any) {
     return await this.service.getAssetCostsYearMonthByDeptFind(findDef)
   }
+
+  @Post('getAssetCostsYearMonthByTypeFind')
+  async getAssetCostsYearMonthByTypeFind(@Body() findDef: any) {
+    return await this.service.getAssetCostsYearMonthByTypeFind(findDef)
+  }
+
+  @Post('getAssetCountYearMonthByTypeFind')
+  async getAssetCountYearMonthByTypeFind(@Body() findDef: any) {
+    return await this.service.getAssetCountYearMonthByTypeFind(findDef)
+  }
 }

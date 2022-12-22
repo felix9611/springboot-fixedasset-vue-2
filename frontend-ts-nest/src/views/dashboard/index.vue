@@ -98,6 +98,32 @@
              </el-col>
          </el-row>
 
+         <el-row :gutter="24">
+             <el-col :span="24">
+                 <v-card>
+                     <div class="card-title">
+                         Total Cost By Type & Year-Month
+                     </div>
+                     <div class="card-content">
+                         <ChartJsStackedChart :data="assetCostsYearMonthByTypeFindData" :headers="assetCostsYearMonthByTypeFindHeader" v-bind="chartGetAssetCostsYearMonthByTypeFind" />
+                     </div>
+                 </v-card>
+             </el-col>
+         </el-row>
+
+         <el-row :gutter="24">
+             <el-col :span="24">
+                 <v-card>
+                     <div class="card-title">
+                         Total Cost By Type & Year-Month
+                     </div>
+                     <div class="card-content">
+                         <ChartJsStackedChart :data="assetCountYearMonthByTypeFindData" :headers="assetCountYearMonthByTypeFindHeader" v-bind="chartGetAssetCountYearMonthByTypeFind" />
+                     </div>
+                 </v-card>
+             </el-col>
+         </el-row>
+
 
 
     </div>
@@ -138,12 +164,20 @@ export default class Dashboard extends Vue {
     assetCostsYearMonthByDeptFindData: any[] = []
     assetCostsYearMonthByDeptFindHeader: any[] = []
 
+    assetCostsYearMonthByTypeFindData: any[] = []
+    assetCostsYearMonthByTypeFindHeader: any[] = []
+
+    assetCountYearMonthByTypeFindData: any[] = []
+    assetCountYearMonthByTypeFindHeader: any[] = []
+
 
     created() {
       this.getAssetCostYearMonthFind()
       this.getAssetItemsYearMonthFind()
       this.getAssetCountYearMonthByDeptFind()
       this.getAssetCostsYearMonthByDeptFind()
+      this.getAssetCostsYearMonthByTypeFind()
+      this.getAssetCountYearMonthByTypeFind()
 
       this.getAllType()
       this.getAlldept()
@@ -153,11 +187,16 @@ export default class Dashboard extends Vue {
       this.assetCostYearMonthFindHeader = []
       this.assetItemsYearMonthFindHeader = []
       this.assetCountYearMonthByDeptFindHeader = []
+      this.assetCostsYearMonthByDeptFindHeader = []
+      this.assetCostsYearMonthByTypeFindHeader = []
+      this.assetCountYearMonthByTypeFindHeader = []
 
       this.getAssetCostYearMonthFind()
       this.getAssetItemsYearMonthFind()
       this.getAssetCountYearMonthByDeptFind()
       this.getAssetCostsYearMonthByDeptFind()
+      this.getAssetCostsYearMonthByTypeFind()
+      this.getAssetCountYearMonthByTypeFind()
     }
 
 
@@ -269,15 +308,23 @@ export default class Dashboard extends Vue {
             const { deptName } = Department
             return {
               deptName,
+                yearMonth: `${_asa.year}-${_asa.month}`,
               ..._asa
             }
           } )
 
-          res.map( mp => {
+          const uniqueXAxises = this.assetCountYearMonthByDeptFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+          uniqueXAxises.map( mp => {
             this.assetCountYearMonthByDeptFindHeader.push({
               key: 'count',
-              label: `${mp.year}-${mp.month}`,
-              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
             })
           })
       })
@@ -317,21 +364,138 @@ export default class Dashboard extends Vue {
             const { deptName } = Department
             return {
               deptName,
+              yearMonth: `${_asa.year}-${_asa.month}`,
               ..._asa
             }
           } )
 
-          res.map( mp => {
+          const uniqueXAxises = this.assetCostsYearMonthByDeptFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+          uniqueXAxises.map( mp => {
             this.assetCostsYearMonthByDeptFindHeader.push({
               key: 'costs',
-              label: `${mp.year}-${mp.month}`,
-              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
             })
           })
       })
     }
 
+    get chartGetAssetCostsYearMonthByTypeFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        fill: false,
+        value: 'costs',
+        labelData: 'Total costs',
+        datasetKey: 'typeName',
+        alwaysMultipleDatasets: true,
+        type: 'bar',
+        customChartOptions: {
+            scales: {
+                xAxes: [
+                { stacked: true }
+                ],
+                yAxes: [
+                { stacked: true }
+                ]
+            }
+        }
+      }
+    }
+    getAssetCostsYearMonthByTypeFind() {
+      axios.post(
+          '/api/dashboard/cards/getAssetCostsYearMonthByTypeFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
 
+          this.assetCostsYearMonthByTypeFindData = res.map((asa: any) => {
+            const { AssetType, ..._asa } = asa
+            const { typeName } = AssetType
+            return {
+              typeName,
+              yearMonth: `${_asa.year}-${_asa.month}`,
+              ..._asa
+            }
+          } )
+
+          const uniqueXAxises = this.assetCostsYearMonthByTypeFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+          uniqueXAxises.map( mp => {
+            this.assetCostsYearMonthByTypeFindHeader.push({
+              key: 'costs',
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
+            })
+          })
+      })
+    }
+
+    get chartGetAssetCountYearMonthByTypeFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        value: 'count',
+        labelData: 'Total Count',
+        datasetKey: 'typeName',
+        alwaysMultipleDatasets: true,
+        type: 'bar',
+        customChartOptions: {
+          scales: {
+              xAxes: [
+                { stacked: true }
+              ],
+              yAxes: [
+                { stacked: true }
+              ]
+          }
+        }
+      }
+    }
+    getAssetCountYearMonthByTypeFind() {
+      axios.post(
+          '/api/dashboard/cards/getAssetCountYearMonthByTypeFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
+
+          this.assetCountYearMonthByTypeFindData = res.map((asa: any) => {
+            const { AssetType, ..._asa } = asa
+            const { typeName } = AssetType
+            return {
+              typeName,
+              yearMonth: `${_asa.year}-${_asa.month}`,
+              ..._asa
+            }
+          } )
+
+          const uniqueXAxises = this.assetCountYearMonthByTypeFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+          uniqueXAxises.map( mp => {
+            this.assetCountYearMonthByTypeFindHeader.push({
+              key: 'count',
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
+            })
+          })
+      })
+    }
 }
 </script>
 
