@@ -234,13 +234,25 @@ export default class Dashboard extends Vue {
           this.searchForm
       ).then(
           (res: any) => {
-          this.assetCostYearMonthFindData = res
+          this.assetCostYearMonthFindData = res.map((asa: any) => {
+            return {
+              yearMonth: `${asa.year}-${asa.month}`,
+              ...asa
+            }
+          })
 
-          res.map( mp => {
+          const uniqueXAxises = this.assetCostYearMonthFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+           uniqueXAxises.map( mp => {
             this.assetCostYearMonthFindHeader.push({
               key: 'costs',
-              label: `${mp.year}-${mp.month}`,
-              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
             })
           })
       })
@@ -262,13 +274,25 @@ export default class Dashboard extends Vue {
           this.searchForm
       ).then(
           (res: any) => {
-          this.assetItemsYearMonthFindData = res
+          this.assetItemsYearMonthFindData = res.map((asa: any) => {
+            return {
+              yearMonth: `${asa.year}-${asa.month}`,
+              ...asa
+            }
+          })
 
-          res.map( mp => {
+          const uniqueXAxises = this.assetItemsYearMonthFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+          uniqueXAxises.map( mp => {
             this.assetItemsYearMonthFindHeader.push({
               key: 'count',
-              label: `${mp.year}-${mp.month}`,
-              test: `return row.year == '${mp.year}' && row.month == '${mp.month}'`,
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
             })
           })
       })
