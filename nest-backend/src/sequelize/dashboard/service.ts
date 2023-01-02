@@ -1,6 +1,8 @@
 import { AssetList } from 'src/sequelize/models/assetList'
 import { Department } from 'src/sequelize/models/department'
 import { AssetType } from 'src/sequelize/models/assetType'
+import { Location } from 'src/sequelize/models/location'
+
 
 import { Injectable, Inject } from '@nestjs/common'
 import { Sequelize } from 'sequelize-typescript'
@@ -15,7 +17,7 @@ export class DasboardService {
   ) {}
 
   async getAssetCostYearMonthFind(findDef: findDef) {
-   const { typeId, deptId, buyDate } = findDef
+   const { typeId, deptId, buyDate, placeId } = findDef
 
    let from = '', to = ''
    if (buyDate) {
@@ -33,6 +35,7 @@ export class DasboardService {
           ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null   } },
           ... deptId ? { deptId } : {},
           ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
           status: 1,
       },
       group: [
@@ -48,7 +51,7 @@ export class DasboardService {
   }
 
   async getAssetItemsYearMonthFind(findDef: findDef) {
-   const { typeId, deptId, buyDate } = findDef
+   const { typeId, deptId, buyDate, placeId } = findDef
 
    let from = '', to = ''
    if (buyDate) {
@@ -66,6 +69,7 @@ export class DasboardService {
           ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null   } },
           ... deptId ? { deptId } : {},
           ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
           status: 1,
       },
       group: [
@@ -81,7 +85,7 @@ export class DasboardService {
   }
 
   async getAssetCountsYearMonthByDeptFind(findDef: findDef) {
-     const { typeId, deptId, buyDate } = findDef
+     const { typeId, deptId, buyDate, placeId } = findDef
 
      let from = '', to = ''
      if (buyDate) {
@@ -112,6 +116,7 @@ export class DasboardService {
           ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null   } },
           ... deptId ? { deptId } : {},
           ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
           status: 1,
       },
       group: [
@@ -128,7 +133,7 @@ export class DasboardService {
   }
 
   async getAssetCostsYearMonthByDeptFind(findDef: findDef) {
-     const { typeId, deptId, buyDate } = findDef
+     const { typeId, deptId, buyDate, placeId } = findDef
 
      let from = '', to = ''
      if (buyDate) {
@@ -159,6 +164,7 @@ export class DasboardService {
           ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null   } },
           ... deptId ? { deptId } : {},
           ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
           status: 1,
       },
       group: [
@@ -175,7 +181,7 @@ export class DasboardService {
   }
 
   async getAssetCostsYearMonthByTypeFind(findDef: findDef) {
-     const { typeId, deptId, buyDate } = findDef
+     const { typeId, deptId, buyDate, placeId } = findDef
 
      AssetList.belongsTo(AssetType, {
          foreignKey: 'typeId'
@@ -200,6 +206,7 @@ export class DasboardService {
           ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null  } },
           ... deptId ? { deptId } : {},
           ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
           status: 1,
       },
       group: [
@@ -216,7 +223,7 @@ export class DasboardService {
   }
 
   async getAssetCountYearMonthByTypeFind(findDef: findDef) {
-     const { typeId, deptId, buyDate } = findDef
+     const { typeId, deptId, buyDate, placeId } = findDef
 
      AssetList.belongsTo(AssetType, {
          foreignKey: 'typeId'
@@ -241,6 +248,91 @@ export class DasboardService {
           ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null  } },
           ... deptId ? { deptId } : {},
           ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
+          status: 1,
+      },
+      group: [
+        Sequelize.fn('year', Sequelize.col('buyDate')),
+        Sequelize.fn('MONTH', Sequelize.col('buyDate')),
+        'typeId'
+      ],
+      order: [
+        Sequelize.fn('year', Sequelize.col('buyDate')),
+        Sequelize.fn('MONTH', Sequelize.col('buyDate')),
+      ]
+
+    })
+  }
+
+  async getAssetCostsYearMonthByPlaceFind(findDef: findDef) {
+     const { typeId, deptId, buyDate, placeId } = findDef
+
+     AssetList.belongsTo(Location, {
+         foreignKey: 'placeId'
+     })
+
+    return await this.assetListRepository.findAll({
+      include:[
+        {
+          attributes: ['placeName'],
+          model: Location,
+          required: false,
+          where: { status: 1 }
+        },
+      ],
+      attributes: [
+        [Sequelize.fn('sum', Sequelize.col('cost')), 'costs'],
+        [Sequelize.fn('year', Sequelize.col('buyDate')), 'year'],
+        [Sequelize.fn('MONTH', Sequelize.col('buyDate')), 'month'],
+
+      ],
+      where: {
+          ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null  } },
+          ... deptId ? { deptId } : {},
+          ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
+          status: 1,
+      },
+      group: [
+        Sequelize.fn('year', Sequelize.col('buyDate')),
+        Sequelize.fn('MONTH', Sequelize.col('buyDate')),
+        'typeId'
+      ],
+      order: [
+        Sequelize.fn('year', Sequelize.col('buyDate')),
+        Sequelize.fn('MONTH', Sequelize.col('buyDate')),
+      ]
+
+    })
+  }
+
+  async getAssetCountYearMonthByPlaceFind(findDef: findDef) {
+     const { typeId, deptId, placeId, buyDate } = findDef
+
+     AssetList.belongsTo(Location, {
+         foreignKey: 'placeId'
+     })
+
+    return await this.assetListRepository.findAll({
+      include:[
+        {
+          attributes: ['placeName'],
+          model: Location,
+          required: false,
+          where: { status: 1 }
+        },
+      ],
+      attributes: [
+        [Sequelize.fn('sum', Sequelize.col('cost')), 'costs'],
+        [Sequelize.fn('year', Sequelize.col('buyDate')), 'year'],
+        [Sequelize.fn('MONTH', Sequelize.col('buyDate')), 'month'],
+
+      ],
+      where: {
+          ... buyDate ? { buyDate: { [Op.between]: buyDate, [Op.ne]: null } } : { buyDate: { [Op.ne]: null  } },
+          ... deptId ? { deptId } : {},
+          ... typeId ? { typeId } : {},
+          ... placeId ? { placeId } : {},
           status: 1,
       },
       group: [

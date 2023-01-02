@@ -4,7 +4,7 @@
             <el-row :gutter="30">
                 <el-form :model="searchForm">
                     <el-col :span="30">
-                        <el-form-item label="Buy Date" prop="Dept" label-width="100px">
+                        <el-form-item label="Buy Date" prop="Dept" label-width="70px">
                             <el-date-picker
                             v-model="searchForm.buyDate"
                             type="daterange"
@@ -31,6 +31,18 @@
                                 v-for="item in deptItem"
                                 :key="item.id"
                                 :label="item.deptName"
+                                :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="Location">
+                            <el-select v-model="searchForm.placeId" placeholder="Select" filterable clearable>
+                                <el-option
+                                v-for="item in placeItem"
+                                :key="item.id"
+                                :label="item.placeName"
                                 :value="item.id">
                                 </el-option>
                             </el-select>
@@ -115,7 +127,7 @@
              <el-col :span="24">
                  <v-card>
                      <div class="card-title">
-                         Total Cost By Type & Year-Month
+                         Total Count By Type & Year-Month
                      </div>
                      <div class="card-content">
                          <ChartJsStackedChart :data="assetCountYearMonthByTypeFindData" :headers="assetCountYearMonthByTypeFindHeader" v-bind="chartGetAssetCountYearMonthByTypeFind" />
@@ -124,7 +136,18 @@
              </el-col>
          </el-row>
 
-
+         <!--<el-row :gutter="24">
+             <el-col :span="24">
+                 <v-card>
+                     <div class="card-title">
+                         Total Cost By Location & Year-Month
+                     </div>
+                     <div class="card-content">
+                         <ChartJsStackedChart :data="assetCostsYearMonthByPlaceFindData" :headers="assetCostsYearMonthByPlaceFindHeader" v-bind="chartGetAssetCostsYearMonthByPlaceFind" />
+                     </div>
+                 </v-card>
+             </el-col>
+         </el-row>-->
 
     </div>
 </template>
@@ -150,6 +173,7 @@ export default class Dashboard extends Vue {
     //ITEM
     typeItem: any = []
     deptItem: any = []
+    placeItem: any = []
 
     // base
     assetCostYearMonthFindData: any[] = []
@@ -170,6 +194,12 @@ export default class Dashboard extends Vue {
     assetCountYearMonthByTypeFindData: any[] = []
     assetCountYearMonthByTypeFindHeader: any[] = []
 
+    assetCountYearMonthByPlaceFindData: any[] = []
+    assetCountYearMonthByPlaceFindHeader: any[] = []
+
+    assetCostsYearMonthByPlaceFindData: any[] = []
+    assetCostsYearMonthByPlaceFindHeader: any[] = []
+
 
     created() {
       this.getAssetCostYearMonthFind()
@@ -178,9 +208,12 @@ export default class Dashboard extends Vue {
       this.getAssetCostsYearMonthByDeptFind()
       this.getAssetCostsYearMonthByTypeFind()
       this.getAssetCountYearMonthByTypeFind()
+      this.getAssetCountYearMonthByPlaceFind()
+      this.getAssetCostsYearMonthByPlaceFind()
 
       this.getAllType()
       this.getAlldept()
+      this.getAllplace()
     }
 
     goToFind() {
@@ -190,6 +223,8 @@ export default class Dashboard extends Vue {
       this.assetCostsYearMonthByDeptFindHeader = []
       this.assetCostsYearMonthByTypeFindHeader = []
       this.assetCountYearMonthByTypeFindHeader = []
+      this.assetCountYearMonthByPlaceFindHeader = []
+      this.assetCostsYearMonthByPlaceFindHeader = []
 
       this.getAssetCostYearMonthFind()
       this.getAssetItemsYearMonthFind()
@@ -197,6 +232,8 @@ export default class Dashboard extends Vue {
       this.getAssetCostsYearMonthByDeptFind()
       this.getAssetCostsYearMonthByTypeFind()
       this.getAssetCountYearMonthByTypeFind()
+      this.getAssetCountYearMonthByPlaceFind()
+      this.getAssetCostsYearMonthByPlaceFind()
     }
 
 
@@ -217,7 +254,16 @@ export default class Dashboard extends Vue {
             this.deptItem = res
         })
     }
+    getAllplace() {
+        axios.get(
+            '/api/location/getAll'
+        ).then(
+            (res: any) => {
+            this.placeItem = res
+        })
+    }
 
+    //chart
     get chartGetAssetCostYearMonthFind() {
       return {
         width: 1500,
@@ -513,6 +559,116 @@ export default class Dashboard extends Vue {
 
           uniqueXAxises.map( mp => {
             this.assetCountYearMonthByTypeFindHeader.push({
+              key: 'count',
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
+            })
+          })
+      })
+    }
+
+    get chartGetAssetCountYearMonthByPlaceFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        value: 'count',
+        labelData: 'Total Count',
+        datasetKey: 'placeName',
+        alwaysMultipleDatasets: true,
+        type: 'bar',
+        customChartOptions: {
+          scales: {
+              xAxes: [
+                { stacked: true }
+              ],
+              yAxes: [
+                { stacked: true }
+              ]
+          }
+        }
+      }
+    }
+    getAssetCountYearMonthByPlaceFind() {
+      axios.post(
+          '/api/dashboard/cards/getAssetCountYearMonthByPlaceFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
+
+          this.assetCountYearMonthByPlaceFindData = res.map((asa: any) => {
+            const { Location, ..._asa } = asa
+            const { placeName } = Location
+            return {
+              placeName,
+              yearMonth: `${_asa.year}-${_asa.month}`,
+              ..._asa
+            }
+          } )
+
+          const uniqueXAxises = this.assetCountYearMonthByPlaceFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+          uniqueXAxises.map( mp => {
+            this.assetCountYearMonthByPlaceFindHeader.push({
+              key: 'count',
+              label: `${mp}`,
+              test: `return row.yearMonth == '${mp}'`,
+            })
+          })
+      })
+    }
+
+    get chartGetAssetCostsYearMonthByPlaceFind() {
+      return {
+        width: 1500,
+        heigh: 900,
+        value: 'costs',
+        labelData: 'Total Costs',
+        datasetKey: 'placeName',
+        alwaysMultipleDatasets: true,
+        type: 'bar',
+        customChartOptions: {
+          scales: {
+              xAxes: [
+                { stacked: true }
+              ],
+              yAxes: [
+                { stacked: true }
+              ]
+          }
+        }
+      }
+    }
+    getAssetCostsYearMonthByPlaceFind() {
+      axios.post(
+          '/api/dashboard/cards/getAssetCostsYearMonthByPlaceFind',
+          this.searchForm
+      ).then(
+          (res: any) => {
+
+          this.assetCostsYearMonthByPlaceFindData = res.map((asa: any) => {
+            const { Location, ..._asa } = asa
+            const { placeName } = Location
+            return {
+              placeName,
+              yearMonth: `${_asa.year}-${_asa.month}`,
+              ..._asa
+            }
+          } )
+
+          const uniqueXAxises = this.assetCostsYearMonthByPlaceFindData.reduce((unique, r) => {
+            if (r['yearMonth'] && !unique.includes(r['yearMonth'])) {
+              unique.push(r['yearMonth'])
+            }
+            return unique
+          }, [])
+
+          uniqueXAxises.map( mp => {
+            this.assetCostsYearMonthByPlaceFindHeader.push({
               key: 'count',
               label: `${mp}`,
               test: `return row.yearMonth == '${mp}'`,

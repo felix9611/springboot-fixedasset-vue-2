@@ -16,6 +16,7 @@ exports.DasboardService = void 0;
 const assetList_1 = require("../models/assetList");
 const department_1 = require("../models/department");
 const assetType_1 = require("../models/assetType");
+const location_1 = require("../models/location");
 const common_1 = require("@nestjs/common");
 const sequelize_typescript_1 = require("sequelize-typescript");
 const sequelize_1 = require("sequelize");
@@ -24,7 +25,7 @@ let DasboardService = class DasboardService {
         this.assetListRepository = assetListRepository;
     }
     async getAssetCostYearMonthFind(findDef) {
-        const { typeId, deptId, buyDate } = findDef;
+        const { typeId, deptId, buyDate, placeId } = findDef;
         let from = '', to = '';
         if (buyDate) {
             from = buyDate[0];
@@ -36,7 +37,7 @@ let DasboardService = class DasboardService {
                 [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
                 [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month']
             ],
-            where: Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), { status: 1 }),
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
             group: [
                 sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
                 sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
@@ -49,7 +50,7 @@ let DasboardService = class DasboardService {
         });
     }
     async getAssetItemsYearMonthFind(findDef) {
-        const { typeId, deptId, buyDate } = findDef;
+        const { typeId, deptId, buyDate, placeId } = findDef;
         let from = '', to = '';
         if (buyDate) {
             from = buyDate[0];
@@ -61,7 +62,7 @@ let DasboardService = class DasboardService {
                 [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
                 [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month']
             ],
-            where: Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), { status: 1 }),
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
             group: [
                 sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
                 sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate'))
@@ -73,7 +74,7 @@ let DasboardService = class DasboardService {
         });
     }
     async getAssetCountsYearMonthByDeptFind(findDef) {
-        const { typeId, deptId, buyDate } = findDef;
+        const { typeId, deptId, buyDate, placeId } = findDef;
         let from = '', to = '';
         if (buyDate) {
             from = buyDate[0];
@@ -96,7 +97,7 @@ let DasboardService = class DasboardService {
                 [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
                 [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month'],
             ],
-            where: Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), { status: 1 }),
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
             group: [
                 sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
                 sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
@@ -109,7 +110,7 @@ let DasboardService = class DasboardService {
         });
     }
     async getAssetCostsYearMonthByDeptFind(findDef) {
-        const { typeId, deptId, buyDate } = findDef;
+        const { typeId, deptId, buyDate, placeId } = findDef;
         let from = '', to = '';
         if (buyDate) {
             from = buyDate[0];
@@ -132,7 +133,7 @@ let DasboardService = class DasboardService {
                 [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
                 [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month'],
             ],
-            where: Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), { status: 1 }),
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
             group: [
                 sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
                 sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
@@ -145,7 +146,7 @@ let DasboardService = class DasboardService {
         });
     }
     async getAssetCostsYearMonthByTypeFind(findDef) {
-        const { typeId, deptId, buyDate } = findDef;
+        const { typeId, deptId, buyDate, placeId } = findDef;
         assetList_1.AssetList.belongsTo(assetType_1.AssetType, {
             foreignKey: 'typeId'
         });
@@ -163,7 +164,7 @@ let DasboardService = class DasboardService {
                 [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
                 [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month'],
             ],
-            where: Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), { status: 1 }),
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
             group: [
                 sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
                 sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
@@ -176,7 +177,7 @@ let DasboardService = class DasboardService {
         });
     }
     async getAssetCountYearMonthByTypeFind(findDef) {
-        const { typeId, deptId, buyDate } = findDef;
+        const { typeId, deptId, buyDate, placeId } = findDef;
         assetList_1.AssetList.belongsTo(assetType_1.AssetType, {
             foreignKey: 'typeId'
         });
@@ -194,7 +195,69 @@ let DasboardService = class DasboardService {
                 [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
                 [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month'],
             ],
-            where: Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), { status: 1 }),
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
+            group: [
+                sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
+                sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
+                'typeId'
+            ],
+            order: [
+                sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
+                sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
+            ]
+        });
+    }
+    async getAssetCostsYearMonthByPlaceFind(findDef) {
+        const { typeId, deptId, buyDate, placeId } = findDef;
+        assetList_1.AssetList.belongsTo(location_1.Location, {
+            foreignKey: 'placeId'
+        });
+        return await this.assetListRepository.findAll({
+            include: [
+                {
+                    attributes: ['placeName'],
+                    model: location_1.Location,
+                    required: false,
+                    where: { status: 1 }
+                },
+            ],
+            attributes: [
+                [sequelize_typescript_1.Sequelize.fn('sum', sequelize_typescript_1.Sequelize.col('cost')), 'costs'],
+                [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
+                [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month'],
+            ],
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
+            group: [
+                sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
+                sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
+                'typeId'
+            ],
+            order: [
+                sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
+                sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
+            ]
+        });
+    }
+    async getAssetCountYearMonthByPlaceFind(findDef) {
+        const { typeId, deptId, placeId, buyDate } = findDef;
+        assetList_1.AssetList.belongsTo(location_1.Location, {
+            foreignKey: 'placeId'
+        });
+        return await this.assetListRepository.findAll({
+            include: [
+                {
+                    attributes: ['placeName'],
+                    model: location_1.Location,
+                    required: false,
+                    where: { status: 1 }
+                },
+            ],
+            attributes: [
+                [sequelize_typescript_1.Sequelize.fn('sum', sequelize_typescript_1.Sequelize.col('cost')), 'costs'],
+                [sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')), 'year'],
+                [sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')), 'month'],
+            ],
+            where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, buyDate ? { buyDate: { [sequelize_1.Op.between]: buyDate, [sequelize_1.Op.ne]: null } } : { buyDate: { [sequelize_1.Op.ne]: null } }), deptId ? { deptId } : {}), typeId ? { typeId } : {}), placeId ? { placeId } : {}), { status: 1 }),
             group: [
                 sequelize_typescript_1.Sequelize.fn('year', sequelize_typescript_1.Sequelize.col('buyDate')),
                 sequelize_typescript_1.Sequelize.fn('MONTH', sequelize_typescript_1.Sequelize.col('buyDate')),
