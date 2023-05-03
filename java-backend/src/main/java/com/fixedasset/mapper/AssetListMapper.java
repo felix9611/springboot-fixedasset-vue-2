@@ -53,7 +53,7 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
     @Select(sumCostQuery )
     int sumCost(@Param("ew") Wrapper queryWrapper);
 
-    String sponsorQuery = "SELECT IF(statu = 1 and sponsor = 1 and sponsor_name is not null, sum(cost), 0) costs " +
+    String sponsorQuery = "SELECT sum(cost) as costs " +
             "FROM asset_list ${ew.customSqlSegment}";
     @Select(sponsorQuery)
     int sumCostWithSponsor(@Param("ew") Wrapper queryWrapper);
