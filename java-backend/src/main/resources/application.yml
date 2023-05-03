@@ -2,11 +2,13 @@ server:
   port: 8350
 # DataSource Config
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fixedasset_springboot_vue_3?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: root
-    password: GB2444jc3103
+    url: jdbc:mysql://localhost:3306/fixedasset_springboot_vue_3?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Canada/Eastern&allowPublicKeyRetrieval=true
+    username: admin
+    password: LP2416jc3103
 #  security:
 #    user:
 #      name: user
