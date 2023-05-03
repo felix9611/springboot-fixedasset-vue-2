@@ -66,8 +66,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "FROM fixedasset_springboot_vue_3.asset_list  " +
             "left join department as dept on asset_list.dept_id = dept.id " +
             " ${ew.customSqlSegment} " +
-            "group by year(asset_list.buy_date), week(asset_list.buy_date), dept_id  " +
-            "order by year(asset_list.buy_date), week(asset_list.buy_date), dept_id";
+            "group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)), dept_id  " +
+            "order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)), dept_id";
     @Select(assetYearCostDeptFindQuery)
     List<AssetYearCostDept> assetYearCostDeptFind(@Param("ew") Wrapper queryWrapper);
 
@@ -76,8 +76,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth " +
             "FROM asset_list " +  // where buy_date is not null and not(cost = 0) and  asset_list.statu = 1 " +
             " ${ew.customSqlSegment} " +
-            "group by YEAR(buy_date), MONTH(buy_date) " +
-            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
+            "group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) " +
+            "order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;";
     @Select(getItemYearMonthFind)
     List<AssetItemYearMonthDto> getItemYearMonthFind(@Param("ew") Wrapper queryWrapper);
 
@@ -85,8 +85,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "FROM asset_list " +
             "left join asset_type as at on asset_list.type_id = at.id " +
             " ${ew.customSqlSegment} " +
-            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
-            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
+            "group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , type_id " +
+            "order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;";
 
     @Select(assetYearCostTypeFindQuery)
     List<AssetYearCostType> assetYearCostTypeFind(@Param("ew") Wrapper queryWrapper);
@@ -110,8 +110,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "FROM asset_list " +
             "left join asset_type as at on asset_list.type_id = at.id " +
             " ${ew.customSqlSegment} " +
-            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
-            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
+            "group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , type_id " +
+            "order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;";
 
     @Select(assetYearQtyTypeQueryFind)
     List<AssetYearQtyType> getAssetYearQtyTypeFind(@Param("ew") Wrapper queryWrapper);
@@ -120,8 +120,8 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
             "FROM asset_list " +
             "left join department as dept on asset_list.dept_id = dept.id " +
             " ${ew.customSqlSegment} " +
-            "group by YEAR(buy_date), MONTH(buy_date) , type_id " +
-            "order by YEAR(buy_date), MONTH(buy_date)  ASC;";
+            "group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , dept_id " +
+            "order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) ASC;";
 
     @Select(assetYearQtyDeptQueryFind)
     List<AssetYearQtyDept> getAssetYearQtyDeptFind(@Param("ew") Wrapper queryWrapper);
@@ -129,22 +129,22 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
     String AssetCostYearMonth = "SELECT sum(cost) as costs ,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) as yearMonth FROM fixedasset_springboot_vue_3.asset_list " +
             " ${ew.customSqlSegment} " +
-            "group by YEAR(buy_date), MONTH(buy_date) " +
-            "order by YEAR(buy_date),  MONTH(buy_date);";
+            "group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) " +
+            "order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date));";
     @Select(AssetCostYearMonth)
     List<AssetCostYearMonthDto> getAssetCostYearMonthFind(@Param("ew") Wrapper queryWrapper);
 
     String assetYearQtyPlaceQueryFind = "SELECT count(*) as items, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months " +
             "FROM fixedasset_springboot_vue_3.asset_list " +
             "left join location on asset_list .place_id = location.id " +
-            " ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by buy_date";
+            " ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date)";
     @Select(assetYearQtyPlaceQueryFind)
     List<AssetYearQtyPlaceDto> getAssetYearQtyPlaceFind(@Param("ew") Wrapper queryWrapper);
 
     String assetYearCostPlaceQueryFind = "SELECT sum(cost) as costs, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months " +
             "FROM fixedasset_springboot_vue_3.asset_list " +
             "left join location on asset_list .place_id = location.id " +
-            " ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by buy_date";
+            " ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date)";
     @Select(assetYearCostPlaceQueryFind)
     List<AssetYearQtyPlaceDto> getAssetYearCostPlaceFind(@Param("ew") Wrapper queryWrapper);
 
