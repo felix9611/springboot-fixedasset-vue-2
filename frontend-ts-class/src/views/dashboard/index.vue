@@ -1,9 +1,8 @@
 <template>
-    <div class="container">
-        
-            <el-row :gutter="30">
-                <el-form :model="searchForm">
-                    <el-col :span="30">
+    <div class="p-4">
+        <div class="flex grid-cols-1 grid lg:grid-cols-10 gap-3">
+            <el-form :model="searchForm" class="md:col-span-full grid lg:grid-cols-10 shadow-lg rounded-lg bg-white pt-6">
+                    <el-col class="lg:col-span-3">
                         <el-form-item label="Buy Date" prop="Dept" label-width="100px">
                             <el-date-picker
                             v-model="buyDateForm"
@@ -12,7 +11,7 @@
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="5">
+                    <el-col class="lg:col-span-3">
                         <el-form-item label="Type" prop="type">
                             <el-select v-model="searchForm.typeId" placeholder="Select" filterable clearable>
                             <el-option
@@ -24,7 +23,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="5">
+                    <el-col class="lg:col-span-3">
                         <el-form-item label="Department">
                             <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>
                                 <el-option
@@ -36,151 +35,103 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col class="lg:col-span-1">
                         <el-form-item>
                             <el-button type="primary" @click="goToFind()">Find</el-button>
                         </el-form-item>
                     </el-col>
-                </el-form>
-              </el-row>
+            </el-form>
 
-         <br>
-        
+            <div class="md:col-span-full shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Item by Year-Month
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart class="max-h-[300px]" :data="itemYearMonthData" :headers="itemYearMonthHeader" v-bind="chartsSetItemYearMonth" />
+                </div>
+            </div>
 
-        <el-row :gutter="24">
-            <el-col :span="24">
-                <v-card>
-                    <div class="card-title">
-                        Total Item by Year-Month
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="itemYearMonthData" :headers="itemYearMonthHeader" v-bind="chartsSetItemYearMonth" />
-                    </div>
-                </v-card> 
-            </el-col>
-        </el-row>
+            <div class="md:col-span-full shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Costs by Year-Month
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetCostYearMonthData" :headers="getAssetCostYearMonthHeader" v-bind="chartsSetAssetCostYearMonth" />
+                </div>
+            </div>
 
-        <el-row :gutter="24">
-            <el-col :span="24">
-                <v-card>
-                    <div class="card-title">
-                        Total Costs by Year-Month
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetCostYearMonthData" :headers="getAssetCostYearMonthHeader" v-bind="chartsSetAssetCostYearMonth" />
-                    </div>
-                </v-card> 
-            </el-col>
-        </el-row>
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Item by type
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetGroupTypeData" :headers="getAssetGroupTypeHeader" v-bind="chartsSetAssetGroupType" /> 
+                </div>
+            </div>
 
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Item by Place
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetGroupPlaceData" :headers="getAssetGroupPlaceHeader" v-bind="chartsSetAssetGroupPlace" /> 
+                </div>
+            </div>
 
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by type
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetGroupTypeData" :headers="getAssetGroupTypeHeader" v-bind="chartsSetAssetGroupType" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Place
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetGroupPlaceData" :headers="getAssetGroupPlaceHeader" v-bind="chartsSetAssetGroupPlace" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Item by Department & year week
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetYearQtyDeptData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyDept" /> 
+                </div>
+            </div>
 
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Department & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearQtyDeptData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyDept" /> 
-                    </div> 
-                    <div>{{getAssetYearDeptTypeHeader}}</div>
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Type & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearQtyTypeData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyType" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Item by Place & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearQtyPlaceData" :headers="getAssetYearQtyPlaceHeader" v-bind="chartsSetAssetYearQtyPlace" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Total Cost by Place & year week
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostPlaceData" :headers="getAssetYearCostPlaceHeader" v-bind="chartsSetAssetYearCostPlace" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
-        <el-row :gutter="24">
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Buy Year-month and Department - Cost
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostDept" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-            <el-col :span="12">
-                <v-card
-                    max-width="1700"
-                >
-                    <div class="card-title">
-                        Buy Year-month and Type - Cost
-                    </div>
-                    <div class="card-content">
-                        <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostDeptHeader" v-bind="chartsSetAssetYearCostType" /> 
-                    </div> 
-                </v-card> 
-            </el-col>
-        </el-row>
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Item by Type & year week
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetYearQtyTypeData" :headers="getAssetYearQtyTypeHeader" v-bind="chartsSetAssetYearQtyType" /> 
+                </div>
+            </div>
 
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Item by Place & year week
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetYearQtyPlaceData" :headers="getAssetYearQtyPlaceHeader" v-bind="chartsSetAssetYearQtyPlace" /> 
+                </div>
+            </div>
+
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Cost by Place & year week
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetYearCostPlaceData" :headers="getAssetYearCostPlaceHeader" v-bind="chartsSetAssetYearCostPlace" /> 
+                </div>
+            </div>
+
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Buy Year-month and Department - Cost
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetYearCostDeptData" :headers="getAssetYearCostTypeHeader" v-bind="chartsSetAssetYearCostDept" /> 
+                </div>
+            </div>
+
+            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Buy Year-month and Type - Cost
+                </div>
+                <div class="p-1">
+                    <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostDeptHeader" v-bind="chartsSetAssetYearCostType" /> 
+                </div>
+            </div>
+        </div>
         
     </div>
 </template>
@@ -282,7 +233,7 @@ export default class Dashboard extends Vue {
     get chartsSetItemYearMonth() {
         return {
             width: 1500,
-            heigh: 900,
+            heigh: 200,
             fill: false,
             value: 'items',
             labelData: 'Total Items',
@@ -328,7 +279,7 @@ export default class Dashboard extends Vue {
     }
     get chartsSetAssetYearCostType() {
         return {
-            heigh: 200,
+            height: 250,
             type: 'bar',
             datasetKey: 'typeName',
             alwaysMultipleDatasets: true,

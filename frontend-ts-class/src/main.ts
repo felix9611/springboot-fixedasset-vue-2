@@ -26,6 +26,8 @@ import VueHtmlToPaper from 'vue-html-to-paper'
 import FormBuilderPlugin from '@fext/vue-form-builder'
 import VueCompositionApi from '@vue/composition-api'
 
+import './index.css'
+
 Vue.use(VueCompositionApi)
 Vue.use(FormBuilderPlugin)
 Vue.use(VueHtmlToPaper)
