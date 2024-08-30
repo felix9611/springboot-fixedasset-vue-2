@@ -2,14 +2,21 @@
 
 Springboot X VUE
 
-Core:
--Spring boot 2.4.13
--Mybatis 3.4.1
--Vue 2.6.10
--moment 2.29.1
+Language<br />
+-Java<br />
+-Typescript<br />
+-Vue2<br />
+-Tailwind<br />
 
-Component:
--ChartJs 2.9.3
--jspdf 2.5.1
--xlsx ^0.18.2
--xlsx-style ^0.8.13
+Core:<br />
+-Spring boot 2.4.13<br />
+-Mybatis 3.4.1<br />
+-Vue 2.6.10<br />
+-moment 2.29.1<br />
+<br />
+Component:<br />
+-ChartJs 2.9.3<br />
+-jspdf 2.5.1<br />
+-xlsx ^0.18.2<br />
+-xlsx-style ^0.8.13<br />
+-OpenAI
