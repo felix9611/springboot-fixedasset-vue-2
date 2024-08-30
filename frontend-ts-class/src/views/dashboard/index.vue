@@ -1,6 +1,6 @@
 <template>
-    <div class="p-4">
-        <el-row :gutter="30" class="shadow-lg rounded-lg bg-white pt-6">
+    <div class="p-4 flex grid-cols-1 grid md:grid-cols-1 lg:grid-cols-10 gap-3">
+        <el-row :gutter="30" class="shadow-lg rounded-lg bg-white pt-6 md:col-span-full lg:col-span-full">
                 <el-form :model="searchForm">
                     <el-col :span="30">
                         <el-form-item label="Buy Date" prop="Dept" label-width="100px">
@@ -43,7 +43,7 @@
             </el-form>
             </el-row>
 
-            <div class="md:col-span-full shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-full shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Item by Year-Month
                 </div>
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-full shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-full shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Costs by Year-Month
                 </div>
@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Item by type
                 </div>
@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Item by Place
                 </div>
@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Item by Department & year week
                 </div>
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Item by Type & year week
                 </div>
@@ -97,7 +97,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Item by Place & year week
                 </div>
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Cost by Place & year week
                 </div>
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Buy Year-month and Department - Cost
                 </div>
@@ -124,7 +124,7 @@
                 </div>
             </div>
 
-            <div class="md:col-span-5 shadow-lg rounded-lg bg-white">
+            <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Buy Year-month and Type - Cost
                 </div>
@@ -132,9 +132,9 @@
                     <ChartJsStackedChart :data="getAssetYearCostTypeData" :headers="getAssetYearCostDeptHeader" v-bind="chartsSetAssetYearCostType" /> 
                 </div>
             </div>
-        </div>
-        
     </div>
+        
+
 </template>
 
 <script lang="ts">
