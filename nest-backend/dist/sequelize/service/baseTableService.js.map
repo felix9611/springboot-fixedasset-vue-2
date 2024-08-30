@@ -1,1 +1,0 @@
-{"version":3,"file":"baseTableService.js","sourceRoot":"","sources":["../../../src/sequelize/service/baseTableService.ts"],"names":[],"mappings":";;;;;;;;;;;;AACA,2CAAmD;AAenD,yCAAyC;AAGzC,IAAa,gBAAgB,GAA7B,MAAa,gBAAgB;IAC3B,YACU,SAAoB;QAApB,cAAS,GAAT,SAAS,CAAW;IAC3B,CAAC;CACL,CAAA;AAJY,gBAAgB;IAD5B,IAAA,mBAAU,GAAE;qCAGU,qBAAS;GAFnB,gBAAgB,CAI5B;AAJY,4CAAgB"}
