@@ -96,14 +96,16 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="Sponsor" prop="sponsor" label-width="130px">
-                <el-select v-model="editForm.sponsor" placeholder="Select" filterable>
+
+               <!-- <el-select v-model="editForm.sponsor" placeholder="Select" filterable>
                   <el-option
                     v-for="items in sponsorOpts"
                     :key="items.id"
                     :label="items.label"
                     :value="items.id">
                   </el-option>
-                </el-select>
+                </el-select> -->
+                <el-checkbox v-model="editForm.sponsor" size="large" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -147,6 +149,42 @@
             </el-col>
           </el-row>
 
+          <el-row v-if="!editForm.id">
+            <el-col>
+              <el-form-item label="Tax Information" prop="taxInformation" label-width="130px">
+                <el-checkbox v-model="taxInformation" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :span="20" v-if="taxInformation || editForm.id">
+            
+            <el-col :span="10">
+              <el-form-item label="Tax Type"  prop="invoiceNo" label-width="130px">
+                  <el-select v-model="editForm.taxCode" placeholder="Select" filterable clearable style="width: 400px;">
+                    <el-option
+                      v-for="items in taxesData"
+                      :key="items.taxCode"
+                      :label="items.label"
+                      :value="items.taxCode">
+                    </el-option>
+                  </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="4">
+              <el-form-item label="Inclube Tax" prop="includeTax" label-width="130px">
+                <el-checkbox v-model="editForm.includeTax" />
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="6">
+              <el-form-item label="After / Before Tax Total"  prop="invoiceNo" label-width="160px">
+                <el-input v-model="editForm.afterBeforeTax" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
           <el-form-item label="Remark"  prop="remark" label-width="130px">
             <el-input type="textarea" v-model="editForm.remark"></el-input>
           </el-form-item>
@@ -163,7 +201,7 @@ import axios from '@/axios'
 import VueBase64FileUpload from 'vue-base64-file-upload'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import moment from 'moment'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import QrcodeVue from 'qrcode.vue'
 import { uploadImgToBase64 } from '@/utils/uploadImgToBase64'
 
@@ -182,11 +220,31 @@ export default class StockTakeDetail extends Vue {
   typeItem: any = []
   placeItem: any = []
   vendorItem: any = []
+  taxInformation: boolean = false
 
   sponsorOpts: any = [
     { id: 0, label: 'No' },
     { id: 1, label: 'Yes' },
   ]
+
+  @Watch('editForm.taxCode')
+  onTaxChange() {
+    const taxObject =  this.taxesData.find(item => item.taxCode === this.editForm.taxCode)
+
+    this.editForm.taxCountryCode = taxObject.countryCode
+    this.editForm.taxCountryCode = taxObject.countryCode
+    this.editForm.taxRate = taxObject.taxRate
+  }
+
+  @Watch('editForm.includeTax')
+  onTaxTotalChange() {
+    if (this.editForm.includeTax) {
+      console.log(this.editForm.afterBeforeTax)
+      this.editForm.afterBeforeTax = (this.editForm.cost * (1- Number(this.editForm.taxRate))).toFixed(1)
+    } else {
+      this.editForm.afterBeforeTax = (this.editForm.cost * (1 + Number(this.editForm.taxRate))).toFixed(1)
+    }
+  }
 
   created() {
     this.getAlldept()
@@ -197,6 +255,7 @@ export default class StockTakeDetail extends Vue {
       this.editForm.id = Number(this.$route.params.id)
       this.editHandle()
     }
+    this.getAllTaxesData()
   }
 
   back() {
@@ -245,6 +304,25 @@ export default class StockTakeDetail extends Vue {
     this.fileList = []
   }
 
+  taxesData: any = []
+  getAllTaxesData() {
+    axios.get(
+            '/system/country/tax/getAll'
+        ).then(
+            (res: any) => {
+
+            let results = res.data.data
+            const updates = results.map( x=> {
+              return {
+                ...x,
+                taxRate: Number(x.taxRate),
+                label: `${x.nationName} - ${x.countryName} ${x.taxCode} (${Number(x.taxRate) * 100}%)`
+              }
+            } )
+            this.taxesData = updates
+        })
+  }
+
   getAlldept() {
         axios.get(
             '/base/department/getAll'
@@ -284,7 +362,7 @@ export default class StockTakeDetail extends Vue {
   }
 
   submitForm(formName: string) {
-        const refs: any = this.$refs[formName]
+  const refs: any = this.$refs[formName]
         refs.validate((valid: any) => {
             if (valid) {
                 console.log(this.fileBase64Data[0])
@@ -330,7 +408,7 @@ export default class StockTakeDetail extends Vue {
             } else {
                 return false;
             }
-        })
+    })
   }
 
   resetForm(formName: string) {
