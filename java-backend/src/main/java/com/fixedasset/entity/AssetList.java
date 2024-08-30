@@ -62,6 +62,21 @@ public class AssetList extends BaseEntity{
     @TableField("remark")
     private String remark;
 
+    @TableField("tax_country_code")
+    private String taxCountryCode;
+
+    @TableField("tax_code")
+    private String taxCode;
+
+    @TableField("tax_rate")
+    private int taxRate;
+
+    @TableField("include_tax")
+    private Boolean includeTax;
+
+    @TableField("after_before_tax")
+    private String afterBeforeTax;
+
     @TableField(exist = false)
     private int page;
 

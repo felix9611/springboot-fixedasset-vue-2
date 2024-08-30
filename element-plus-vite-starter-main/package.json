@@ -1,0 +1,52 @@
+{
+  "name": "element-plus-vite-starter",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "generate": "vite-ssg build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "element-plus": "^2.3.12",
+    "vue": "^3.3.4",
+    "axios": "^0.18.0",
+    "moment": "^2.29.1",
+    "node-fpdf": "^1.0.37",
+    "qrcode.vue": "1.7.0",
+    "qs": "^6.10.3",
+    "read-excel-file": "^5.2.28",
+    "vue-apexcharts": "^1.6.2",
+    "vue-axios": "^3.4.1",
+    "vue-base64-file-upload": "^1.0.4",
+    "vue-chartjs": "^3.5.1",
+    "vue-html-to-paper": "^1.4.4",
+    "xlsx": "^0.18.2",
+    "xlsx-style": "^0.8.13",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "image-to-base64": "^2.2.0",
+    "js-cookie": "^3.0.1",
+    "jsoneditor": "^9.7.2",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.23",
+    "jspdf-customfonts": "^0.0.4-rc.4",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@iconify-json/ep": "^1.1.12",
+    "@types/node": "^20.6.0",
+    "@vitejs/plugin-vue": "^4.3.4",
+    "sass": "^1.66.1",
+    "typescript": "^5.2.2",
+    "unocss": "^0.55.7",
+    "unplugin-vue-components": "^0.25.2",
+    "vite": "^4.4.9",
+    "vite-ssg": "^0.23.1",
+    "vue-tsc": "^1.8.11"
+    
+  },
+  "license": "MIT"
+}
