@@ -13,4 +13,6 @@ public interface TaxableCountryService extends IService<TaxableCountry> {
     TaxableCountry findOne(Long id);
 
     List<TaxableCountry> getAll();
+
+    String voidData(Long id);
 }

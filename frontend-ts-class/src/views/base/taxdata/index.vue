@@ -4,8 +4,8 @@
             <el-form :inline="true">
                 <el-form-item>
                     <el-input
-                            v-model="searchForm.deptCode"
-                            placeholder="Department Code"
+                            v-model="searchForm.vendorCode"
+                            placeholder="Vendor Code"
                             clearable
                     >
                     </el-input>
@@ -49,24 +49,46 @@
                 style="width: 100%"
                 @selection-change="handleSelectionChange">
             <el-table-column
-                sortable
-                prop="deptCode"
-                label="Department Code"
-                width="180">
+              prop="countryCode"
+              label="Country Code">
             </el-table-column>
             <el-table-column
-              prop="deptName"
-              label="Department Name">
+              prop="countryName"
+              label="Country Name">
+            </el-table-column>
+            <el-table-column
+              prop="taxType"
+              label="Tax Type">
+            </el-table-column>
+
+            <el-table-column
+              prop="taxName"
+              label="Tax Name">
+            </el-table-column>
+
+            <el-table-column
+                prop="taxRate"
+                label="Tax Rate"
+            >
+                <template slot-scope="scope">
+                    <div class="text-center">{{ scope.row.taxRate * 100 }}%</div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="importRate"
+                label="Import Tax Rate"
+            >
+                <template slot-scope="scope">
+                    <div class="text-center">{{ scope.row.importRate * 100 }}%</div>
+                </template>
             </el-table-column>
             <el-table-column
                     prop="created"
-                    width="200"
                     label="Created At"
-            >
-            </el-table-column>
+            ></el-table-column>
             <el-table-column
                     prop="updated"
-                    width="200"
+                    
                     label="Update At"
             >
             </el-table-column>
@@ -106,18 +128,33 @@
                 width="700px"
                 :before-close="handleClose">
 
-            <el-form :model="editForm" :rules="editFormRules" ref="editForm">
+            <el-form :model="editForm" :rules="editFormRules" ref="editForm" class="grid lg:grid-cols-2">
 
-                <el-form-item label="Department Code"  prop="deptCode" label-width="150px">
-                    <el-input v-model="editForm.deptCode" autocomplete="off"></el-input>
+                <el-form-item label="Nation Code"  prop="nationName" label-width="150px">
+                    <el-input v-model="editForm.nationCode" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Department Name"  prop="deptName" label-width="150px">
-                    <el-input v-model="editForm.deptName" autocomplete="off"></el-input>
+                <el-form-item label="Nation Name"  prop="nationName" label-width="150px">
+                    <el-input v-model="editForm.nationName" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="Other Name"  prop="deptOtherName" label-width="150px">
-                    <el-input type="textarea" v-model="editForm.deptOtherName"></el-input>
+                <el-form-item label="Country Code"  prop="countryCode" label-width="150px">
+                    <el-input v-model="editForm.countryCode" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="Country Name"  prop="countryName" label-width="150px">
+                    <el-input v-model="editForm.countryCode" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="Tax Type"  prop="taxType" label-width="150px">
+                    <el-input v-model="editForm.taxType" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="Tax Code"  prop="taxCode" label-width="150px">
+                    <el-input v-model="editForm.taxCode" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Tax Name"  prop="taxName" label-width="150px" class="lg:col-span-full">
+                    <el-input v-model="editForm.taxName" autocomplete="off"></el-input>
+                </el-form-item>
+                
+
 
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -135,19 +172,19 @@ import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class Department extends Vue {
+export default class vendor extends Vue {
     fileList: any = []
     editForm: any = {}
     tableData: any = []
 
     testEcelHeader1 = [
-        'Department Code',
-        'Department Name'
+        'Vendor Code',
+        'Vendor Name'
     ]
 
     testEcelHeader2 = [
-        'deptCode',
-        'deptName'
+        'vendorCode',
+        'vendorName'
     ]
 
     searchForm: any = {
@@ -194,7 +231,7 @@ export default class Department extends Vue {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
         reData.forEach( (res: any) => {
-        axios.post('/base/department/create', res).then((res: any) => {
+        axios.post('/system/country/tax/create', res).then((res: any) => {
                         
                 this.$notify({
                     title: 'Msg',
@@ -212,7 +249,7 @@ export default class Department extends Vue {
 
     deptAllList() {
         axios.post(
-            '/base/department/listAll',
+            '/system/country/tax/listAll',
             this.searchForm
         ).then(
             (res: any) => {
@@ -280,7 +317,7 @@ export default class Department extends Vue {
         validData.validate((valid: any) => {
             if (valid) {
                 console.log(this.editForm)
-                axios.post('/base/department/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                axios.post('/system/country/tax/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
                         this.deptAllList()
                         this.$notify({
@@ -299,19 +336,19 @@ export default class Department extends Vue {
     }
 
     editHandle(id: number) {
-        axios.get('/base/department/' + id).then((res: any) => {
+        axios.get('/system/country/tax/' + id).then((res: any) => {
             this.editForm = res.data.data
             this.dialogVisible = true
         })
     }
 
     delItem(id: number) {
-        axios.delete('/base/department/remove/'+ id).then((res: any) => {
+        axios.delete('/system/country/tax/remove/'+ id).then((res: any) => {
             this.deptAllList()
             this.$notify({
                 title: '',
                 showClose: true,
-                message: 'Action is successful ',
+                message: 'Remove Action success',
                 type: 'success'
             })
         })
