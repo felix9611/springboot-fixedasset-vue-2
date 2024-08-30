@@ -1,8 +1,8 @@
 <template>
     <div class="p-4">
-        <div class="flex grid-cols-1 grid lg:grid-cols-10 gap-3">
-            <el-form :model="searchForm" class="md:col-span-full grid lg:grid-cols-10 shadow-lg rounded-lg bg-white pt-6">
-                    <el-col class="lg:col-span-3">
+        <el-row :gutter="30" class="shadow-lg rounded-lg bg-white pt-6">
+                <el-form :model="searchForm">
+                    <el-col :span="30">
                         <el-form-item label="Buy Date" prop="Dept" label-width="100px">
                             <el-date-picker
                             v-model="buyDateForm"
@@ -11,8 +11,8 @@
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col class="lg:col-span-3">
-                        <el-form-item label="Type" prop="type">
+                    <el-col :span="30">
+                        <el-form-item label="Type" prop="type" label-width="60px">
                             <el-select v-model="searchForm.typeId" placeholder="Select" filterable clearable>
                             <el-option
                                 v-for="typeItems in typeItem"
@@ -23,8 +23,8 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col class="lg:col-span-3">
-                        <el-form-item label="Department">
+                    <el-col :span="30">
+                        <el-form-item label="Department" label-width="100px">
                             <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>
                                 <el-option
                                 v-for="item in deptItem"
@@ -35,12 +35,13 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col class="lg:col-span-1">
+                    <el-col :span="30">
                         <el-form-item>
                             <el-button type="primary" @click="goToFind()">Find</el-button>
                         </el-form-item>
                     </el-col>
             </el-form>
+            </el-row>
 
             <div class="md:col-span-full shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
@@ -279,7 +280,7 @@ export default class Dashboard extends Vue {
     }
     get chartsSetAssetYearCostType() {
         return {
-            height: 250,
+            height: 300,
             type: 'bar',
             datasetKey: 'typeName',
             alwaysMultipleDatasets: true,
