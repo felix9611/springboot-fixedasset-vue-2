@@ -3,7 +3,7 @@
 Springboot X VUE
 
 Language<br />
--Java<br />
+-Java8 (Some dependencies only run on Java8)<br />
 -Typescript<br />
 -Vue2<br />
 -Tailwind<br />
