@@ -1,5 +1,5 @@
 <template>
-  <div div class="w-full bg-white p-1 shadow-lg rounded-lg">
+  <div class="w-full bg-white p-1 shadow-lg rounded-lg">
     <div class="handle-box p-2">
         <el-button icon="el-icon-back" circle @click="back"></el-button>
         <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm === true" @click="startEdit()"></el-button>
