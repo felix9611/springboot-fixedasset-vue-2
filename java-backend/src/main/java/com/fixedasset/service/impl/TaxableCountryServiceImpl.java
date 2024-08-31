@@ -56,7 +56,7 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
     }
 
     public TaxableCountry update(TaxableCountry taxableCountry) {
-
+        taxableCountry.setUpdated(LocalDateTime.now());
         taxableCountryMapper.updateById(taxableCountry);
 
         actionRecord.setActionName("Update");
