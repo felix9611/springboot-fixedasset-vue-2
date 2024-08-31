@@ -109,7 +109,6 @@
         </el-pagination>
 
 
-        <!--新增对话框-->
         <el-dialog
                 title="Form"
                 :visible.sync="dialogVisible"
@@ -172,8 +171,7 @@
             </div>
         </el-dialog>
 
-        <!-- 分配权限对话框 -->
-        <el-dialog title="分配角色" :visible.sync="roleDialogFormVisible" width="600px">
+        <el-dialog title="Role Setup" :visible.sync="roleDialogFormVisible" width="600px">
 
             <el-form :model="roleForm">
                 <el-tree

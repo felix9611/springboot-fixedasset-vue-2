@@ -7,6 +7,7 @@ import com.fixedasset.common.lang.Result;
 import com.fixedasset.entity.Location;
 import com.fixedasset.entity.TaxableCountry;
 import com.fixedasset.service.TaxableCountryService;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,11 @@ public class TaxableCountryController extends BaseController{
     public Result update(@RequestBody TaxableCountry taxableCountry) {
         taxableCountryService.update(taxableCountry);
         return Result.succ(taxableCountry);
+    }
+
+    @Delete("/remove/{id}")
+    public Result voidOne(@PathVariable("id") Long id) {
+        return Result.succ(taxableCountryService.voidData(id));
     }
 
     @GetMapping("/{id}")

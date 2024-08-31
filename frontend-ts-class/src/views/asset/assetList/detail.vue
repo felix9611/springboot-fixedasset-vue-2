@@ -1,12 +1,12 @@
 <template>
-  <div div class="container">
-    <div class="handle-box">
+  <div div class="w-full bg-white p-1 shadow-lg rounded-lg">
+    <div class="handle-box p-2">
         <el-button icon="el-icon-back" circle @click="back"></el-button>
         <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm === true" @click="startEdit()"></el-button>
     </div>
-    <el-form :model="editForm" ref="editForm" :disabled="readonlyForm">
-        <el-form-item>
-            <el-upload
+    <el-form :model="editForm" ref="editForm" :disabled="readonlyForm"  class="grid sm:lg:grid-cols-1 lg:grid-cols-4 p-1">
+      <el-form-item class="lg:col-span-4 px-8">
+        <el-upload
               class="upload-demo"
               :auto-upload="false"
               :file-list="fileList"
@@ -15,184 +15,129 @@
               >
               <el-button size="small" type="primary">Upload</el-button>
               <div slot="tip" class="el-upload__tip">Only upload JPG or PNG</div>
-            </el-upload>
-          </el-form-item>
-          <el-row :span="24">
-            <el-col :span="6">
-              <el-form-item label="Asset Code"  prop="assetCode" label-width="130px">
-                <el-input v-model="editForm.assetCode" autocomplete="off" readonly></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="18">
-              <el-form-item label="Asset Name"  prop="assetName" label-width="130px">
-                <el-input v-model="editForm.assetName" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :span="24">
-            <el-col :span="6">
-              <el-form-item label="Type" prop="type" label-width="130px">
-                <el-select v-model="editForm.typeId" placeholder="Select" filterable>
-                  <el-option
-                    v-for="typeItems in typeItem"
-                    :key="typeItems.id"
-                    :label="typeItems.typeName"
-                    :value="typeItems.id">
-                    </el-option>
-                  </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="Place" prop="place" label-width="130px">
-                <el-select v-model="editForm.placeId" placeholder="Select" filterable>
-                  <el-option
-                    v-for="placeItems in placeItem"
-                    :key="placeItems.id"
-                    :label="placeItems.placeName"
-                    :value="placeItems.id">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="Department" prop="Dept" label-width="130px">
-                <el-select v-model="editForm.deptId" placeholder="Select" filterable>
-                  <el-option
-                    v-for="deptItems in deptItem"
-                    :key="deptItems.id"
-                    :label="deptItems.deptName"
-                    :value="deptItems.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="Buy Date" prop="Dept" label-width="130px">
-                <el-date-picker
-                  v-model="editForm.buyDate"
-                  type="datetime"
-                  placeholder="Select date and time">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
+          </el-upload> 
+      </el-form-item>
+      <el-form-item label="Asset Code"  prop="assetCode" label-width="120px">
+        <el-input v-model="editForm.assetCode" autocomplete="off" readonly></el-input>
+      </el-form-item>
+      <el-form-item label="Asset Name"  prop="assetName" label-width="120px" class="lg:col-span-3">
+        <el-input v-model="editForm.assetName" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Type" prop="type" label-width="120px">
+        <el-select v-model="editForm.typeId" placeholder="Select" filterable class="w-full">
+          <el-option
+              v-for="typeItems in typeItem"
+              :key="typeItems.id"
+              :label="typeItems.typeName"
+              :value="typeItems.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Place" prop="place" label-width="120px">
+        <el-select v-model="editForm.placeId" placeholder="Select" filterable class="w-full">
+          <el-option
+            v-for="placeItems in placeItem"
+            :key="placeItems.id"
+            :label="placeItems.placeName"
+            :value="placeItems.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Department" prop="Dept" label-width="120px">
+        <el-select v-model="editForm.deptId" placeholder="Select" filterable class="w-full">
+          <el-option
+            v-for="deptItems in deptItem"
+            :key="deptItems.id"
+            :label="deptItems.deptName"
+            :value="deptItems.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Buy Date" prop="Dept" label-width="120px">
+        <el-date-picker
+          class="w-full"
+          v-model="editForm.buyDate"
+          type="datetime"
+          placeholder="Select date and time">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="Description"  prop="description" label-width="120px" class="lg:col-span-4">
+        <el-input type="textarea" v-model="editForm.description"></el-input>
+      </el-form-item>
+      <el-form-item label="Vendor" prop="vendor" label-width="120px">
+        <el-select v-model="editForm.vendorId" placeholder="Select" filterable class="w-full">
+          <el-option
+            v-for="vendorItems in vendorItem"
+            :key="vendorItems.id"
+            :label="vendorItems.vendorName"
+            :value="vendorItems.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Sponsor" prop="sponsor" label-width="120px" class="w-full">
+        <el-checkbox v-model="editForm.sponsor" size="large" />
+      </el-form-item>
+      <el-form-item label="Sponsor Name"  prop="sponsorName" label-width="120px" class="lg:col-span-2">
+        <el-input v-model="editForm.sponsorName" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Unit"  prop="nit" label-width="120px">
+        <el-input v-model="editForm.unit" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Cost"  prop="cost" label-width="120px">
+        <el-input v-model="editForm.cost" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Serial No."  prop="serialNum" label-width="120px" class="lg:col-span-2">
+        <el-input v-model="editForm.serialNum" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Invoice No."  prop="invoiceNo" label-width="120px" class="lg:col-span-2">
+        <el-input v-model="editForm.invoiceNo" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Invoice Date" prop="invoiceDate" label-width="120px" class="lg:col-span-2">
+        <el-date-picker
+          v-model="editForm.invoiceDate"
+          type="datetime"
+          placeholder="Select date and time">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="Tax Information" prop="taxInformation" label-width="120px" v-if="!editForm.id" class="lg:col-span-4">
+        <el-checkbox v-model="taxInformation" />
+      </el-form-item>
+      <el-form-item label="Tax Type"  prop="invoiceNo" label-width="120px" v-if="taxInformation || editForm.id">
+        <el-select v-model="editForm.taxCode" placeholder="Select" filterable clearable class="w-full">
+          <el-option
+            v-for="items in taxesData"
+            :key="items.taxCode"
+            :label="items.label"
+            :value="items.taxCode">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Tax Code"  prop="taxCode" label-width="120px" v-if="taxInformation || editForm.id">
+        <el-select v-model="editForm.taxCode" placeholder="Select" filterable clearable class="w-full">
+          <el-option
+            v-for="items in taxesData"
+            :key="items.taxCode"
+            :label="items.taxCode"
+            :value="items.taxCode">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Inclube Tax" prop="includeTax" label-width="120px" v-if="taxInformation || editForm.id">
+        <el-checkbox v-model="editForm.includeTax" />
+      </el-form-item>
+      <el-form-item label="After / Before Tax Total"  prop="invoiceNo" label-width="160px" v-if="taxInformation || editForm.id">
+        <el-input v-model="editForm.afterBeforeTax" autocomplete="off"></el-input>
+      </el-form-item>
 
-          <el-form-item label="Description"  prop="description" label-width="130px">
-            <el-input type="textarea" v-model="editForm.description"></el-input>
-          </el-form-item>
 
-          <el-row :span="24">
-            <el-col :span="6">
-              <el-form-item label="Vendor" prop="vendor" label-width="130px">
-                <el-select v-model="editForm.vendorId" placeholder="Select" filterable>
-                  <el-option
-                    v-for="vendorItems in vendorItem"
-                    :key="vendorItems.id"
-                    :label="vendorItems.vendorName"
-                    :value="vendorItems.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="Sponsor" prop="sponsor" label-width="130px">
+      <el-form-item label="Remark"  prop="remark" label-width="120px" class="lg:col-span-4">
+        <el-input type="textarea" v-model="editForm.remark"></el-input>
+      </el-form-item>
 
-               <!-- <el-select v-model="editForm.sponsor" placeholder="Select" filterable>
-                  <el-option
-                    v-for="items in sponsorOpts"
-                    :key="items.id"
-                    :label="items.label"
-                    :value="items.id">
-                  </el-option>
-                </el-select> -->
-                <el-checkbox v-model="editForm.sponsor" size="large" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="Sponsor Name"  prop="sponsorName" label-width="130px">
-                <el-input v-model="editForm.sponsorName" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :span="24">
-            <el-col :span="6">
-              <el-form-item label="Unit"  prop="cost" label-width="130px">
-                <el-input v-model="editForm.unit" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="Cost"  prop="cost" label-width="130px">
-                <el-input v-model="editForm.cost" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="Serial No."  prop="serialNum" label-width="130px">
-                <el-input v-model="editForm.serialNum" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :span="24">
-            <el-col :span="15">
-              <el-form-item label="Invoice No."  prop="invoiceNo" label-width="130px">
-                <el-input v-model="editForm.invoiceNo" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="Invoice Date" prop="invoiceDate" label-width="130px">
-                  <el-date-picker
-                    v-model="editForm.invoiceDate"
-                    type="datetime"
-                    placeholder="Select date and time">
-                  </el-date-picker>
-                </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row v-if="!editForm.id">
-            <el-col>
-              <el-form-item label="Tax Information" prop="taxInformation" label-width="130px">
-                <el-checkbox v-model="taxInformation" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :span="20" v-if="taxInformation || editForm.id">
-            
-            <el-col :span="10">
-              <el-form-item label="Tax Type"  prop="invoiceNo" label-width="130px">
-                  <el-select v-model="editForm.taxCode" placeholder="Select" filterable clearable style="width: 400px;">
-                    <el-option
-                      v-for="items in taxesData"
-                      :key="items.taxCode"
-                      :label="items.label"
-                      :value="items.taxCode">
-                    </el-option>
-                  </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="4">
-              <el-form-item label="Inclube Tax" prop="includeTax" label-width="130px">
-                <el-checkbox v-model="editForm.includeTax" />
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="6">
-              <el-form-item label="After / Before Tax Total"  prop="invoiceNo" label-width="160px">
-                <el-input v-model="editForm.afterBeforeTax" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-form-item label="Remark"  prop="remark" label-width="130px">
-            <el-input type="textarea" v-model="editForm.remark"></el-input>
-          </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
+    </el-form>
+    <div slot="footer" class="dialog-footer p-4">
         <el-button @click="resetForm('editForm')">Reset</el-button>
         <el-button :disabled="hideSaveBtn" type="primary" @click="submitForm('editForm')" v-if="!readonlyForm">{{ editForm.id? 'Update' : 'Create' }}</el-button>
-      </div>
     </div>
   </div>
 </template>

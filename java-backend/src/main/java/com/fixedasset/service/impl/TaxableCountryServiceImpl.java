@@ -21,8 +21,26 @@ import java.util.List;
 public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper, TaxableCountry> implements TaxableCountryService {
 
     @Resource TaxableCountryMapper taxableCountryMapper;
+
+    @Resource TaxableCountry taxableCountry;
     @Resource ActionRecordMapper actionRecordMapper;
     @Resource private ActionRecord actionRecord;
+
+    public String voidData(Long id) {
+        taxableCountry.setId(id);
+        taxableCountry.setStatu(0);
+        taxableCountryMapper.updateById(taxableCountry);
+
+        actionRecord.setActionName("Void");
+        actionRecord.setActionMethod("DELETE");
+        actionRecord.setActionFrom("Taxable Data");
+        actionRecord.setActionData(id.toString());
+        actionRecord.setActionSuccess("Success");
+        actionRecord.setCreated(LocalDateTime.now());
+        this.createdAction(actionRecord);
+
+        return  "This data was void" + taxableCountry;
+    }
     public TaxableCountry createNew(TaxableCountry taxableCountry) {
 
         taxableCountryMapper.insert(taxableCountry);
@@ -56,10 +74,6 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
     public TaxableCountry findOne(Long id) {
         return this.getById(id);
     }
-
-    // public List<AssetType> getAll() {
-    //        return assetTypeMapper.getALL();
-    //    }
 
     public List<TaxableCountry> getAll() {
         return  taxableCountryMapper.getALL();

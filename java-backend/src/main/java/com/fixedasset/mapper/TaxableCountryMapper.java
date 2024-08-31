@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface TaxableCountryMapper extends BaseMapper<TaxableCountry>{
-    @Select("Select * from taxable_country where status = 1")
+    @Select("Select * from taxable_country where statumvn  = 1")
     List<TaxableCountry> getALL();
 }
