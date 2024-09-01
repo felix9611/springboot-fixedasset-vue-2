@@ -33,7 +33,7 @@ export default class vTags extends Vue {
             isActive(path: any) {
                 return path === this.$route.fullPath
             }
-            // 关闭单个标签
+            // Close Single Tabs
             closeTags(index: any) {
                 const delItem: any = this.tagsList.splice(index, 1)[0]
                 const item: any = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1]
@@ -43,19 +43,19 @@ export default class vTags extends Vue {
                     this.$router.push('/')
                 }
             }
-            // 关闭全部标签
+            // Close All Tabs
             closeAll(){
                 this.tagsList = [];
                 this.$router.push('/')
             }
-            // 关闭其他标签
+            // Close Other Tabs
             closeOther(){
                 const curItem = this.tagsList.filter((item: any) => {
                     return item.path === this.$route.fullPath
                 })
                 this.tagsList = curItem
             }
-            // 设置标签
+            // Set Tags
             setTags(route){
                 const isExist = this.tagsList.some((item: any) => {
                     return item.path === route.fullPath
@@ -97,7 +97,7 @@ export default class vTags extends Vue {
 */
         created(){
             this.setTags(this.$route);
-            // 监听关闭当前页面的标签页
+            // Watch the tabs case of current
             bus.$on('close_current_tags', () => {
                 for (let i = 0, len = this.tagsList.length; i < len; i++) {
                     const item: any = this.tagsList[i]
