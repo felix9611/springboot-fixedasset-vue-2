@@ -2,9 +2,7 @@ package com.fixedasset.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fixedasset.dto.AssetListViewDTO;
 import com.fixedasset.entity.ActionRecord;
-import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.TaxableCountry;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.TaxableCountryMapper;
@@ -29,6 +27,7 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
     public String voidData(Long id) {
         taxableCountry.setId(id);
         taxableCountry.setStatu(0);
+        taxableCountry.setUpdated(LocalDateTime.now());
         taxableCountryMapper.updateById(taxableCountry);
 
         actionRecord.setActionName("Void");
@@ -42,7 +41,7 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
         return  "This data was void" + taxableCountry;
     }
     public TaxableCountry createNew(TaxableCountry taxableCountry) {
-
+        taxableCountry.setCreated(LocalDateTime.now());
         taxableCountryMapper.insert(taxableCountry);
 
         actionRecord.setActionName("Save");
@@ -57,7 +56,7 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
     }
 
     public TaxableCountry update(TaxableCountry taxableCountry) {
-
+        taxableCountry.setUpdated(LocalDateTime.now());
         taxableCountryMapper.updateById(taxableCountry);
 
         actionRecord.setActionName("Update");

@@ -24,7 +24,7 @@ public class TaxableCountryController extends BaseController{
         return Result.succ(taxableCountry);
     }
 
-    @PutMapping("/create")
+    @PostMapping("/update")
     public Result update(@RequestBody TaxableCountry taxableCountry) {
         taxableCountryService.update(taxableCountry);
         return Result.succ(taxableCountry);

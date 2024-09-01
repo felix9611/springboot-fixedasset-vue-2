@@ -1,5 +1,5 @@
 <template>
-  <div div class="w-full bg-white p-1 shadow-lg rounded-lg">
+  <div class="w-full bg-white p-1 shadow-lg rounded-lg">
     <div class="handle-box p-2">
         <el-button icon="el-icon-back" circle @click="back"></el-button>
         <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm === true" @click="startEdit()"></el-button>
@@ -103,11 +103,11 @@
         <el-checkbox v-model="taxInformation" />
       </el-form-item>
       <el-form-item label="Tax Type"  prop="invoiceNo" label-width="120px" v-if="taxInformation || editForm.id">
-        <el-select v-model="editForm.taxCode" placeholder="Select" filterable clearable class="w-full">
+        <el-select v-model="editForm.taxCode" placeholder="Select" filterable clearable class="w-full" disabled>
           <el-option
             v-for="items in taxesData"
             :key="items.taxCode"
-            :label="items.label"
+            :label="items.taxType"
             :value="items.taxCode">
           </el-option>
         </el-select>
@@ -117,7 +117,7 @@
           <el-option
             v-for="items in taxesData"
             :key="items.taxCode"
-            :label="items.taxCode"
+            :label="items.label"
             :value="items.taxCode">
           </el-option>
         </el-select>
@@ -166,6 +166,7 @@ export default class StockTakeDetail extends Vue {
   placeItem: any = []
   vendorItem: any = []
   taxInformation: boolean = false
+  hideSaveBtn: boolean = false
 
   sponsorOpts: any = [
     { id: 0, label: 'No' },
@@ -175,8 +176,7 @@ export default class StockTakeDetail extends Vue {
   @Watch('editForm.taxCode')
   onTaxChange() {
     const taxObject =  this.taxesData.find(item => item.taxCode === this.editForm.taxCode)
-
-    this.editForm.taxCountryCode = taxObject.countryCode
+    this.editForm.taxType = taxObject.taxType
     this.editForm.taxCountryCode = taxObject.countryCode
     this.editForm.taxRate = taxObject.taxRate
   }
