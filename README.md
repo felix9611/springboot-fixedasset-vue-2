@@ -12,7 +12,7 @@ Springboot X VUE
 <div>
 Language:<br />
 ・Java8 (Some dependencies only run on Java8)<br />
-・Node.js 16.20.<br /> (Frontend)
+・Node.js 16.20 (Frontend).<br />
 ・Typescript<br />
 ・Vue2<br />
 ・Tailwind<br />
