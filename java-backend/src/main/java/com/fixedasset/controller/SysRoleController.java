@@ -81,8 +81,8 @@ public class SysRoleController extends BaseController {
     }
 
     @DeleteMapping("/void/{id}")
-   // @PreAuthorize("hasAuthority('sys:role:delete')")
-   // @Transactional
+    @PreAuthorize("hasAuthority('sys:role:delete')")
+    @Transactional
     public Result voidById(@PathVariable("id") Long id) {
         return Result.succ(sysRoleService.voidById(id));
     }
