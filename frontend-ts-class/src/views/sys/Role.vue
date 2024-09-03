@@ -19,9 +19,9 @@
                     <el-button type="primary" @click="dialogVisible = true">Add</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-popconfirm title="Is this sure to delete in bulk? ？" @confirm="delHandle(null)">
+                  <!--  <el-popconfirm title="Is this sure to delete in bulk? ？" @confirm="delHandle(null)">
                         <el-button type="danger" slot="reference" :disabled="delBtlStatu">Bulk Delete</el-button>
-                    </el-popconfirm>
+                    </el-popconfirm> -->
                 </el-form-item>
             </el-form>
         </div>
@@ -31,20 +31,21 @@
                 ref="multipleTable"
                 :data="tableData"
                 tooltip-effect="dark"
-                style="width: 100%"
+                class="w-[100%]"
                 @selection-change="handleSelectionChange">
 
-            <el-table-column
+            <!--<el-table-column
                     type="selection"
                     width="55">
-            </el-table-column>
+            </el-table-column>-->
 
             <el-table-column
                     prop="name"
                     label="Name"
-                    width="120">
+                    width="150">
             </el-table-column>
             <el-table-column
+                    width="150"
                     prop="code"
                     label="Unique Code"
                     show-overflow-tooltip>
@@ -56,6 +57,7 @@
             </el-table-column>
 
             <el-table-column
+                     width="100"
                     prop="statu"
                     label="Status">
                 <template slot-scope="scope">
@@ -65,21 +67,26 @@
 
             </el-table-column>
             <el-table-column
+                    width="500"
                     prop="icon"
                     label="Action">
 
+                    
+
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="permHandle(scope.row.id)">Assign Permissions</el-button>
-                    <el-divider direction="vertical"></el-divider>
-
-                    <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
-                    <el-divider direction="vertical"></el-divider>
-
-                    <template>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button @click="permHandle(scope.row.id)" class="border border-2 rounded-md bg-[#b9dfb0] hover:bg-[#a3d597] p-1">Assign Permissions</button>
+                        <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
+                        <button @click="openTheVoidUserDialog(scope.row.id)" class="text-white border border-2 rounded-md bg-[#ffadad] hover:bg-[#ff7575] p-1">Void</button>
+                    </div>
+                    
+                <!--    <template>
                         <el-popconfirm title="Is this a piece of content to delete? ？" @onConfirm="delHandle(scope.row.id)">
                             <el-button size="mini" type="danger" slot="reference">Delete</el-button>
                         </el-popconfirm>
-                    </template>
+                    </template> -->
+
+
 
                 </template>
             </el-table-column>
@@ -98,7 +105,7 @@
         </el-pagination>
 
 
-        <!--新增对话框-->
+        <!--Dialog-->
         <el-dialog
                 title="Form"
                 :visible.sync="dialogVisible"
@@ -158,6 +165,20 @@
 			    <el-button type="primary" @click="submitPermFormHandle('permForm')">{{ permTreeData.menuIds? 'Update' : 'Create' }}</el-button>
 			</span>
         </el-dialog>
+
+        <el-dialog
+                title="Role Void"
+                :visible.sync="voidDialogVisible"
+                width="600px">
+                    <div class="text-center p-2">
+                        <span class="text-[1.1rem]">Are you sure to delete this role?</span>
+                        <div class="flex gap-3 items-center justify-center text-[1.1rem]">
+                            <button class="border border-2 rounded-md bg-[#ffadad] hover:bg-[#ff7575] p-1 text-white px-5" @click="delHandle()">Sure</button>
+                            <button class="btn border border-1 rounded-md p-1 px-6 bg-[#ececec] hover:bg-[#d0d0d0]" @click="voidDialogVisible = false">No</button>
+                            
+                        </div>
+                    </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -175,7 +196,9 @@ export default class Role extends Vue {
     size: number|undefined
     current: number =1
     dialogVisible: boolean = false
+    voidDialogVisible: boolean = false
     tableData: any = []
+    voidReadyId: number = 0
 
     editFormRules = {
         name: [
@@ -313,6 +336,25 @@ export default class Role extends Vue {
             this.permDialogVisible = false
             this.resetForm(formName)
         })
+    }
+
+    delHandle() {
+        console.log(this.voidReadyId)
+        axios.delete(`/sys/role/void/${this.voidReadyId}`).then(res => {
+            this.getRoleList()
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: 'Void the role successful',
+                type: 'success'
+            })
+            this.voidDialogVisible = false
+        })
+    }
+
+    openTheVoidUserDialog(id: number) {
+        this.voidDialogVisible = true
+        this.voidReadyId = id
     }
 }
 </script>

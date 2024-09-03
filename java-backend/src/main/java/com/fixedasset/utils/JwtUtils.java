@@ -18,7 +18,7 @@ public class JwtUtils {
 	private String secret;
 	private String header;
 
-	// 生成jwt
+	// JWT Generate
 	public String generateToken(String username) {
 
 		Date nowDate = new Date();
@@ -28,12 +28,12 @@ public class JwtUtils {
 				.setHeaderParam("typ", "JWT")
 				.setSubject(username)
 				.setIssuedAt(nowDate)
-				.setExpiration(expireDate)// 7天過期
+				.setExpiration(expireDate)// Expires in 7 days
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 	}
 
-	// 解析jwt
+	// Claim & Check JWT
 	public Claims getClaimByToken(String jwt) {
 		try {
 			return Jwts.parser()
@@ -45,7 +45,7 @@ public class JwtUtils {
 		}
 	}
 
-	// jwt是否过期
+	// JWT Check if Expired
 	public boolean isTokenExpired(Claims claims) {
 		return claims.getExpiration().before(new Date());
 	}
