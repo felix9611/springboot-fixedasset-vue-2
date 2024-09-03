@@ -2,7 +2,6 @@
 
 Springboot X VUE
 <div>
-  
 ・Inclubes frontend and backend for Fixed Assets Management System<br />
 ・Management purchase expenditure record ,maintenance and write-off records in fixed assets at facilities<br />
 ・Cloud-based web systems offer ease of use with no installation required, significantly reducing costs.<br />

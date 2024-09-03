@@ -25,7 +25,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		response.setContentType("application/json;charset=UTF-8");
 		ServletOutputStream outputStream = response.getOutputStream();
-
+		
 		String jwt = jwtUtils.generateToken(authentication.getName());
 		// response.setHeader(jwtUtils.getHeader(), jwt);
 		JSONObject loginResult = new JSONObject();

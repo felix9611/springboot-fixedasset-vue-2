@@ -9,6 +9,8 @@ import com.fixedasset.common.lang.Result;
 import com.fixedasset.entity.SysRole;
 import com.fixedasset.entity.SysRoleMenu;
 import com.fixedasset.entity.SysUserRole;
+
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -21,14 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
 @RestController
 @RequestMapping("/sys/role")
 public class SysRoleController extends BaseController {
@@ -41,7 +35,7 @@ public class SysRoleController extends BaseController {
 
         SysRole sysRole = sysRoleService.getById(id);
 
-        // 获取角色相关联的菜单id
+        // Get the menu id associated with the role
         List<SysRoleMenu> roleMenus = sysRoleMenuService.list(new QueryWrapper<SysRoleMenu>().eq("role_id", id));
         List<Long> menuIds = roleMenus.stream().map(p -> p.getMenuId()).collect(Collectors.toList());
 
@@ -68,7 +62,7 @@ public class SysRoleController extends BaseController {
         sysRole.setCreated(LocalDateTime.now());
         sysRole.setStatu(Const.STATUS_ON);
 
-        sysRoleService.save(sysRole);
+        sysRoleService.createNewRole(sysRole);
         return Result.succ(sysRole);
 
     }
@@ -79,11 +73,18 @@ public class SysRoleController extends BaseController {
 
         sysRole.setUpdated(LocalDateTime.now());
 
-        sysRoleService.updateById(sysRole);
+        sysRoleService.updateRole(sysRole);
 
         sysUserService.clearUserAuthorityInfoByRoleId(sysRole.getId());
 
         return Result.succ(sysRole);
+    }
+
+    @DeleteMapping("/void/{id}")
+   // @PreAuthorize("hasAuthority('sys:role:delete')")
+   // @Transactional
+    public Result voidById(@PathVariable("id") Long id) {
+        return Result.succ(sysRoleService.voidById(id));
     }
 
     @PostMapping("/delete")
@@ -93,13 +94,13 @@ public class SysRoleController extends BaseController {
 
         sysRoleService.removeByIds(Arrays.asList(ids));
 
-        // 删除中间表
+        // Delete intermediate table
         sysUserRoleService.remove(new QueryWrapper<SysUserRole>().in("role_id", ids));
         sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().in("role_id", ids));
 
-        // 缓存同步删除
+        // Cache synchronous deletion
         Arrays.stream(ids).forEach(id -> {
-            // 更新缓存
+            // Refersh cache
             sysUserService.clearUserAuthorityInfoByRoleId(id);
         });
 
@@ -121,11 +122,11 @@ public class SysRoleController extends BaseController {
             sysRoleMenus.add(roleMenu);
         });
 
-        // 先删除原来的记录，再保存新的
+        // Remove and re-created
         sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("role_id", roleId));
         sysRoleMenuService.saveBatch(sysRoleMenus);
 
-        // 删除缓存
+        // Delete cache
         sysUserService.clearUserAuthorityInfoByRoleId(roleId);
 
         return Result.succ(menuIds);
