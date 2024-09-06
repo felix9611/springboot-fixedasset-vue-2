@@ -12,7 +12,7 @@ public interface RepairRecordService extends IService<RepairRecord>{
 
     void update(RepairRecord repairRecord);
 
-    RepairRecordListDto findOneById(Long id);
+    RepairRecord findOneById(Long id);
 
     void voidRecord(Long id);
 

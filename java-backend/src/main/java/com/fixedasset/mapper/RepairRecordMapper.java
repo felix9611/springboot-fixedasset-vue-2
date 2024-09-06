@@ -16,13 +16,13 @@ public interface RepairRecordMapper extends BaseMapper<RepairRecord> {
     "from repair_record rr left join asset_list al on rr.asset_id = al.id";
 
     String wrapperSql = "SELECT * from ( " + ListQuerySQL + " ) AS q ${ew.customSqlSegment}";
-    String getOneSQL = "SELECT al.asset_code assetCode, al.asset_name assetName, rr.*" +
+    String getOneSQL = "SELECT al.asset_code as assetCode, al.asset_name asassetName, rr.*" +
                 "from repair_record rr left join asset_list al on rr.asset_id = al.id where rr.id = #{repairId}";
 
     @Select(wrapperSql)
     Page<RepairRecordListDto> pageNew(Page page, @Param("ew") Wrapper queryWrapper);
 
     @Select(getOneSQL)
-    RepairRecordListDto getRecordById(@Param("repairId") Long repairId);
+    RepairRecord getRecordById(@Param("repairId") Long repairId);
     
 }

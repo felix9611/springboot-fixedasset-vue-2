@@ -128,6 +128,9 @@
                     <el-form-item label="Repair Amount"  prop="repairAmount" label-width="120px">
                         <el-input v-model="editForm.repairAmount" autocomplete="off"></el-input>
                     </el-form-item>
+                    <el-form-item label="Remark"  prop="remark" label-width="120px" class="lg:col-span-2">
+                        <el-input type="textarea" v-model="editForm.remark" autocomplete="off"></el-input>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button type="primary" @click="submitForm('editForm')">{{ editForm.id? 'Update' : 'Create' }}</el-button>
@@ -198,7 +201,11 @@ export default class RepairRecord extends Vue {
     }
     
 
-    async editHandle(id: number) {}
+    async editHandle(id: number) {
+        axios.get(`/asset/asset-repair/${id}`).then((res: any) => {
+            this.editForm = res.data.data
+        })
+    }
 
     async delItem(id: number) {
         await axios.delete('/asset/asset-repair/remove/'+ id).then((res: any) => {
@@ -231,7 +238,7 @@ export default class RepairRecord extends Vue {
                         message: 'Success to save',
                         type: 'success',
                     })
-
+                    this.dialogVisible = false           
                     this.editForm = {}
                 })
             }
@@ -243,6 +250,7 @@ export default class RepairRecord extends Vue {
         await axios.get(`/asset/assetList/assetCode/${val}`).then((res: any) => {
             const data = res.data.data
             this.editForm.assetId = data.id
+            this.dialogVisible = true
         })
     }
 }

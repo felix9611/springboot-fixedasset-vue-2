@@ -10,9 +10,10 @@ import com.fixedasset.service.RepairRecordService;
 import java.time.LocalDateTime;
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.stereotype.Service;
 
 @Service
 public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, RepairRecord> implements RepairRecordService {
@@ -64,8 +65,8 @@ public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, Rep
         this.createdAction(actionRecord);
     }
 
-    public RepairRecordListDto findOneById(Long id) {
-        return (RepairRecordListDto) repairRecordMapper.selectById(id);
+    public RepairRecord findOneById(Long id) {
+        return repairRecordMapper.getRecordById(id);
     }
 
     public void voidRecord(Long id) {

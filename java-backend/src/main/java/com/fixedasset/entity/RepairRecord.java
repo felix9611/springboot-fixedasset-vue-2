@@ -23,7 +23,7 @@ public class RepairRecord {
     private String repairReason;
 
     @TableField("maintenance_period")
-    private Boolean maintenanceReriod;
+    private int maintenanceReriod;
 
     @TableField("maintenance_name")
     private String maintenanceName;
@@ -60,6 +60,12 @@ public class RepairRecord {
 
     @TableField(exist = false)
     private int limit;
+
+    @TableField(exist = false)
+    private String assetCode;
+
+    @TableField(exist = false)
+    private String  assetName;
 
     @TableField(exist = false)
     private LocalDateTime repairInvoiceDateTo;
