@@ -32,7 +32,7 @@
                 ref="multipleTable"
                 :data="tableData"
                 tooltip-effect="dark"
-                style="width: 100%"
+                class="w-[100%]"
                 :default-sort = "{prop: 'typeCode', order: 'descending'}"
                 @selection-change="handleSelectionChange">
             <el-table-column

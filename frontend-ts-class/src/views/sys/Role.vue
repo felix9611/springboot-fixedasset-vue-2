@@ -67,7 +67,7 @@
 
             </el-table-column>
             <el-table-column
-                    width="500"
+                    width="480"
                     prop="icon"
                     label="Action">
 
@@ -75,9 +75,9 @@
 
                 <template slot-scope="scope">
                     <div class="grid grid-cols-3 gap-3">
-                        <button @click="permHandle(scope.row.id)" class="border border-2 rounded-md bg-[#b9dfb0] hover:bg-[#a3d597] p-1">Assign Permissions</button>
-                        <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
-                        <button @click="openTheVoidUserDialog(scope.row.id)" class="text-white border border-2 rounded-md bg-[#ffadad] hover:bg-[#ff7575] p-1">Void</button>
+                        <button @click="permHandle(scope.row.id)" class="rounded-md bg-[#b9dfb0] hover:bg-[#a3d597] p-1">Assign Permissions</button>
+                        <button @click="editHandle(scope.row.id)" class="bg-[#e9e9e9] hover:bg-[#d8d8d8] rounded-md p-1">Edit</button>
+                        <button @click="openTheVoidUserDialog(scope.row.id)" class="text-white rounded-md bg-[#ffadad] hover:bg-[#ff7575] p-1">Void</button>
                     </div>
                     
                 <!--    <template>
