@@ -99,6 +99,58 @@
           placeholder="Select date and time">
         </el-date-picker>
       </el-form-item>
+      <el-form-item label="Invoice Remark"  prop="invoiceRemark" label-width="120px" class="lg:col-span-4">
+        <el-input type="textarea"  v-model="editForm.invoiceRemark" autocomplete="off"></el-input>
+      </el-form-item>
+
+      <el-form-item label="Brand Code"  prop="brandCode" label-width="120px" class="lg:col-span-1">
+        <el-input v-model="editForm.brandCode" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Brand Name"  prop="brandName" label-width="120px" class="lg:col-span-3">
+        <el-input v-model="editForm.brandName" autocomplete="off"></el-input>
+      </el-form-item>
+
+      <el-form-item label="Account Code"  prop="accountCode" label-width="120px" class="lg:col-span-1">
+        <el-input v-model="editForm.accountCode" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Account Name"  prop="accountName" label-width="120px" class="lg:col-span-1">
+        <el-input v-model="editForm.accountName" autocomplete="off"></el-input>
+      </el-form-item>
+
+      <el-form-item label="Cheque No."  prop="chequeNo" label-width="120px" class="lg:col-span-2">
+        <el-input v-model="editForm.chequeNo" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Voucher No."  prop="voucherNo" label-width="120px" class="lg:col-span-1">
+        <el-input v-model="editForm.voucherNo" autocomplete="off"></el-input>
+      </el-form-item>
+
+      <el-form-item label="Voucher Used Date" prop="voucherUsedDate" label-width="190px" class="lg:col-span-1">
+        <el-date-picker
+        class="w-[100%]"
+          v-model="editForm.voucherUsedDate"
+          type="datetime"
+          placeholder="Select date and time">
+        </el-date-picker>
+      </el-form-item>
+
+      <el-form-item label="Startof maintenance period" prop="vmaintenancePeriodStart" label-width="190px" class="lg:col-span-1">
+        <el-date-picker
+        class="w-[100%]"
+          v-model="editForm.maintenancePeriodStart"
+          type="datetime"
+          placeholder="Select date and time">
+        </el-date-picker>
+      </el-form-item>
+
+      <el-form-item label="End of maintenance period" prop="maintenancePeriodEnd" label-width="190px" class="lg:col-span-1">
+        <el-date-picker
+        class="w-[100%]"
+          v-model="editForm.maintenancePeriodEnd"
+          type="datetime"
+          placeholder="Select date and time">
+        </el-date-picker>
+      </el-form-item>
+      
       <el-form-item label="Tax Information" prop="taxInformation" label-width="120px" v-if="!editForm.id" class="lg:col-span-4">
         <el-checkbox v-model="taxInformation" />
       </el-form-item>
