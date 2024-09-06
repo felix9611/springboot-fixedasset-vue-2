@@ -47,6 +47,9 @@ public class AssetList extends BaseEntity{
     @TableField("invoice_date")
     private LocalDateTime invoiceDate;
 
+    @TableField("invoice_remark")
+    private String invoiceRemark;
+
     @TableField("place_id")
     private int placeId;
 
@@ -76,6 +79,33 @@ public class AssetList extends BaseEntity{
 
     @TableField("after_before_tax")
     private String afterBeforeTax;
+
+    @TableField("account_code")
+    private String accountCode;
+
+    @TableField("account_name")
+    private String accountName;
+
+    @TableField("brand_code")
+    private String brandCode;
+
+    @TableField("brand_name")
+    private String brandName;
+
+    @TableField("cheque_no")
+    private String chequeNo;
+
+    @TableField("maintenance_period_start")
+    private LocalDateTime maintenancePeriodStart;
+
+    @TableField("maintenance_period_end")
+    private LocalDateTime maintenancePeriodEnd;
+
+    @TableField("voucher_no")
+    private String voucherNo;
+
+    @TableField("Voucher_used_date")
+    private LocalDateTime voucherUsedDate;
 
     @TableField(exist = false)
     private int page;
