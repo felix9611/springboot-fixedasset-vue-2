@@ -19,11 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 功能描述：Jwt拦截器
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/19 0:40
- * @Version 1.0
+ * JwtFilter
  */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 

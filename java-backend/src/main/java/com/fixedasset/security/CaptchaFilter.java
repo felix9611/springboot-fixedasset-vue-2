@@ -16,13 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * 功能描述：
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/18 19:31
- * @Version 1.0
- */
 @Component
 public class CaptchaFilter extends OncePerRequestFilter {
 
