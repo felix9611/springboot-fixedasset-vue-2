@@ -92,7 +92,7 @@ export function isArray(arg: any) {
 }
 
 /**
- * 是否合法IP地址
+ * Is the IP address legal?
  * @param rule
  * @param value
  * @param callback
@@ -110,7 +110,7 @@ export function validateIP(rule: any, value: any, callback: Function) {
   }
 }
 
-/* 是否手机号码或者固话*/
+/* Check all type phone number*/
 export function validatePhoneTwo(rule: any, value: any, callback: Function) {
   const reg = /^((0\d{2,3}-\d{7,8})|(1([38][0-9]|4[014-9]|[59][0-35-9]|6[2567]|7[0-8])\d{8}))$/
   if (value === '' || value === undefined || value == null) {
@@ -124,7 +124,7 @@ export function validatePhoneTwo(rule: any, value: any, callback: Function) {
   }
 }
 
-/* 是否固话*/
+/* Check if Telephone number*/
 export function validateTelephone(rule: any, value: any, callback: Function) {
   const reg = /0\d{2}-\d{7,8}/
   if (value === '' || value === undefined || value == null) {
@@ -138,7 +138,7 @@ export function validateTelephone(rule: any, value: any, callback: Function) {
   }
 }
 
-/* 是否手机号码*/
+/* Check if phone number*/
 export function validatePhone(rule: any, value: any, callback: Function) {
   const reg = /^1([38][0-9]|4[014-9]|[59][0-35-9]|6[2567]|7[0-8])\d{8}$/
   if (value === '' || value === undefined || value == null) {
@@ -152,7 +152,7 @@ export function validatePhone(rule: any, value: any, callback: Function) {
   }
 }
 
-/* 是否身份证号码*/
+/* Check if have ID Doc. Number*/
 export function validateIdNo(rule: any, value: any, callback: Function) {
   const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
   if (value === '' || value === undefined || value == null) {

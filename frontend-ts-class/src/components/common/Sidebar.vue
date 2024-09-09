@@ -72,7 +72,7 @@ export default class vSidebar extends Vue {
     }
 
     created() {
-        // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+        // Communication between components through Event Bus to collapse the sidebar
         bus.$on('collapse', msg => {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
