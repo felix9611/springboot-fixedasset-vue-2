@@ -6,14 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
 @Repository
 public interface SysUserMapper extends BaseMapper<SysUser> {
 

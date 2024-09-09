@@ -12,13 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * 功能描述：
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/17 14:29
- * @Version 1.0
- */
 @Component
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 

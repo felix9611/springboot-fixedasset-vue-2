@@ -9,11 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 功能描述：MybatisPlus配置
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/13 20:31
- * @Version 1.0
+ * MybatisPlus Setup
  */
 
 @Configuration

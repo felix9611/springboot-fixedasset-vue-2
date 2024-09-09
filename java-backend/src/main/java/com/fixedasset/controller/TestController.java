@@ -8,13 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 功能描述：
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/13 21:03
- * @Version 1.0
- */
 @RestController
 public class TestController {
 

@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * 功能描述：全局异常
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/13 21:25
- * @Version 1.0
+ * global exception
  */
 
 @Slf4j

@@ -19,7 +19,7 @@ public class RedisUtil {
     private RedisTemplate redisTemplate;
 
     /**
-     * 指定缓存失效时间
+     * when Redis expire
      *
      * @param key  键
      * @param time 时间(秒)
@@ -38,20 +38,20 @@ public class RedisUtil {
     }
 
     /**
-     * 根据key 获取过期时间
+     * get expire time from the key
      *
-     * @param key 键 不能为null
-     * @return 时间(秒) 返回0代表为永久有效
+     * @param key cannot null
+     * @return Time (seconds) Returning 0 means it is permanently valid
      */
     public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
     /**
-     * 判断key是否存在
+     * Determine whether the key exists
      *
      * @param key 键
-     * @return true 存在 false不存在
+     * @return true Exist false Not exist
      */
     public boolean hasKey(String key) {
         try {
@@ -63,9 +63,9 @@ public class RedisUtil {
     }
 
     /**
-     * 删除缓存
+     * Remove cache
      *
-     * @param key 可以传一个值 或多个
+     * @param key can pass one value or multiple
      */
     @SuppressWarnings("unchecked")
     public void del(String... key) {

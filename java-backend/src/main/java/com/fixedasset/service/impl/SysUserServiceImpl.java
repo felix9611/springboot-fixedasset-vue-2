@@ -16,14 +16,6 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 

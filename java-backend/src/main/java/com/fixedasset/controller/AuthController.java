@@ -17,14 +17,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.UUID;
 
-/**
- * 功能描述：验证控制器
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/17 13:51
- * @Version 1.0
- */
-
 @RestController
 public class AuthController extends BaseController {
 
