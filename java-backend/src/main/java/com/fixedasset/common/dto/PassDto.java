@@ -8,9 +8,9 @@ import java.io.Serializable;
 @Data
 public class PassDto implements Serializable {
 
-	@NotBlank(message = "新密码不能为空")
+	@NotBlank(message = "New Password cannot be empty")
 	private String password;
 
-	@NotBlank(message = "旧密码不能为空")
+	@NotBlank(message = "OLD Password cannot be empty")
 	private String currentPass;
 }

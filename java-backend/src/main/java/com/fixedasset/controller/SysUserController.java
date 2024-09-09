@@ -29,14 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
+
 @RestController
 @RequestMapping("/sys/user")
 public class SysUserController extends BaseController {

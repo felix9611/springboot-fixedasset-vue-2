@@ -8,11 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 /**
- * 功能描述：验证码配置
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/17 13:48
- * @Version 1.0
+ * Captcha configuration
  */
 
 @Configuration
