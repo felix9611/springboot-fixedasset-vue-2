@@ -454,10 +454,10 @@ public class RedisUtil {
     }
 
     /**
-     * 将list放入缓存
+     * put list into cache
      *
-     * @param key   键
-     * @param value 值
+     * @param key   
+     * @param value 
      * @return
      */
     public boolean lSet(String key, Object value) {
@@ -471,11 +471,11 @@ public class RedisUtil {
     }
 
     /**
-     * 将list放入缓存
+     * put list into cache
      *
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒)
+     * @param key   
+     * @param value 
+     * @param time  
      * @return
      */
     public boolean lSet(String key, Object value, long time) {
@@ -490,10 +490,10 @@ public class RedisUtil {
     }
 
     /**
-     * 将list放入缓存
+     * put list into cache
      *
-     * @param key   键
-     * @param value 值
+     * @param key   
+     * @param value 
      * @return
      */
     public boolean lSet(String key, List<Object> value) {
@@ -507,7 +507,7 @@ public class RedisUtil {
     }
 
     /**
-     * 将list放入缓存
+     * put list into cache
      *
      * @param key   键
      * @param value 值
@@ -526,7 +526,7 @@ public class RedisUtil {
     }
 
     /**
-     * 根据索引修改list中的某条数据
+     * Modify a piece of data in the list based on the index
      *
      * @param key   键
      * @param index 索引
@@ -544,12 +544,12 @@ public class RedisUtil {
     }
 
     /**
-     * 移除N个值为value
+     * Remove N values ​​as value
      *
-     * @param key   键
-     * @param count 移除多少个
-     * @param value 值
-     * @return 移除的个数
+     * @param key   
+     * @param count 
+     * @param value 
+     * @return
      */
     public long lRemove(String key, long count, Object value) {
         try {
@@ -561,9 +561,9 @@ public class RedisUtil {
         }
     }
 
-    //================有序集合 sort set===================
+    //================Order sort set===================
     /**
-     * 有序set添加元素
+     * Add elements to ordered set
      *
      * @param key
      * @param value
@@ -587,7 +587,7 @@ public class RedisUtil {
     }
 
     /**
-     * 获取zset数量
+     * Get the number of zsets
      * @param key
      * @param value
      * @return
@@ -602,8 +602,8 @@ public class RedisUtil {
     }
 
     /**
-     * 获取有序集 key 中成员 member 的排名 。
-     * 其中有序集成员按 score 值递减 (从大到小) 排序。
+     * Gets the ranking of member member in the sorted set key.
+ * The members of the ordered set are sorted by decreasing score value (from large to small)。
      * @param key
      * @param start
      * @param end

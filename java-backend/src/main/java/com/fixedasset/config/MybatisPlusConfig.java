@@ -19,9 +19,9 @@ public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        // 分页插件
+        // Pagination plugin
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
-        // 防止全表更新插件
+        // Prevent full table update plugin
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
 
         return interceptor;
