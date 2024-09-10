@@ -1,6 +1,4 @@
-/**
- * Created by PanJiaChen on 16/11/18.
- */
+
 
 /**
  * @param {string} path
@@ -103,7 +101,7 @@ export function validateIP(rule: any, value: any, callback: Function) {
   } else {
     const reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的IP地址'))
+      callback(new Error('Please enter the correct IP address'))
     } else {
       callback()
     }
@@ -117,7 +115,7 @@ export function validatePhoneTwo(rule: any, value: any, callback: Function) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的电话号码或者固话号码'))
+      callback(new Error('Please enter the correct phone number or landline number'))
     } else {
       callback()
     }
@@ -131,7 +129,7 @@ export function validateTelephone(rule: any, value: any, callback: Function) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的固话（格式：区号+号码,如010-1234567）'))
+      callback(new Error('Please enter the correct landline number (format: area code + number, such as 010-1234567)'))
     } else {
       callback()
     }
@@ -145,7 +143,7 @@ export function validatePhone(rule: any, value: any, callback: Function) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的电话号码'))
+      callback(new Error('Please enter correct phone number'))
     } else {
       callback()
     }
@@ -159,7 +157,7 @@ export function validateIdNo(rule: any, value: any, callback: Function) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的身份证号码'))
+      callback(new Error('Please enter the correct ID number'))
     } else {
       callback()
     }
