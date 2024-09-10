@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VueAdminLearnApplication {
     private static final Logger log = LoggerFactory.getLogger(VueAdminLearnApplication.class);
 
-    
-
     public static void main(String[] args) {
         SpringApplication.run(VueAdminLearnApplication.class);
     }
