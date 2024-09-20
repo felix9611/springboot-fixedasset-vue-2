@@ -141,7 +141,7 @@
                     <el-input v-model="editForm.countryCode" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Country Name"  prop="countryName" label-width="150px">
-                    <el-input v-model="editForm.countryCode" autocomplete="off"></el-input>
+                    <el-input v-model="editForm.countryName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Tax Type"  prop="taxType" label-width="150px">
                     <el-input v-model="editForm.taxType" autocomplete="off"></el-input>
@@ -153,8 +153,17 @@
                 <el-form-item label="Tax Name"  prop="taxName" label-width="150px" class="lg:col-span-full">
                     <el-input v-model="editForm.taxName" autocomplete="off"></el-input>
                 </el-form-item>
-                
 
+                <el-form-item label="Tax Rate"  prop="taxRate" label-width="150px">
+                    <el-input type="number" v-model="editForm.taxRate" autocomplete="off">
+                        <template #append>%</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="Import Tax Rate"  prop="importTax" label-width="150px">
+                    <el-input type="number" v-model="editForm.importTax" autocomplete="off">
+                        <template #append>%</template>
+                    </el-input>
+                </el-form-item>
 
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -316,7 +325,11 @@ export default class vendor extends Vue {
         const validData: any = this.$refs[formName]
         validData.validate((valid: any) => {
             if (valid) {
-                console.log(this.editForm)
+                this.editForm = {
+                    ...this.editForm,
+                    taxRate: this.editForm.taxRate / 100,
+                    importTax: this.editForm.importTax / 100
+                }
                 axios.post('/system/country/tax/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
                         this.deptAllList()
@@ -337,8 +350,13 @@ export default class vendor extends Vue {
 
     editHandle(id: number) {
         axios.get('/system/country/tax/' + id).then((res: any) => {
-            this.editForm = res.data.data
+            this.editForm = {
+                    ...res.data.data,
+                    taxRate: res.data.data.taxRate * 100,
+                    importTax: res.data.data.importTax * 100
+                }
             this.dialogVisible = true
+
         })
     }
 
