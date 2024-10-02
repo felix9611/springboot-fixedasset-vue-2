@@ -8,13 +8,6 @@ import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * 功能描述：基础控制器
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/13 20:56
- * @Version 1.0
- */
 public class BaseController {
 
     @Autowired

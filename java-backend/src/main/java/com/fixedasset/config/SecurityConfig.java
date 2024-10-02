@@ -15,11 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // import sun.rmi.runtime.Log;
 
 /**
- * 功能描述：JWT配置
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/17 14:10
- * @Version 1.0
+ * JWT Setting
  */
 
 @Configuration
@@ -69,34 +65,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
 
-                // 登录配置
+                // Login
         .formLogin()
             .successHandler(successHandler)
             .failureHandler(loginFailureHandler)
 
-                // 登出配置
+                // Logout
         .and()
             .logout()
             .logoutSuccessHandler(jwtLogoutSuccessHandler)
 
-                // 禁用session
+                // Disablesession
         .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                // 配置拦截规则
+                // Configure interception rules
         .and()
             .authorizeRequests()
             .antMatchers(URL_WHITELIST).permitAll()
             .anyRequest().authenticated()
 
-                // 异常处理器
+                // exception handler
         .and()
             .exceptionHandling()
             .authenticationEntryPoint(jwtAuthenticationEntryPoint)
             .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                //配置自定义过滤器
+                //Configure custom filters
         .and()
              .addFilter(jwtAuthenticationFilter())
              .addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)

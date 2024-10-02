@@ -84,7 +84,9 @@
         <el-input v-model="editForm.unit" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="Cost"  prop="cost" label-width="120px">
-        <el-input v-model="editForm.cost" autocomplete="off"></el-input>
+        <el-input v-model="editForm.cost" autocomplete="off">
+          <template #prepend>$</template>
+        </el-input>
       </el-form-item>
       <el-form-item label="Serial No."  prop="serialNum" label-width="120px" class="lg:col-span-2">
         <el-input v-model="editForm.serialNum" autocomplete="off"></el-input>
@@ -178,7 +180,9 @@
         <el-checkbox v-model="editForm.includeTax" />
       </el-form-item>
       <el-form-item label="After / Before Tax Total"  prop="invoiceNo" label-width="160px" v-if="taxInformation || editForm.id">
-        <el-input v-model="editForm.afterBeforeTax" autocomplete="off"></el-input>
+        <el-input v-model="editForm.afterBeforeTax" autocomplete="off">
+          <template #prepend>$</template>
+        </el-input>
       </el-form-item>
 
 

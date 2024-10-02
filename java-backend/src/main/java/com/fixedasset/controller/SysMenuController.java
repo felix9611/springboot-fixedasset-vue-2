@@ -17,14 +17,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
+
 @RestController
 @RequestMapping("/sys/menu")
 public class SysMenuController extends BaseController {

@@ -1,11 +1,11 @@
-import axios, { AxiosRequestConfig , AxiosResponse, AxiosError } from 'axios'
+import Axios, { AxiosRequestConfig , AxiosResponse, AxiosError } from 'axios'
 import router from './router'
 import { Notification } from 'element-ui'
 import store from '@/store/index'
 
-axios.defaults.baseURL = process.env.VUE_APP_BASE_API
+Axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 
-const request = axios.create({
+const request = Axios.create({
     timeout: 5000,
     headers: {
         'Content-Type': "application/json; charset=utf-8"

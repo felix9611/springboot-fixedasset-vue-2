@@ -1,26 +1,26 @@
 module.exports = {
   /**
-   * @description 网站标题
+   * @description Title
    */
-  title: 'Waiter-Security',
+  title: 'POS System',
   /**
-   * @description 是否显示 tagsView
+   * @description Show tagsView
    */
   tagsView: true,
   /**
-   * @description 固定头部
+   * @description Fixed Header
    */
   fixedHeader: true,
   /**
-   * @description 记住密码状态下的token在Cookie中存储的天数，默认1天
+   * @description The number of days that the token in the password state is stored in the cookie, the default is 1 day
    */
   tokenCookieExpires: 1,
   /**
-   * @description 记住密码状态下的密码在Cookie中存储的天数，默认1天s
+   * @description The number of days that the password in the Remember Password state is stored in the cookie. The default is 1 day.
    */
   passCookieExpires: 1,
   /**
-   * @description 是否只保持一个子菜单的展开
+   * @description Whether to keep only one submenu expanded
    */
   uniqueOpened: true,
   /**
@@ -28,23 +28,15 @@ module.exports = {
    */
   TokenKey: '',
   /**
-   * @description 请求超时时间，毫秒（默认2分钟）
+   * @description Request timeout, milliseconds (default 2 minutes)
    */
   timeout: 1200000,
   /**
-   * @description 是否显示logo
+   * @description Display logo
    */
   sidebarLogo: true,
   /**
-   * 是否显示设置的底部信息
+   * Whether to display the bottom information of the settings
    */
   showFooter: true,
-  /**
-   * 底部文字，支持html语法
-   */
-  // footerTxt: '© 2019  Jie <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License 2.0</a>',
-  // /**
-  //  * 备案号
-  //  */
-  // caseNumber: '粤ICP备18005431号'
 }

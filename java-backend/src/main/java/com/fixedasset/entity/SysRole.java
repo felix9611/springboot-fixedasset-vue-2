@@ -9,14 +9,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Component
@@ -24,10 +17,10 @@ public class SysRole extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @NotBlank(message = "角色名称不能为空")
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
-    @NotBlank(message = "角色编码不能为空")
+    @NotBlank(message = "Code cannot be empty")
     private String code;
     
     private String remark;

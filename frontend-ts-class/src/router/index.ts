@@ -66,13 +66,13 @@ router.beforeEach((to, from, next) => {
 
 
             console.log(res.data.data)
-            // 拿到menuList
+            // Get menuList
             store.commit("setMenuList", res.data.data.nav)
 
-            // 拿到用户权限
+            // Get user permission
             store.commit("setPermList", res.data.data.authoritys)
 
-            // 动态绑定路由
+            // Dynamic binding route
             let newRoutes = router.options.routes
 
             console.log(res.data.data.nav)
@@ -82,10 +82,10 @@ router.beforeEach((to, from, next) => {
                         if(e.children.length == 0) {
                             delete e.children
                         }
-                        // 转成路由
+                        // To route
                         let route = menuToRoute(e)
 
-                        // 把路由添加到路由管理中
+                        // Add routes to route management
                         if (route) {
                             routes[1].children?.push(route)
                         }
@@ -93,10 +93,10 @@ router.beforeEach((to, from, next) => {
                     })
                 } else {
 
-                    // 转成路由
+                    // To route
                     let route = menuToRoute(menu)
 
-                    // 吧路由添加到路由管理中
+                    // Add the route to route management
                     if (route) {
                         routes[1].children?.push(route)
                     }
@@ -113,7 +113,7 @@ router.beforeEach((to, from, next) => {
 })
 
 
-// 导航转成路由
+// Navigation into routing
 const menuToRoute = (menu: any) => {
 
     if (!menu.component) {
@@ -132,9 +132,9 @@ const menuToRoute = (menu: any) => {
 
     return route
 }
-export const loadView = (view: any) => { // 路由懒加载
-                                    // return () => import(`@/views/${view}`)//不知道为什么不行
-    return (resolve: (...modules: any[]) => void) => require([`@/views/${view}`], resolve)//可以解决
+export const loadView = (view: any) => { // Lazy loading of routes
+                           
+    return (resolve: (...modules: any[]) => void) => require([`@/views/${view}`], resolve)
 }
 
 export default router

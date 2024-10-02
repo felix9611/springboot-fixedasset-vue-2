@@ -5,14 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
+
 @Data
 public class SysRoleMenu{
     @TableId(value = "id", type = IdType.AUTO)

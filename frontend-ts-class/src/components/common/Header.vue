@@ -1,6 +1,6 @@
 <template>
     <div class='header'>
-        <!-- 折叠按钮 -->
+        <!-- Collapse button -->
         <div class='collapse-btn' @click='collapseChage'>
             <i v-if='!collapse' class='el-icon-s-fold'></i>
             <i v-else class='el-icon-s-unfold'></i>
@@ -8,17 +8,17 @@
         <div class='logo'>Fixed Asset - VUE</div>
         <div class='header-right'>
             <div class='header-user-con'>
-                <!-- 全屏显示 -->
+                <!-- Fullscreen display -->
                 <div class='btn-fullscreen' @click='handleFullScreen'>
                     <el-tooltip effect='dark' :content='fullscreen?`No Fullscreen`:`Fullscreen`' placement='bottom'>
                         <i class='el-icon-rank'></i>
                     </el-tooltip>
                 </div>
-                <!-- 用户头像 -->
+                <!-- user-avator -->
                 <div class='user-avator'>
                     <img :src='userInfo.avatarBase64' />
                 </div>
-                <!-- 用户名下拉菜单 -->
+                <!-- Username Drop Down List -->
                 <el-dropdown class='user-name' trigger='click' @command='handleCommand'>
                     <span class='el-dropdown-link'>
                         {{userInfo.username}}

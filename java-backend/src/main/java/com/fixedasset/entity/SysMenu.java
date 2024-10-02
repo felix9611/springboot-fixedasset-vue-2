@@ -10,14 +10,6 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Component
@@ -26,40 +18,40 @@ public class SysMenu extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 父菜单ID，一级菜单为0
+     * Parent menu ID, first-level menu is 0
      */
-    @NotNull(message = "上级菜单不能为空")
+    @NotNull(message = "The upper-level menu cannot be empty")
     private Long parentId;
 
-    @NotBlank(message = "菜单名称不能为空")
+    @NotBlank(message = "Menu name cannot be empty")
     private String name;
 
     /**
-     * 菜单URL
+     * URL
      */
     private String path;
 
     /**
-     * 授权(多个用逗号分隔，如：user:list,user:create)
+     * permission code
      */
-    @NotBlank(message = "菜单授权码不能为空")
+    @NotBlank(message = "Menu authorization code cannot be empty")
     private String perms;
 
     private String component;
 
     /**
-     * 类型     0：目录   1：菜单   2：按钮
+     * type     0：main   1：item   2：button
      */
-    @NotNull(message = "菜单类型不能为空")
+    @NotNull(message = "Menu type cannot be empty")
     private Integer type;
 
     /**
-     * 菜单图标
+     * Icon
      */
     private String icon;
 
     /**
-     * 排序
+     * Sorting
      */
     @TableField("orderNum")
     private Integer orderNum;
