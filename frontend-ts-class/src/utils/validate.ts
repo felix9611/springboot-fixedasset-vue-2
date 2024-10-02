@@ -1,6 +1,4 @@
-/**
- * Created by PanJiaChen on 16/11/18.
- */
+
 
 /**
  * @param {string} path
@@ -92,7 +90,7 @@ export function isArray(arg: any) {
 }
 
 /**
- * 是否合法IP地址
+ * Is the IP address legal?
  * @param rule
  * @param value
  * @param callback
@@ -103,63 +101,63 @@ export function validateIP(rule: any, value: any, callback: Function) {
   } else {
     const reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的IP地址'))
+      callback(new Error('Please enter the correct IP address'))
     } else {
       callback()
     }
   }
 }
 
-/* 是否手机号码或者固话*/
+/* Check all type phone number*/
 export function validatePhoneTwo(rule: any, value: any, callback: Function) {
   const reg = /^((0\d{2,3}-\d{7,8})|(1([38][0-9]|4[014-9]|[59][0-35-9]|6[2567]|7[0-8])\d{8}))$/
   if (value === '' || value === undefined || value == null) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的电话号码或者固话号码'))
+      callback(new Error('Please enter the correct phone number or landline number'))
     } else {
       callback()
     }
   }
 }
 
-/* 是否固话*/
+/* Check if Telephone number*/
 export function validateTelephone(rule: any, value: any, callback: Function) {
   const reg = /0\d{2}-\d{7,8}/
   if (value === '' || value === undefined || value == null) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的固话（格式：区号+号码,如010-1234567）'))
+      callback(new Error('Please enter the correct landline number (format: area code + number, such as 010-1234567)'))
     } else {
       callback()
     }
   }
 }
 
-/* 是否手机号码*/
+/* Check if phone number*/
 export function validatePhone(rule: any, value: any, callback: Function) {
   const reg = /^1([38][0-9]|4[014-9]|[59][0-35-9]|6[2567]|7[0-8])\d{8}$/
   if (value === '' || value === undefined || value == null) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的电话号码'))
+      callback(new Error('Please enter correct phone number'))
     } else {
       callback()
     }
   }
 }
 
-/* 是否身份证号码*/
+/* Check if have ID Doc. Number*/
 export function validateIdNo(rule: any, value: any, callback: Function) {
   const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
   if (value === '' || value === undefined || value == null) {
     callback()
   } else {
     if ((!reg.test(value)) && value !== '') {
-      callback(new Error('请输入正确的身份证号码'))
+      callback(new Error('Please enter the correct ID number'))
     } else {
       callback()
     }

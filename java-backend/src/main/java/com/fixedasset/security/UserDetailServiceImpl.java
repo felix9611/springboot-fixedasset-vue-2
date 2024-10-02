@@ -12,14 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * 功能描述：
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/19 1:12
- * @Version 1.0
- */
-
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 

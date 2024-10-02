@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * {
  * 					name: 'SysUser',
- * 					title: '用户管理',
+ * 					title: 'User Mangement',
  * 					icon: 'el-icon-s-custom',
  * 					path: '/sys/users',
  * 					component: 'sys/User',
@@ -20,7 +20,7 @@ import java.util.List;
  *             path: '',
  *             name: 'sys',
  *             component: '',
- *             title: '用户管理',
+ *             title: 'User Mangement',
  *             children: []
  */
 @Data

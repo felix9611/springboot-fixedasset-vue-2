@@ -12,12 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- *
- * @Author WaiterXiaoYY
- * @Date 2022/1/19 1:00
- * @Version 1.0
- */
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override

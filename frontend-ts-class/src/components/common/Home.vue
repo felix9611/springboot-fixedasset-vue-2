@@ -40,7 +40,7 @@ export default class Home extends Vue {
             this.collapse = msg;
         })
 
-        // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
+        // Only pages in the tab list use keep-alive, that is, they will not be saved to memory after closing the tab.
         bus.$on('tags', (msg: any) => {
             let arr: any = []
             for (let i = 0, len = msg.length; i < len; i++) {

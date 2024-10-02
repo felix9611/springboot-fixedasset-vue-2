@@ -10,21 +10,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author WaiterXiaoYY
- * @since 2022-01-13
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysUser extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @NotBlank(message = "用户名不能为空")
+    @NotBlank(message = "Username cannot be empty")
     private String username;
 
     private String password;
@@ -37,8 +29,8 @@ public class SysUser extends BaseEntity {
     @TableField("avatar_base64")
     private String avatarBase64;
 
-    @NotBlank(message = "邮箱不能为空")
-    @Email(message = "邮箱格式不正确")
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email format is incorrect")
     private String email;
 
     private String city;
