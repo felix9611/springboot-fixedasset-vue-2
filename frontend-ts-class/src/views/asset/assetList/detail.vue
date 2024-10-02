@@ -4,6 +4,20 @@
         <el-button icon="el-icon-back" circle @click="back"></el-button>
         <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm === true" @click="startEdit()"></el-button>
     </div>
+    <div class="p-[1rem] grid lg:grid-cols-3 gap-6" v-if="editForm.assetListFiles.length > 0">
+      <div v-for="file in editForm.assetListFiles" :key="file.id">
+        <div class="p-6 border border-2 rounded-xl">
+          <img :src="file.base64" />
+          <div class="py-1">
+            {{ file.fileName }}
+            <el-button
+              size="mini"
+              type="danger"
+              @click="delItemFile(file.id, editForm)">Delete</el-button>
+          </div>
+        </div>
+      </div>
+    </div>
     <el-form :model="editForm" ref="editForm" :disabled="readonlyForm"  class="grid sm:lg:grid-cols-1 lg:grid-cols-4 p-1">
       <el-form-item class="lg:col-span-4 px-8">
         <el-upload
@@ -419,6 +433,18 @@ export default class StockTakeDetail extends Vue {
     if (this.$route.params.id) {
       this.editHandle()
     }
+  }
+
+  delItemFile(id: number, assetId: number) {
+        axios.delete(`/asset/assetList/removeFile/${id}`).then(res => {
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: 'Delete file success',
+                type: 'success'
+            })
+            this.editHandle()
+        })
   }
 
 }

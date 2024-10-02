@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.dto.*;
 import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.AssetList;
+import com.fixedasset.entity.AssetListFile;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
+import com.fixedasset.service.AssetListFileService;
 import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.InvRecordService;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,10 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource private ActionRecord actionRecord;
 
     @Resource private InvRecordService invRecordService;
+
+    @Resource private AssetListFileService assetListFileService;
+
+    @Resource private AssetListFile assetListFile;
 
     public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
         return this.assetListMapper.page(page, queryWrapper);
@@ -178,12 +184,22 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         this.createdAction(actionRecord);
     }
 
+    public AssetList findOneById(Long id) {
+        AssetList assetList2 = assetListMapper.selectById(id);
+        
+        assetListFile.setAssetId(id.toString());
+        List<AssetListFile> assetListFiles = assetListFileService.getByAssetId(assetListFile);
+        assetList2.setAssetListFiles(assetListFiles);
+        return assetList2;
+    }
+
     public AssetList findOne(AssetList assetList) {
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
         queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
 
-        return assetListMapper.selectOne(queryWrapper);
+        AssetList assetList2 = assetListMapper.selectOne(queryWrapper);
+        return assetList2;
     }
 
     public AssetList findOneByAssetCode(AssetList assetList) {

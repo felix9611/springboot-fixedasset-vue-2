@@ -118,7 +118,7 @@ public class AssetListController extends BaseController {
 
     @GetMapping("/{id}")
     public Result getOne(@PathVariable("id") Long id) {
-        return Result.succ(assetListService.getById(id));
+        return Result.succ(assetListService.findOneById(id));
     }
 
     @GetMapping("/assetCode/{assetCode}")
