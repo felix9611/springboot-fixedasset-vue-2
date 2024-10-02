@@ -381,8 +381,15 @@ export default class StockTakeDetail extends Vue {
         refs.validate((valid: any) => {
             if (valid) {
                 console.log(this.fileBase64Data[0])
+                delete this.editForm.assetListFiles
+                const saveData = {
+                  ...this.editForm,
+                  newAssetListFiles: this.fileBase64Data
+                }
+                
                 axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
+                        console.log(res)
                         if (this.fileBase64Data[0]) {
                             const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data
                             axios.get(`/asset/assetList/assetCode/${assetCode}`).then(
@@ -418,7 +425,7 @@ export default class StockTakeDetail extends Vue {
                                     type: 'success',
                                 })
                                 this.back()
-                            }
+                           }
                 })
             } else {
                 return false;

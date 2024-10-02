@@ -155,6 +155,14 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
     //    assetList.setAfterBeforeTax(total.toString());
 
+      /* List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
+
+        if (newAssetListFiles.size() > 0) {
+            for (AssetListFile assetListFile : newAssetListFiles) {
+                assetListFileService.saveListPicture(assetListFile);
+            }
+        }*/  
+
 
         assetListMapper.updateById(assetList);
 
