@@ -7,11 +7,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.dto.StockTakeFormListDTO;
 import com.fixedasset.dto.StockTakeItemListDTO;
 import com.fixedasset.entity.ActionRecord;
+import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.StockTake;
 import com.fixedasset.entity.StockTakeItem;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.StockTakeItemMapper;
 import com.fixedasset.mapper.StockTakeMapper;
+import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.StockTakeItemService;
 import com.fixedasset.service.StockTakeService;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class StockTakeItemServiceImpl extends ServiceImpl<StockTakeItemMapper, StockTakeItem> implements StockTakeItemService {
@@ -30,6 +33,9 @@ public class StockTakeItemServiceImpl extends ServiceImpl<StockTakeItemMapper, S
     @Resource private  StockTakeItemMapper stockTakeItemMapper;
 
     @Resource private StockTakeMapper stockTakeMapper;
+
+    @Resource private AssetListService assetListService;
+
 
     public Page<StockTakeItemListDTO> newPage(Page page, StockTakeItem stockTakeItem) {
 
@@ -54,16 +60,32 @@ public class StockTakeItemServiceImpl extends ServiceImpl<StockTakeItemMapper, S
     }
 
     public void saveStock(StockTakeItem stockTakeItem) {
-        stockTakeItem.setCheckTime(LocalDateTime.now());
-        stockTakeItemMapper.insert(stockTakeItem);
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Stocktake Item");
-        actionRecord.setActionData(stockTakeItem.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+    
+
+            AssetList assetList = new AssetList();
+            assetList.setAssetCode(stockTakeItem.getAssetCode());
+            assetList.setPlaceId(stockTakeItem.getPlaceId());
+            AssetList assetListRes = assetListService.findOneByAssetCode(assetList);
+
+            if (stockTakeItem.getPlaceId() == assetListRes.getPlaceId()) {
+                stockTakeItem.setStatus("Exist");
+            } else {
+                stockTakeItem.setStatus("Incorrect location OR does not exist");
+            }
+
+            stockTakeItem.setAssetId(Math.toIntExact(assetListRes.getId()));
+            stockTakeItem.setCheckTime(LocalDateTime.now());
+            stockTakeItemMapper.insert(stockTakeItem);
+
+            actionRecord.setActionName("Save");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Stocktake Item");
+            actionRecord.setActionData(stockTakeItem.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        
     }
 
     public int createdAction(ActionRecord actionRecord) {
