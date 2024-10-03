@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 @Data
@@ -118,5 +119,11 @@ public class AssetList extends BaseEntity{
 
     @TableField(exist = false)
     private LocalDateTime buyDateFrom;
+
+    @TableField(exist = false)
+    private List<AssetListFile> assetListFiles;
+
+    @TableField(exist = false)
+    private List<AssetListFile> newAssetListFiles;
 
 }

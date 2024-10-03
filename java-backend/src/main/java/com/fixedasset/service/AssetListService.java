@@ -29,6 +29,8 @@ public interface AssetListService extends IService<AssetList> {
 
     AssetList findOneByAssetCode(AssetList assetList);
 
+    AssetList findOneById(Long id);
+
 
     List<CostWithDeptDto> getCostWithDept();
 

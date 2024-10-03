@@ -44,7 +44,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         queryWrapper.eq(SysMenu::getStatu, 1);
         List<SysMenu> menuList = this.list(queryWrapper);
 
-        // 只留下导航菜单，去除按钮级别的菜单权限
+        // Remove button lv
         Iterator<SysMenu> iterator = menuList.iterator();
         while(iterator.hasNext()) {
             SysMenu sysMenu = iterator.next();
@@ -53,10 +53,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         }
 
-        // 转树状结构
+        // Convert to tree structure JSON
         List<SysMenu> menuTree = buildTreeMenu(menuList);
 
-        // 实体转dto
+        // convert under dto
 
 
         return convert(menuTree);
@@ -64,10 +64,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> tree() {
-        // 获取所有菜单信息
+        // Get all
         List<SysMenu> sysMenus = this.list(new QueryWrapper<SysMenu>().orderByAsc("orderNum").eq("statu", 1));
 
-        // 转成树状结构
+        // Convert to tree structure JSON
         return buildTreeMenu(sysMenus);
     }
 
@@ -88,7 +88,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
             if (m.getChildren().size() > 0) {
 
-                // 子节点调用当前方法进行再次转换
+                // The child node calls the current method to convert again
                 dto.setChildren(convert(m.getChildren()));
             }
 
@@ -102,7 +102,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         List<SysMenu> finalMenus = new ArrayList<>();
 
-        // 先各自寻找到各自的孩子
+        // Find child
         for (SysMenu menu : menus) {
 
             for (SysMenu e : menus) {
@@ -113,7 +113,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
             }
 
-            // 提取出父节点
+            // Put Parent Id
             if (menu.getParentId() == 0L) {
                 finalMenus.add(menu);
             }

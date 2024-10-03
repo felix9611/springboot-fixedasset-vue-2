@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.dto.*;
 import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.AssetList;
+import com.fixedasset.entity.AssetListFile;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
+import com.fixedasset.service.AssetListFileService;
 import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.InvRecordService;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,10 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource private ActionRecord actionRecord;
 
     @Resource private InvRecordService invRecordService;
+
+    @Resource private AssetListFileService assetListFileService;
+
+    @Resource private AssetListFile assetListFile;
 
     public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
         return this.assetListMapper.page(page, queryWrapper);
@@ -108,16 +114,24 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         Integer total = 0;
         // After is includes tax
         if (assetList.getIncludeTax() == true && assetList.getTaxRate() > 0) {
-         //   total = Integer.valueOf(assetList.getCost()) * (1 - assetList.getTaxRate());
+            total = Integer.valueOf(assetList.getCost()) * (1 - assetList.getTaxRate());
             // Before without tax
         } else if (assetList.getIncludeTax() == false && assetList.getTaxRate() > 0) {
-        //    total = Integer.valueOf(assetList.getCost()) * (1 + assetList.getTaxRate());
+            total = Integer.valueOf(assetList.getCost()) * (1 + assetList.getTaxRate());
         }
 
-     //   assetList.setAfterBeforeTax(total.toString());
-
+        assetList.setAfterBeforeTax(total.toString());
 
         assetListMapper.insert(assetList);
+
+        // Save file
+        List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
+        if (newAssetListFiles.size() > 0) {
+            for (AssetListFile assetListFile : newAssetListFiles) {
+                assetListFile.setAssetId(Math.toIntExact(assetList.getId()));
+                assetListFileService.saveListPicture(assetListFile);
+            }
+        } 
 
         invRecordService.saveNewRecord(newCode, assetList.getPlaceId());
 
@@ -127,7 +141,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         actionRecord.setActionData(assetList.toString());
         actionRecord.setActionSuccess("Success");
         actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+      //  this.createdAction(actionRecord);
         return newCode;
     }
 
@@ -141,13 +155,22 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         Integer total = 0;
         // After is includes tax
         if (assetList.getIncludeTax() == true && assetList.getTaxRate() > 0) {
-         //   total = Integer.valueOf(assetList.getCost()) * (1 - assetList.getTaxRate());
+            total = Integer.valueOf(assetList.getCost()) * (1 - assetList.getTaxRate());
             // Before without tax
         } else if (assetList.getIncludeTax() == false && assetList.getTaxRate() > 0) {
-           // total = Integer.valueOf(assetList.getCost()) * (1 + assetList.getTaxRate());
+            total = Integer.valueOf(assetList.getCost()) * (1 + assetList.getTaxRate());
         }
 
-    //    assetList.setAfterBeforeTax(total.toString());
+        assetList.setAfterBeforeTax(total.toString());
+
+        List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
+
+        if (newAssetListFiles.size() > 0) {
+            for (AssetListFile assetListFile : newAssetListFiles) {
+                assetListFile.setAssetId(Math.toIntExact(assetList.getId()));
+                assetListFileService.saveListPicture(assetListFile);
+            }
+        } 
 
 
         assetListMapper.updateById(assetList);
@@ -158,7 +181,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         actionRecord.setActionData(assetList.toString());
         actionRecord.setActionSuccess("Success");
         actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+       // this.createdAction(actionRecord);
     }
 
     public void remove(Long id) {
@@ -178,12 +201,22 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         this.createdAction(actionRecord);
     }
 
+    public AssetList findOneById(Long id) {
+        AssetList assetList2 = assetListMapper.selectById(id);
+        
+        assetListFile.setAssetId(Math.toIntExact(id));
+        List<AssetListFile> assetListFiles = assetListFileService.getByAssetId(assetListFile);
+        assetList2.setAssetListFiles(assetListFiles);
+        return assetList2;
+    }
+
     public AssetList findOne(AssetList assetList) {
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
         queryWrapper.eq(AssetList::getPlaceId, assetList.getPlaceId());
 
-        return assetListMapper.selectOne(queryWrapper);
+        AssetList assetList2 = assetListMapper.selectOne(queryWrapper);
+        return assetList2;
     }
 
     public AssetList findOneByAssetCode(AssetList assetList) {

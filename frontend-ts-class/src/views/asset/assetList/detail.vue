@@ -4,6 +4,20 @@
         <el-button icon="el-icon-back" circle @click="back"></el-button>
         <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm === true" @click="startEdit()"></el-button>
     </div>
+    <div class="p-[1rem] grid lg:grid-cols-3 gap-6" v-if="editForm.assetListFiles && editForm.assetListFiles.length > 0">
+      <div v-for="file in editForm.assetListFiles" :key="file.id">
+        <div class="p-6 border border-2 rounded-xl">
+          <img :src="file.base64" />
+          <div class="py-1">
+            {{ file.fileName }}
+            <el-button
+              size="mini"
+              type="danger"
+              @click="delItemFile(file.id, editForm)">Delete</el-button>
+          </div>
+        </div>
+      </div>
+    </div>
     <el-form :model="editForm" ref="editForm" :disabled="readonlyForm"  class="grid sm:lg:grid-cols-1 lg:grid-cols-4 p-1">
       <el-form-item class="lg:col-span-4 px-8">
         <el-upload
@@ -295,8 +309,8 @@ export default class StockTakeDetail extends Vue {
   imgToBase64() {
     this.fileList.map(async (file: any) => {
       const response: any = await uploadImgToBase64(file.raw)
-      const dataBase64: string = response.data
-      this.fileBase64Data.push({ fileName: file.name, dataBase64 })
+      const base64: string = response.data
+      this.fileBase64Data.push({ fileName: file.name, base64 })
       // const test = response as never
     })
   }
@@ -367,9 +381,23 @@ export default class StockTakeDetail extends Vue {
         refs.validate((valid: any) => {
             if (valid) {
                 console.log(this.fileBase64Data[0])
-                axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                delete this.editForm.assetListFiles
+                const saveData = {
+                  ...this.editForm,
+                  newAssetListFiles: this.fileBase64Data
+                }
+                
+                axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), saveData)
                     .then((res: any) => {
-                        if (this.fileBase64Data[0]) {
+                        console.log(res)
+                        this.$notify({
+                          title: '',
+                          showClose: true,
+                          message: 'Success to save',
+                          type: 'success',
+                        })
+                        this.back()
+                        /* if (this.fileBase64Data[0]) {
                             const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data
                             axios.get(`/asset/assetList/assetCode/${assetCode}`).then(
                                 ((res: any) => {
@@ -404,7 +432,7 @@ export default class StockTakeDetail extends Vue {
                                     type: 'success',
                                 })
                                 this.back()
-                            }
+                           } */
                 })
             } else {
                 return false;
@@ -419,6 +447,18 @@ export default class StockTakeDetail extends Vue {
     if (this.$route.params.id) {
       this.editHandle()
     }
+  }
+
+  delItemFile(id: number, assetId: number) {
+        axios.delete(`/asset/assetList/removeFile/${id}`).then(res => {
+            this.$notify({
+                title: '',
+                showClose: true,
+                message: 'Delete file success',
+                type: 'success'
+            })
+            this.editHandle()
+        })
   }
 
 }

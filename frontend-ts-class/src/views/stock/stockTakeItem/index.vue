@@ -318,8 +318,23 @@ export default class StocktakeItem extends Vue {
                 refs.validate((valid: any) => {
                     if (valid) {
                       console.log(this.editForm)
+                      const stockTakeId = this.searchForm.stockTakeId
+                      axios.post('/stock/stock_take/item/save', { 
+                                    ...this.editForm, 
+                                    stockTakeId
+                                }).then((res: any) => {
+                                        this.stockTakeItemList()
+                                        this.$notify({
+                                            title: '',
+                                            showClose: true,
+                                            message: 'Action is successful ',
+                                            type: 'success',
+                                        })
+                                        this.handleClose()
+                                    })
+                                    this.handleClose()
   
-                      axios.post(
+                    /*  axios.post(
                           '/asset/assetList/findAsset',
                           {
                               assetCode: this.editForm.assetCode,
@@ -367,10 +382,10 @@ export default class StocktakeItem extends Vue {
                         
                       this.dialogVisible = false
 
-                
+                */
                     } else {
                         return false;
-                    }
+                    } 
                 });
             }
 
