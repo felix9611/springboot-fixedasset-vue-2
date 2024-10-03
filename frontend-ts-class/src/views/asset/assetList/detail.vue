@@ -4,7 +4,7 @@
         <el-button icon="el-icon-back" circle @click="back"></el-button>
         <el-button icon="el-icon-circle-plus" circle v-if="readonlyForm === true" @click="startEdit()"></el-button>
     </div>
-    <div class="p-[1rem] grid lg:grid-cols-3 gap-6" v-if="editForm.assetListFiles.length > 0">
+    <div class="p-[1rem] grid lg:grid-cols-3 gap-6" v-if="editForm.assetListFiles && editForm.assetListFiles.length > 0">
       <div v-for="file in editForm.assetListFiles" :key="file.id">
         <div class="p-6 border border-2 rounded-xl">
           <img :src="file.base64" />
@@ -309,8 +309,8 @@ export default class StockTakeDetail extends Vue {
   imgToBase64() {
     this.fileList.map(async (file: any) => {
       const response: any = await uploadImgToBase64(file.raw)
-      const dataBase64: string = response.data
-      this.fileBase64Data.push({ fileName: file.name, dataBase64 })
+      const base64: string = response.data
+      this.fileBase64Data.push({ fileName: file.name, base64 })
       // const test = response as never
     })
   }
@@ -387,10 +387,17 @@ export default class StockTakeDetail extends Vue {
                   newAssetListFiles: this.fileBase64Data
                 }
                 
-                axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
+                axios.post('/asset/assetList/' + (this.editForm.id ? 'update' : 'create'), saveData)
                     .then((res: any) => {
                         console.log(res)
-                        if (this.fileBase64Data[0]) {
+                        this.$notify({
+                          title: '',
+                          showClose: true,
+                          message: 'Success to save',
+                          type: 'success',
+                        })
+                        this.back()
+                        /* if (this.fileBase64Data[0]) {
                             const assetCode = this.editForm.id ? res.data.data.assetCode : res.data.data
                             axios.get(`/asset/assetList/assetCode/${assetCode}`).then(
                                 ((res: any) => {
@@ -425,7 +432,7 @@ export default class StockTakeDetail extends Vue {
                                     type: 'success',
                                 })
                                 this.back()
-                           }
+                           } */
                 })
             } else {
                 return false;

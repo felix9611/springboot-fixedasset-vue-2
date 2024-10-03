@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class AssetListFile extends BaseEntity {
 
     @TableField("asset_id")
-    String assetId;
+    private int assetId;
 
     @TableField("file_name")
-    String fileName;
+    private String fileName;
 
     @TableField("base64")
-    String base64;
+    private String base64;
 }
