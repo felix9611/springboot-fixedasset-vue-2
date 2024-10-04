@@ -1,6 +1,6 @@
 # Fixedasset SYSTEM BY Springboot & VUE
 
-Springboot X VUE
+Springboot X VUE For MySQL
 <div>
 ・Inclubes frontend and backend for Fixed Assets Management System<br />
 ・Management purchase expenditure record ,maintenance and write-off records in fixed assets at facilities<br />
@@ -23,6 +23,7 @@ Core:<br />
 ・Mybatis 3.4.1<br />
 ・Vue 2.6.10<br />
 ・moment 2.29.1<br />
+・MySQL V8<br />
 <br />
 Component:<br />
 ・ChartJs 2.9.3<br />
