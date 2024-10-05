@@ -111,17 +111,6 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         assetList.setStatu(1);
         assetList.setCreated(LocalDateTime.now());
 
-        Integer total = 0;
-        // After is includes tax
-        if (assetList.getIncludeTax() == true && assetList.getTaxRate() > 0) {
-            total = Integer.valueOf(assetList.getCost()) * (1 - assetList.getTaxRate());
-            // Before without tax
-        } else if (assetList.getIncludeTax() == false && assetList.getTaxRate() > 0) {
-            total = Integer.valueOf(assetList.getCost()) * (1 + assetList.getTaxRate());
-        }
-
-        assetList.setAfterBeforeTax(total.toString());
-
         assetListMapper.insert(assetList);
 
         // Save file
@@ -151,17 +140,6 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         invRecordService.saveRecord(assetId, assetList.getPlaceId());
 
         assetList.setUpdated(LocalDateTime.now());
-
-        Integer total = 0;
-        // After is includes tax
-        if (assetList.getIncludeTax() == true && assetList.getTaxRate() > 0) {
-            total = Integer.valueOf(assetList.getCost()) * (1 - assetList.getTaxRate());
-            // Before without tax
-        } else if (assetList.getIncludeTax() == false && assetList.getTaxRate() > 0) {
-            total = Integer.valueOf(assetList.getCost()) * (1 + assetList.getTaxRate());
-        }
-
-        assetList.setAfterBeforeTax(total.toString());
 
         List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
 
