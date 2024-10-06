@@ -24,43 +24,81 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
 
     @Resource private ActionRecordMapper actionRecordMapper;
 
-    public void createOne(Vendor vendor){
-        vendor.setStatu(1);
-        vendor.setCreated(LocalDateTime.now());
-        vendorMapper.insert(vendor);
+    public void batchImport(List<Vendor> vendors) {
+        for (Vendor vendor : vendors) {
+            this.createOne(vendor);
+        }
+    }
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Vendor Manger");
-        actionRecord.setActionData(vendor.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+    public void createOne(Vendor vendor){
+        LambdaQueryWrapper<Vendor> queryWrapper = Wrappers.lambdaQuery();
+        if(StringUtils.isNotBlank(vendor.getVendorCode())){ 
+            queryWrapper.eq(Vendor::getVendorCode, vendor.getVendorCode());
+        }
+        if(StringUtils.isNotBlank(vendor.getVendorName())){ 
+            queryWrapper.eq(Vendor::getVendorName, vendor.getVendorName());
+        }
+        queryWrapper.eq(Vendor::getStatu, 1);
+
+        Vendor checkOne = vendorMapper.selectOne(queryWrapper);
+
+        if (checkOne == null) {
+            vendor.setStatu(1);
+            vendor.setCreated(LocalDateTime.now());
+            vendorMapper.insert(vendor);
+
+            actionRecord.setActionName("Save");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Vendor Manger");
+            actionRecord.setActionData(vendor.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("Exist in records!");
+        }
     }
 
     public void updateOne(Vendor vendor){
-        vendor.setUpdated(LocalDateTime.now());
-        vendorMapper.updateById(vendor);
+        LambdaQueryWrapper<Vendor> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Vendor::getId, vendor.getId());
+        queryWrapper.eq(Vendor::getStatu, 1);
+        Vendor checkOne = vendorMapper.selectOne(queryWrapper);
+        if (checkOne.getId().equals(vendor.getId())) {
+            vendor.setUpdated(LocalDateTime.now());
+            vendorMapper.updateById(vendor);
 
-        actionRecord.setActionName("Update");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Vendor Manger");
-        actionRecord.setActionData(vendor.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+            actionRecord.setActionName("Update");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Vendor Manger");
+            actionRecord.setActionData(vendor.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No active data in records!");
+        }
     }
 
     public void removeOne(Vendor vendor) {
+        LambdaQueryWrapper<Vendor> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Vendor::getId, vendor.getId());
+        queryWrapper.eq(Vendor::getStatu, 1);
+        Vendor checkOne = vendorMapper.selectOne(queryWrapper);
+        if (checkOne.getId().equals(vendor.getId())) {
+
         vendorMapper.updateById(vendor);
 
-        actionRecord.setActionName("Remove");
-        actionRecord.setActionMethod("DELETE");
-        actionRecord.setActionFrom("Vendor Manger");
-        actionRecord.setActionData(vendor.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+            actionRecord.setActionName("Remove");
+            actionRecord.setActionMethod("DELETE");
+            actionRecord.setActionFrom("Vendor Manger");
+            actionRecord.setActionData(vendor.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No active data in records!");
+        }
     }
 
     public Vendor findOne(Vendor vendor) {
