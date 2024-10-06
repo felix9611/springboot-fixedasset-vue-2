@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.ActionRecord;
+import com.fixedasset.entity.CodeType;
 import com.fixedasset.entity.Department;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.DepartmentMapper;
@@ -56,15 +57,23 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     public void removeOne(Department department) {
-        actionRecord.setActionName("Remove");
-        actionRecord.setActionMethod("DELETE");
-        actionRecord.setActionFrom("Asset Type Manger");
-        actionRecord.setActionData(department.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        LambdaQueryWrapper<Department> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Department::getId, department.getId());
+        queryWrapper.eq(Department::getStatu, 1);
+        Department checkOne = departmentMapper.selectOne(queryWrapper);
+        if (checkOne.getId().equals(department.getId())) {
+            actionRecord.setActionName("Remove");
+            actionRecord.setActionMethod("DELETE");
+            actionRecord.setActionFrom("Asset Type Manger");
+            actionRecord.setActionData(department.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
 
-        departmentMapper.updateById(department);
+            departmentMapper.updateById(department);
+        } else {
+            throw new RuntimeException("Not active data in records!");
+        }
     }
 
     public void update(Department department) {

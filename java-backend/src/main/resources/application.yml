@@ -9,7 +9,7 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fixedasset_springboot_vue_3?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Canada/Eastern&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/fixedasset_springboot_vue_3_dev?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Canada/Eastern&allowPublicKeyRetrieval=true
     username: admin
     password: LP2416jc3103
 #  security:

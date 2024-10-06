@@ -45,6 +45,9 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
         if (!codeType.getValueCode().isEmpty()) {
             queryWrapper.eq(CodeType::getValueCode, codeType.getValueCode());
         }
+        if (!codeType.getType().isEmpty()) {
+            queryWrapper.eq(CodeType::getType, codeType.getType());
+        }
         queryWrapper.eq(CodeType::getStatu, 1);
         CodeType checkOne = codeTypeMapper.selectOne(queryWrapper);
         if (checkOne == null) {
@@ -62,9 +65,6 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
         } else {
             throw new RuntimeException("Exist in records!");
         }
-
-
-        
     }
 
     public void updateOne(CodeType codeType) {
@@ -82,6 +82,13 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
     }
 
     public void remove(Long id) {
+        LambdaQueryWrapper<CodeType> queryWrapper = Wrappers.lambdaQuery();
+
+        if (!codeType.getValueCode().isEmpty()) {
+            queryWrapper.eq(CodeType::getValueCode, codeType.getValueCode());
+        }
+        queryWrapper.eq(CodeType::getStatu, 1);
+
         codeType.setId(id);
         codeType.setStatu(0);
         codeTypeMapper.updateById(codeType);
