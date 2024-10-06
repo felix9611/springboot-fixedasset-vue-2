@@ -24,16 +24,58 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
 
     @Resource private ActionRecord actionRecord;
 
-    public void createNew(AssetType assetType) {
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Asset Type Manger");
-        actionRecord.setActionData(assetType.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
 
-        assetTypeMapper.insert(assetType);
+    public void batchImport(List<AssetType> assetTypes) {
+        for (AssetType assetType : assetTypes) {
+
+            LambdaQueryWrapper<AssetType> queryWrapper = Wrappers.lambdaQuery();
+            if (StringUtils.isNotBlank(assetType.getTypeCode())) {
+                queryWrapper.eq(AssetType::getTypeCode, assetType.getTypeCode());
+            }
+            queryWrapper.eq(AssetType::getStatu, 1);
+            AssetType checkOne = assetTypeMapper.selectOne(queryWrapper);
+            if (checkOne == null ) {
+                assetType.setCreated(LocalDateTime.now());
+                assetType.setStatu(1);
+                assetTypeMapper.insert(assetType);
+
+                actionRecord.setActionName("Save");
+                actionRecord.setActionMethod("POST");
+                actionRecord.setActionFrom("Asset Type Manger");
+                actionRecord.setActionData(assetType.toString());
+                actionRecord.setActionSuccess("Success");
+                actionRecord.setCreated(LocalDateTime.now());
+                this.createdAction(actionRecord);
+            } else {
+                throw new RuntimeException("Exist in records!");
+            }
+           
+        }
+
+    }
+
+    public void createNew(AssetType assetType) {
+        LambdaQueryWrapper<AssetType> queryWrapper = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(assetType.getTypeCode())) {
+            queryWrapper.eq(AssetType::getTypeCode, assetType.getTypeCode());
+        }
+        queryWrapper.eq(AssetType::getStatu, 1);
+        AssetType checkOne = assetTypeMapper.selectOne(queryWrapper);
+        if (checkOne == null ) {
+                assetType.setCreated(LocalDateTime.now());
+                assetType.setStatu(1);
+                assetTypeMapper.insert(assetType);
+
+                actionRecord.setActionName("Save");
+                actionRecord.setActionMethod("POST");
+                actionRecord.setActionFrom("Asset Type Manger");
+                actionRecord.setActionData(assetType.toString());
+                actionRecord.setActionSuccess("Success");
+                actionRecord.setCreated(LocalDateTime.now());
+                this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("Exist in records!");
+        }
     }
     public void update(AssetType assetType) {
         actionRecord.setActionName("Update");

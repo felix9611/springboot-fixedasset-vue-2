@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/base/asset_type")
@@ -36,10 +37,14 @@ public class AssetTypeController extends BaseController {
         return  Result.succ(iPage);
     }
 
+    @PostMapping("/batch-create")
+    public Result batchCreate(@RequestBody List<AssetType> assetTypes) {
+        assetTypeService.batchImport(assetTypes);
+        return Result.succ(assetTypes);
+    }
+
     @PostMapping("/create")
     public Result create(@RequestBody AssetType assetType) {
-        assetType.setCreated(LocalDateTime.now());
-        assetType.setStatu(1);
         assetTypeService.save(assetType);
         return Result.succ(assetType);
     }
