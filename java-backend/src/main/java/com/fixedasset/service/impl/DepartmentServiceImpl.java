@@ -72,7 +72,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
             departmentMapper.updateById(department);
         } else {
-            throw new RuntimeException("Not active data in records!");
+            throw new RuntimeException("No active data in records!");
         }
     }
 

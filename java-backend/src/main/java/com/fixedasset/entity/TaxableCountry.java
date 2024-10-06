@@ -31,10 +31,10 @@ public class TaxableCountry extends BaseEntity{
     private String taxName;
 
     @TableField("tax_rate")
-    private String taxRate;
+    private double taxRate;
 
     @TableField("import_tax")
-    private int importRate;
+    private double importRate;
 
     @TableField(exist = false)
     private int page;

@@ -1,6 +1,7 @@
 package com.fixedasset.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fixedasset.dto.TaxInformationUploadData;
 import com.fixedasset.entity.TaxableCountry;
 
 import java.util.List;
@@ -14,5 +15,7 @@ public interface TaxableCountryService extends IService<TaxableCountry> {
 
     List<TaxableCountry> getAll();
 
-    String voidData(Long id);
+    void voidData(Long id);
+
+    void importData(List<TaxInformationUploadData> taxInformationUploadDatas);
 }
