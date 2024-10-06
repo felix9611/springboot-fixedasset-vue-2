@@ -55,16 +55,25 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         }
     }
     public void update(AssetType assetType) {
-        assetType.setUpdated(LocalDateTime.now());
-        assetTypeMapper.updateById(assetType);
+        LambdaQueryWrapper<AssetType> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AssetType::getStatu, 1);
+        queryWrapper.eq(AssetType::getId, assetType.getId());
+        AssetType checkOne = assetTypeMapper.selectOne(queryWrapper);
+        if (checkOne.getId().equals(assetType.getId()) ) {
 
-        actionRecord.setActionName("Update");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Asset Type Manger");
-        actionRecord.setActionData(assetType.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+            assetType.setUpdated(LocalDateTime.now());
+            assetTypeMapper.updateById(assetType);
+
+            actionRecord.setActionName("Update");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Asset Type Manger");
+            actionRecord.setActionData(assetType.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No active data in records!");
+        }
     }
 
     public void remove(AssetType assetType) {
@@ -83,7 +92,7 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
     
             assetTypeMapper.updateById(assetType);
         } else {
-            throw new RuntimeException("Not active data in records!");
+            throw new RuntimeException("No active data in records!");
         }
     }
 

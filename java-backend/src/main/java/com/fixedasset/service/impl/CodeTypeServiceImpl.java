@@ -60,22 +60,29 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
             actionRecord.setCreated(LocalDateTime.now());
             this.createdAction(actionRecord);
         } else {
-            throw new RuntimeException("Exist in records!");
+            throw new RuntimeException("Exist in records! Please check again!");
         }
     }
 
     public void updateOne(CodeType codeType) {
-        codeType.setUpdated(LocalDateTime.now());
-        codeTypeMapper.updateById(codeType);
+        LambdaQueryWrapper<CodeType> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(CodeType::getStatu, 1);
+        queryWrapper.eq(CodeType::getId, codeType.getId());
+        CodeType checkOne = codeTypeMapper.selectOne(queryWrapper);
+        if (checkOne.getId().equals(codeType.getId())) {
+            codeType.setUpdated(LocalDateTime.now());
+            codeTypeMapper.updateById(codeType);
 
-        actionRecord.setActionName("Update");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Code Type Manger");
-        actionRecord.setActionData(codeType.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
-
+            actionRecord.setActionName("Update");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Code Type Manger");
+            actionRecord.setActionData(codeType.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("Not active data in records!");
+        }
     }
 
     public void remove(Long id) {
@@ -85,18 +92,22 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
             queryWrapper.eq(CodeType::getValueCode, codeType.getValueCode());
         }
         queryWrapper.eq(CodeType::getStatu, 1);
+        CodeType checkOne = codeTypeMapper.selectOne(queryWrapper);
+        if (checkOne.getId().equals(id)) {
+            codeType.setId(id);
+            codeType.setStatu(0);
+            codeTypeMapper.updateById(codeType);
 
-        codeType.setId(id);
-        codeType.setStatu(0);
-        codeTypeMapper.updateById(codeType);
-
-        actionRecord.setActionName("Remove");
-        actionRecord.setActionMethod("Delete");
-        actionRecord.setActionFrom("Code Type Manger");
-        actionRecord.setActionData(codeType.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+            actionRecord.setActionName("Remove");
+            actionRecord.setActionMethod("Delete");
+            actionRecord.setActionFrom("Code Type Manger");
+            actionRecord.setActionData(codeType.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("Not active data in records!");
+        }   
     }
 
     public int createdAction(ActionRecord actionRecord) {
