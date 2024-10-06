@@ -49,9 +49,7 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
             } else {
                 throw new RuntimeException("Exist in records!");
             }
-           
         }
-
     }
 
     public void createNew(AssetType assetType) {
@@ -78,6 +76,9 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         }
     }
     public void update(AssetType assetType) {
+        assetType.setUpdated(LocalDateTime.now());
+        assetTypeMapper.updateById(assetType);
+
         actionRecord.setActionName("Update");
         actionRecord.setActionMethod("POST");
         actionRecord.setActionFrom("Asset Type Manger");
@@ -85,8 +86,6 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         actionRecord.setActionSuccess("Success");
         actionRecord.setCreated(LocalDateTime.now());
         this.createdAction(actionRecord);
-
-        assetTypeMapper.updateById(assetType);
     }
 
     public void remove(AssetType assetType) {
@@ -113,12 +112,9 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         return assetTypeMapper.selectOne(queryWrapper);
     }
 
-
-
     public List<AssetType> getAll() {
         return assetTypeMapper.getALL();
     }
-
 
     public int createdAction(ActionRecord actionRecord) {
         return actionRecordMapper.insert(actionRecord);

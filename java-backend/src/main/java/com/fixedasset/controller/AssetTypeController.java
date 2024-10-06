@@ -55,7 +55,6 @@ public class AssetTypeController extends BaseController {
 
     @PostMapping("/update")
     public Result update(@RequestBody AssetType assetType) {
-        assetType.setUpdated(LocalDateTime.now());
         assetTypeService.updateById(assetType);
         return Result.succ(assetType);
     }
