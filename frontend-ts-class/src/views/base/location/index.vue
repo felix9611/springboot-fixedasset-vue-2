@@ -162,11 +162,15 @@ export default class Location extends Vue {
 
     testEcelHeader1 = [
         'Place Code',
-        'Place Name'
+        'Place Name',
+        'Place Other Name',
+        'Remark'
     ]
     testEcelHeader2 = [
         'placeCode',
-        'placeName'
+        'placeName',
+        'placeOtherName',
+        'remark'
     ]
 
     created() {
@@ -186,21 +190,20 @@ export default class Location extends Vue {
     async uploadFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-        axios.post('/base/location/create', res).then((res: any) => {
-                        
+
+        axios.post('/base/location/batch-create', reData).then((res: any) => {
+            if (res) {
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
                     message: 'Upload success',
                     type: 'success',
                 })
-
                 this.uploaderDialog = false
                 this.placeAllList()
                 this.fileList = []
                 file = undefined
-            })
+            }
         })
     }
 

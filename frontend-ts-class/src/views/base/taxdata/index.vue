@@ -16,7 +16,10 @@
                 </el-form-item> -->
 
                 <el-form-item>
-                    <el-button @click="deptAllList">Find</el-button>
+                    <el-button @click="taxInfoAllList">Find</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="clickUploadDialog">Upload Excel</el-button>
                 </el-form-item>
 
                 <el-form-item>
@@ -38,7 +41,6 @@
                         :on-remove="clearFile"
                         >
                         <el-button size="small" type="primary">Upload</el-button>
-                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
         </el-dialog>
 
@@ -187,13 +189,27 @@ export default class vendor extends Vue {
     tableData: any = []
 
     testEcelHeader1 = [
-        'Vendor Code',
-        'Vendor Name'
+        'Nation Code',
+        'Nation Name',
+        'Country Code',
+        'Country Name',
+        'Tax Type',
+        'Tax Code',
+        'Tax Name',
+        'Tax Rate',
+        'Import Rate'
     ]
 
     testEcelHeader2 = [
-        'vendorCode',
-        'vendorName'
+        'nationCode',
+        'nationName',
+        'countryCode',
+        'countryName',
+        'taxType',
+        'taxCode',
+        'taxName',
+        'taxRate',
+        'importRate'
     ]
 
     searchForm: any = {
@@ -220,7 +236,7 @@ export default class vendor extends Vue {
     }
 
     created() {
-        this.deptAllList()
+        this.taxInfoAllList()
     }
 
 
@@ -237,26 +253,46 @@ export default class vendor extends Vue {
     }
 
     async uploadFile(file: any) {
-        const data = await readExcel(file)
-        const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-        axios.post('/system/country/tax/create', res).then((res: any) => {
-                        
+        const data: any = await readExcel(file)
+        console.log(data, 'updatedArray')
+
+        
+        const updatedArray = data.map(obj => {
+            const newObj: any = {};
+
+            Object.keys(obj).forEach((key) => {
+                const trimmedKey = key.trim(); // Trim spaces from the key
+                const index = this.testEcelHeader1.indexOf(trimmedKey);
+                if (index !== -1) {
+                // If the key is found in array1, replace it with the corresponding key from array2
+                newObj[this.testEcelHeader2[index]] = obj[key];
+                } else {
+                // If the key is not found in array1, copy it as is
+                newObj[key] = obj[key];
+                }
+            });
+
+            return newObj
+        })
+
+        
+        axios.post('/system/country/tax/batch-create', updatedArray).then((res: any) => {
+            if (res) {
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
                     message: 'Upload success',
                     type: 'success',
                 })
-                this.deptAllList()
                 this.uploaderDialog = false
-                file = undefined
+                this.taxInfoAllList()
                 this.fileList = []
-            })
+                file = undefined
+            }
         })
     }
 
-    deptAllList() {
+    taxInfoAllList() {
         axios.post(
             '/system/country/tax/listAll',
             this.searchForm
@@ -297,12 +333,12 @@ export default class vendor extends Vue {
 
     handleSizeChange(val: any) {
         this.searchForm.limit = val
-        this.deptAllList()
+        this.taxInfoAllList()
     }
 
     handleCurrentChange(val: any) {
         this.searchForm.page = val
-        this.deptAllList()
+        this.taxInfoAllList()
     }
 
     resetForm(formName: string) {
@@ -332,7 +368,7 @@ export default class vendor extends Vue {
                 }
                 axios.post('/system/country/tax/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
-                        this.deptAllList()
+                        this.taxInfoAllList()
                         this.$notify({
                             title: 'Msg',
                             showClose: true,
@@ -362,7 +398,7 @@ export default class vendor extends Vue {
 
     delItem(id: number) {
         axios.delete('/system/country/tax/remove/'+ id).then((res: any) => {
-            this.deptAllList()
+            this.taxInfoAllList()
             this.$notify({
                 title: '',
                 showClose: true,

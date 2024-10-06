@@ -28,40 +28,79 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         return locationMapper.getALL();
     }
 
-    public void createNew(Location location) {
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Location Manger");
-        actionRecord.setActionData(location.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+    public void batchImport(List<Location> locations) {
+        for (Location location : locations) {
+            this.createNew(location);
+        }
+    }
 
-        locationMapper.insert(location);
+    public void createNew(Location location) {
+        LambdaQueryWrapper<Location> queryWrapper = Wrappers.lambdaQuery();
+        if(!StringUtils.isBlank(location.getPlaceCode())) {
+            queryWrapper.eq(Location::getPlaceCode, location.getPlaceCode());
+        }
+        if(!StringUtils.isBlank(location.getPlaceName())) {
+            queryWrapper.eq(Location::getPlaceName, location.getPlaceName());
+        }
+        queryWrapper.eq(Location::getStatu, 1);
+        Location checkOne = locationMapper.selectOne(queryWrapper);
+        if (checkOne == null) {
+            location.setCreated(LocalDateTime.now());
+            location.setStatu(1);
+            locationMapper.insert(location);
+
+            actionRecord.setActionName("Save");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Location Manger");
+            actionRecord.setActionData(location.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord); 
+        }  else {
+            throw new RuntimeException("Exist in records! Please check again!");
+        }
     }
 
     public void update(Location location) {
-        actionRecord.setActionName("Update");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Location Manger");
-        actionRecord.setActionData(location.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        LambdaQueryWrapper<Location> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Location::getId, location.getId());
+        queryWrapper.eq(Location::getStatu, 1);
+        Location checkOne = locationMapper.selectOne(queryWrapper);
 
-        locationMapper.updateById(location);
+        if (checkOne.getId().equals(location.getId())) {
+            location.setUpdated(LocalDateTime.now());
+            locationMapper.updateById(location);
+
+            actionRecord.setActionName("Update");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Location Manger");
+            actionRecord.setActionData(location.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No active data in records!");
+        }
     }
 
     public void remove(Location location) {
-        actionRecord.setActionName("Remove");
-        actionRecord.setActionMethod("DELETE");
-        actionRecord.setActionFrom("Location Manger");
-        actionRecord.setActionData(location.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        LambdaQueryWrapper<Location> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Location::getId, location.getId());
+        queryWrapper.eq(Location::getStatu, 1);
+        Location checkOne = locationMapper.selectOne(queryWrapper);
+        if (checkOne.getId().equals(location.getId())) {
+            actionRecord.setActionName("Remove");
+            actionRecord.setActionMethod("DELETE");
+            actionRecord.setActionFrom("Location Manger");
+            actionRecord.setActionData(location.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
 
-        locationMapper.updateById(location);
+            locationMapper.updateById(location);
+        } else {
+            throw new RuntimeException("No active data in records!");
+        }
     }
 
     public Location getData(Location location) {

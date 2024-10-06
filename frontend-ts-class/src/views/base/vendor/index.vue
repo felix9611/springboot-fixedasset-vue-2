@@ -178,12 +178,28 @@ export default class vendor extends Vue {
 
     testEcelHeader1 = [
         'Vendor Code',
-        'Vendor Name'
+        'Vendor Name',
+        'Other Name',
+        'Type',
+        'Email',
+        'Phone',
+        'Fax',
+        'Address',
+        'Contact Person',
+        'Remark'
     ]
 
     testEcelHeader2 = [
         'vendorCode',
-        'vendorName'
+        'vendorName',
+        'vendorOtherName',
+        'type',
+        'email',
+        'phone',
+        'fax',
+        'address',
+        'contactPerson',
+        'remark'
     ]
 
     searchForm: any = {
@@ -227,22 +243,40 @@ export default class vendor extends Vue {
     }
 
     async uploadFile(file: any) {
-        const data = await readExcel(file)
-        const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-        axios.post('/base/vendor/create', res).then((res: any) => {
-                        
+        const data: any = await readExcel(file)
+        console.log(data, 'updatedArray')
+  
+        const updatedArray = data.map(obj => {
+            const newObj: any = {};
+
+            Object.keys(obj).forEach((key) => {
+                const trimmedKey = key.trim(); // Trim spaces from the key
+                const index = this.testEcelHeader1.indexOf(trimmedKey);
+                if (index !== -1) {
+                // If the key is found in array1, replace it with the corresponding key from array2
+                newObj[this.testEcelHeader2[index]] = obj[key];
+                } else {
+                // If the key is not found in array1, copy it as is
+                newObj[key] = obj[key];
+                }
+            });
+
+            return newObj
+        })
+
+        axios.post('/base/vendor/batch-create', updatedArray).then((res: any) => {
+            if (res) {
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
                     message: 'Upload success',
                     type: 'success',
                 })
-                this.deptAllList()
                 this.uploaderDialog = false
-                file = undefined
+                this.deptAllList()
                 this.fileList = []
-            })
+                file = undefined
+            }
         })
     }
 

@@ -8,6 +8,9 @@ import com.fixedasset.entity.CodeType;
 import com.fixedasset.service.CodeTypeService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 import javax.annotation.Resource;
 
 @RestController
@@ -19,6 +22,12 @@ public class CodeTypeController extends BaseController {
     public Result create(@RequestBody CodeType codeType) {
         codeTypeService.createOne(codeType);
         return Result.succ(codeType);
+    }
+
+    @PostMapping("/batch-create")
+    public Result batchCreate(@RequestBody List<CodeType> codeTypes) {
+        codeTypeService.batchImport(codeTypes);
+        return Result.succ(codeTypes);
     }
 
     @PostMapping("/update")

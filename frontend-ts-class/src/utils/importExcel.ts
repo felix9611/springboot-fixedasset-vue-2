@@ -40,15 +40,34 @@ export function readExcel(file: UploadFile) {
 }
 
 export function formatJson (header: any, filterVal: any, jsonData: any) {
-  return jsonData.map((v: any)=> {
+  const updatedArray = jsonData.map((obj: any) => {
+    const newObj: any = {}
+
+    header.forEach((oldKey: string, index: number) => {
+      
+      const newKey = filterVal[index]
+      console.log(obj[oldKey])
+      if (obj[oldKey] !== undefined) {
+        newObj[newKey] = obj[oldKey]
+      }
+    })
+    return newObj
+  })
+  
+  return updatedArray
+
+  /* return jsonData.map((v: any)=> {
     const obj: any = {}
-    header.forEach((h, i) => {
+    header.forEach((h, i) => { 
       const anyD: any = [filterVal[i]]
+      
       const newData: any = v[h]
+      console.log(newData, 'data')
       obj[anyD] = newData
+      
     })
     return obj
-  })
+  }) */
 }
 
 export function formatJsonToSheet(filterVal: any, jsonData: any) {

@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
+import com.fixedasset.dto.TaxInformationUploadData;
 import com.fixedasset.entity.Location;
 import com.fixedasset.entity.TaxableCountry;
 import com.fixedasset.service.TaxableCountryService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -24,16 +27,24 @@ public class TaxableCountryController extends BaseController{
         return Result.succ(taxableCountry);
     }
 
+    @PostMapping("/batch-create")
+    public Result batchCreate(@RequestBody List<TaxInformationUploadData> taxInformationUploadDatas) {
+        taxableCountryService.importData(taxInformationUploadDatas);
+        return Result.succ(taxInformationUploadDatas);
+    }
+
     @PostMapping("/update")
     public Result update(@RequestBody TaxableCountry taxableCountry) {
         taxableCountryService.update(taxableCountry);
         return Result.succ(taxableCountry);
     }
 
-    @Delete("/remove/{id}")
+    @DeleteMapping("/remove/{id}")
     public Result voidOne(@PathVariable("id") Long id) {
-        return Result.succ(taxableCountryService.voidData(id));
+        taxableCountryService.voidData(id);
+        return Result.succ(id);
     }
+
 
     @GetMapping("/{id}")
     public Result getOne(@PathVariable("id") Long id) {

@@ -10,6 +10,8 @@ import com.fixedasset.service.VendorService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 @RestController
@@ -25,6 +27,12 @@ public class VendorController extends BaseController {
     public Result create(@RequestBody Vendor vendor) {
         vendorService.createOne(vendor);
         return Result.succ(vendor);
+    }
+
+    @PostMapping("/batch-create")
+    public Result batchCreate(@RequestBody List<Vendor> vendors) {
+        vendorService.batchImport(vendors);
+        return Result.succ(vendors);
     }
 
     @PostMapping("/update")

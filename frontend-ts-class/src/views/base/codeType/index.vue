@@ -204,9 +204,9 @@ export default class CodeType extends Vue {
     async uploadFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-            axios.post('/base/code_type/create', res).then((res: any) => {
-                        
+
+        axios.post('/base/code_type/batch-create', reData).then((res: any) => {
+            if (res) {
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
@@ -215,9 +215,9 @@ export default class CodeType extends Vue {
                 })
                 this.uploaderDialog = false
                 this.codeTypeAllList()
-                file = undefined
                 this.fileList = []
-            })
+                file = undefined
+            }
         })
     }
 

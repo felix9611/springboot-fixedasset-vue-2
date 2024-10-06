@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.entity.AssetType;
+import com.fixedasset.entity.Department;
 import com.fixedasset.entity.Location;
 import com.fixedasset.service.LocationService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/base/location")
@@ -27,16 +29,21 @@ public class LocationController extends BaseController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('base:dept:create')")
     public Result create(@RequestBody Location location) {
-        location.setCreated(LocalDateTime.now());
-        location.setStatu(1);
         locationService.createNew(location);
         return Result.succ(location);
+    }
+
+    @PostMapping("/batch-create")
+    @PreAuthorize("hasAuthority('base:dept:create')")
+    public Result batchCreate(@RequestBody List<Location> locations) {
+        locationService.batchImport(locations);
+        return Result.succ(locations);
     }
 
     @PostMapping("/update")
     // @PreAuthorize("hasAuthority('base:dept:update')")
     public Result update(@RequestBody Location location) {
-        location.setUpdated(LocalDateTime.now());
+        
         locationService.update(location);
         return Result.succ(location);
     }
