@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,11 +22,16 @@ public class DepartmentController {
 
     @Resource private DepartmentService departmentService;
 
+    @PostMapping("/batch-create")
+    @PreAuthorize("hasAuthority('base:dept:create')")
+    public Result batchCreate(@RequestBody List<Department> departments) {
+        departmentService.batchImport(departments);;
+        return Result.succ(departments);
+    }
+
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('base:dept:create')")
     public Result create(@RequestBody Department department) {
-        department.setCreated(LocalDateTime.now());
-        department.setStatu(1);
         departmentService.createNew(department);
         return Result.succ(department);
     }

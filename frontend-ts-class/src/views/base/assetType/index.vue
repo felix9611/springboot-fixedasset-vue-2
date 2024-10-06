@@ -149,12 +149,14 @@ export default class AssetType extends Vue {
 
     testEcelHeader1 = [
         'Type Code',
-        'Type Name'
+        'Type Name',
+        'Remark'
     ]
 
     testEcelHeader2 = [
         'typeCode',
-        'typeName'
+        'typeName',
+        'remark'
     ]
 
     searchForm: any = {
@@ -201,21 +203,20 @@ export default class AssetType extends Vue {
     async uploadFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-            axios.post('/base/asset_type/create', res).then((res: any) => {
-                        
+
+        axios.post('/base/asset_type/batch-create', reData).then((res: any) => {
+            if (res) {
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
                     message: 'Upload success',
                     type: 'success',
                 })
-                
                 this.uploaderDialog = false
                 this.typeAllList()
                 this.fileList = []
                 file = undefined
-            })
+            }
         })
     }
 

@@ -16,4 +16,6 @@ public interface AssetTypeService extends IService<AssetType> {
     List<AssetType> getAll();
 
     AssetType getData(AssetType assetType);
+
+    void batchImport(List<AssetType> assetTypes);
 }

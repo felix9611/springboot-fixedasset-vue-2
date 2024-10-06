@@ -197,7 +197,7 @@ export default class Dashboard extends Vue {
     }
     get chartsSetAssetYearCostDept() {
         return {
-            heigh: 300,
+            height: 300,
             type: 'bar',
             datasetKey: 'deptName',
             alwaysMultipleDatasets: true,

@@ -24,18 +24,40 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
 
     @Resource private ActionRecord actionRecord;
 
-    public void createNew(AssetType assetType) {
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Asset Type Manger");
-        actionRecord.setActionData(assetType.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
 
-        assetTypeMapper.insert(assetType);
+    public void batchImport(List<AssetType> assetTypes) {
+        for (AssetType assetType : assetTypes) {
+            createNew(assetType);
+        }
+    }
+
+    public void createNew(AssetType assetType) {
+        LambdaQueryWrapper<AssetType> queryWrapper = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(assetType.getTypeCode())) {
+            queryWrapper.eq(AssetType::getTypeCode, assetType.getTypeCode());
+        }
+        queryWrapper.eq(AssetType::getStatu, 1);
+        AssetType checkOne = assetTypeMapper.selectOne(queryWrapper);
+        if (checkOne == null ) {
+                assetType.setCreated(LocalDateTime.now());
+                assetType.setStatu(1);
+                assetTypeMapper.insert(assetType);
+
+                actionRecord.setActionName("Save");
+                actionRecord.setActionMethod("POST");
+                actionRecord.setActionFrom("Asset Type Manger");
+                actionRecord.setActionData(assetType.toString());
+                actionRecord.setActionSuccess("Success");
+                actionRecord.setCreated(LocalDateTime.now());
+                this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("Exist in records!");
+        }
     }
     public void update(AssetType assetType) {
+        assetType.setUpdated(LocalDateTime.now());
+        assetTypeMapper.updateById(assetType);
+
         actionRecord.setActionName("Update");
         actionRecord.setActionMethod("POST");
         actionRecord.setActionFrom("Asset Type Manger");
@@ -43,8 +65,6 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         actionRecord.setActionSuccess("Success");
         actionRecord.setCreated(LocalDateTime.now());
         this.createdAction(actionRecord);
-
-        assetTypeMapper.updateById(assetType);
     }
 
     public void remove(AssetType assetType) {
@@ -71,12 +91,9 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
         return assetTypeMapper.selectOne(queryWrapper);
     }
 
-
-
     public List<AssetType> getAll() {
         return assetTypeMapper.getALL();
     }
-
 
     public int createdAction(ActionRecord actionRecord) {
         return actionRecordMapper.insert(actionRecord);

@@ -37,7 +37,7 @@ public class AssetList extends BaseEntity{
     private String sponsorName;
 
     @TableField("cost")
-    private String cost;
+    private double cost;
 
     @TableField("serial_number")
     private String serialNum;
@@ -79,7 +79,7 @@ public class AssetList extends BaseEntity{
     private Boolean includeTax;
 
     @TableField("after_before_tax")
-    private String afterBeforeTax;
+    private double afterBeforeTax;
 
     @TableField("account_code")
     private String accountCode;
