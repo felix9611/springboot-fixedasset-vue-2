@@ -142,12 +142,14 @@ export default class Department extends Vue {
 
     testEcelHeader1 = [
         'Department Code',
-        'Department Name'
+        'Department Name',
+        'Remark'
     ]
 
     testEcelHeader2 = [
         'deptCode',
-        'deptName'
+        'deptName',
+        'deptRemark'
     ]
 
     searchForm: any = {
@@ -193,20 +195,20 @@ export default class Department extends Vue {
     async uploadFile(file: any) {
         const data = await readExcel(file)
         const reData = formatJson(this.testEcelHeader1, this.testEcelHeader2, data)
-        reData.forEach( (res: any) => {
-        axios.post('/base/department/create', res).then((res: any) => {
-                        
+
+        axios.post('/base/department/batch-create', reData).then((res: any) => {
+            if (res) {
                 this.$notify({
                     title: 'Msg',
                     showClose: true,
                     message: 'Upload success',
                     type: 'success',
                 })
-                this.deptAllList()
                 this.uploaderDialog = false
-                file = undefined
+                this.deptAllList()
                 this.fileList = []
-            })
+                file = undefined
+            }
         })
     }
 

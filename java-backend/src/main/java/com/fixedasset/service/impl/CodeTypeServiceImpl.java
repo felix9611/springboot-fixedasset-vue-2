@@ -1,11 +1,17 @@
 package com.fixedasset.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.ActionRecord;
+import com.fixedasset.entity.AssetType;
 import com.fixedasset.entity.CodeType;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.CodeTypeMapper;
 import com.fixedasset.service.CodeTypeService;
+
+import antlr.StringUtils;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,18 +33,38 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
         return codeTypeMapper.getALL(codeType.getType());
     }
 
-    public void createOne(CodeType codeType) {
-        codeType.setStatu(1);
-        codeType.setCreated(LocalDateTime.now());
-        codeTypeMapper.insert(codeType);
+    public void batchImport(List<CodeType> codeTypes) {
+        for (CodeType codeType : codeTypes) {
+            this.createOne(codeType);
+        }
+    }
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Code Type Manger");
-        actionRecord.setActionData(codeType.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+    public void createOne(CodeType codeType) {
+        LambdaQueryWrapper<CodeType> queryWrapper = Wrappers.lambdaQuery();
+
+        if (!codeType.getValueCode().isEmpty()) {
+            queryWrapper.eq(CodeType::getValueCode, codeType.getValueCode());
+        }
+        queryWrapper.eq(CodeType::getStatu, 1);
+        CodeType checkOne = codeTypeMapper.selectOne(queryWrapper);
+        if (checkOne == null) {
+            codeType.setStatu(1);
+            codeType.setCreated(LocalDateTime.now());
+            codeTypeMapper.insert(codeType);
+
+            actionRecord.setActionName("Save");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Code Type Manger");
+            actionRecord.setActionData(codeType.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("Exist in records!");
+        }
+
+
+        
     }
 
     public void updateOne(CodeType codeType) {
