@@ -11,16 +11,19 @@
                     </el-input>
                 </el-form-item>
 
-             <!--   <el-form-item>
+                <el-form-item>
+                    <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
+                </el-form-item>
+
+
+                <el-form-item>
                     <el-button @click="clickUploadDialog">Upload Excel</el-button>
-                </el-form-item> -->
+                </el-form-item>
 
                 <el-form-item>
                     <el-button @click="taxInfoAllList">Find</el-button>
                 </el-form-item>
-                <el-form-item>
-                    <el-button @click="clickUploadDialog">Upload Excel</el-button>
-                </el-form-item>
+
 
                 <el-form-item>
                     <el-button type="primary" @click="dialogVisible = true">Create</el-button>
@@ -178,7 +181,7 @@
 
 <script lang="ts">
 import axios from '@/axios'
-import { formatJson, readExcel } from '@/utils/importExcel'
+import { downloadTempExcelFile, formatJson, readExcel } from '@/utils/importExcel'
 import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
 
@@ -250,6 +253,10 @@ export default class vendor extends Vue {
     
     closerUploadDialog() {
         this.uploaderDialog = false
+    }
+
+    downloadTemplateExcel() {
+        downloadTempExcelFile(this.testEcelHeader1, 'tax_informations_template.xlsx')
     }
 
     async uploadFile(file: any) {

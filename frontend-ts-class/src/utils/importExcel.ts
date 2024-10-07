@@ -83,6 +83,33 @@ sheet_add_aoa adds an array of arrays of JS data to an existing worksheet.
 sheet_add_json adds an array of JS objects to an existing worksheet.
 。
 */
+
+export function downloadTempExcelFile(
+  excelHeader: any, 
+  fileName: string, 
+  excelStyle?: any,
+  headerColSeetting? : any
+) {
+  const ws = XLSX.utils.aoa_to_sheet([excelHeader])
+  if (excelStyle) {
+    if (excelStyle) {
+      for (const [key] of Object.entries(ws)) {
+        if (key !== '!cols' && key !== '!ref') {
+          ws[key].s = excelStyle
+        }
+      }
+    }
+    if(headerColSeetting) {
+      ws['!cols'] = headerColSeetting['!cols']
+    }
+  }
+  XLSX.utils.sheet_add_aoa(ws, [], { origin: 'A2' })
+  let wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
+  const wopts = { bookType: 'xlsx', bookSST: false , type: 'binary' }
+  const fileEx = XLSXS.write(wb, wopts)
+  saveAs(new Blob([s2ab(fileEx)],{type:""}), fileName)
+}
 export function saveJsonToExcel(
   headers: any, 
   data: any, 
