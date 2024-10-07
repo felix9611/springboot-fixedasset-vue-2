@@ -12,6 +12,7 @@ import com.fixedasset.entity.AssetListFile;
 import com.fixedasset.entity.AssetType;
 import com.fixedasset.entity.Department;
 import com.fixedasset.entity.Location;
+import com.fixedasset.entity.Vendor;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
 import com.fixedasset.service.AssetListFileService;
@@ -20,14 +21,22 @@ import com.fixedasset.service.AssetTypeService;
 import com.fixedasset.service.DepartmentService;
 import com.fixedasset.service.InvRecordService;
 import com.fixedasset.service.LocationService;
+import com.fixedasset.service.VendorService;
+
+import lombok.val;
 
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 @Service
 public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList> implements AssetListService {
@@ -51,6 +60,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource private DepartmentService departmentService;
 
     @Resource private LocationService locationService;
+
+    @Resource private VendorService vendorService;
 
     public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
         return this.assetListMapper.page(page, queryWrapper);
@@ -120,56 +131,62 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     }
 
     public String createNew(AssetList assetList) {
-        String newCode = this.getNewAssetCode();
-        assetList.setAssetCode(newCode);
-        assetList.setStatu(1);
-        assetList.setCreated(LocalDateTime.now());
+        LambdaQueryWrapper<AssetList> queryWrapper2 = Wrappers.lambdaQuery();
+        queryWrapper2.eq(AssetList::getAssetName, assetList.getAssetName());
+        queryWrapper2.eq(AssetList::getStatu, 1);
+        AssetList checkAsset = assetListMapper.selectOne(queryWrapper2);
 
-        assetListMapper.insert(assetList);
+        if (checkAsset == null) {
+            String newCode = this.getNewAssetCode();
+            assetList.setAssetCode(newCode);
+            assetList.setStatu(1);
+            assetList.setCreated(LocalDateTime.now());
 
-        // Save file
-        List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
-        if (newAssetListFiles.size() > 0) {
-            for (AssetListFile assetListFile : newAssetListFiles) {
-                assetListFile.setAssetId(Math.toIntExact(assetList.getId()));
-                assetListFileService.saveListPicture(assetListFile);
-            }
-        } 
+            assetListMapper.insert(assetList);
 
-        invRecordService.saveNewRecord(newCode, assetList.getPlaceId());
+            // Save file
+            List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
+            if (newAssetListFiles.size() > 0) {
+                for (AssetListFile assetListFile : newAssetListFiles) {
+                    assetListFile.setAssetId(Math.toIntExact(assetList.getId()));
+                    assetListFileService.saveListPicture(assetListFile);
+                }
+            } 
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Asset List Manger");
-        actionRecord.setActionData(assetList.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-      //  this.createdAction(actionRecord);
-        return newCode;
+            invRecordService.saveNewRecord(newCode, assetList.getPlaceId());
+
+            actionRecord.setActionName("Save");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Asset List Manger");
+            actionRecord.setActionData(assetList.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+        //  this.createdAction(actionRecord);
+            return newCode;
+        } else {
+            throw new RuntimeException("Exist in records!");
+        }
+        
     }
 
     public void importData(List<AssetListUploadDataDto> assetListUploadDatas) {
         for (AssetListUploadDataDto assetListUploadDataDto : assetListUploadDatas) {
-            System.out.println(assetListUploadDataDto);
 
-          /*   LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+           /*  LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
 
             queryWrapper.eq(AssetList::getAssetName, assetListUploadDataDto.getAssetName());
             queryWrapper.eq(AssetList::getStatu, 1);
 
             AssetList assetListCheck = assetListMapper.selectOne(queryWrapper);
 
-            System.out.println(assetListCheck);
-
-            if (assetListCheck == null) { */
-       /*         LambdaQueryWrapper<AssetList> queryWrapper2 = Wrappers.lambdaQuery();
-                if (StringUtils.isNotBlank(assetListUploadDataDto.getAssetCode())) {
-                    queryWrapper2.eq(AssetList::getAssetCode, assetListUploadDataDto.getAssetCode());
-                }
+            if (assetListCheck.getId() == null) { */
+                LambdaQueryWrapper<AssetList> queryWrapper2 = Wrappers.lambdaQuery();
+                queryWrapper2.eq(AssetList::getAssetCode, assetListUploadDataDto.getAssetCode());
                 queryWrapper2.eq(AssetList::getStatu, 1);
                 AssetList checkAssetCode = assetListMapper.selectOne(queryWrapper2);
 
-                if (checkAssetCode.getAssetCode().equals(assetListUploadDataDto.getAssetCode())) {
+                if (checkAssetCode != null) {
                     String newCode = this.getNewAssetCode();
                     assetList.setAssetCode(newCode);
                 } else {
@@ -184,6 +201,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                     if(StringUtils.isNotBlank(assetListUploadDataDto.getTypeName())) {
                         queryWrapperType.eq(AssetType::getTypeName, assetListUploadDataDto.getTypeName());
                     }
+                    queryWrapperType.eq(AssetType::getStatu, 1);
                     AssetType assetType = assetTypeService.getOne(queryWrapperType);
 
                     if (assetType == null) {
@@ -201,6 +219,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                     if(StringUtils.isNotBlank(assetListUploadDataDto.getDeptName())) {
                         queryWrapperDept.eq(Department::getDeptName, assetListUploadDataDto.getDeptName());
                     }
+                    queryWrapperDept.eq(Department::getStatu, 1);
                     Department department = departmentService.getOne(queryWrapperDept);
 
                     if (department == null) {
@@ -218,6 +237,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                     if(StringUtils.isNotBlank(assetListUploadDataDto.getPlaceName())) {
                         queryWrapperPlace.eq(Location::getPlaceName, assetListUploadDataDto.getPlaceName());
                     }
+                    queryWrapperPlace.eq(Location::getStatu, 1);
                     Location location = locationService.getOne(queryWrapperPlace);
 
                     if (location == null) {
@@ -227,19 +247,64 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                     }
                 }
 
+                if (StringUtils.isNotBlank(assetListUploadDataDto.getVendorCode()) || StringUtils.isNotBlank(assetListUploadDataDto.getVendorName())) {
+                    LambdaQueryWrapper<Vendor> queryWrapperVendor = Wrappers.lambdaQuery();
+                    if (StringUtils.isNotBlank(assetListUploadDataDto.getVendorCode())) {
+                        queryWrapperVendor.eq(Vendor::getVendorCode, assetListUploadDataDto.getVendorCode());
+                    }
+                    if (StringUtils.isNotBlank(assetListUploadDataDto.getVendorName())) {
+                        queryWrapperVendor.eq(Vendor::getVendorName, assetListUploadDataDto.getVendorName());
+                    }
+                    if (StringUtils.isNotBlank(assetListUploadDataDto.getVendorType())) {
+                        queryWrapperVendor.eq(Vendor::getType, assetListUploadDataDto.getVendorType());
+                    }
+                    queryWrapperVendor.eq(Vendor::getStatu, 1);
+                    Vendor checkOne = vendorService.getOne(queryWrapperVendor);
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    Vendor vendor = new Vendor();
+                    vendor.setVendorCode(assetListUploadDataDto.getVendorCode());
+                    vendor.setVendorName(assetListUploadDataDto.getVendorName());
+                    vendor.setVendorOtherName(assetListUploadDataDto.getVendorOtherName());
+                    vendor.setType(assetListUploadDataDto.getVendorType());
+                    vendor.setEmail(assetListUploadDataDto.getVendorEmail());
+                    vendor.setPhone(assetListUploadDataDto.getVendorPhone());
+                    vendor.setFax(assetListUploadDataDto.getVendorFax());
+                    vendor.setAddress(assetListUploadDataDto.getVendorAddress());
+                    vendor.setContactPerson(assetListUploadDataDto.getVendorContactPerson());
+                    vendor.setRemark(assetListUploadDataDto.getVendorRemark());
+
+                    if (checkOne == null) {
+                        vendorService.createOne(vendor);
+                        assetList.setVendorId(Math.toIntExact(vendor.getId()));
+                    } else {
+                        assetList.setVendorId(Math.toIntExact(checkOne.getId()));
+                        vendor.setId(checkOne.getId());
+                        vendorService.updateOne(vendor);
+                    }
+                }
+
+
+         //       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a");
                 
                 assetList.setAssetName(assetListUploadDataDto.getAssetName());
                 assetList.setUnit(assetListUploadDataDto.getUnit());
-                assetList.setBuyDate(LocalDateTime.parse(assetListUploadDataDto.getBuyDate(), formatter));
+                
+              /*   if (StringUtils.isNotBlank(assetListUploadDataDto.getBuyDate())) {
+                    LocalDateTime buyDate = getFormat(assetListUploadDataDto.getBuyDate());
+                    assetList.setBuyDate(buyDate);
+                } */
+
                 assetList.setDescription(assetListUploadDataDto.getDescription());
                 assetList.setSponsor(assetListUploadDataDto.getSponsor() == "Yes" ? 1 : 0);
                 assetList.setSponsorName(assetListUploadDataDto.getSponsorName());
                 assetList.setCost(assetListUploadDataDto.getCost());
                 assetList.setSerialNum(assetListUploadDataDto.getSerialNum());
                 assetList.setInvoiceNo(assetListUploadDataDto.getInvoiceNo());
-                assetList.setInvoiceDate(LocalDateTime.parse(assetListUploadDataDto.getInvoiceDate(), formatter));
+              //  if (StringUtils.isNotBlank(assetListUploadDataDto.getInvoiceDate())) {
+            //        assetList.setInvoiceDate(LocalDateTime.parse(assetListUploadDataDto.getInvoiceDate(), formatter));
+           //     }
+
+                
                 assetList.setInvoiceRemark(assetListUploadDataDto.getInvoiceRemark());
                 assetList.setTaxCountryCode(assetListUploadDataDto.getTaxCountryCode());
                 assetList.setTaxCode(assetListUploadDataDto.getTaxCode());
@@ -251,10 +316,19 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                 assetList.setBrandCode(assetListUploadDataDto.getBrandCode());
                 assetList.setBrandName(assetListUploadDataDto.getBrandName());
                 assetList.setChequeNo(assetListUploadDataDto.getChequeNo());
-                assetList.setMaintenancePeriodStart(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodStart(), formatter));
-                assetList.setMaintenancePeriodEnd(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodEnd(), formatter));
+
+          /*      if(StringUtils.isNotBlank(assetListUploadDataDto.getMaintenancePeriodStart())) {
+                    assetList.setMaintenancePeriodStart(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodStart(), formatter));
+                }
+                if (StringUtils.isNotBlank(assetListUploadDataDto.getMaintenancePeriodEnd())) {
+                    assetList.setMaintenancePeriodEnd(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodEnd(), formatter));
+                }
+                if (StringUtils.isNotBlank(assetListUploadDataDto.getVoucherUsedDate())) {
+                    assetList.setVoucherUsedDate(LocalDateTime.parse(assetListUploadDataDto.getVoucherUsedDate(), formatter));
+                } */
+                
                 assetList.setVoucherNo(assetListUploadDataDto.getVoucherNo());
-                assetList.setVoucherUsedDate(LocalDateTime.parse(assetListUploadDataDto.getVoucherUsedDate(), formatter));
+                
                 assetList.setRemark(assetListUploadDataDto.getRemark());
                 assetList.setStatu(1);
                 assetList.setCreated(LocalDateTime.now());
@@ -262,56 +336,71 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                 assetListMapper.insert(assetList);
 
                 invRecordService.saveNewRecord(assetList.getAssetCode(), assetList.getPlaceId());
-        */         
-        /*     } else {
+         /*    } else {
                 throw new RuntimeException("Exist in records!");
-            } */
+            }*/
         }
     }
 
     public void update(AssetList assetList) {
-        long oldId = assetList.getId();
-        int assetId = (int)oldId;
-        invRecordService.saveRecord(assetId, assetList.getPlaceId());
+        LambdaQueryWrapper<AssetList> queryWrapper2 = Wrappers.lambdaQuery();
+        queryWrapper2.eq(AssetList::getAssetCode, assetList.getAssetCode());
+        queryWrapper2.eq(AssetList::getStatu, 1);
+        AssetList checkAsset = assetListMapper.selectOne(queryWrapper2);
 
-        assetList.setUpdated(LocalDateTime.now());
+        if (checkAsset.getId().equals(assetList.getId())) {
+            long oldId = assetList.getId();
+            int assetId = (int)oldId;
+            invRecordService.saveRecord(assetId, assetList.getPlaceId());
 
-        List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
+            assetList.setUpdated(LocalDateTime.now());
 
-        if (newAssetListFiles.size() > 0) {
-            for (AssetListFile assetListFile : newAssetListFiles) {
-                assetListFile.setAssetId(Math.toIntExact(assetList.getId()));
-                assetListFileService.saveListPicture(assetListFile);
-            }
-        } 
+            List<AssetListFile> newAssetListFiles = assetList.getNewAssetListFiles();
 
+            if (newAssetListFiles.size() > 0) {
+                for (AssetListFile assetListFile : newAssetListFiles) {
+                    assetListFile.setAssetId(Math.toIntExact(assetList.getId()));
+                    assetListFileService.saveListPicture(assetListFile);
+                }
+            } 
 
-        assetListMapper.updateById(assetList);
+            assetListMapper.updateById(assetList);
 
-        actionRecord.setActionName("Update");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Asset List Manger");
-        actionRecord.setActionData(assetList.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-       // this.createdAction(actionRecord);
+            actionRecord.setActionName("Update");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Asset List Manger");
+            actionRecord.setActionData(assetList.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+        // this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No matched data in records!");
+        }
     }
 
     public void remove(Long id) {
-        AssetList assetListOld = assetListMapper.selectById(id);
-        invRecordService.writeOff(assetListOld.getAssetCode(), assetListOld.getPlaceId());
+        LambdaQueryWrapper<AssetList> queryWrapper2 = Wrappers.lambdaQuery();
+        queryWrapper2.eq(AssetList::getId, id);
+        queryWrapper2.eq(AssetList::getStatu, 1);
+        AssetList checkAsset = assetListMapper.selectOne(queryWrapper2);
+        if (checkAsset.getId().equals(assetList.getId())) {
+            AssetList assetListOld = assetListMapper.selectById(id);
+            invRecordService.writeOff(assetListOld.getAssetCode(), assetListOld.getPlaceId());
 
-        assetList.setId(id);
-        assetList.setStatu(0);
-        assetListMapper.updateById(assetList);
+            assetList.setId(id);
+            assetList.setStatu(0);
+            assetListMapper.updateById(assetList);
 
-        actionRecord.setActionName("Remove");
-        actionRecord.setActionMethod("Delete");
-        actionRecord.setActionFrom("Asset List Manger");
-        actionRecord.setActionData(assetList.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+            actionRecord.setActionName("Remove");
+            actionRecord.setActionMethod("Delete");
+            actionRecord.setActionFrom("Asset List Manger");
+            actionRecord.setActionData(assetList.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No matched data in records!");
+        }
     }
 
     public AssetList findOneById(Long id) {
@@ -565,6 +654,14 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
     public int createdAction(ActionRecord actionRecord) {
         return actionRecordMapper.insert(actionRecord);
+    }
+
+    public LocalDateTime getFormat(String dateString) {
+        Date date = new Date(dateString);
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        date = Date.from(instant);
+        LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+        return ldt;
     }
 
 }

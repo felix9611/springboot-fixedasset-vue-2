@@ -90,12 +90,12 @@
                     </el-select>
                 </el-form-item>
 
-              <!--  <el-form-item>
+                <el-form-item>
                     <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
-                </el-form-item> -->
+                </el-form-item>
 
                 <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
@@ -448,7 +448,7 @@ export default class AssetList extends Vue {
         const data = await readExcel(file)
         const processData = formatJson(exportExcelHeader1, exportExcelHeader2, data)
 
-        axios.post('/base/asset_type/batch-create', processData).then((res: any) => {
+        axios.post('/asset/assetList/batch-create', processData).then((res: any) => {
             if (res) {
                 this.$notify({
                     title: 'Msg',
