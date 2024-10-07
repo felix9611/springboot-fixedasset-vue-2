@@ -283,28 +283,16 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                     }
                 }
 
-
-         //       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a");
-                
                 assetList.setAssetName(assetListUploadDataDto.getAssetName());
                 assetList.setUnit(assetListUploadDataDto.getUnit());
-                
-              /*   if (StringUtils.isNotBlank(assetListUploadDataDto.getBuyDate())) {
-                    LocalDateTime buyDate = getFormat(assetListUploadDataDto.getBuyDate());
-                    assetList.setBuyDate(buyDate);
-                } */
-
+                assetList.setBuyDate(assetListUploadDataDto.getBuyDate());
                 assetList.setDescription(assetListUploadDataDto.getDescription());
                 assetList.setSponsor(assetListUploadDataDto.getSponsor() == "Yes" ? 1 : 0);
                 assetList.setSponsorName(assetListUploadDataDto.getSponsorName());
                 assetList.setCost(assetListUploadDataDto.getCost());
                 assetList.setSerialNum(assetListUploadDataDto.getSerialNum());
                 assetList.setInvoiceNo(assetListUploadDataDto.getInvoiceNo());
-              //  if (StringUtils.isNotBlank(assetListUploadDataDto.getInvoiceDate())) {
-            //        assetList.setInvoiceDate(LocalDateTime.parse(assetListUploadDataDto.getInvoiceDate(), formatter));
-           //     }
-
-                
+                assetList.setInvoiceDate(assetListUploadDataDto.getInvoiceDate());
                 assetList.setInvoiceRemark(assetListUploadDataDto.getInvoiceRemark());
                 assetList.setTaxCountryCode(assetListUploadDataDto.getTaxCountryCode());
                 assetList.setTaxCode(assetListUploadDataDto.getTaxCode());
@@ -316,17 +304,9 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                 assetList.setBrandCode(assetListUploadDataDto.getBrandCode());
                 assetList.setBrandName(assetListUploadDataDto.getBrandName());
                 assetList.setChequeNo(assetListUploadDataDto.getChequeNo());
-
-          /*      if(StringUtils.isNotBlank(assetListUploadDataDto.getMaintenancePeriodStart())) {
-                    assetList.setMaintenancePeriodStart(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodStart(), formatter));
-                }
-                if (StringUtils.isNotBlank(assetListUploadDataDto.getMaintenancePeriodEnd())) {
-                    assetList.setMaintenancePeriodEnd(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodEnd(), formatter));
-                }
-                if (StringUtils.isNotBlank(assetListUploadDataDto.getVoucherUsedDate())) {
-                    assetList.setVoucherUsedDate(LocalDateTime.parse(assetListUploadDataDto.getVoucherUsedDate(), formatter));
-                } */
-                
+                assetList.setMaintenancePeriodStart(assetListUploadDataDto.getMaintenancePeriodStart());
+                assetList.setMaintenancePeriodEnd(assetListUploadDataDto.getMaintenancePeriodEnd());
+                assetList.setVoucherUsedDate(assetListUploadDataDto.getVoucherUsedDate());
                 assetList.setVoucherNo(assetListUploadDataDto.getVoucherNo());
                 
                 assetList.setRemark(assetListUploadDataDto.getRemark());

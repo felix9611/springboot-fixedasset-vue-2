@@ -2,6 +2,9 @@ package com.fixedasset.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
+
 import javax.persistence.Transient;
 
 @EqualsAndHashCode(callSuper = false)
@@ -17,7 +20,7 @@ public class AssetListUploadDataDto {
 
     @Transient private String unit;
 
-    @Transient private String buyDate;
+    @Transient private LocalDateTime buyDate;
 
     @Transient private String description;
 
@@ -31,7 +34,7 @@ public class AssetListUploadDataDto {
 
     @Transient private String invoiceNo;
 
-    @Transient private String invoiceDate;
+    @Transient private LocalDateTime invoiceDate;
 
     @Transient private String invoiceRemark;
 
@@ -83,13 +86,13 @@ public class AssetListUploadDataDto {
 
     @Transient private String chequeNo;
 
-    @Transient private String maintenancePeriodStart;
+    @Transient private LocalDateTime maintenancePeriodStart;
 
-    @Transient private String maintenancePeriodEnd;
+    @Transient private LocalDateTime maintenancePeriodEnd;
 
     @Transient private String voucherNo;
 
-    @Transient private String voucherUsedDate;
+    @Transient private LocalDateTime voucherUsedDate;
 
     @Transient private String remark;
 }
