@@ -31,6 +31,7 @@ public interface AssetListService extends IService<AssetList> {
 
     AssetList findOneById(Long id);
 
+    void importData(List<AssetListUploadDataDto> assetListUploadDatas);
 
     List<CostWithDeptDto> getCostWithDept();
 

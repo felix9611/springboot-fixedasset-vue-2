@@ -90,9 +90,12 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item>
+              <!--  <el-form-item>
                     <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>
                 </el-form-item>
+                <el-form-item>
+                    <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
+                </el-form-item> -->
 
                 <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
@@ -332,7 +335,7 @@ import { uploadImgToBase64 } from '@/utils/uploadImgToBase64'
 import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
 import { exportExcelHeader1, exportExcelHeader2 } from './importSetting'
-import { formatJson, readExcel } from '@/utils/importExcel'
+import { formatJson, readExcel, downloadTempExcelFile } from '@/utils/importExcel'
 import QrcodeVue from 'qrcode.vue'
 
 @Component({
@@ -443,121 +446,22 @@ export default class AssetList extends Vue {
 
     async uploadExcelFile(file: any) {
         const data = await readExcel(file)
+        const processData = formatJson(exportExcelHeader1, exportExcelHeader2, data)
 
-        let fieldset = []
-        axios.get('/base/field/match/AssetList/fields')
-        .then((res: any) => {
-            fieldset = res.data.data 
-            let excelHeaders = fieldset.map((row : any)=> row.fieldName)   
-            let codeFields = fieldset.map((row : any)=> row.fieldCodeName)  
-
-
-            const reData = formatJson(excelHeaders, codeFields, data)
-
-            let importArray: any = []
-            reData.forEach(
-                (res: any, i: number) => {
-                    
-                    let newBuyDate: string = ''
-                    let newInvoiceDate: string = ''
-                    let typeId: number = 0
-                    let saveJson: any = {}
-
-                    if (res.buyDate) {
-                        const utc_days  = Math.floor(res.buyDate - 25569)
-                        const utc_value = utc_days * 86400                                      
-                        saveJson.buyDate = new Date(utc_value * 1000)
-                    }
-
-                    if (res.buyDate) {
-                        const utc_days  = Math.floor(res.buyDate - 25569)
-                        const utc_value = utc_days * 86400                                      
-                        saveJson.invoiceDate = new Date(utc_value * 1000)
-                    }
-
-                    if ( res.vendorName || res.vendorCode ) {
-                        axios.post(
-                            '/base/vendor/post/findOne',
-                            { vendorCode: res.vendorCode, vendorName: res.vendorName }
-                        ).then(
-                            (res: any) => {
-                                saveJson.vendorId = res.data.data.id
-                            }
-                        )
-                    }
-
-                    if ( res.typeCode || res.typeName ) {
-                        axios.post(
-                            '/base/asset_type/post/findOne',
-                            { typeCode: res.typeCode, typeName: res.typeName }
-                        ).then(
-                            (res: any) => {
-                                saveJson.typeId  = res.data.data.id
-                            }
-                        )
-                    }
-
-                    if ( res.placeCode || res.placeName ) {
-                        axios.post(
-                            '/base/location/post/findOne',
-                            { placeCode: res.placeCode, placeName: res.placeName }
-                        ).then(
-                            (res: any) => {
-                                saveJson.placeId  = res.data.data.id
-                            }
-                        )
-                    }
-
-                    if ( res.deptName || res.deptCode ) {
-                        axios.post(
-                            '/base/department/post/findOne',
-                            { deptCode: res.deptCode, deptName: res.deptName }
-                        ).then(
-                            (res: any) => {
-                                saveJson.deptId = res.data.data.id
-                            }
-                        )
-                    }
-
-                    
-
-                    saveJson.assetName = res.assetName
-                    saveJson.description = res.description
-                    saveJson.unit = res.unit
-                    saveJson.cost = res.cost
-                    saveJson.serialNum = res.serialNum
-                    saveJson.invoiceNo = res.invoiceNo
-                    saveJson.remark = res.remark
-                    
-                    importArray.push(saveJson)
-                    console.log(importArray)
-            })
-
-            importArray.forEach(
-                (res: any, i: number) => {
-                    setTimeout(
-                        function(){
-                            console.log(moment().format('DD-MM-YYYY HH:MM:ss'))
-                            axios.post('/asset/assetList/create', res)
-                        }
-                    ,2000 * i)
-                    file = undefined
-                    this.$notify({
-                        title: 'Msg',
-                        showClose: true,
-                        message: 'Upload success. please wait few second to process',
-                        type: 'success',
-                    })
-                    this.excelUploaderDialog = false
-                    setTimeout(
-                    ()=> { 
-                        console.log(moment().format('DD-MM-YYYY HH:MM:ss'))
-                        this.assetAllList()
-                    }
-                    ,3000* i)
-            })
+        axios.post('/base/asset_type/batch-create', processData).then((res: any) => {
+            if (res) {
+                this.$notify({
+                    title: 'Msg',
+                    showClose: true,
+                    message: 'Upload success',
+                    type: 'success',
+                })
+                this.excelUploaderDialog = false
+                this.assetAllList()
+                this.fileList = []
+                file = undefined
+            }
         })
-
     }
 
     onChangeUpload(file: UploadFile) {
@@ -873,6 +777,10 @@ export default class AssetList extends Vue {
     cancelWriteOff() {
         this.writeOffForm = {}
         this.writeOffDialog = false
+    }
+
+    downloadTemplateExcel() {
+        downloadTempExcelFile(exportExcelHeader1, 'asset_list_template.xlsx')
     }
 }
 </script>

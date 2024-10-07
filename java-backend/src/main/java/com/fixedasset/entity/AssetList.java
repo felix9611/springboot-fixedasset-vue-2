@@ -73,7 +73,7 @@ public class AssetList extends BaseEntity{
     private String taxCode;
 
     @TableField("tax_rate")
-    private int taxRate;
+    private Double taxRate;
 
     @TableField("include_tax")
     private Boolean includeTax;

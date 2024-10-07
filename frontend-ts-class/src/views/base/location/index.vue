@@ -12,6 +12,10 @@
                 </el-form-item>
 
                 <el-form-item>
+                    <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
                     <el-button @click="clickUploadDialog">Upload Excel</el-button>
                 </el-form-item>
 
@@ -129,7 +133,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import axios from '@/axios'
-import { formatJson, readExcel } from '@/utils/importExcel'
+import { downloadTempExcelFile, formatJson, readExcel } from '@/utils/importExcel'
 import moment from 'moment'
 
 @Component
@@ -185,6 +189,10 @@ export default class Location extends Vue {
     }
     closerUploadDialog() {
         this.uploaderDialog = false
+    }
+
+    downloadTemplateExcel() {
+        downloadTempExcelFile(this.testEcelHeader1, 'locations_template.xlsx')
     }
 
     async uploadFile(file: any) {

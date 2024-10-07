@@ -9,15 +9,23 @@ import com.fixedasset.dto.*;
 import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.AssetListFile;
+import com.fixedasset.entity.AssetType;
+import com.fixedasset.entity.Department;
+import com.fixedasset.entity.Location;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
 import com.fixedasset.service.AssetListFileService;
 import com.fixedasset.service.AssetListService;
+import com.fixedasset.service.AssetTypeService;
+import com.fixedasset.service.DepartmentService;
 import com.fixedasset.service.InvRecordService;
+import com.fixedasset.service.LocationService;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -37,6 +45,12 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource private AssetListFileService assetListFileService;
 
     @Resource private AssetListFile assetListFile;
+
+    @Resource private AssetTypeService assetTypeService;
+
+    @Resource private DepartmentService departmentService;
+
+    @Resource private LocationService locationService;
 
     public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
         return this.assetListMapper.page(page, queryWrapper);
@@ -132,6 +146,127 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         actionRecord.setCreated(LocalDateTime.now());
       //  this.createdAction(actionRecord);
         return newCode;
+    }
+
+    public void importData(List<AssetListUploadDataDto> assetListUploadDatas) {
+        for (AssetListUploadDataDto assetListUploadDataDto : assetListUploadDatas) {
+            System.out.println(assetListUploadDataDto);
+
+          /*   LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+
+            queryWrapper.eq(AssetList::getAssetName, assetListUploadDataDto.getAssetName());
+            queryWrapper.eq(AssetList::getStatu, 1);
+
+            AssetList assetListCheck = assetListMapper.selectOne(queryWrapper);
+
+            System.out.println(assetListCheck);
+
+            if (assetListCheck == null) { */
+       /*         LambdaQueryWrapper<AssetList> queryWrapper2 = Wrappers.lambdaQuery();
+                if (StringUtils.isNotBlank(assetListUploadDataDto.getAssetCode())) {
+                    queryWrapper2.eq(AssetList::getAssetCode, assetListUploadDataDto.getAssetCode());
+                }
+                queryWrapper2.eq(AssetList::getStatu, 1);
+                AssetList checkAssetCode = assetListMapper.selectOne(queryWrapper2);
+
+                if (checkAssetCode.getAssetCode().equals(assetListUploadDataDto.getAssetCode())) {
+                    String newCode = this.getNewAssetCode();
+                    assetList.setAssetCode(newCode);
+                } else {
+                    assetList.setAssetCode(assetListUploadDataDto.getAssetCode());
+                }
+
+                if (StringUtils.isNotBlank(assetListUploadDataDto.getTypeCode()) || StringUtils.isNotBlank(assetListUploadDataDto.getTypeName())) {
+                    LambdaQueryWrapper<AssetType> queryWrapperType = Wrappers.lambdaQuery();
+                    if(StringUtils.isNotBlank(assetListUploadDataDto.getTypeCode())) {
+                        queryWrapperType.eq(AssetType::getTypeCode, assetListUploadDataDto.getTypeCode());
+                    }
+                    if(StringUtils.isNotBlank(assetListUploadDataDto.getTypeName())) {
+                        queryWrapperType.eq(AssetType::getTypeName, assetListUploadDataDto.getTypeName());
+                    }
+                    AssetType assetType = assetTypeService.getOne(queryWrapperType);
+
+                    if (assetType == null) {
+                        throw new RuntimeException("The type not exist in records!");
+                    } else {
+                        assetList.setTypeId(Math.toIntExact(assetType.getId()));
+                    }
+                }
+
+                if (StringUtils.isNotBlank(assetListUploadDataDto.getDeptCode()) || StringUtils.isNotBlank(assetListUploadDataDto.getDeptName())) {
+                    LambdaQueryWrapper<Department> queryWrapperDept = Wrappers.lambdaQuery();
+                    if(StringUtils.isNotBlank(assetListUploadDataDto.getDeptCode())) {
+                        queryWrapperDept.eq(Department::getDeptCode, assetListUploadDataDto.getDeptCode());
+                    }
+                    if(StringUtils.isNotBlank(assetListUploadDataDto.getDeptName())) {
+                        queryWrapperDept.eq(Department::getDeptName, assetListUploadDataDto.getDeptName());
+                    }
+                    Department department = departmentService.getOne(queryWrapperDept);
+
+                    if (department == null) {
+                        throw new RuntimeException("The type not exist in records!");
+                    } else {
+                        assetList.setDeptId(Math.toIntExact(department.getId()));
+                    }
+                }
+
+                if (StringUtils.isNotBlank(assetListUploadDataDto.getPlaceCode()) || StringUtils.isNotBlank(assetListUploadDataDto.getPlaceName())) {
+                    LambdaQueryWrapper<Location> queryWrapperPlace = Wrappers.lambdaQuery();
+                    if(StringUtils.isNotBlank(assetListUploadDataDto.getPlaceCode())) {
+                        queryWrapperPlace.eq(Location::getPlaceCode, assetListUploadDataDto.getPlaceCode());
+                    }
+                    if(StringUtils.isNotBlank(assetListUploadDataDto.getPlaceName())) {
+                        queryWrapperPlace.eq(Location::getPlaceName, assetListUploadDataDto.getPlaceName());
+                    }
+                    Location location = locationService.getOne(queryWrapperPlace);
+
+                    if (location == null) {
+                        throw new RuntimeException("The type not exist in records!");
+                    } else {
+                        assetList.setPlaceId(Math.toIntExact(location.getId()));
+                    }
+                }
+
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                
+                assetList.setAssetName(assetListUploadDataDto.getAssetName());
+                assetList.setUnit(assetListUploadDataDto.getUnit());
+                assetList.setBuyDate(LocalDateTime.parse(assetListUploadDataDto.getBuyDate(), formatter));
+                assetList.setDescription(assetListUploadDataDto.getDescription());
+                assetList.setSponsor(assetListUploadDataDto.getSponsor() == "Yes" ? 1 : 0);
+                assetList.setSponsorName(assetListUploadDataDto.getSponsorName());
+                assetList.setCost(assetListUploadDataDto.getCost());
+                assetList.setSerialNum(assetListUploadDataDto.getSerialNum());
+                assetList.setInvoiceNo(assetListUploadDataDto.getInvoiceNo());
+                assetList.setInvoiceDate(LocalDateTime.parse(assetListUploadDataDto.getInvoiceDate(), formatter));
+                assetList.setInvoiceRemark(assetListUploadDataDto.getInvoiceRemark());
+                assetList.setTaxCountryCode(assetListUploadDataDto.getTaxCountryCode());
+                assetList.setTaxCode(assetListUploadDataDto.getTaxCode());
+                assetList.setTaxRate(assetListUploadDataDto.getTaxRate());
+                assetList.setIncludeTax(assetListUploadDataDto.getIncludeTax() == "Yes" ? true : false);
+                assetList.setAfterBeforeTax(assetListUploadDataDto.getAfterBeforeTax());
+                assetList.setAccountCode(assetListUploadDataDto.getAccountCode());
+                assetList.setAccountName(assetListUploadDataDto.getAccountName());
+                assetList.setBrandCode(assetListUploadDataDto.getBrandCode());
+                assetList.setBrandName(assetListUploadDataDto.getBrandName());
+                assetList.setChequeNo(assetListUploadDataDto.getChequeNo());
+                assetList.setMaintenancePeriodStart(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodStart(), formatter));
+                assetList.setMaintenancePeriodEnd(LocalDateTime.parse(assetListUploadDataDto.getMaintenancePeriodEnd(), formatter));
+                assetList.setVoucherNo(assetListUploadDataDto.getVoucherNo());
+                assetList.setVoucherUsedDate(LocalDateTime.parse(assetListUploadDataDto.getVoucherUsedDate(), formatter));
+                assetList.setRemark(assetListUploadDataDto.getRemark());
+                assetList.setStatu(1);
+                assetList.setCreated(LocalDateTime.now());
+
+                assetListMapper.insert(assetList);
+
+                invRecordService.saveNewRecord(assetList.getAssetCode(), assetList.getPlaceId());
+        */         
+        /*     } else {
+                throw new RuntimeException("Exist in records!");
+            } */
+        }
     }
 
     public void update(AssetList assetList) {

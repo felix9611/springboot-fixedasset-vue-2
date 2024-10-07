@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
+import com.fixedasset.dto.AssetListUploadDataDto;
 import com.fixedasset.dto.AssetListViewDTO;
 import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.AssetListFile;
@@ -102,6 +103,12 @@ public class AssetListController extends BaseController {
     @PostMapping("/sumCostWithSponsor")
     public Result sumCostWithSponsor(@RequestBody AssetList assetList) {
         return Result.succ(assetListService.sumCostWithSponsor(assetList));
+    }
+
+    @PostMapping("/batch-create")
+    public Result batchCreate(@RequestBody List<AssetListUploadDataDto> uploadDatas) {
+        assetListService.importData(uploadDatas);
+        return Result.succ(uploadDatas);
     }
 
     @PostMapping("/create")
