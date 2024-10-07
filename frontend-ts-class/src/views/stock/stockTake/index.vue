@@ -18,8 +18,33 @@
                 <el-form-item>
                     <el-button type="primary" @click="dialogVisible = true">Create</el-button>
                 </el-form-item>
+
+             <!--   <el-form-item>
+                    <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button @click="clickUploadExcelDialog()">Upload Excel</el-button>
+                </el-form-item> -->
             </el-form>
         </div>
+
+        <el-dialog
+                title="Upload Excel"
+                :visible.sync="uploadExcelDialog"
+                width="700px"
+                :before-close="closeUploadExcelDialog">
+                <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="excelFileList"
+                        :on-change="uploadExcelFile"
+                        :on-remove="clearFile"
+                        >
+                        <el-button size="small" type="primary">Upload</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+        </el-dialog>
 
         <el-table
                 ref="multipleTable"
@@ -125,6 +150,8 @@
 import axios from '@/axios'
 import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
+import { excelHeader, valueFields } from './excelHeader'
+import { formatJson, readExcel, downloadTempExcelFile } from '@/utils/importExcel'
 
 @Component
 export default class Stocktake extends Vue {
@@ -177,6 +204,8 @@ export default class Stocktake extends Vue {
     itemTakeDialog: boolean = false
 
     statusItemNew: any = []
+    excelFileList: any = []
+    uploadExcelDialog: boolean = false
     
 
     created() {
@@ -321,6 +350,47 @@ export default class Stocktake extends Vue {
                     });
                 })
             }
+    
+    downloadTemplateExcel() {
+        downloadTempExcelFile(excelHeader, 'offline_stock_take_template.xlsx')
+    }
+
+    async uploadExcelFile(file: any) {
+        console.log(file)
+        const fileNmae = file.name
+
+        const data: any = await readExcel(file)
+        const processData = formatJson(excelHeader, valueFields, data)
+
+        const finalData: any = {
+            actionName: fileNmae,
+            stockTakeItemListRecord: processData
+        }
+
+        axios.post('/stock/stock_take/upload', finalData).then((res: any) => {
+            if (res) {
+                this.$notify({
+                    title: 'Msg',
+                    showClose: true,
+                    message: 'Upload success',
+                    type: 'success',
+                })
+                this.uploadExcelDialog = false
+                this.stockTakeList()
+                this.excelFileList = []
+                file = undefined
+            }
+        })
+    }
+
+    closeUploadExcelDialog() {
+        this.uploadExcelDialog = false
+    }
+
+    clickUploadExcelDialog() {
+        this.excelFileList = []
+        this.uploadExcelDialog = true
+    }
 }
 </script>
 <style scoped>

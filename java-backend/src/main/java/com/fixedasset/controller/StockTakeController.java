@@ -65,4 +65,11 @@ public class StockTakeController extends BaseController {
         return Result.succ(stockTakeService.getAllActiveFinish());
     }
 
+    @PostMapping("/upload")
+    public Result uploadExcel(@RequestBody StockTake stockTake) {
+        stockTakeService.uploadStockTakeReocrd(stockTake);
+        return Result.succ(stockTake);
+        
+    }
+
 }

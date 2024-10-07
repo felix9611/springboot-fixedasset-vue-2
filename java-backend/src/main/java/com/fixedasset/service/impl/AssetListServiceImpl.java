@@ -404,6 +404,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     public AssetList findOneByAssetCode(AssetList assetList) {
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AssetList::getAssetCode, assetList.getAssetCode());
+        queryWrapper.eq(AssetList::getStatu, 1);
         return assetListMapper.selectOne(queryWrapper);
     }
 

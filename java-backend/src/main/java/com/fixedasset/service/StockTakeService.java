@@ -20,4 +20,6 @@ public interface StockTakeService extends IService<StockTake> {
     void finish(Long id);
 
     Page<StockTakeFormListDTO> newPage(Page page, LambdaQueryWrapper<StockTake> queryWrapper);
+
+    void uploadStockTakeReocrd(StockTake stockTake);
 }
