@@ -6,8 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.dto.StockTakeFormListDTO;
 import com.fixedasset.dto.StockTakeItemListDTO;
+import com.fixedasset.entity.StockTake;
 import com.fixedasset.entity.StockTakeItem;
 import com.fixedasset.service.StockTakeItemService;
+
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,4 +43,5 @@ public class StockTakeItemController extends BaseController {
         stockTakeItemService.saveStock(stockTakeItem);
         return Result.succ(stockTakeItem);
     }
+
 }

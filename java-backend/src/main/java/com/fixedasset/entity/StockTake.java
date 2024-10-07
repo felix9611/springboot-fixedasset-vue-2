@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fixedasset.dto.StockTakeItemListRecord;
+
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 @Data
@@ -37,4 +40,10 @@ public class StockTake implements Serializable {
 
     @TableField(exist = false)
     private int limit;
+
+    @TableField(exist = false)
+    private List<StockTakeItem> stockTakeItems;
+
+    @TableField(exist = false)
+    private List<StockTakeItemListRecord> stockTakeItemRecords;
 }
