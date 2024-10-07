@@ -10,6 +10,9 @@ import com.fixedasset.entity.Department;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.DepartmentMapper;
 import com.fixedasset.service.DepartmentService;
+
+import freemarker.template.utility.DeepUnwrap;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -77,15 +80,24 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     public void update(Department department) {
-        actionRecord.setActionName("Update");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Asset Type Manger");
-        actionRecord.setActionData(department.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        LambdaQueryWrapper<Department> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Department::getId, department.getId());
+        queryWrapper.eq(Department::getStatu, 1);
+        Department checkOne = departmentMapper.selectOne(queryWrapper);
 
-        departmentMapper.updateById(department);
+        if (checkOne.getId().equals(department.getId())) {
+            actionRecord.setActionName("Update");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Asset Type Manger");
+            actionRecord.setActionData(department.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+
+            departmentMapper.updateById(department);
+        } else {
+            throw new RuntimeException("Not active data in records!");
+        }
     }
 
     public List<Department> getAll() {
