@@ -89,7 +89,7 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
         LambdaQueryWrapper<CodeType> queryWrapper = Wrappers.lambdaQuery();
 
         if (!codeType.getValueCode().isEmpty()) {
-            queryWrapper.eq(CodeType::getValueCode, codeType.getValueCode());
+            queryWrapper.eq(CodeType::getId, id);
         }
         queryWrapper.eq(CodeType::getStatu, 1);
         CodeType checkOne = codeTypeMapper.selectOne(queryWrapper);
