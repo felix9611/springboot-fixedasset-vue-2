@@ -63,20 +63,16 @@ public class SysMenuController extends BaseController {
     @PreAuthorize("hasAuthority('sys:menu:save')")
     public Result save(@Validated @RequestBody SysMenu sysMenu) {
 
-        sysMenu.setCreated(LocalDateTime.now());
-        sysMenu.setStatu(1);
-        sysMenuService.save(sysMenu);
+        // sysMenu.setCreated(LocalDateTime.now());
+        // sysMenu.setStatu(1);
+        sysMenuService.createOneMeun(sysMenu);
         return Result.succ(sysMenu);
     }
 
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('sys:menu:update')")
     public Result update(@Validated @RequestBody SysMenu sysMenu) {
-
-        sysMenu.setUpdated(LocalDateTime.now());
-
-        sysMenuService.updateById(sysMenu);
-
+        sysMenuService.updateOne(sysMenu);
         // 清除所有与该菜单相关的权限缓存
         sysUserService.clearUserAuthorityInfoByMenuId(sysMenu.getId());
         return Result.succ(sysMenu);
@@ -91,12 +87,10 @@ public class SysMenuController extends BaseController {
             return Result.fail("请先删除子菜单");
         }
 
-        // 清除所有与该菜单相关的权限缓存
         sysUserService.clearUserAuthorityInfoByMenuId(id);
 
-        sysMenuService.removeById(id);
+        sysMenuService.voidOne(id);
 
-        // 同步删除中间关联表
         sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("menu_id", id));
         return Result.succ("");
     }
