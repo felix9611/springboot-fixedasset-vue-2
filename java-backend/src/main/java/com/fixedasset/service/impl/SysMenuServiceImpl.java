@@ -31,6 +31,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Resource private SysUserMapper sysUserMapper;
 
+    @Resource private SysMenuMapper sysMenuMapper;
+
     @Resource private SysMenu sysMenu;
 
     @Resource private ActionRecordMapper actionRecordMapper;
@@ -129,10 +131,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return finalMenus;
     }
 
-    public void createOneMeun(SysMenu menu) {
+    public void createOneMeun(SysMenu sysMenu) {
         LambdaQueryWrapper<SysMenu> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysMenu::getName, menu.getName());
-        queryWrapper.eq(SysMenu::getPath, menu.getPath());
+        queryWrapper.eq(SysMenu::getName, sysMenu.getName());
+        queryWrapper.eq(SysMenu::getPath, sysMenu.getPath());
         queryWrapper.eq(SysMenu::getStatu, 1);
         SysMenu checkOne = this.getOne(queryWrapper);
 
@@ -140,7 +142,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             sysMenu.setCreated(LocalDateTime.now());
             sysMenu.setStatu(1);
 
-            this.save(checkOne);
+            sysMenuMapper.insert(sysMenu);
 
             actionRecord.setActionName("Create");
             actionRecord.setActionMethod("POST");
@@ -155,15 +157,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
     }
 
-    public void updateOne(SysMenu menu) {
+    public void updateOne(SysMenu sysMenu) {
         LambdaQueryWrapper<SysMenu> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysMenu::getId, menu.getId());
+        queryWrapper.eq(SysMenu::getId, sysMenu.getId());
         queryWrapper.eq(SysMenu::getStatu, 1);
         SysMenu checkOne = this.getOne(queryWrapper);
 
-        if (checkOne.getId().equals(menu.getId())) {
+        if (checkOne.getId().equals(sysMenu.getId())) {
             sysMenu.setUpdated(LocalDateTime.now());
-            this.updateById(menu);
+            sysMenuMapper.updateById(sysMenu);
 
             actionRecord.setActionName("Update");
             actionRecord.setActionMethod("POST");
@@ -186,7 +188,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if (checkOne.getId().equals(id)) {
             sysMenu.setUpdated(LocalDateTime.now());
             sysMenu.setStatu(0);
-            this.updateById(checkOne);
+            sysMenuMapper.updateById(sysMenu);
 
             actionRecord.setActionName("Update");
             actionRecord.setActionMethod("POST");
@@ -204,3 +206,4 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return actionRecordMapper.insert(actionRecord);
     }
 }
+
