@@ -91,13 +91,6 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
-                </el-form-item>
-
-                <el-form-item>
                     <el-button @click="assetAllList">Find</el-button>
                 </el-form-item>
 
@@ -108,7 +101,13 @@
                     <el-button type="primary" @click="goToCreate()">New Create</el-button>
                 </el-form-item>
 
-                
+                <el-form-item>
+                    <el-button @click="clickUploadExcelDialog">Upload Excel</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
+                </el-form-item>
+
             </el-form>
         </div>
 
