@@ -69,13 +69,11 @@
 
                 <template slot-scope="scope">
                     <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
-                    <el-divider direction="vertical"></el-divider>
-
-                    <template>
+              <!--  <template>
                         <el-popconfirm title="Is this a piece of content to delete?" confirm-button-text="Confirm" cancel-button-text="Cancel" @onConfirm="delHandle(scope.row.id)">
                             <el-button size="mini" type="danger" slot="reference">Remove</el-button>
                         </el-popconfirm>
-                    </template>
+                    </template>-->
 
                 </template>
             </el-table-column>
@@ -150,6 +148,20 @@
             </el-form>
 
         </el-dialog>
+
+        <el-dialog
+                title="Role Void"
+                :visible.sync="voidDialogVisible"
+                width="600px">
+                    <div class="text-center p-2">
+                        <span class="text-[1.1rem]">Are you sure to delete this menu item?</span>
+                        <div class="flex gap-3 items-center justify-center text-[1.1rem]">
+                            <button class="border border-2 rounded-md bg-[#ffadad] hover:bg-[#ff7575] p-1 text-white px-5" @click="delHandle()">Sure</button>
+                            <button class="btn border border-1 rounded-md p-1 px-6 bg-[#ececec] hover:bg-[#d0d0d0]" @click="voidDialogVisible = false">No</button>
+                            
+                        </div>
+                    </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -159,8 +171,9 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Menu extends Vue {
+    voidReadyId: number = 0
     editForm: any = {}
-
+    voidDialogVisible: boolean = false
     dialogVisible: boolean = false
     editFormRules =  {
         parentId: [
@@ -234,8 +247,9 @@ export default class Menu extends Vue {
         this.resetForm('editForm')
     }
 
-    delHandle(id: number) {
-        axios.post(`/sys/menu/delete/${id}`).then(res => {
+    delHandle() {
+       
+        axios.post(`/sys/menu/delete/${this.voidReadyId}`).then(res => {
             this.getMenuTree()
             if(res.data.code === 200) {
                 this.$notify({
@@ -244,8 +258,14 @@ export default class Menu extends Vue {
                     message: 'Action is successful ',
                     type: 'success'
                 })
+                this.voidDialogVisible = false
             }
         })
+    }
+
+    openTheVoidUserDialog(id: number) {
+        this.voidDialogVisible = true
+        this.voidReadyId = id
     }
 }
 </script>
