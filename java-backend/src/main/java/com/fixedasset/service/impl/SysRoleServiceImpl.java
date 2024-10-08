@@ -64,7 +64,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         queryWrapper.eq(SysRole::getName, newData.getName());
         queryWrapper.eq(SysRole::getStatu, 1);
         SysRole checkOne = this.getOne(queryWrapper);
-        if (checkOne != null) {
+        if (checkOne == null) {
             sysRole.setCreated(LocalDateTime.now());
             sysRole.setStatu(0);
             sysRoleMapper.insert(newData);
