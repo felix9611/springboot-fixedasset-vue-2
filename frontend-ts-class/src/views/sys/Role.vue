@@ -202,13 +202,13 @@ export default class Role extends Vue {
 
     editFormRules = {
         name: [
-            { required: true, message: '请输入角色名称', trigger: 'blur'}
+            { required: true, message: 'Please enter a role name', trigger: 'blur'}
         ],
         code: [
-            { required: true, message: '请输入唯一编码', trigger: 'blur'}
+            { required: true, message: 'Please enter unique code', trigger: 'blur'}
         ],
         statu: [
-            { required: true, message: '请选择状态', trigger: 'blur'}
+            { required: true, message: 'Please select status', trigger: 'blur'}
         ]
     }
     multipleSelection: any = []

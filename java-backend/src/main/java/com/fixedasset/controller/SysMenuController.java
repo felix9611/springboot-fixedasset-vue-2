@@ -22,20 +22,15 @@ import java.util.List;
 @RequestMapping("/sys/menu")
 public class SysMenuController extends BaseController {
 
-    /**
-     * 获取当前用户菜单
-     * @param principal
-     * @return
-     */
     @GetMapping("/nav")
     public Result nav(Principal principal) {
         SysUser sysUser = sysUserService.getByUsername(principal.getName());
 
-        // 获取权限信息
+        // Get perm
         String authorityInfo = sysUserService.getUserAuthorityInfo(sysUser.getId());
         String[] authorityInfoArray = StringUtils.tokenizeToStringArray(authorityInfo, ",");
 
-        // 获取菜单
+        // Get Menus
         List<SysMenuDto> navs = sysMenuService.getCurrentUserNav();
 
         return Result.succ(MapUtil.builder()
@@ -73,7 +68,7 @@ public class SysMenuController extends BaseController {
     @PreAuthorize("hasAuthority('sys:menu:update')")
     public Result update(@Validated @RequestBody SysMenu sysMenu) {
         sysMenuService.updateOne(sysMenu);
-        // 清除所有与该菜单相关的权限缓存
+        // Clear all permission cache related to this menu
         sysUserService.clearUserAuthorityInfoByMenuId(sysMenu.getId());
         return Result.succ(sysMenu);
     }
@@ -84,7 +79,7 @@ public class SysMenuController extends BaseController {
 
         int count = sysMenuService.count(new QueryWrapper<SysMenu>().eq("parent_id", id));
         if (count > 0) {
-            return Result.fail("请先删除子菜单");
+            return Result.fail("Please delete the submenu first");
         }
 
         sysUserService.clearUserAuthorityInfoByMenuId(id);
