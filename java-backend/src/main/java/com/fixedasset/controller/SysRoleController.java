@@ -58,25 +58,15 @@ public class SysRoleController extends BaseController {
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('sys:role:save')")
     public Result save(@Validated @RequestBody SysRole sysRole) {
-
-        sysRole.setCreated(LocalDateTime.now());
-        sysRole.setStatu(Const.STATUS_ON);
-
         sysRoleService.createNewRole(sysRole);
         return Result.succ(sysRole);
-
     }
 
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('sys:role:update')")
     public Result update(@Validated @RequestBody SysRole sysRole) {
-
-        sysRole.setUpdated(LocalDateTime.now());
-
         sysRoleService.updateRole(sysRole);
-
         sysUserService.clearUserAuthorityInfoByRoleId(sysRole.getId());
-
         return Result.succ(sysRole);
     }
 
