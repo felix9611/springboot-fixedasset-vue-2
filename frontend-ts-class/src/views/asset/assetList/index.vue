@@ -399,6 +399,11 @@ export default class AssetList extends Vue {
 
     photoViewDialog: boolean = false
 
+    
+    clearFile() {
+        this.fileList = []
+    }
+
     goToCreate() {
         this.$router.push({ path: '/asset/assetList/create' })
     }

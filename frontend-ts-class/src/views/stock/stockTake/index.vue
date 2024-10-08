@@ -206,6 +206,11 @@ export default class Stocktake extends Vue {
     statusItemNew: any = []
     excelFileList: any = []
     uploadExcelDialog: boolean = false
+
+    
+    clearFile() {
+        this.excelFileList = []
+    }
     
 
     created() {
