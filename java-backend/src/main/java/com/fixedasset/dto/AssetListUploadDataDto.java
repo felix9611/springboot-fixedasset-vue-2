@@ -20,7 +20,7 @@ public class AssetListUploadDataDto {
 
     @Transient private String unit;
 
-    @Transient private LocalDateTime buyDate;
+    @Transient private String buyDate;
 
     @Transient private String description;
 
@@ -34,7 +34,7 @@ public class AssetListUploadDataDto {
 
     @Transient private String invoiceNo;
 
-    @Transient private LocalDateTime invoiceDate;
+    @Transient private String invoiceDate;
 
     @Transient private String invoiceRemark;
 
@@ -86,13 +86,13 @@ public class AssetListUploadDataDto {
 
     @Transient private String chequeNo;
 
-    @Transient private LocalDateTime maintenancePeriodStart;
+    @Transient private String maintenancePeriodStart;
 
-    @Transient private LocalDateTime maintenancePeriodEnd;
+    @Transient private String maintenancePeriodEnd;
 
     @Transient private String voucherNo;
 
-    @Transient private LocalDateTime voucherUsedDate;
+    @Transient private String voucherUsedDate;
 
     @Transient private String remark;
 }

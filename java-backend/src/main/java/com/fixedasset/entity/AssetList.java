@@ -25,7 +25,7 @@ public class AssetList extends BaseEntity{
     private String unit;
 
     @TableField("buy_date")
-    private LocalDateTime buyDate;
+    private String buyDate;
 
     @TableField("description")
     private String description;
@@ -46,7 +46,7 @@ public class AssetList extends BaseEntity{
     private String invoiceNo;
 
     @TableField("invoice_date")
-    private LocalDateTime invoiceDate;
+    private String invoiceDate;
 
     @TableField("invoice_remark")
     private String invoiceRemark;
@@ -97,16 +97,16 @@ public class AssetList extends BaseEntity{
     private String chequeNo;
 
     @TableField("maintenance_period_start")
-    private LocalDateTime maintenancePeriodStart;
+    private String maintenancePeriodStart;
 
     @TableField("maintenance_period_end")
-    private LocalDateTime maintenancePeriodEnd;
+    private String maintenancePeriodEnd;
 
     @TableField("voucher_no")
     private String voucherNo;
 
     @TableField("Voucher_used_date")
-    private LocalDateTime voucherUsedDate;
+    private String voucherUsedDate;
 
     @TableField(exist = false)
     private int page;
@@ -115,10 +115,10 @@ public class AssetList extends BaseEntity{
     private int limit;
 
     @TableField(exist = false)
-    private LocalDateTime buyDateTo;
+    private String buyDateTo;
 
     @TableField(exist = false)
-    private LocalDateTime buyDateFrom;
+    private String buyDateFrom;
 
     @TableField(exist = false)
     private List<AssetListFile> assetListFiles;

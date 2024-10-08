@@ -9,6 +9,14 @@
                             clearable
                     >
                     </el-input>
+                </el-form-item>     
+
+                <el-form-item>
+                    <el-button @click="deptAllList">Find</el-button>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="dialogVisible = true">Create</el-button>
                 </el-form-item>
 
                 <el-form-item>
@@ -17,14 +25,6 @@
 
                 <el-form-item>
                     <el-button @click="clickUploadDialog">Upload Excel</el-button>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button @click="deptAllList">Find</el-button>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button type="primary" @click="dialogVisible = true">Create</el-button>
                 </el-form-item>
             </el-form>
         </div>
