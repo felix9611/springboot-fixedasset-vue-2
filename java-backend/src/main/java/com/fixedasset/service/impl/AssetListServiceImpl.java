@@ -127,7 +127,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         queryWrapper.eq(AssetList::getSponsor, 1);
         queryWrapper.isNotNull(AssetList::getSponsorName);
 
-        return assetListMapper.sumCostWithSponsor(queryWrapper);
+        return assetListMapper.sumCost(queryWrapper);
     }
 
     public String createNew(AssetList assetList) {

@@ -11,7 +11,7 @@
             LEFT JOIN asset_type AS at ON al.type_id = at.id 
             LEFT JOIN department AS d ON al.dept_id = d.id 
             LEFT JOIN location AS lo ON al.place_id = lo.id
-        ) AS q ${ew.customSqlSegment};
+        ) AS q ${ew.customSqlSegment}
     </select>
 
     <select id="newReport" resultType="com.fixedasset.dto.AssetListViewDTO"> 
@@ -24,7 +24,7 @@
             LEFT JOIN asset_type AS at ON al.type_id = at.id 
             LEFT JOIN department AS d ON al.dept_id = d.id 
             LEFT JOIN location AS lo ON al.place_id = lo.id
-        ) AS q ${ew.customSqlSegment};
+        ) AS q ${ew.customSqlSegment}
     </select>
 
     <select id="pageInWriteOff" resultType="com.fixedasset.dto.AssetListViewDTO"> 
@@ -39,7 +39,7 @@
             LEFT JOIN department AS d ON al.dept_id = d.id 
             LEFT JOIN location AS lo ON al.place_id = lo.id 
             LEFT JOIN write_off AS wo ON al.id = wo.asset_id
-        ) AS q ${ew.customSqlSegment};
+        ) AS q ${ew.customSqlSegment}
     </select>
 
     <select id="getCostWithDept" resultType="com.fixedasset.dto.CostWithDeptDto">
@@ -132,6 +132,10 @@
             FROM fixedasset_springboot_vue_3.asset_list 
             left join location on asset_list .place_id = location.id 
              ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date);
+    </select>
+
+    <select id="sumCost" resultType="java.lang.Integer"> 
+        SELECT sum(cost) as costs FROM asset_list ${ew.customSqlSegment}
     </select>
 
 </mapper>
