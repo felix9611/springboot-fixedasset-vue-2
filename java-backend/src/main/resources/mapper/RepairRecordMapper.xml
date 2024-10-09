@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fixedasset.mapper.RepairRecordMapper">
+
+
+    <select id="pageNew" resultType="com.fixedasset.dto.RepairRecordListDto"> 
+        SELECT * from (
+            SELECT rr.status as status, rr.id id, al.asset_code as assetCode, al.asset_name as assetName, rr.repair_reason as repairReason, 
+            rr.maintenance_date as maintenanceDate, rr.repair_amount as repairAmount, rr.created as created, rr.updated as updated 
+            from repair_record rr left join asset_list al on rr.asset_id = al.id
+        ) AS q ${ew.customSqlSegment}
+    </select>
+
+    <select id="getRecordById" resultType="com.fixedasset.entity.RepairRecord"> 
+       SELECT al.asset_code as assetCode, al.asset_name asassetName, rr.* 
+       from repair_record rr 
+       left join asset_list al on rr.asset_id = al.id 
+       where rr.id = #{repairId}
+    </select>
+</mapper>
