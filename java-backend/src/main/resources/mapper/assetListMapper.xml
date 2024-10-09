@@ -42,7 +42,83 @@
         ) AS q ${ew.customSqlSegment};
     </select>
 
+    <select id="getCostWithDept" resultType="com.fixedasset.dto.CostWithDeptDto">
+        SELECT sum(al.cost) as totalCost, d.dept_name as deptName 
+            FROM asset_list as al 
+            left join department as d on al.dept_id = d.id 
+            where al.statu = 1 and al.sponsor = 0 and al.sponsor_name is null 
+            group by al.dept_id;
+    </select>
 
+    <select id="assetYearCostDeptFind" resultType="com.fixedasset.dto.AssetYearCostDept">
+        SELECT sum(cost) as costs, CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth, 
+            dept.dept_name as deptName 
+            FROM fixedasset_springboot_vue_3.asset_list  
+            left join department as dept on asset_list.dept_id = dept.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)), dept_id  
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)), dept_id;
+    </select>
+
+    <select id="getItemYearMonthFind" resultType="com.fixedasset.dto.AssetItemYearMonthDto">
+        SELECT 
+            count(*) as items,
+            CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth 
+            FROM asset_list 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;
+    </select>
+
+    <select id="assetYearCostTypeFind" resultType="com.fixedasset.dto.AssetYearCostType">
+        SELECT sum(cost) as costs,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName 
+            FROM asset_list 
+            left join asset_type as at on asset_list.type_id = at.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , type_id 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;
+    </select>
+
+    <select id="groupByTypeFind" resultType="com.fixedasset.dto.GroupByAssetOfTypeDto">
+        SELECT at.type_name as typeName , count(*) as items 
+            FROM asset_list as al 
+            left join asset_type as at on al.type_id = at.id 
+             ${ew.customSqlSegment} 
+            group by type_id;
+    </select>
+
+    <select id="getAssetGroupPlaceFind" resultType="com.fixedasset.dto.AssetGroupPlaceDto">
+        SELECT count(*) as items, loc.place_name as placeName 
+            FROM asset_list as al 
+            left join location as loc on al.place_id = loc.id 
+             ${ew.customSqlSegment} 
+            group by al.place_id;
+    </select>
+
+    <select id="getAssetYearQtyTypeFind" resultType="com.fixedasset.dto.AssetYearQtyType">
+        SELECT count(*) as items,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName 
+            FROM asset_list 
+            left join asset_type as at on asset_list.type_id = at.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , type_id 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;
+    </select>
+
+    <select id="getAssetYearQtyDeptFind" resultType="com.fixedasset.dto.AssetYearQtyDept">
+        SELECT count(*) as items,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , dept.dept_name as deptName 
+            FROM asset_list 
+            left join department as dept on asset_list.dept_id = dept.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , dept_id 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) ASC;
+    </select>
+
+    <select id="getAssetCostYearMonthFind" resultType="com.fixedasset.dto.AssetCostYearMonthDto"> 
+        SELECT sum(cost) as costs ,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) as yearMonth FROM fixedasset_springboot_vue_3.asset_list 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date));
+    </select>
 
     <select id="getAssetYearQtyPlaceFind" resultType="com.fixedasset.dto.AssetYearQtyPlaceDto"> 
         SELECT count(*) as items, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months 
