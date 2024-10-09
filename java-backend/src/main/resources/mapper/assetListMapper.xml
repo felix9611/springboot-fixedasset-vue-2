@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fixedasset.mapper.AssetListMapper">
+    <select id="pageAndList" resultType="com.fixedasset.dto.AssetListViewDTO"> 
+        SELECT * from (
+            SELECT al.* ,
+            at.type_name AS typeName, at.type_code AS typeCode, 
+            d.dept_name AS deptName, d.dept_code AS deptCode, 
+            lo.place_code AS placeCode, lo.place_name AS placeName 
+            FROM asset_list AS al 
+            LEFT JOIN asset_type AS at ON al.type_id = at.id 
+            LEFT JOIN department AS d ON al.dept_id = d.id 
+            LEFT JOIN location AS lo ON al.place_id = lo.id
+        ) AS q ${ew.customSqlSegment};
+    </select>
+
+    <select id="newReport" resultType="com.fixedasset.dto.AssetListViewDTO"> 
+        SELECT * from (
+            SELECT al.* ,
+            at.type_name AS typeName, at.type_code AS typeCode, 
+            d.dept_name AS deptName, d.dept_code AS deptCode, 
+            lo.place_code AS placeCode, lo.place_name AS placeName 
+            FROM asset_list AS al 
+            LEFT JOIN asset_type AS at ON al.type_id = at.id 
+            LEFT JOIN department AS d ON al.dept_id = d.id 
+            LEFT JOIN location AS lo ON al.place_id = lo.id
+        ) AS q ${ew.customSqlSegment};
+    </select>
+
+    <select id="pageInWriteOff" resultType="com.fixedasset.dto.AssetListViewDTO"> 
+        SELECT * from (
+            SELECT al.* ,
+            at.type_name AS typeName, at.type_code AS typeCode, 
+            d.dept_name AS deptName, d.dept_code AS deptCode, 
+            lo.place_code AS placeCode, lo.place_name AS placeName , 
+            wo.reason As writeOffReason, wo.last_day AS writeOffTime 
+            FROM asset_list AS al 
+            LEFT JOIN asset_type AS at ON al.type_id = at.id 
+            LEFT JOIN department AS d ON al.dept_id = d.id 
+            LEFT JOIN location AS lo ON al.place_id = lo.id 
+            LEFT JOIN write_off AS wo ON al.id = wo.asset_id
+        ) AS q ${ew.customSqlSegment};
+    </select>
+
+
+
+    <select id="getAssetYearQtyPlaceFind" resultType="com.fixedasset.dto.AssetYearQtyPlaceDto"> 
+        SELECT count(*) as items, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months 
+            FROM fixedasset_springboot_vue_3.asset_list 
+            left join location on asset_list .place_id = location.id 
+             ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date);
+    </select>
+
+    <select id="getAssetYearCostPlaceFind" resultType="com.fixedasset.dto.AssetYearQtyPlaceDto"> 
+        SELECT sum(cost) as costs, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months 
+            FROM fixedasset_springboot_vue_3.asset_list 
+            left join location on asset_list .place_id = location.id 
+             ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date);
+    </select>
+
+</mapper>
