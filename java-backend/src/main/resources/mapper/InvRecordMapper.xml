@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fixedasset.mapper.InvRecordMapper">
+    <select id="pageAndList" resultType="com.fixedasset.dto.InvRecordListDto"> 
+        SELECT * from (
+            SELECT ir.*, 
+                lf.place_name as fromPlaceName, lt.place_name as toPlaceName,
+                lf.place_code as fromPlaceCode, lt.place_code as toPlaceCode 
+            FROM invrecord as ir 
+            left join location as lf ON ir.place_from = lf.id
+            left join location as lt ON ir.place_to = lt.id
+        ) AS q ${ew.customSqlSegment}
+    </select>
+</mapper>

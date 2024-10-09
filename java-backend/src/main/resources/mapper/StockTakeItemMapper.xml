@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fixedasset.mapper.StockTakeItemMapper">
+    <select id="listItem" resultType="com.fixedasset.dto.StockTakeItemListDTO"> 
+        SELECT si.* ,
+            al.asset_code as assetCode, al.asset_name as assetName, 
+            lo.place_code AS placeCode, lo.place_name AS placeName 
+            FROM stocktake_item AS si 
+            LEFT JOIN location AS lo ON si.place_id = lo.id 
+            LEFT JOIN asset_list AS al ON si.asset_code = al.asset_code where si.stocktake_id = #{stockTakeId}
+    </select>
+</mapper>

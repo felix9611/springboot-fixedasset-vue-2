@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fixedasset.mapper.StockTakeMapper">
+    <select id="getALL" resultType="com.fixedasset.entity.StockTake"> 
+        Select * from stocktake where active = 1
+    </select>
+
+    <select id="getALLFinished" resultType="com.fixedasset.entity.StockTake"> 
+        Select * from stocktake where active = 2
+    </select>
+
+    <select id="newPage" resultType="com.fixedasset.dto.StockTakeFormListDTO"> 
+        SELECT * from (
+            SELECT st.*, st.created_time as createdAt,
+            lo.place_code AS placeCode, lo.place_name AS placeName 
+            FROM stocktake AS st 
+            LEFT JOIN location AS lo ON st.action_place = lo.id
+        ) AS q ${ew.customSqlSegment}
+    </select>
+</mapper>

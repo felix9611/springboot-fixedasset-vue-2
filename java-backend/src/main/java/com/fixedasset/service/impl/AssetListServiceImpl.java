@@ -64,7 +64,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource private VendorService vendorService;
 
     public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
-        return this.assetListMapper.page(page, queryWrapper);
+        return this.assetListMapper.pageAndList(page, queryWrapper);
     }
 
     public List<AssetListViewDTO> newPageInWriteOff(LambdaQueryWrapper<AssetList> queryWrapper){
@@ -127,7 +127,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         queryWrapper.eq(AssetList::getSponsor, 1);
         queryWrapper.isNotNull(AssetList::getSponsorName);
 
-        return assetListMapper.sumCostWithSponsor(queryWrapper);
+        return assetListMapper.sumCost(queryWrapper);
     }
 
     public String createNew(AssetList assetList) {

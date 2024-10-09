@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fixedasset.mapper.AssetListMapper">
+    <select id="pageAndList" resultType="com.fixedasset.dto.AssetListViewDTO"> 
+        SELECT * from (
+            SELECT al.* ,
+            at.type_name AS typeName, at.type_code AS typeCode, 
+            d.dept_name AS deptName, d.dept_code AS deptCode, 
+            lo.place_code AS placeCode, lo.place_name AS placeName 
+            FROM asset_list AS al 
+            LEFT JOIN asset_type AS at ON al.type_id = at.id 
+            LEFT JOIN department AS d ON al.dept_id = d.id 
+            LEFT JOIN location AS lo ON al.place_id = lo.id
+        ) AS q ${ew.customSqlSegment}
+    </select>
+
+    <select id="newReport" resultType="com.fixedasset.dto.AssetListViewDTO"> 
+        SELECT * from (
+            SELECT al.* ,
+            at.type_name AS typeName, at.type_code AS typeCode, 
+            d.dept_name AS deptName, d.dept_code AS deptCode, 
+            lo.place_code AS placeCode, lo.place_name AS placeName 
+            FROM asset_list AS al 
+            LEFT JOIN asset_type AS at ON al.type_id = at.id 
+            LEFT JOIN department AS d ON al.dept_id = d.id 
+            LEFT JOIN location AS lo ON al.place_id = lo.id
+        ) AS q ${ew.customSqlSegment}
+    </select>
+
+    <select id="pageInWriteOff" resultType="com.fixedasset.dto.AssetListViewDTO"> 
+        SELECT * from (
+            SELECT al.* ,
+            at.type_name AS typeName, at.type_code AS typeCode, 
+            d.dept_name AS deptName, d.dept_code AS deptCode, 
+            lo.place_code AS placeCode, lo.place_name AS placeName , 
+            wo.reason As writeOffReason, wo.last_day AS writeOffTime 
+            FROM asset_list AS al 
+            LEFT JOIN asset_type AS at ON al.type_id = at.id 
+            LEFT JOIN department AS d ON al.dept_id = d.id 
+            LEFT JOIN location AS lo ON al.place_id = lo.id 
+            LEFT JOIN write_off AS wo ON al.id = wo.asset_id
+        ) AS q ${ew.customSqlSegment}
+    </select>
+
+    <select id="getCostWithDept" resultType="com.fixedasset.dto.CostWithDeptDto">
+        SELECT sum(al.cost) as totalCost, d.dept_name as deptName 
+            FROM asset_list as al 
+            left join department as d on al.dept_id = d.id 
+            where al.statu = 1 and al.sponsor = 0 and al.sponsor_name is null 
+            group by al.dept_id;
+    </select>
+
+    <select id="assetYearCostDeptFind" resultType="com.fixedasset.dto.AssetYearCostDept">
+        SELECT sum(cost) as costs, CONCAT(YEAR(asset_list.buy_date), '-', MONTH(asset_list.buy_date)) AS yearMonth, 
+            dept.dept_name as deptName 
+            FROM fixedasset_springboot_vue_3.asset_list  
+            left join department as dept on asset_list.dept_id = dept.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)), dept_id  
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)), dept_id;
+    </select>
+
+    <select id="getItemYearMonthFind" resultType="com.fixedasset.dto.AssetItemYearMonthDto">
+        SELECT 
+            count(*) as items,
+            CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth 
+            FROM asset_list 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;
+    </select>
+
+    <select id="assetYearCostTypeFind" resultType="com.fixedasset.dto.AssetYearCostType">
+        SELECT sum(cost) as costs,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName 
+            FROM asset_list 
+            left join asset_type as at on asset_list.type_id = at.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , type_id 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;
+    </select>
+
+    <select id="groupByTypeFind" resultType="com.fixedasset.dto.GroupByAssetOfTypeDto">
+        SELECT at.type_name as typeName , count(*) as items 
+            FROM asset_list as al 
+            left join asset_type as at on al.type_id = at.id 
+             ${ew.customSqlSegment} 
+            group by type_id;
+    </select>
+
+    <select id="getAssetGroupPlaceFind" resultType="com.fixedasset.dto.AssetGroupPlaceDto">
+        SELECT count(*) as items, loc.place_name as placeName 
+            FROM asset_list as al 
+            left join location as loc on al.place_id = loc.id 
+             ${ew.customSqlSegment} 
+            group by al.place_id;
+    </select>
+
+    <select id="getAssetYearQtyTypeFind" resultType="com.fixedasset.dto.AssetYearQtyType">
+        SELECT count(*) as items,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , at.type_name as typeName 
+            FROM asset_list 
+            left join asset_type as at on asset_list.type_id = at.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , type_id 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date))  ASC;
+    </select>
+
+    <select id="getAssetYearQtyDeptFind" resultType="com.fixedasset.dto.AssetYearQtyDept">
+        SELECT count(*) as items,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) AS yearMonth , dept.dept_name as deptName 
+            FROM asset_list 
+            left join department as dept on asset_list.dept_id = dept.id 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) , dept_id 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) ASC;
+    </select>
+
+    <select id="getAssetCostYearMonthFind" resultType="com.fixedasset.dto.AssetCostYearMonthDto"> 
+        SELECT sum(cost) as costs ,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) as yearMonth FROM fixedasset_springboot_vue_3.asset_list 
+             ${ew.customSqlSegment} 
+            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) 
+            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date));
+    </select>
+
+    <select id="getAssetYearQtyPlaceFind" resultType="com.fixedasset.dto.AssetYearQtyPlaceDto"> 
+        SELECT count(*) as items, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months 
+            FROM fixedasset_springboot_vue_3.asset_list 
+            left join location on asset_list .place_id = location.id 
+             ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date);
+    </select>
+
+    <select id="getAssetYearCostPlaceFind" resultType="com.fixedasset.dto.AssetYearQtyPlaceDto"> 
+        SELECT sum(cost) as costs, location.place_name as placeName , YEAR(buy_date) as years, MONTH(buy_date) as months 
+            FROM fixedasset_springboot_vue_3.asset_list 
+            left join location on asset_list .place_id = location.id 
+             ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date);
+    </select>
+
+    <select id="sumCost" resultType="java.lang.Integer"> 
+        SELECT sum(cost) as costs FROM asset_list ${ew.customSqlSegment}
+    </select>
+
+</mapper>

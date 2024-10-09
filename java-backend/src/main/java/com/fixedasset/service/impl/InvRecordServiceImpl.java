@@ -31,7 +31,7 @@ public class InvRecordServiceImpl extends ServiceImpl<InvRecordMapper, InvRecord
     @Resource private ActionRecord actionRecord;
 
     public Page<InvRecordListDto> newPage(Page page, LambdaQueryWrapper<FindInvRecordDto> queryWrapper) {
-        return invRecordMapper.page(page, queryWrapper);
+        return invRecordMapper.pageAndList(page, queryWrapper);
     }
 
     public void saveRecord(int assetId, int newPlaceId) {
