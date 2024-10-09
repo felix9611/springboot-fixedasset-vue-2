@@ -7,7 +7,5 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface DepartmentMapper extends BaseMapper<Department> {
-
-    @Select("Select * from Department where statu = 1")
     List<Department> getALL();
 }
