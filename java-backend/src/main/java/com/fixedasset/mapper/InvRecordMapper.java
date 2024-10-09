@@ -17,6 +17,6 @@ public interface InvRecordMapper extends BaseMapper<InvRecord> {
             "left join location as lf ON ir.place_from = lf.id\n" +
             "left join location as lt ON ir.place_to = lt.id";
 
-    @Select("SELECT * from (" + querySQL + " ) AS q ${ew.customSqlSegment}")
-    Page<InvRecordListDto> page(Page page, @Param("ew") Wrapper queryWrapper);
+   // @Select("SELECT * from (" + querySQL + " ) AS q ${ew.customSqlSegment}")
+    Page<InvRecordListDto> pageAndList(Page page, @Param("ew") Wrapper queryWrapper);
 }
