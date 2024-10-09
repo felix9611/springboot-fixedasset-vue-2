@@ -23,11 +23,11 @@ public class RepairRecordListDto extends RepairRecord{
 
     @Transient private String maintenanceName;
 
-    @Transient private LocalDateTime maintenanceDate;
+    @Transient private String maintenanceDate;
 
-    @Transient private LocalDateTime maintenanceFinishDate;
+    @Transient private String maintenanceFinishDate;
 
-    @Transient private LocalDateTime repairInvoiceDate;
+    @Transient private String repairInvoiceDate;
 
     @Transient private String repairInvoiceNo;
 

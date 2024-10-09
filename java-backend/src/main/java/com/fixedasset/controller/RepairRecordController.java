@@ -5,11 +5,15 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.dto.RepairRecordListDto;
+import com.fixedasset.entity.Location;
 import com.fixedasset.entity.RepairRecord;
 import com.fixedasset.service.RepairRecordService;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.List;
+
 @RestController
 @RequestMapping("/asset/asset-repair")
 public class RepairRecordController {
@@ -28,6 +32,12 @@ public class RepairRecordController {
         queryWrapper.eq(RepairRecord::getStatus, 1);
         Page<RepairRecordListDto> iPage = repairRecordService.newPage(page, queryWrapper);
         return Result.succ(iPage);
+    }
+
+    @PostMapping("/batch-create")
+    public Result batchCreate(@RequestBody List<RepairRecord> rapairRecords) {
+        repairRecordService.importData(rapairRecords);
+        return Result.succ(rapairRecords);
     }
 
     @GetMapping("/{id}")

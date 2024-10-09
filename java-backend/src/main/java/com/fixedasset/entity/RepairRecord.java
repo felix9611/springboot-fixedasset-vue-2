@@ -29,13 +29,13 @@ public class RepairRecord {
     private String maintenanceName;
 
     @TableField("maintenance_date")
-    private LocalDateTime maintenanceDate;
+    private String maintenanceDate;
 
     @TableField("maintenance_finish_date")
-    private LocalDateTime maintenanceFinishDate;
+    private String maintenanceFinishDate;
 
     @TableField("repair_invoice_date")
-    private LocalDateTime repairInvoiceDate;
+    private String repairInvoiceDate;
 
     @TableField("repair_invoice_no")
     private String repairInvoiceNo;
@@ -65,7 +65,7 @@ public class RepairRecord {
     private String assetCode;
 
     @TableField(exist = false)
-    private String  assetName;
+    private String assetName;
 
     @TableField(exist = false)
     private LocalDateTime repairInvoiceDateTo;
