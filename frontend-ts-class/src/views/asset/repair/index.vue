@@ -20,8 +20,34 @@
                 <el-form-item>
                     <el-button type="primary" @click="dialogVisible = true">Create</el-button>
                 </el-form-item>
+
+                <el-form-item>
+                    <el-button @click="downloadTemplateExcel()">Download Template Excel</el-button>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button @click="clickUploadDialog">Upload Excel</el-button>
+                </el-form-item>
             </el-form>
         </div>
+
+        <el-dialog
+                title="Upload Excel"
+                :visible.sync="uploaderDialog"
+                width="700px"
+                :before-close="closerUploadDialog">
+                <el-upload
+                        class="upload-demo"
+                        :auto-upload="false"
+                        :file-list="fileList"
+                        :on-change="uploadFile"
+                        :on-remove="clearFile"
+                        >
+                        <el-button size="small" type="primary">Upload</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+        </el-dialog>
+
         <div class="handle-box">
 
             <el-table
@@ -144,6 +170,8 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import moment from 'moment'
 import axios from '@/axios'
+import { downloadTempExcelFile, formatJson, readExcel } from '@/utils/importExcel'
+import { excelHeader, valueFields } from './excelHeaders'
 
 @Component
 export default class RepairRecord extends Vue {
@@ -163,6 +191,8 @@ export default class RepairRecord extends Vue {
 
     delBtlStatu: boolean = true
     multipleSelection: any = []
+    uploaderDialog: any = false
+    fileList: any = []
 
     total: number = 0
     size: number
@@ -171,11 +201,51 @@ export default class RepairRecord extends Vue {
         this.allListHere()
     }
 
+    closerUploadDialog() {
+        this.uploaderDialog = false
+    }
+
+    clickUploadDialog() {
+        this.uploaderDialog = true
+    }
+
+    clearFile() {
+        this.fileList = []
+    }
+
     handleSelectionChange(val: any) {
         this.multipleSelection = val;
         this.delBtlStatu = val.length == 0
     }
 
+    downloadTemplateExcel() {
+        downloadTempExcelFile(excelHeader, 'Repair_Record_template.xlsx')
+    }
+
+    async uploadFile(file: any) {
+        const data = await readExcel(file)
+        const reData = formatJson(excelHeader, valueFields, data)
+
+        reData.map((re:any) => {
+            re.maintenanceReriod = re.maintenanceReriod === 'YES' ? 1: 0
+            return re
+        })
+
+        axios.post('/asset/asset-repair/batch-create', reData).then((res: any) => {
+            if (res) {
+                this.$notify({
+                    title: 'Msg',
+                    showClose: true,
+                    message: 'Upload success',
+                    type: 'success',
+                })
+                this.uploaderDialog = false
+                this.allListHere()
+                this.fileList = []
+                file = undefined
+            }
+        })
+    }
 
     allListHere() {
         console.log('here')

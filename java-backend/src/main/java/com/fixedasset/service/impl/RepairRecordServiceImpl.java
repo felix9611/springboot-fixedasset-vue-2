@@ -3,16 +3,22 @@ package com.fixedasset.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.dto.RepairRecordListDto;
 import com.fixedasset.entity.ActionRecord;
+import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.RepairRecord;
 import com.fixedasset.mapper.ActionRecordMapper;
+import com.fixedasset.mapper.AssetListMapper;
 import com.fixedasset.mapper.RepairRecordMapper;
+import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.RepairRecordService;
 import java.time.LocalDateTime;
 import javax.annotation.Resource;
 
+import org.apache.catalina.connector.Request;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 @Service
@@ -21,6 +27,9 @@ public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, Rep
     @Resource private ActionRecord actionRecord;
     @Resource private ActionRecordMapper actionRecordMapper;
     @Resource private RepairRecordMapper repairRecordMapper;
+    @Resource private AssetListService assetListService;
+    @Resource private AssetList assetList;
+    @Resource private AssetListMapper assetListMapper;
 
     /*
      public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
@@ -32,37 +41,73 @@ public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, Rep
         return repairRecordMapper.pageNew(page, queryWrapper);
      }
 
+    public void importData(List<RepairRecord> repairRecords) {
+        for (RepairRecord repairRecord : repairRecords) {
+          //  AssetList assetList = new AssetList();
+          //  assetList.setAssetCode(repairRecord.getAssetCode());
+          //  AssetList check = assetListService.findOneByAssetCode(assetList);
 
+            LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+            queryWrapper.eq(AssetList::getAssetCode, repairRecord.getAssetCode());
+            queryWrapper.eq(AssetList::getStatu, 1);
+            AssetList check = assetListMapper.selectOne(queryWrapper);
 
-    public void createNew(RepairRecord repairRecord) {
-        repairRecord.setCreated(LocalDateTime.now());
-        repairRecord.setStatus(1);
-
-        repairRecordMapper.insert(repairRecord);
-
-        actionRecord.setActionName("Create");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Rapir Record");
-        actionRecord.setActionData(repairRecord.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+            if (check.getAssetCode().equals(repairRecord.getAssetCode())) {
+                repairRecord.setAssetId(Math.toIntExact(check.getId()));
+                createNew(repairRecord);
+            } else {
+                throw new RuntimeException("No unknown asset data in records!");
+            }
+        }
     }
 
-   
+    public void createNew(RepairRecord repairRecord) {
+        
+        Long assetId = (long) repairRecord.getAssetId();
+        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AssetList::getStatu, 1);
+        queryWrapper.eq(AssetList::getId, assetId);
+        AssetList check = assetListMapper.selectOne(queryWrapper);
+
+        if (check.getId().equals((long) repairRecord.getAssetId())) {
+            repairRecord.setCreated(LocalDateTime.now());
+            repairRecord.setStatus(1);
+
+            repairRecordMapper.insert(repairRecord);
+
+            actionRecord.setActionName("Create");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Rapir Record");
+            actionRecord.setActionData(repairRecord.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No unknown asset data in records!");
+        }
+    }
 
     public void update(RepairRecord repairRecord) {
-        repairRecord.setUpdated(LocalDateTime.now());
+        LambdaQueryWrapper<RepairRecord> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(RepairRecord::getId, repairRecord.getId());
+        queryWrapper.eq(RepairRecord::getStatus, 1);
+        RepairRecord checkOne = repairRecordMapper.selectOne(queryWrapper);
 
-        repairRecordMapper.updateById(repairRecord);
+        if (checkOne.getId().equals(repairRecord.getId())) {
+            repairRecord.setUpdated(LocalDateTime.now());
 
-        actionRecord.setActionName("Update");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Rapir Record");
-        actionRecord.setActionData(repairRecord.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+            repairRecordMapper.updateById(repairRecord);
+
+            actionRecord.setActionName("Update");
+            actionRecord.setActionMethod("POST");
+            actionRecord.setActionFrom("Rapir Record");
+            actionRecord.setActionData(repairRecord.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No unknown asset data in records!");
+        }
     }
 
     public RepairRecord findOneById(Long id) {
@@ -70,19 +115,28 @@ public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, Rep
     }
 
     public void voidRecord(Long id) {
-        repairRecord.setId(id);
-        repairRecord.setStatus(0);
-        repairRecord.setUpdated(LocalDateTime.now());
-        repairRecordMapper.updateById(repairRecord);
-        
+        LambdaQueryWrapper<RepairRecord> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(RepairRecord::getId, id);
+        queryWrapper.eq(RepairRecord::getStatus, 1);
+        RepairRecord checkOne = repairRecordMapper.selectOne(queryWrapper);
 
-        actionRecord.setActionName("Void");
-        actionRecord.setActionMethod("DELETE");
-        actionRecord.setActionFrom("Rapir Record");
-        actionRecord.setActionData(repairRecord.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        if (checkOne.getId().equals(id)) {
+            repairRecord.setId(id);
+            repairRecord.setStatus(0);
+            repairRecord.setUpdated(LocalDateTime.now());
+            repairRecordMapper.updateById(repairRecord);
+            
+
+            actionRecord.setActionName("Void");
+            actionRecord.setActionMethod("DELETE");
+            actionRecord.setActionFrom("Rapir Record");
+            actionRecord.setActionData(repairRecord.toString());
+            actionRecord.setActionSuccess("Success");
+            actionRecord.setCreated(LocalDateTime.now());
+            this.createdAction(actionRecord);
+        } else {
+            throw new RuntimeException("No unknown asset data in records!");
+        }
     }
 
     private int createdAction(ActionRecord actionRecord) {
