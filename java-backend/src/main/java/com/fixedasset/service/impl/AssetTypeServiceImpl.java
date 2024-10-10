@@ -109,7 +109,9 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
     }
 
     public List<AssetType> getAll() {
-        return assetTypeMapper.getALL();
+        LambdaQueryWrapper<AssetType> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AssetType::getStatu, 1);
+        return assetTypeMapper.selectList(queryWrapper); // assetTypeMapper.getALL();
     }
 
     public int createdAction(ActionRecord actionRecord) {
