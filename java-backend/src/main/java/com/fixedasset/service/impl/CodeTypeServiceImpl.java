@@ -27,7 +27,10 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
     @Resource private CodeType codeType;
 
     public List<CodeType> getAllList(CodeType codeType) {
-        return codeTypeMapper.getALL(codeType.getType());
+        LambdaQueryWrapper<CodeType> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(CodeType::getStatu, 1);
+        queryWrapper.eq(CodeType::getType, codeType.getType());
+        return codeTypeMapper.selectList(queryWrapper);
     }
 
     public void batchImport(List<CodeType> codeTypes) {

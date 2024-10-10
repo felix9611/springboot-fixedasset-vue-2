@@ -134,7 +134,9 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
     }
 
     public List<TaxableCountry> getAll() {
-        return  taxableCountryMapper.getALL();
+        LambdaQueryWrapper<TaxableCountry> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(TaxableCountry::getStatu, 1);
+        return  taxableCountryMapper.selectList(queryWrapper); // taxableCountryMapper.getALL();
     }
     public int createdAction(ActionRecord actionRecord) {
 

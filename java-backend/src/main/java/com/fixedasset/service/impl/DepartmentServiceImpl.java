@@ -101,7 +101,9 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     public List<Department> getAll() {
-        return departmentMapper.getALL();
+        LambdaQueryWrapper<Department> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Department::getStatu, 1);
+        return departmentMapper.selectList(queryWrapper); // departmentMapper.getALL();
     }
 
     public Department getData(Department department) {

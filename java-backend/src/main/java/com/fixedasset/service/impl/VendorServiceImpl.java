@@ -113,7 +113,11 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
         return vendorMapper.selectOne(queryWrapper);
     }
 
-    public List<Vendor> getAll() { return vendorMapper.getALL(); }
+    public List<Vendor> getAll() {
+        LambdaQueryWrapper<Vendor> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Vendor::getStatu, 1);
+        return  vendorMapper.selectList(queryWrapper); //vendorMapper.getALL(); 
+    }
 
     public int createdAction(ActionRecord actionRecord) {
         return actionRecordMapper.insert(actionRecord);

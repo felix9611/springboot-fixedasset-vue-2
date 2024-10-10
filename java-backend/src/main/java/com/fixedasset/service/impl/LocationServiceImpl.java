@@ -25,7 +25,9 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
     @Resource private ActionRecord actionRecord;
 
     public List<Location> getAll() {
-        return locationMapper.getALL();
+        LambdaQueryWrapper<Location> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Location::getStatu, 1);
+        return locationMapper.selectList(queryWrapper); //locationMapper.getALL();
     }
 
     public void batchImport(List<Location> locations) {
