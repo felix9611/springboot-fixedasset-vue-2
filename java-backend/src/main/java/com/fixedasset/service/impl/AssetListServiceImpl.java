@@ -412,177 +412,56 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
 
     public List<AssetYearCostDept> assetYearCostDeptFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return assetListMapper.assetYearCostDeptFind(queryWrapper);
     }
 
     public List<AssetItemYearMonthDto> getItemYearMonthFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.getItemYearMonthFind(queryWrapper);
     }
 
     public List<AssetYearCostType> assetYearCostTypeFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);;
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.assetYearCostTypeFind(queryWrapper);
     }
 
     public List<GroupByAssetOfTypeDto> groupByTypeFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.groupByTypeFind(queryWrapper);
     }
 
     public List<AssetGroupPlaceDto> getAssetGroupPlaceFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.getAssetGroupPlaceFind(queryWrapper);
     }
 
     public List<AssetYearQtyType> getAssetYearQtyTypeFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.getAssetYearQtyTypeFind(queryWrapper);
     }
 
     public List<AssetYearQtyDept> getAssetYearQtyDeptFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.getAssetYearQtyDeptFind(queryWrapper);
     }
 
     public List<AssetCostYearMonthDto> getAssetCostYearMonthFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.getAssetCostYearMonthFind(queryWrapper);
     }
 
     public List<AssetYearQtyPlaceDto> getAssetYearQtyPlaceFind(AssetList assetList) {
-        LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
-
-        queryWrapper.isNotNull(AssetList::getBuyDate);
-        queryWrapper.notIn(AssetList::getDeptId, 0);
-        queryWrapper.notIn(AssetList::getTypeId, 0);
-
-        if (assetList.getBuyDateFrom() != null && assetList.getBuyDateTo() != null) {
-            queryWrapper.between(AssetList::getBuyDate, assetList.getBuyDateFrom(), assetList.getBuyDateTo());
-        }
-        if (!(assetList.getTypeId() == 0)) {
-            queryWrapper.eq(AssetList::getTypeId, assetList.getTypeId());
-        }
-        if (!(assetList.getDeptId() == 0)) {
-            queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
-        }
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
         return  assetListMapper.getAssetYearQtyPlaceFind(queryWrapper);
     }
 
     public List<AssetYearQtyPlaceDto> getAssetYearCostPlaceFind(AssetList assetList) {
+        LambdaQueryWrapper<AssetList> queryWrapper = dataGlobalFilter(assetList);
+        return  assetListMapper.getAssetYearCostPlaceFind(queryWrapper);
+    }
+
+    LambdaQueryWrapper<AssetList> dataGlobalFilter(AssetList assetList) {
         LambdaQueryWrapper<AssetList> queryWrapper = Wrappers.lambdaQuery();
 
         queryWrapper.isNotNull(AssetList::getBuyDate);
@@ -598,7 +477,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         if (!(assetList.getDeptId() == 0)) {
             queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
         }
-        return  assetListMapper.getAssetYearCostPlaceFind(queryWrapper);
+
+        return queryWrapper;
     }
 
     public String getNewAssetCode() {
