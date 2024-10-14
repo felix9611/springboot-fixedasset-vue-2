@@ -20,7 +20,7 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-waiterxiaoyy:
+fixedaaset:
   jwt:
     header: Authorization
     expire: 86400 #1 day
