@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.service.ActionRecordService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
+@Tag(name = "Action Record")
 @RestController
 @RequestMapping("/base/action")
 public class ActionRecordController extends BaseController {

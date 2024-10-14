@@ -2,6 +2,11 @@ server:
   port: 8350
 # DataSource Config
 spring:
+  springdoc:
+    swagger-ui:
+        enabled: true
+        path: /swagger-ui.html
+    api-docs.path: /api-docs
   ai:
     openai:
       api-key: 
