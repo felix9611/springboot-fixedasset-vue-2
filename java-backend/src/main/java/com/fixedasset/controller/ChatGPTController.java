@@ -18,10 +18,15 @@ import org.json.JSONObject;
 
 import com.fixedasset.interfaceFiles.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "ChatGPT")
 @RestController
 @RequestMapping("/chatGPT")
 public class ChatGPTController {
 
+    @Operation(summary = "Chat with GPT")
     @PostMapping("/chat/text")
     public Result textChat(@RequestBody ChatGPT chatGPT) throws IOException {
 

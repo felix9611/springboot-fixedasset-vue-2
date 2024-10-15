@@ -65,6 +65,7 @@ public class VendorController extends BaseController {
         return Result.succ(vendorService.getById(id));
     }
 
+    @Operation(summary = "Find one by vendor code or name")
     @PostMapping("/post/findOne")
     public Result findOnePost(@RequestBody Vendor vendor) {
         return Result.succ(vendorService.findOne(vendor));
