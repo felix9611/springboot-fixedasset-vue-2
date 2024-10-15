@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.entity.Department;
 import com.fixedasset.service.DepartmentService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -15,13 +18,14 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
+@Tag(name = "Department")
 @RestController
 @RequestMapping("/base/department")
 public class DepartmentController {
 
     @Resource private DepartmentService departmentService;
 
+    @Operation(summary = "Batch to import departments")
     @PostMapping("/batch-create")
     @PreAuthorize("hasAuthority('base:dept:create')")
     public Result batchCreate(@RequestBody List<Department> departments) {
@@ -29,6 +33,7 @@ public class DepartmentController {
         return Result.succ(departments);
     }
 
+    @Operation(summary = "Create a department")
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('base:dept:create')")
     public Result create(@RequestBody Department department) {
@@ -36,6 +41,7 @@ public class DepartmentController {
         return Result.succ(department);
     }
 
+    @Operation(summary = "Update a department")
     @PostMapping("/update")
     // @PreAuthorize("hasAuthority('base:dept:update')")
     public Result update(@RequestBody Department department) {
@@ -44,6 +50,7 @@ public class DepartmentController {
         return Result.succ(department);
     }
 
+    @Operation(summary = "Void one by id")
     @DeleteMapping("/remove/{id}")
     // @PreAuthorize("hasAuthority('base:dept:remove')")
     public Result remove(@PathVariable("id") Long id) {
@@ -56,16 +63,19 @@ public class DepartmentController {
         return Result.succ(department);
     }
 
+    @Operation(summary = "Get one by id")
     @GetMapping("/{id}")
     public Result getOne(@PathVariable("id") Long id) {
         return Result.succ(departmentService.getById(id));
     }
 
+    @Operation(summary = "Get all departments")
     @GetMapping("/getAll")
     public Result getAll() {
         return Result.succ(departmentService.getAll());
     }
 
+    @Operation(summary = "Page and list")
     @PostMapping("/listAll")
     public Result listAll(@RequestBody Department department) {
         Page page = new Page(department.getPage(), department.getLimit());
@@ -81,6 +91,7 @@ public class DepartmentController {
         return Result.succ(iPage);
     }
 
+    @Operation(summary = "Find one by department code or name")
     @PostMapping("/post/findOne")
     public Result findOne(@RequestBody Department department) {
         return Result.succ(departmentService.getData(department));
