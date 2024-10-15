@@ -1,6 +1,9 @@
 package com.fixedasset.controller;
 
 import cn.hutool.core.map.MapUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.google.code.kaptcha.Producer;
 import com.fixedasset.common.lang.Const;
 import com.fixedasset.common.lang.Result;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.UUID;
 
+@Tag(name = "Auth")
 @RestController
 public class AuthController extends BaseController {
 
@@ -24,6 +28,7 @@ public class AuthController extends BaseController {
     @Autowired
     Producer producer;
 
+    @Operation(summary = "Get a Captcha")
     @GetMapping("/captcha")
     public Result captcha() throws IOException {
         String key = UUID.randomUUID().toString();
@@ -58,6 +63,8 @@ public class AuthController extends BaseController {
      * @param principal
      * @return
      */
+
+    @Operation(summary = "Get user information")
     @GetMapping("/sys/userInfo")
     public Result userInfo(Principal principal) {
 
