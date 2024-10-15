@@ -1,6 +1,9 @@
 package com.fixedasset.interfaceFiles;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class ChatGPT {
+    @Schema(description = "Entry Text")
     private String enteyText;
 
     public String getEnteyText() {
