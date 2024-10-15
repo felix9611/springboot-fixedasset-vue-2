@@ -8,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.entity.AssetType;
 import com.fixedasset.service.AssetTypeService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +19,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(name = "Asset Type")
 @RestController
 @RequestMapping("/base/asset_type")
 public class AssetTypeController extends BaseController {
@@ -37,12 +42,14 @@ public class AssetTypeController extends BaseController {
         return  Result.succ(iPage);
     }
 
+    @Operation(summary = "Batch create asset types")
     @PostMapping("/batch-create")
     public Result batchCreate(@RequestBody List<AssetType> assetTypes) {
         assetTypeService.batchImport(assetTypes);
         return Result.succ(assetTypes);
     }
 
+    @Operation(summary = "Create a asset type")
     @PostMapping("/create")
     public Result create(@RequestBody AssetType assetType) {
         assetTypeService.save(assetType);
