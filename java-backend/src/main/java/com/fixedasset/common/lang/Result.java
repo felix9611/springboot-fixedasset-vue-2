@@ -4,14 +4,21 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Encapsulate result data
  */
 @Data
 public class Result implements Serializable {
 
+    @Schema(description = "HTTP Response Code")
     private int code;
+
+    @Schema(description = "HTTP Response Message")
     private String msg;
+
+    @Schema(description = "HTTP Response Data")
     private Object data;
 
     public static Result succ(Object data) {
