@@ -1,6 +1,9 @@
 package com.fixedasset.controller;
 
 import cn.hutool.core.util.StrUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
@@ -19,12 +22,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "System Role")
 @RestController
 @RequestMapping("/sys/role")
 public class SysRoleController extends BaseController {
 
     @Resource private SysRole sysRole;
 
+    @Operation(summary = "Get one by id")
     @PreAuthorize("hasAuthority('sys:role:list')")
     @GetMapping("/info/{id}")
     public Result info(@PathVariable("id") Long id) {
@@ -39,6 +44,7 @@ public class SysRoleController extends BaseController {
         return Result.succ(sysRole);
     }
 
+    @Operation(summary = "Get list")
     @PreAuthorize("hasAuthority('sys:role:list')")
     @GetMapping("/list")
     public Result list(String name) {
@@ -51,6 +57,7 @@ public class SysRoleController extends BaseController {
         return Result.succ(pageData);
     }
 
+    @Operation(summary = "Create")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('sys:role:save')")
     public Result save(@Validated @RequestBody SysRole sysRole) {
@@ -73,6 +80,7 @@ public class SysRoleController extends BaseController {
         return Result.succ(sysRoleService.voidById(id));
     }
 
+    @Operation(summary = "Void by ids")
     @PostMapping("/delete")
     @PreAuthorize("hasAuthority('sys:role:delete')")
     @Transactional
@@ -93,6 +101,7 @@ public class SysRoleController extends BaseController {
         return Result.succ("");
     }
 
+    @Operation(summary = "Setting permission by role id")
     @Transactional
     @PostMapping("/perm/{roleId}")
     @PreAuthorize("hasAuthority('sys:role:perm')")

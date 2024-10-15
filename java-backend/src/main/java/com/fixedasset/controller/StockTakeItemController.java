@@ -10,6 +10,9 @@ import com.fixedasset.entity.StockTake;
 import com.fixedasset.entity.StockTakeItem;
 import com.fixedasset.service.StockTakeItemService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,11 +23,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+@Tag(name = "Stock Take Item")
 @RestController
 @RequestMapping("/stock/stock_take/item")
 public class StockTakeItemController extends BaseController {
     @Resource private StockTakeItemService stockTakeItemService;
 
+    @Operation(summary = "Page and list")
     @PostMapping("/list")
     public Result list(@RequestBody StockTakeItem stockTakeItem) {
         Page page = new Page(stockTakeItem.getPage(), stockTakeItem.getLimit());
@@ -38,6 +43,7 @@ public class StockTakeItemController extends BaseController {
         return Result.succ(iPage);
     }
 
+    @Operation(summary = "Save stock take item")
     @PostMapping("/save")
     public Result save(@RequestBody StockTakeItem stockTakeItem) {
         stockTakeItemService.saveStock(stockTakeItem);
