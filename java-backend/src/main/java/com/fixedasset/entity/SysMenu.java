@@ -33,6 +33,7 @@ public class SysMenu extends BaseEntity {
     /**
      * URL
      */
+    @Schema(description = "The URL")
     private String path;
 
     /**

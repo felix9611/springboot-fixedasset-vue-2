@@ -58,7 +58,6 @@ public class DepartmentController {
         department.setUpdated(LocalDateTime.now());
         department.setId(id);
         department.setStatu(0);
-        log.debug(department.toString());
         departmentService.removeOne(department);
         return Result.succ(department);
     }

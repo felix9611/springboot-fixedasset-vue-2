@@ -58,11 +58,6 @@ public class AuthController extends BaseController {
 
         );
     }
-    /**
-     * 获取用户信息接口
-     * @param principal
-     * @return
-     */
 
     @Operation(summary = "Get user information")
     @GetMapping("/sys/userInfo")

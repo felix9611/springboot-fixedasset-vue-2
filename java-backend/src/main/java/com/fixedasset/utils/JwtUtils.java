@@ -20,6 +20,7 @@ public class JwtUtils {
 	private long expire;
 	private String secret;
 	private String header;
+	private final String TOKEN_PREFIX = "Bearer ";
 
 	// JWT Generate
 	public String generateToken(SysUser user) {
@@ -33,6 +34,7 @@ public class JwtUtils {
 		payload.put("email", user.getEmail());
 
 		return Jwts.builder()
+
 				.setHeaderParam("typ", "JWT")
 				.setSubject(user.getUsername())
 				.setHeader(payload)
@@ -45,9 +47,11 @@ public class JwtUtils {
 	// Claim & Check JWT
 	public Claims getClaimByToken(String jwt) {
 		try {
+			String finalResult = jwt.substring(TOKEN_PREFIX.length());
+
 			return Jwts.parser()
 					.setSigningKey(secret)
-					.parseClaimsJws(jwt)
+					.parseClaimsJws(finalResult)
 					.getBody();
 		} catch (Exception e) {
 			return null;

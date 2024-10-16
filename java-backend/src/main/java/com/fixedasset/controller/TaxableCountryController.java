@@ -82,7 +82,7 @@ public class TaxableCountryController extends BaseController {
 
     }
 
-    @Operation(summary = "Find one")
+    @Operation(summary = "Get all")
     @GetMapping("/getAll")
     public Result getAll() {
         return Result.succ(taxableCountryService.getAll());
