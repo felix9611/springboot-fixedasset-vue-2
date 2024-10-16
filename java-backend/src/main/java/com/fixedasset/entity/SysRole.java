@@ -34,5 +34,4 @@ public class SysRole extends BaseEntity {
     @TableField(exist = false)
     private List<Long> menuIds = new ArrayList<>();
 
-
 }
