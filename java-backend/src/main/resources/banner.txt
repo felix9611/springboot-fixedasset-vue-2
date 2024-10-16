@@ -2,3 +2,6 @@ Welcome To use Fixed Asset X VUE
 Backend Will be starting
 Please stating frontend too
 
+Backend: http://localhost:8350
+OPEN API: http://localhost:8350/swagger-ui.html
+
