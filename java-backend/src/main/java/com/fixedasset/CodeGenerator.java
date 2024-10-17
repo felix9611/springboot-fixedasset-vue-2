@@ -25,7 +25,7 @@ public class CodeGenerator {
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
         StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
+        help.append("Please enter" + tip + "：");
         System.out.println(help.toString());
         if (scanner.hasNext()) {
             String ipt = scanner.next();
@@ -99,7 +99,7 @@ public class CodeGenerator {
                     // The mapper file has been generated and is judged to exist. If you do not want to regenerate it, return false
                     return !new File(filePath).exists();
                 }
-                // 允许生成模板文件
+                //Allow template file generation
                 return true;
             }
         });
@@ -128,7 +128,7 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         // public parent class
         strategy.setSuperControllerClass("BaseController");
-        // 写于父类中的公共字段
+        //Public fields written in the parent class
         strategy.setSuperEntityColumns("id", "created", "updated", "statu");
         strategy.setInclude(scanner("Table name, multiple English commas separated").split(","));
         strategy.setControllerMappingHyphenStyle(true);
