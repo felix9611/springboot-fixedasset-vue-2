@@ -15,6 +15,7 @@ import com.fixedasset.entity.Location;
 import com.fixedasset.entity.Vendor;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.AssetListFileService;
 import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.AssetTypeService;
@@ -22,9 +23,6 @@ import com.fixedasset.service.DepartmentService;
 import com.fixedasset.service.InvRecordService;
 import com.fixedasset.service.LocationService;
 import com.fixedasset.service.VendorService;
-
-import lombok.val;
-
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,11 +30,9 @@ import javax.annotation.Resource;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 
 @Service
 public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList> implements AssetListService {
@@ -44,10 +40,6 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource AssetList assetList;
 
     @Resource AssetListMapper assetListMapper;
-
-    @Resource ActionRecordMapper actionRecordMapper;
-
-    @Resource private ActionRecord actionRecord;
 
     @Resource private InvRecordService invRecordService;
 
@@ -62,6 +54,8 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
     @Resource private LocationService locationService;
 
     @Resource private VendorService vendorService;
+
+    @Resource private ActionRecordService actionRecordService;
 
     public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
         return this.assetListMapper.pageAndList(page, queryWrapper);
@@ -155,15 +149,23 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
             invRecordService.saveNewRecord(newCode, assetList.getPlaceId());
 
-            actionRecord.setActionName("Save");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Asset List Manger");
-            actionRecord.setActionData(assetList.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-        //  this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                    "Save", 
+                    "POST", 
+                    "Asset List", 
+                    assetList.getAssetCode() + " - " + assetList.getAssetName(), 
+                    "Success"
+            );
+
             return newCode;
         } else {
+            actionRecordService.createdAction(
+                    "Save", 
+                    "POST", 
+                    "Asset List", 
+                    assetList.getAssetCode() + " - " + assetList.getAssetName(), 
+                    "Failure"
+            );
             throw new RuntimeException("Exist in records!");
         }
         
@@ -346,14 +348,22 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
             assetListMapper.updateById(assetList);
 
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Asset List Manger");
-            actionRecord.setActionData(assetList.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-        // this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Asset List", 
+                assetList.getAssetCode() + " - " + assetList.getAssetName(), 
+                "Success"
+            );
+
         } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Asset List", 
+                assetList.getAssetCode() + " - " + assetList.getAssetName(), 
+                "Failure"
+            );
             throw new RuntimeException("No matched data in records!");
         }
     }
@@ -371,14 +381,21 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
             assetList.setStatu(0);
             assetListMapper.updateById(assetList);
 
-            actionRecord.setActionName("Remove");
-            actionRecord.setActionMethod("Delete");
-            actionRecord.setActionFrom("Asset List Manger");
-            actionRecord.setActionData(assetList.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Remove", 
+                "Delete", 
+                "Asset List", 
+                id.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Remove", 
+                "Delete", 
+                "Asset List", 
+                id.toString(),
+                "Failure"
+            );
             throw new RuntimeException("No matched data in records!");
         }
     }

@@ -6,12 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.common.dto.SysMenuDto;
-import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.SysMenu;
 import com.fixedasset.entity.SysUser;
-import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.SysMenuMapper;
 import com.fixedasset.mapper.SysUserMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.SysMenuService;
 import com.fixedasset.service.SysUserService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,9 +34,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Resource private SysMenu sysMenu;
 
-    @Resource private ActionRecordMapper actionRecordMapper;
-
-    @Resource private ActionRecord actionRecord;
+    @Resource private ActionRecordService actionRecordService;
 
     @Override
     public List<SysMenuDto> getCurrentUserNav() {
@@ -144,15 +141,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
             sysMenuMapper.insert(sysMenu);
 
-            actionRecord.setActionName("Create");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("SysMenu Manager");
-            actionRecord.setActionData(sysMenu.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Create", 
+                "POST", 
+                "System Menu Manager", 
+                sysMenu.toString(), 
+                "Success"
+            );
             
         } else {
+            actionRecordService.createdAction(
+                "Create", 
+                "POST", 
+                "System Menu Manager", 
+                sysMenu.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Exist in lists! Please check again!");
         }
     }
@@ -167,14 +171,21 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             sysMenu.setUpdated(LocalDateTime.now());
             sysMenuMapper.updateById(sysMenu);
 
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("SysMenu Manager");
-            actionRecord.setActionData(sysMenu.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "System Menu Manager", 
+                sysMenu.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "System Menu Manager", 
+                sysMenu.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Not active data in records!");
         }  
     }
@@ -190,20 +201,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             sysMenu.setStatu(0);
             sysMenuMapper.updateById(sysMenu);
 
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("SysMenu Manager");
-            actionRecord.setActionData(sysMenu.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "System Menu Manager", 
+                sysMenu.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "System Menu Manager", 
+                sysMenu.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Not active data in records!");
         }  
     }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
-    }
 }
-

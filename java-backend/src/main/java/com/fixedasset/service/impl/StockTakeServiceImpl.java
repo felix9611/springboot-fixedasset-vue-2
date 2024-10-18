@@ -14,6 +14,7 @@ import com.fixedasset.entity.StockTake;
 import com.fixedasset.entity.StockTakeItem;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.StockTakeMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.LocationService;
 import com.fixedasset.service.StockTakeItemService;
@@ -34,9 +35,7 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
 
     @Resource private StockTakeMapper stockTakeMapper;
 
-    @Resource private ActionRecordMapper actionRecordMapper;
-
-    @Resource private ActionRecord actionRecord;
+    @Resource private ActionRecordService actionRecordService;
 
     @Resource private LocationService locationService;
 
@@ -99,15 +98,22 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
 
             }
 
-            actionRecord.setActionName("Save form Upload Excel");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Stock Take");
-            actionRecord.setActionData(stockTake.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Save form Upload Excel", 
+                "POST", 
+                "Stock Take", 
+                stockTake.toString(), 
+                "Success"
+            );
 
         } else {
+            actionRecordService.createdAction(
+                "Save form Upload Excel", 
+                "POST", 
+                "Stock Take", 
+                stockTake.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Please create new action name!");
         }
     }
@@ -122,13 +128,13 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
             stockTake.setCreatedTime(LocalDateTime.now());
             stockTakeMapper.insert(stockTake);
 
-            actionRecord.setActionName("Save");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Stock Take");
-            actionRecord.setActionData(stockTake.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Stock Take", 
+                stockTake.toString(), 
+                "Failure"
+            );
 
         } else {
             throw new RuntimeException("Please create new action name!");
@@ -152,13 +158,13 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
         stockTake.setActive(0);
         stockTakeMapper.updateById(stockTake);
 
-        actionRecord.setActionName("Delete Stock  Form");
-        actionRecord.setActionMethod("Delete");
-        actionRecord.setActionFrom("Stock Take");
-        actionRecord.setActionData(stockTake.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        actionRecordService.createdAction(
+            "Delete Stock  Form", 
+            "Delete", 
+            "Stock Take", 
+            stockTake.toString(), 
+            "Success"
+        );
     }
 
     public void finish(Long id) {
@@ -167,16 +173,12 @@ public class StockTakeServiceImpl extends ServiceImpl<StockTakeMapper, StockTake
         stockTake.setFinishTime(LocalDateTime.now());
         stockTakeMapper.updateById(stockTake);
 
-        actionRecord.setActionName("Finish Stock take");
-        actionRecord.setActionMethod("Delete");
-        actionRecord.setActionFrom("Stock Take");
-        actionRecord.setActionData(stockTake.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
-    }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
+        actionRecordService.createdAction(
+            "Finish Stock take", 
+            "Delete", 
+            "Stock Take", 
+            stockTake.toString(), 
+            "Success"
+        );
     }
 }

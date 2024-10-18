@@ -24,9 +24,7 @@ public class AssetListFileServiceImpl extends ServiceImpl<AssetListFileMapper, A
 
     @Resource private AssetListFile assetListFile;
 
-    @Resource private ActionRecordMapper  actionRecordMapper;
-
-    @Resource private  ActionRecord actionRecord;
+    @Resource private ActionRecordService actionRecordService;
 
     public void saveListPicture(AssetListFile assetListFile){
 
@@ -34,13 +32,13 @@ public class AssetListFileServiceImpl extends ServiceImpl<AssetListFileMapper, A
         assetListFile.setCreated(LocalDateTime.now());
         assetListFileMapper.insert(assetListFile);
 
-        actionRecord.setActionName("Add");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Asset List - Photo");
-        actionRecord.setActionData("Any Data");
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        actionRecordService.createdAction(
+            "Add", 
+            "POST", 
+            "Asset List- Photo", 
+            "Any Data", 
+            "Success"
+        );
     }
 
     public List<AssetListFile> getByAssetId(AssetListFile assetListFile) {
@@ -55,18 +53,13 @@ public class AssetListFileServiceImpl extends ServiceImpl<AssetListFileMapper, A
         assetListFile.setStatu(0);
         assetListFileMapper.updateById(assetListFile);
 
-        actionRecord.setActionName("REMOVE");
-        actionRecord.setActionMethod("DELETE");
-        actionRecord.setActionFrom("Asset List - Photo");
-        actionRecord.setActionData("Any Data");
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
-
-    }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
+        actionRecordService.createdAction(
+            "REMOVE", 
+            "DELETE", 
+            "Asset List- Photo", 
+            "Any Data", 
+            "Success"
+        );
     }
 
 }

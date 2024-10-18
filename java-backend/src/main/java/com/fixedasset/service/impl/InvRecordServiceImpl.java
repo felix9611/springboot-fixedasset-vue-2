@@ -11,6 +11,7 @@ import com.fixedasset.entity.InvRecord;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
 import com.fixedasset.mapper.InvRecordMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.InvRecordService;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,7 @@ public class InvRecordServiceImpl extends ServiceImpl<InvRecordMapper, InvRecord
 
     @Resource InvRecordMapper invRecordMapper;
 
-    @Resource ActionRecordMapper actionRecordMapper;
-
-    @Resource private ActionRecord actionRecord;
+    @Resource private ActionRecordService actionRecordService;
 
     public Page<InvRecordListDto> newPage(Page page, LambdaQueryWrapper<FindInvRecordDto> queryWrapper) {
         return invRecordMapper.pageAndList(page, queryWrapper);
@@ -47,13 +46,13 @@ public class InvRecordServiceImpl extends ServiceImpl<InvRecordMapper, InvRecord
 
             invRecordMapper.insert(invRecord);
 
-            actionRecord.setActionName("Save");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("InvRecord Manger - change Place");
-            actionRecord.setActionData(invRecord.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "InvRecord Manger - change Place", 
+                invRecord.toString(), 
+                "Success"
+            );
         }
     }
 
@@ -67,13 +66,13 @@ public class InvRecordServiceImpl extends ServiceImpl<InvRecordMapper, InvRecord
 
         invRecordMapper.insert(invRecord);
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("InvRecord Manger - store new place");
-        actionRecord.setActionData(invRecord.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        actionRecordService.createdAction(
+            "Save", 
+            "POST", 
+            "InvRecord Manger - store new place", 
+            invRecord.toString(), 
+            "Success"
+        );
 
     }
 
@@ -87,16 +86,12 @@ public class InvRecordServiceImpl extends ServiceImpl<InvRecordMapper, InvRecord
 
         invRecordMapper.insert(invRecord);
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("InvRecord Manger - write off");
-        actionRecord.setActionData(invRecord.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
-    }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
+        actionRecordService.createdAction(
+            "Save", 
+            "POST", 
+            "InvRecord Manger - write off", 
+            invRecord.toString(), 
+            "Success"
+        );
     }
 }

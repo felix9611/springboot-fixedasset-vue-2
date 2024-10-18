@@ -8,6 +8,7 @@ import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.Location;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.LocationMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.LocationService;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,7 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
 
     @Resource LocationMapper locationMapper;
 
-    @Resource ActionRecordMapper actionRecordMapper;
-
-    @Resource private ActionRecord actionRecord;
+    @Resource private ActionRecordService actionRecordService;
 
     public List<Location> getAll() {
         LambdaQueryWrapper<Location> queryWrapper = Wrappers.lambdaQuery();
@@ -51,14 +50,21 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
             location.setStatu(1);
             locationMapper.insert(location);
 
-            actionRecord.setActionName("Save");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Location Manger");
-            actionRecord.setActionData(location.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord); 
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Location Manger", 
+                location.toString(), 
+                "Success"
+            );
         }  else {
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Location Manger", 
+                location.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Exist in records! Please check again!");
         }
     }
@@ -73,14 +79,21 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
             location.setUpdated(LocalDateTime.now());
             locationMapper.updateById(location);
 
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Location Manger");
-            actionRecord.setActionData(location.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Location Manger", 
+                location.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Location Manger", 
+                location.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No active data in records!");
         }
     }
@@ -91,16 +104,24 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         queryWrapper.eq(Location::getStatu, 1);
         Location checkOne = locationMapper.selectOne(queryWrapper);
         if (checkOne.getId().equals(location.getId())) {
-            actionRecord.setActionName("Remove");
-            actionRecord.setActionMethod("DELETE");
-            actionRecord.setActionFrom("Location Manger");
-            actionRecord.setActionData(location.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
 
             locationMapper.updateById(location);
+
+            actionRecordService.createdAction(
+                "Remove", 
+                "DELETE", 
+                "Location Manger", 
+                location.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Remove", 
+                "DELETE", 
+                "Location Manger", 
+                location.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No active data in records!");
         }
     }
@@ -117,7 +138,4 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         return locationMapper.selectOne(queryWrapper);
     }
 
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
-    }
 }

@@ -13,6 +13,7 @@ import com.fixedasset.entity.StockTakeItem;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.StockTakeItemMapper;
 import com.fixedasset.mapper.StockTakeMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.StockTakeItemService;
 import com.fixedasset.service.StockTakeService;
@@ -26,9 +27,7 @@ import java.util.List;
 @Service
 public class StockTakeItemServiceImpl extends ServiceImpl<StockTakeItemMapper, StockTakeItem> implements StockTakeItemService {
 
-    @Resource ActionRecordMapper actionRecordMapper;
-
-    @Resource private ActionRecord actionRecord;
+    @Resource private ActionRecordService actionRecordService;
 
     @Resource private  StockTakeItemMapper stockTakeItemMapper;
 
@@ -78,17 +77,13 @@ public class StockTakeItemServiceImpl extends ServiceImpl<StockTakeItemMapper, S
             stockTakeItem.setCheckTime(LocalDateTime.now());
             stockTakeItemMapper.insert(stockTakeItem);
 
-            actionRecord.setActionName("Save");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Stocktake Item");
-            actionRecord.setActionData(stockTakeItem.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Stocktake Item", 
+                stockTakeItem.toString(), 
+                "Success"
+            );
         
-    }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
     }
 }

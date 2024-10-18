@@ -4,15 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fixedasset.entity.ActionRecord;
-import com.fixedasset.entity.CodeType;
 import com.fixedasset.entity.Department;
-import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.DepartmentMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.DepartmentService;
-
-import freemarker.template.utility.DeepUnwrap;
-
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,10 +19,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Resource DepartmentMapper departmentMapper;
 
-    @Resource
-    ActionRecordMapper actionRecordMapper;
-
-    @Resource private ActionRecord actionRecord;
+    @Resource private ActionRecordService actionRecordService;
 
     public void createNew(Department department) {
         LambdaQueryWrapper<Department> queryWrapper = Wrappers.lambdaQuery();
@@ -41,15 +33,24 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
                 department.setStatu(1);
                 departmentMapper.insert(department);
 
-                actionRecord.setActionName("Save");
-                actionRecord.setActionMethod("POST");
-                actionRecord.setActionFrom("Department Manger");
-                actionRecord.setActionData(department.toString());
-                actionRecord.setActionSuccess("Success");
-                actionRecord.setCreated(LocalDateTime.now());
-                this.createdAction(actionRecord);
+                actionRecordService.createdAction(
+                    "Save", 
+                    "POST", 
+                    "Department Manger", 
+                    department.toString(), 
+                    "Success"
+                );
+
         } else {
-            throw new RuntimeException("Exist in records!");
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Department Manger", 
+                department.toString(), 
+                "Failure"
+            );
+
+            throw new RuntimeException("Exist in records!");         
         }
     }
 
@@ -65,16 +66,25 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         queryWrapper.eq(Department::getStatu, 1);
         Department checkOne = departmentMapper.selectOne(queryWrapper);
         if (checkOne.getId().equals(department.getId())) {
-            actionRecord.setActionName("Remove");
-            actionRecord.setActionMethod("DELETE");
-            actionRecord.setActionFrom("Asset Type Manger");
-            actionRecord.setActionData(department.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+
+            actionRecordService.createdAction(
+                    "Void", 
+                    "DELETE", 
+                    "Department Manger", 
+                    department.toString(), 
+                    "Success"
+            );
 
             departmentMapper.updateById(department);
+
         } else {
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE",
+                "Department Manger", 
+                department.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No active data in records!");
         }
     }
@@ -86,16 +96,24 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         Department checkOne = departmentMapper.selectOne(queryWrapper);
 
         if (checkOne.getId().equals(department.getId())) {
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Asset Type Manger");
-            actionRecord.setActionData(department.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
 
             departmentMapper.updateById(department);
+
+            actionRecordService.createdAction(
+                    "Update", 
+                    "POST", 
+                    "Department Manger", 
+                    department.toString(), 
+                    "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST",
+                "Department Manger", 
+                department.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Not active data in records!");
         }
     }
@@ -103,7 +121,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     public List<Department> getAll() {
         LambdaQueryWrapper<Department> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(Department::getStatu, 1);
-        return departmentMapper.selectList(queryWrapper); // departmentMapper.getALL();
+        return departmentMapper.selectList(queryWrapper);
     }
 
     public Department getData(Department department) {
@@ -116,9 +134,5 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         }
         queryWrapper.eq(Department::getStatu, 1);
         return departmentMapper.selectOne(queryWrapper);
-    }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
     }
 }

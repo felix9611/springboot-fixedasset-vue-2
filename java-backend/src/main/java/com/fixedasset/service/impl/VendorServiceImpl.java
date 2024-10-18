@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.Vendor;
-import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.VendorMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.VendorService;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +19,7 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
 
     @Resource private VendorMapper vendorMapper;
 
-    @Resource private ActionRecord actionRecord;
-
-    @Resource private ActionRecordMapper actionRecordMapper;
+    @Resource private ActionRecordService actionRecordService;
 
     public void batchImport(List<Vendor> vendors) {
         for (Vendor vendor : vendors) {
@@ -47,14 +44,21 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
             vendor.setCreated(LocalDateTime.now());
             vendorMapper.insert(vendor);
 
-            actionRecord.setActionName("Save");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Vendor Manger");
-            actionRecord.setActionData(vendor.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Vendor Manger", 
+                vendor.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Vendor Manger", 
+                vendor.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Exist in records!");
         }
     }
@@ -68,14 +72,21 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
             vendor.setUpdated(LocalDateTime.now());
             vendorMapper.updateById(vendor);
 
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Vendor Manger");
-            actionRecord.setActionData(vendor.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Vendor Manger", 
+                vendor.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Update",
+                "POST", 
+                "Vendor Manger", 
+                vendor.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No active data in records!");
         }
     }
@@ -87,16 +98,23 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
         Vendor checkOne = vendorMapper.selectOne(queryWrapper);
         if (checkOne.getId().equals(vendor.getId())) {
 
-        vendorMapper.updateById(vendor);
+            vendorMapper.updateById(vendor);
 
-            actionRecord.setActionName("Remove");
-            actionRecord.setActionMethod("DELETE");
-            actionRecord.setActionFrom("Vendor Manger");
-            actionRecord.setActionData(vendor.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Remove", 
+                "DELETE", 
+                "Vendor Manger", 
+                vendor.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Remove", 
+                "DELETE", 
+                "Vendor Manger", 
+                vendor.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No active data in records!");
         }
     }
@@ -113,14 +131,10 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
         return vendorMapper.selectOne(queryWrapper);
     }
 
-    public List<Vendor> getAll() {
+    public List<Vendor> getAll() { 
         LambdaQueryWrapper<Vendor> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(Vendor::getStatu, 1);
-        return  vendorMapper.selectList(queryWrapper); //vendorMapper.getALL(); 
-    }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
+        return vendorMapper.selectList(queryWrapper);
     }
 
 }

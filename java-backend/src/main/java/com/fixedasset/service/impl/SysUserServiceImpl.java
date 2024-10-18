@@ -32,8 +32,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return getOne(new QueryWrapper<SysUser>().eq("username", username));
     }
 
-
-
     @Override
     public String getUserAuthorityInfo(Long userId) {
 
