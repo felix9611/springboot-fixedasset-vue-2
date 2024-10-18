@@ -3,14 +3,11 @@ package com.fixedasset.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.dto.TaxInformationUploadData;
-import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.TaxableCountry;
-import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.TaxableCountryMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fixedasset.service.InvRecordService;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.TaxableCountryService;
 
 import org.springframework.stereotype.Service;
@@ -25,8 +22,8 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
     @Resource TaxableCountryMapper taxableCountryMapper;
 
     @Resource TaxableCountry taxableCountry;
-    @Resource ActionRecordMapper actionRecordMapper;
-    @Resource private ActionRecord actionRecord;
+
+    @Resource private ActionRecordService actionRecordService;
 
     public void importData(List<TaxInformationUploadData> taxInformationUploadDatas) {
         for (TaxInformationUploadData taxInformationUploadData : taxInformationUploadDatas) {
@@ -57,15 +54,22 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
             taxableCountry.setUpdated(LocalDateTime.now());
             taxableCountryMapper.updateById(taxableCountry);
 
-            actionRecord.setActionName("Void");
-            actionRecord.setActionMethod("DELETE");
-            actionRecord.setActionFrom("Taxable Data");
-            actionRecord.setActionData(id.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "Tax Data Manger", 
+                taxableCountry.toString(), 
+                "Success"
+            );
 
         } else {
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "Tax Data Manger", 
+                id.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No active data in records!");
         }
     }
@@ -91,16 +95,23 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
             taxableCountry.setStatu(1);
             taxableCountryMapper.insert(taxableCountry);
 
-            actionRecord.setActionName("Save");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Taxable Data");
-            actionRecord.setActionData(taxableCountry.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Tax Data Manger", 
+                taxableCountry.toString(), 
+                "Success"
+            );
 
             return taxableCountry;
         } else {
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Tax Data Manger", 
+                taxableCountry.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("Exist in records!");
         }
     }
@@ -115,16 +126,24 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
             taxableCountry.setUpdated(LocalDateTime.now());
             taxableCountryMapper.updateById(taxableCountry);
 
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("UPDATE");
-            actionRecord.setActionFrom("Taxable Data");
-            actionRecord.setActionData(taxableCountry.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Tax Data Manger", 
+                taxableCountry.toString(), 
+                "Success"
+            );
 
             return taxableCountry;
         } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Tax Data Manger", 
+                taxableCountry.toString(), 
+                "Failure"
+            );
+
             throw new RuntimeException("No active data in records!");
         }
     }
@@ -136,10 +155,6 @@ public class TaxableCountryServiceImpl extends ServiceImpl<TaxableCountryMapper,
     public List<TaxableCountry> getAll() {
         LambdaQueryWrapper<TaxableCountry> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(TaxableCountry::getStatu, 1);
-        return  taxableCountryMapper.selectList(queryWrapper); // taxableCountryMapper.getALL();
-    }
-    public int createdAction(ActionRecord actionRecord) {
-
-        return actionRecordMapper.insert(actionRecord);
+        return  taxableCountryMapper.selectList(queryWrapper);
     }
 }
