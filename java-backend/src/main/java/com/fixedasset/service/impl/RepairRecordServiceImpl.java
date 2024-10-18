@@ -8,6 +8,7 @@ import com.fixedasset.entity.RepairRecord;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
 import com.fixedasset.mapper.RepairRecordMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.RepairRecordService;
 import java.time.LocalDateTime;
@@ -23,13 +24,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 @Service
 public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, RepairRecord> implements RepairRecordService {
+
     @Resource private RepairRecord repairRecord;
-    @Resource private ActionRecord actionRecord;
-    @Resource private ActionRecordMapper actionRecordMapper;
+
+    @Resource private ActionRecordService actionRecordService;
+
     @Resource private RepairRecordMapper repairRecordMapper;
+
     @Resource private AssetListService assetListService;
+
     @Resource private AssetList assetList;
+
     @Resource private AssetListMapper assetListMapper;
+
 
     /*
      public Page<AssetListViewDTO> newPage(Page page, LambdaQueryWrapper<AssetList> queryWrapper){
@@ -75,14 +82,21 @@ public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, Rep
 
             repairRecordMapper.insert(repairRecord);
 
-            actionRecord.setActionName("Create");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Rapir Record");
-            actionRecord.setActionData(repairRecord.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Create", 
+                "POST", 
+                "Rapir Record", 
+                repairRecord.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Create", 
+                "POST", 
+                "Rapir Record", 
+                repairRecord.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No unknown asset data in records!");
         }
     }
@@ -98,14 +112,21 @@ public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, Rep
 
             repairRecordMapper.updateById(repairRecord);
 
-            actionRecord.setActionName("Update");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("Rapir Record");
-            actionRecord.setActionData(repairRecord.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Rapir Record", 
+                repairRecord.toString(), 
+                "Success"
+            );
         } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Rapir Record", 
+                repairRecord.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No unknown asset data in records!");
         }
     }
@@ -125,22 +146,25 @@ public class RepairRecordServiceImpl extends ServiceImpl<RepairRecordMapper, Rep
             repairRecord.setStatus(0);
             repairRecord.setUpdated(LocalDateTime.now());
             repairRecordMapper.updateById(repairRecord);
-            
 
-            actionRecord.setActionName("Void");
-            actionRecord.setActionMethod("DELETE");
-            actionRecord.setActionFrom("Rapir Record");
-            actionRecord.setActionData(repairRecord.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "Rapir Record", 
+                repairRecord.toString(), 
+                "Success"
+            );
+            
         } else {
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "Rapir Record", 
+                repairRecord.toString(), 
+                "Failure"
+            );
             throw new RuntimeException("No unknown asset data in records!");
         }
-    }
-
-    private int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
     }
 
 }
