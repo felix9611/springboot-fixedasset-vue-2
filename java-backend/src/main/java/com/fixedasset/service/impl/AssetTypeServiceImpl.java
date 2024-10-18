@@ -23,7 +23,6 @@ public class AssetTypeServiceImpl extends ServiceImpl<AssetTypeMapper, AssetType
 
     @Resource private ActionRecordService actionRecordService;
 
-
     public void batchImport(List<AssetType> assetTypes) {
         for (AssetType assetType : assetTypes) {
             createNew(assetType);
