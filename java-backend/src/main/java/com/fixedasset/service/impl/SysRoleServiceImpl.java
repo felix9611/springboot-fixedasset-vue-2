@@ -2,11 +2,9 @@ package com.fixedasset.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.fixedasset.common.lang.Const;
-import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.SysRole;
-import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.SysRoleMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.SysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -19,10 +17,13 @@ import javax.annotation.Resource;
 
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
+
     @Resource SysRoleMapper sysRoleMapper;
-    @Resource ActionRecordMapper actionRecordMapper;
+
     @Resource SysRole sysRole;
-    @Resource private ActionRecord actionRecord;
+
+    @Resource private ActionRecordService actionRecordService;
+
     @Override
     public List<SysRole> listRolesByUserId(Long userId) {
 
@@ -45,16 +46,23 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             sysRole.setUpdated(LocalDateTime.now());
             sysRoleMapper.updateById(sysRole);
 
-            actionRecord.setActionName("Delete Role");
-            actionRecord.setActionMethod("DELETE");
-            actionRecord.setActionFrom("System Role Manger");
-            actionRecord.setActionData(sysRole.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-            this.createdAction(actionRecord);
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "System Role Manger", 
+                sysRole.toString(), 
+                "Success"
+            );
 
             return "Role id was void:" + id.toString();
         } else {
+            actionRecordService.createdAction(
+                "Void", 
+                "DELETE", 
+                "System Role Manger", 
+                id.toString(), 
+                "failure"
+            );
             throw new RuntimeException("Not active data in records!");
         }
     }
@@ -65,19 +73,26 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         queryWrapper.eq(SysRole::getStatu, 1);
         SysRole checkOne = this.getOne(queryWrapper);
         if (checkOne == null) {
-            sysRole.setCreated(LocalDateTime.now());
-            sysRole.setStatu(0);
+            newData.setCreated(LocalDateTime.now());
+            newData.setStatu(0);
             sysRoleMapper.insert(newData);
 
-            actionRecord.setActionName("Created Role");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("System Role Manger");
-            actionRecord.setActionData(sysRole.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-
+            actionRecordService.createdAction(
+                "Create", 
+                "POST", 
+                "System Role Manger", 
+                newData.toString(), 
+                "Success"
+            );
             return newData;
         } else {
+            actionRecordService.createdAction(
+                "Create", 
+                "POST", 
+                "System Role Manger", 
+                newData.toString(), 
+                "failure"
+            );
             throw new RuntimeException("Exist in lists! Please check again!");
         }
     }
@@ -93,20 +108,24 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             sysRole.setUpdated(LocalDateTime.now());
             sysRoleMapper.updateById(data);
 
-            actionRecord.setActionName("Update Role");
-            actionRecord.setActionMethod("POST");
-            actionRecord.setActionFrom("System Role Manger");
-            actionRecord.setActionData(sysRole.toString());
-            actionRecord.setActionSuccess("Success");
-            actionRecord.setCreated(LocalDateTime.now());
-    
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "System Role Manger", 
+                sysRole.toString(), 
+                "Success"
+            );
+
             return data;
         } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "System Role Manger", 
+                sysRole.toString(), 
+                "failure"
+            );
             throw new RuntimeException("Not active data in records!");
         }
-    }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
     }
 }
