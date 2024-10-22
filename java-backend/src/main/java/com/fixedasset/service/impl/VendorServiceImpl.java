@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -97,7 +98,8 @@ public class VendorServiceImpl extends ServiceImpl<VendorMapper, Vendor> impleme
         queryWrapper.eq(Vendor::getStatu, 1);
         Vendor checkOne = vendorMapper.selectOne(queryWrapper);
         if (checkOne.getId().equals(vendor.getId())) {
-
+            vendor.setStatu(0);
+            vendor.setUpdated(LocalDateTime.now());
             vendorMapper.updateById(vendor);
 
             actionRecordService.createdAction(

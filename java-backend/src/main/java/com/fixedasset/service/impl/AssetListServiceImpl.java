@@ -530,10 +530,6 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
         return str.toString();
     }
 
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
-    }
-
     public LocalDateTime getFormat(String dateString) {
         Date date = new Date(dateString);
         Instant instant = Instant.ofEpochMilli(date.getTime());

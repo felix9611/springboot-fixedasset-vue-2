@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.entity.ActionRecord;
+import com.fixedasset.entity.AssetType;
 import com.fixedasset.entity.FieldMatch;
 import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.FieldMatchMapper;
+import com.fixedasset.service.ActionRecordService;
 import com.fixedasset.service.FieldMatchService;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,8 @@ import java.util.List;
 public class FieldMatchServiceImpl extends ServiceImpl<FieldMatchMapper, FieldMatch> implements FieldMatchService {
 
     @Resource private FieldMatchMapper fieldMatchMapper;
-    @Resource private ActionRecord actionRecord;
-    @Resource ActionRecordMapper actionRecordMapper;
+
+    @Resource private ActionRecordService actionRecordService;
 
     public List<FieldMatch> findBqQuery(FieldMatch fieldMatch) {
         LambdaQueryWrapper<FieldMatch> queryWrapper = Wrappers.lambdaQuery();
@@ -40,51 +42,97 @@ public class FieldMatchServiceImpl extends ServiceImpl<FieldMatchMapper, FieldMa
     }
 
     public void createNaw(FieldMatch fieldMatch) {
+        LambdaQueryWrapper<FieldMatch> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(FieldMatch::getStatu, 1);
+        queryWrapper.eq(FieldMatch::getFunctionCategory, fieldMatch.getFunctionCategory());
+        queryWrapper.eq(FieldMatch::getFunctionCategoryCode, fieldMatch.getFunctionCategoryCode());
+        queryWrapper.eq(FieldMatch::getFieldName, fieldMatch.getFieldName());
+        
+        FieldMatch exist = fieldMatchMapper.selectOne(queryWrapper);
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Field Match");
-        actionRecord.setActionData(fieldMatch.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        if (exist == null) {
+            fieldMatch.setCreated(LocalDateTime.now());
+            fieldMatch.setStatu(1);
+            fieldMatchMapper.insert(fieldMatch);
 
-        fieldMatch.setCreated(LocalDateTime.now());
-        fieldMatch.setStatu(1);
-        fieldMatchMapper.insert(fieldMatch);
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Excel Field Match", 
+                fieldMatch.toString(), 
+                "Success"
+            );
+        } else {
+            actionRecordService.createdAction(
+                "Save", 
+                "POST", 
+                "Excel Field Match", 
+                fieldMatch.toString(), 
+                "Failure"
+            );
+            throw new RuntimeException("Exist in records!");
+        }
+
     }
 
     public void updateOne(FieldMatch fieldMatch) {
 
-        actionRecord.setActionName("Save");
-        actionRecord.setActionMethod("POST");
-        actionRecord.setActionFrom("Field Match");
-        actionRecord.setActionData(fieldMatch.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        LambdaQueryWrapper<FieldMatch> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(FieldMatch::getStatu, 1);
+        queryWrapper.eq(FieldMatch::getId, fieldMatch.getId());
+        FieldMatch exist = fieldMatchMapper.selectOne(queryWrapper);
 
-        fieldMatch.setCreated(LocalDateTime.now());
-        fieldMatch.setStatu(1);
-        fieldMatchMapper.insert(fieldMatch);
+        if (exist != null) {
+            fieldMatch.setUpdated(LocalDateTime.now());
+            fieldMatchMapper.updateById(fieldMatch);
+
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Excel Field Match", 
+                fieldMatch.toString(), 
+                "Success"
+            );
+        } else {
+            actionRecordService.createdAction(
+                "Update", 
+                "POST", 
+                "Excel Field Match", 
+                fieldMatch.toString(), 
+                "Failure"
+            );
+            throw new RuntimeException("No active data in records!");
+        }
     }
 
     public void removeOne(FieldMatch fieldMatch) {
 
-        actionRecord.setActionName("Remove");
-        actionRecord.setActionMethod("delete");
-        actionRecord.setActionFrom("Field Match");
-        actionRecord.setActionData(fieldMatch.toString());
-        actionRecord.setActionSuccess("Success");
-        actionRecord.setCreated(LocalDateTime.now());
-        this.createdAction(actionRecord);
+        LambdaQueryWrapper<FieldMatch> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(FieldMatch::getStatu, 1);
+        queryWrapper.eq(FieldMatch::getId, fieldMatch.getId());
+        FieldMatch exist = fieldMatchMapper.selectOne(queryWrapper);
 
-        fieldMatch.setUpdated(LocalDateTime.now());
-        fieldMatchMapper.updateById(fieldMatch);
+        if (exist != null) {
+            fieldMatch.setStatu(0);
+            fieldMatch.setUpdated(LocalDateTime.now());
+            fieldMatchMapper.updateById(fieldMatch);
+
+            actionRecordService.createdAction(
+                "Void", 
+                "Delete", 
+                "Excel Field Match", 
+                fieldMatch.toString(), 
+                "Success"
+            );
+        } else {
+            actionRecordService.createdAction(
+                "Void", 
+                "Delete", 
+                "Excel Field Match", 
+                fieldMatch.toString(), 
+                "Failure"
+            );
+            throw new RuntimeException("No active data in records!");
+        }
     }
-
-    public int createdAction(ActionRecord actionRecord) {
-        return actionRecordMapper.insert(actionRecord);
-    }
-
 }

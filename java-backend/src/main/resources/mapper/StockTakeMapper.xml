@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fixedasset.mapper.StockTakeMapper">
     <select id="getALL" resultType="com.fixedasset.entity.StockTake"> 
-        Select * from stocktake where active = 1
+        SELECT * FROM stocktake WHERE active = 1
     </select>
 
     <select id="getALLFinished" resultType="com.fixedasset.entity.StockTake"> 
-        Select * from stocktake where active = 2
+        SELECT * FROM stocktake WHERE active = 2
     </select>
 
     <select id="newPage" resultType="com.fixedasset.dto.StockTakeFormListDTO"> 

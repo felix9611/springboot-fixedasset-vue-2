@@ -114,6 +114,7 @@ public class CodeTypeServiceImpl extends ServiceImpl<CodeTypeMapper, CodeType> i
         if (checkOne.getId().equals(id)) {
             codeType.setId(id);
             codeType.setStatu(0);
+            codeType.setUpdated(LocalDateTime.now());
             codeTypeMapper.updateById(codeType);
 
             actionRecordService.createdAction(
