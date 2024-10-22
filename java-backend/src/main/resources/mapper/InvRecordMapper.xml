@@ -7,8 +7,8 @@
                 lf.place_name as fromPlaceName, lt.place_name as toPlaceName,
                 lf.place_code as fromPlaceCode, lt.place_code as toPlaceCode 
             FROM invrecord as ir 
-            left join location as lf ON ir.place_from = lf.id
-            left join location as lt ON ir.place_to = lt.id
+            LEFT JOIN location as lf ON ir.place_from = lf.id
+            LEFT JOIN location as lt ON ir.place_to = lt.id
         ) AS q ${ew.customSqlSegment}
     </select>
 </mapper>

@@ -7,14 +7,14 @@
         SELECT * from (
             SELECT rr.status as status, rr.id id, al.asset_code as assetCode, al.asset_name as assetName, rr.repair_reason as repairReason, 
             rr.maintenance_date as maintenanceDate, rr.repair_amount as repairAmount, rr.created as created, rr.updated as updated 
-            from repair_record rr left join asset_list al on rr.asset_id = al.id
+            FROM repair_record rr left join asset_list al on rr.asset_id = al.id
         ) AS q ${ew.customSqlSegment}
     </select>
 
     <select id="getRecordById" resultType="com.fixedasset.entity.RepairRecord"> 
        SELECT al.asset_code as assetCode, al.asset_name asassetName, rr.* 
-       from repair_record rr 
-       left join asset_list al on rr.asset_id = al.id 
-       where rr.id = #{repairId}
+       FROM repair_record rr 
+       LEFT JOIN asset_list al on rr.asset_id = al.id 
+       WHERE rr.id = #{repairId}
     </select>
 </mapper>
