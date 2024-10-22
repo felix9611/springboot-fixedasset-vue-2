@@ -51,6 +51,7 @@ public class AssetListFileServiceImpl extends ServiceImpl<AssetListFileMapper, A
     public void removeFile(Long id) {
         assetListFile.setId(id);
         assetListFile.setStatu(0);
+        assetListFile.setUpdated(LocalDateTime.now());
         assetListFileMapper.updateById(assetListFile);
 
         actionRecordService.createdAction(

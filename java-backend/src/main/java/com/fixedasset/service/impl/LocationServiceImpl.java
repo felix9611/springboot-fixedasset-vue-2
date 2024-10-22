@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -104,7 +105,8 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         queryWrapper.eq(Location::getStatu, 1);
         Location checkOne = locationMapper.selectOne(queryWrapper);
         if (checkOne.getId().equals(location.getId())) {
-
+            location.setUpdated(LocalDateTime.now());
+            location.setStatu(0);
             locationMapper.updateById(location);
 
             actionRecordService.createdAction(
