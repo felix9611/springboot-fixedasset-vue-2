@@ -47,7 +47,7 @@ Frontend using port 8080<br />
 
 Backend<br />
 
-----
+~~~
 // Go to the backend's file directory
 cd java-backend
 
@@ -61,12 +61,12 @@ mvn spring-boot:run
 
 // Packing the backend
 mvn package
-----
+~~~
 <br />
 
 Frontend<br />
 
-----
+~~~
 // Go to the backend's file directory
 cd frontend-ts-class
 
@@ -82,6 +82,5 @@ yarn start
 
 // Build the frontend
 npm run build
-yarn build
-----
+~~~
 <br />
