@@ -45,7 +45,7 @@
 Backend using port 8350<br />
 Frontend using port 8080<br />
 
-Backend
+Backend<br />
 [source,java]
 ----
 // Go to the backend's file directory
@@ -64,7 +64,7 @@ mvn package
 ----
 <br />
 
-Frontend
+Frontend<br />
 [source,java]
 ----
 // Go to the backend's file directory
