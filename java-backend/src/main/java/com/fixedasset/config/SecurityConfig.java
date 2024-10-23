@@ -61,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
 	}
 
-
     private static final String[] URL_WHITELIST = {
             "/login",
             "/logout",
