@@ -1,6 +1,7 @@
 # Fixedasset SYSTEM BY Springboot & VUE
 
-== Springboot X VUE For MySQL
+Springboot X VUE For MySQL
+------------
 <div>
 ・Inclubes frontend and backend for Fixed Assets Management System<br />
 ・Management purchase expenditure record ,maintenance and write-off records in fixed assets at facilities<br />
@@ -10,7 +11,8 @@
 </div>
 
 <div>
-== Language:<br />
+Language:<br />
+------------
 ・Java8 (Some dependencies only run on Java8)<br />
 ・Node.js 16.20 (Frontend).<br />
 ・Typescript<br />
@@ -18,14 +20,16 @@
 ・Tailwind<br />
 </div><br />
 
-== Core:<br />
+Core:<br />
+------------
 ・Spring boot 2.4.13<br />
 ・Mybatis 3.4.1<br />
 ・Vue 2.6.10<br />
 ・moment 2.29.1<br />
 ・MySQL V8<br />
 <br />
-== Component:<br />
+Component:<br />
+------------
 ・ChartJs 2.9.3<br />
 ・jspdf 2.5.1<br />
 ・xlsx ^0.18.2<br />
@@ -33,15 +37,16 @@
 ・OpenAI<br />
 <br />
 
-== Example Image<br />
+Example Image<br />
+------------
 <img src="/image/fixedasset-1.png"><br />
 <img src="/image/fixedasset-2.png"><br />
 <img src="/image/fixedasset-3.png"><br />
 <img src="/image/fixedasset-4.png"><br />
 
 
-== How to run this project<br />
-
+How to run this project<br />
+------------
 Backend using port 8350<br />
 Frontend using port 8080<br />
 
