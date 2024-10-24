@@ -1,6 +1,7 @@
 package com.fixedasset.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -45,6 +46,7 @@ public class SysUser extends BaseEntity {
     private String city;
 
     @Schema(description = "Last Login")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastLogin;
 
     @Schema(description = "System Role lists,Only apply for response")

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fixedasset.dto.StockTakeItemListRecord;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,10 +33,12 @@ public class StockTake implements Serializable {
 
     @Schema(description = "Stock take created time, Only apply for response")
     @TableField("created_time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
     @Schema(description = "Stock take finished time, Only apply for response")
     @TableField("finish_time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime finishTime;
 
     @Schema(description = "Stock take status, 0 = Void, 1 = Active, 2 = Finished")
