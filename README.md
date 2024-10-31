@@ -45,6 +45,14 @@ Example Image<br />
 <img src="/image/fixedasset-3.png"><br />
 <img src="/image/fixedasset-4.png"><br />
 
+Online Demo<br />
+------------
+https://felix-fixedasset.web.app/login<br />
+Username: Demo<br />
+Password: 888888<br />
+
+Backend & Database deployed on koyeb<br />
+Frontend deployed on firebase<br />
 
 How to run this project<br />
 ------------
