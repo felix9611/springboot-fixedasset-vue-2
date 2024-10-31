@@ -91,7 +91,6 @@
                     <el-divider direction="vertical"></el-divider>
 
                     <el-button size="mini" @click="editHandle(scope.row.id)">Edit</el-button>
-                    <el-divider direction="vertical"></el-divider>
 
                 </template>
             </el-table-column>
