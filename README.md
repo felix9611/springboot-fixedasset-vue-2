@@ -53,6 +53,7 @@ Password: 888888<br />
 
 Backend & Database deployed on koyeb<br />
 Frontend deployed on firebase<br />
+Maybe datas will slow to load, please wait it to load thanks<br />
 
 How to run this project<br />
 ------------
