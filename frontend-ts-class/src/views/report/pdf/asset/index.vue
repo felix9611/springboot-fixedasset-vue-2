@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white p-3 rounded-lg">
+    <div class="bg-white p-3 rounded-lg w-screen">
         <div class="handle-box">
             <el-form :inline="true">
                 <el-form-item>

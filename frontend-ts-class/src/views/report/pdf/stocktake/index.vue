@@ -10,7 +10,7 @@
         </div>
         <div class="handle-box">
             <el-form :inline="true">
-                <el-form-item label="Place" prop="place" label-width="100px">
+                <el-form-item label="Action Name" prop="place" label-width="100px">
                     <el-select v-model="searchForm.stockTakeId" placeholder="Select" filterable>
                         <el-option
                         v-for="item in stockTakeList"
