@@ -1,10 +1,8 @@
 <template>
-    <div class="container">
+    <div class="bg-white p-3 rounded-lg">
         <div class="handle-box">
-            
-            <el-row :gutter="24">
-                <el-col :span="4">
-                    <v-card
+            <div class="grid grid-cols-5 gap-3">
+                <v-card
                         class="mgb20-score"
                         max-width="500"
                     >
@@ -20,9 +18,7 @@
                             </div>    
                         </div>
                     </v-card>
-                </el-col>
-                <el-col :span="4">
-                     <v-card
+                    <v-card
                         class="mgb20-score"
                         max-width="500"
                     >
@@ -38,8 +34,8 @@
                             </div>    
                         </div>
                     </v-card> 
-                </el-col>
-            </el-row>
+            </div>
+            
         </div>
         <div class="handle-box">
             <el-form :inline="true">
