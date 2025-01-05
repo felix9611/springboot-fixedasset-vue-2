@@ -2,11 +2,13 @@ package com.fixedasset.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -30,8 +32,9 @@ public class AssetList extends BaseEntity {
     private String unit;
 
     @Schema(description = "Buy Date")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @TableField("buy_date")
-    private String buyDate;
+    private LocalDateTime buyDate;
 
     @Schema(description = "Description")
     @TableField("description")
@@ -57,9 +60,10 @@ public class AssetList extends BaseEntity {
     @TableField("invoice_no")
     private String invoiceNo;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Schema(description = "Invoice Date")
     @TableField("invoice_date")
-    private String invoiceDate;
+    private LocalDateTime invoiceDate;
 
     @Schema(description = "Invoice Remark")
     @TableField("invoice_remark")
@@ -138,8 +142,9 @@ public class AssetList extends BaseEntity {
     private String voucherNo;
 
     @Schema(description = "Voucher Used Date")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @TableField("Voucher_used_date")
-    private String voucherUsedDate;
+    private LocalDateTime voucherUsedDate;
 
     @Schema(description = "Only apply for paging in list api")
     @TableField(exist = false)
