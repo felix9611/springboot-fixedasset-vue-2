@@ -37,18 +37,20 @@ public class RepairRecord {
     private String maintenanceName;
 
     @Schema(description = "Maintenance date")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @TableField("maintenance_date")
-    private String maintenanceDate;
+    private LocalDateTime maintenanceDate;
 
     @Schema(description = "Finish maintenance date")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @TableField("maintenance_finish_date")
-    private String maintenanceFinishDate;
+    private LocalDateTime maintenanceFinishDate;
 
     @Schema(description = "Repair invoice date")
     @TableField("repair_invoice_date")
     private String repairInvoiceDate;
 
-    @Schema(description = "Repair nO.")
+    @Schema(description = "Repair No.")
     @TableField("repair_invoice_no")
     private String repairInvoiceNo;
 
