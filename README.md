@@ -15,7 +15,7 @@
 <p>🔗 <strong><a href="https://felix-fixedasset.web.app/login" target="_blank">Online Demo</a></strong></p>
 <p><strong>Username:</strong> <code>Demo</code><br>
 <strong>Password:</strong> <code>888888</code></p>
-<p><em>Note: Backend & Database hosted on Koyeb, Frontend on Firebase. Initial data load may take a few seconds.</em></p>
+<p><em>Note: Backend & Database hosted on Koyeb, Frontend on Firebase. Initial data load may take a few seconds. If cannot load the verification code, please click the "Reset" button.</em></p>
 
 <h2>📸 Example Screenshots</h2>
 
