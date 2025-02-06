@@ -61,8 +61,48 @@
 <ul>
   <li><strong>Asset Registration & Tracking:</strong> Record and track fixed assets with detailed status and information.</li>
   <li><strong>Expenditure & Maintenance Management:</strong> Log asset purchase, maintenance, and write-off records for better financial control.</li>
-  <li><strong>Dynamic Reporting:</strong> Showing chart grahp and generate PDF and Excel reports for easy analysis and sharing.</li>
+  <li><strong>Dynamic Reporting:</strong> Showing chart graphs and generate PDF and Excel reports for easy analysis and sharing.</li>
 </ul>
+
+<h2>📋 How to Run the Project</h2>
+
+<h3>Backend</h3>
+<pre><code>// Go to the backend's file directory
+cd backend-java
+
+// Install dependencies using maven
+mvn install
+// or
+mvn clean install -X
+
+// Run the backend
+mvn spring-boot:run
+
+// Packing the backend
+mvn package
+
+// API Documentation URL
+http://localhost:8350/swagger-ui.html
+</code></pre>
+
+<h3>Frontend</h3>
+<pre><code>// Go to the frontend's file directory
+cd frontend-ts-class
+
+// Install dependencies (npm)
+npm run install
+
+// Or install dependencies (yarn)
+yarn install
+
+// Run the frontend
+npm run start
+// or
+yarn start
+
+// Build the frontend
+npm run build
+</code></pre>
 
 <h2>🌐 Deployment</h2>
 <ul>
