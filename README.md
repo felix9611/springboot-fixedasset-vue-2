@@ -17,7 +17,7 @@
 <strong>Password:</strong> <code>888888</code></p>
 <p><em>Note: Backend & Database hosted on Koyeb, Frontend on Firebase. Initial data load may take a few seconds.</em></p>
 
-<h2>📸 Screenshots</h2>
+<h2>📸 Example Screenshots</h2>
 
 <h3>Dashboard Overview</h3>
 <img src="https://github.com/felix9611/springboot-fixedasset-vue-2/blob/main/image/fixedasset-1.png" alt="Dashboard Overview">
