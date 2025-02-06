@@ -61,7 +61,7 @@
 <ul>
   <li><strong>Asset Registration & Tracking:</strong> Record and track fixed assets with detailed status and information.</li>
   <li><strong>Expenditure & Maintenance Management:</strong> Log asset purchase, maintenance, and write-off records for better financial control.</li>
-  <li><strong>Dynamic Reporting:</strong> Showing chart grahic and generate PDF and Excel reports for easy analysis and sharing.</li>
+  <li><strong>Dynamic Reporting:</strong> Showing chart grahp and generate PDF and Excel reports for easy analysis and sharing.</li>
 </ul>
 
 <h2>🌐 Deployment</h2>
