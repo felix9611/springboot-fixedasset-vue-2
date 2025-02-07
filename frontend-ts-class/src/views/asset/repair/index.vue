@@ -3,13 +3,19 @@
         <div class="handle-box">
             <el-form :inline="true">
                 <el-form-item>
-                    <el-input
-                            v-model="searchForm.typeCode"
-                            placeholder="Type Code"
-                            clearable
-                    >
-                    </el-input>
-                </el-form-item>
+                    <el-date-picker
+                        v-model="searchForm.repairInvoiceDateFrom"
+                        type="datetime"
+                        placeholder="Select From">
+                    </el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                    <el-date-picker
+                        v-model="searchForm.repairInvoiceDateTo"
+                        type="datetime"
+                        placeholder="Select To">
+                    </el-date-picker>
+                    </el-form-item>
 
 
 
