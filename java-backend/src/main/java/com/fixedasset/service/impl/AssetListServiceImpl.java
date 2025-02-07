@@ -287,14 +287,14 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
 
                 assetList.setAssetName(assetListUploadDataDto.getAssetName());
                 assetList.setUnit(assetListUploadDataDto.getUnit());
-                assetList.setBuyDate(assetListUploadDataDto.getBuyDate());
+              //  assetList.setBuyDate(assetListUploadDataDto.getBuyDate());
                 assetList.setDescription(assetListUploadDataDto.getDescription());
                 assetList.setSponsor(assetListUploadDataDto.getSponsor() == "Yes" ? 1 : 0);
                 assetList.setSponsorName(assetListUploadDataDto.getSponsorName());
                 assetList.setCost(assetListUploadDataDto.getCost());
                 assetList.setSerialNum(assetListUploadDataDto.getSerialNum());
                 assetList.setInvoiceNo(assetListUploadDataDto.getInvoiceNo());
-                assetList.setInvoiceDate(assetListUploadDataDto.getInvoiceDate());
+              //  assetList.setInvoiceDate(assetListUploadDataDto.getInvoiceDate());
                 assetList.setInvoiceRemark(assetListUploadDataDto.getInvoiceRemark());
                 assetList.setTaxCountryCode(assetListUploadDataDto.getTaxCountryCode());
                 assetList.setTaxCode(assetListUploadDataDto.getTaxCode());
@@ -308,7 +308,7 @@ public class AssetListServiceImpl extends ServiceImpl<AssetListMapper, AssetList
                 assetList.setChequeNo(assetListUploadDataDto.getChequeNo());
                 assetList.setMaintenancePeriodStart(assetListUploadDataDto.getMaintenancePeriodStart());
                 assetList.setMaintenancePeriodEnd(assetListUploadDataDto.getMaintenancePeriodEnd());
-                assetList.setVoucherUsedDate(assetListUploadDataDto.getVoucherUsedDate());
+             //   assetList.setVoucherUsedDate(assetListUploadDataDto.getVoucherUsedDate());
                 assetList.setVoucherNo(assetListUploadDataDto.getVoucherNo());
                 
                 assetList.setRemark(assetListUploadDataDto.getRemark());

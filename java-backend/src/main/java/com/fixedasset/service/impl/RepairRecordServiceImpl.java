@@ -2,10 +2,8 @@ package com.fixedasset.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fixedasset.dto.RepairRecordListDto;
-import com.fixedasset.entity.ActionRecord;
 import com.fixedasset.entity.AssetList;
 import com.fixedasset.entity.RepairRecord;
-import com.fixedasset.mapper.ActionRecordMapper;
 import com.fixedasset.mapper.AssetListMapper;
 import com.fixedasset.mapper.RepairRecordMapper;
 import com.fixedasset.service.ActionRecordService;
@@ -13,9 +11,6 @@ import com.fixedasset.service.AssetListService;
 import com.fixedasset.service.RepairRecordService;
 import java.time.LocalDateTime;
 import javax.annotation.Resource;
-
-import org.apache.catalina.connector.Request;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

@@ -67,12 +67,24 @@ public class TaxableCountryController extends BaseController {
         Page page = new Page(taxableCountry.getPage(), taxableCountry.getLimit());
         LambdaQueryWrapper<TaxableCountry> queryWrapper = Wrappers.lambdaQuery();
 
-        if (!StringUtils.isEmpty(taxableCountry.getCountryName())) {
-            queryWrapper.like(TaxableCountry::getCountryName, taxableCountry.getCountryName());
+        if (!StringUtils.isEmpty(taxableCountry.getNameCode())) {
+            queryWrapper
+            .like(TaxableCountry::getNationCode, taxableCountry.getNameCode())
+            .or()
+            .like(TaxableCountry::getNationName, taxableCountry.getNameCode())
+            .or()
+            .like(TaxableCountry::getNationName, taxableCountry.getNameCode())
+            .or()
+            .like(TaxableCountry::getCountryName, taxableCountry.getNameCode());
         }
 
-        if (!StringUtils.isEmpty(taxableCountry.getTaxName())) {
-            queryWrapper.like(TaxableCountry::getTaxName, taxableCountry.getTaxName());
+        if (!StringUtils.isEmpty(taxableCountry.getTax())) {
+            queryWrapper
+            .like(TaxableCountry::getTaxType, taxableCountry.getTax())
+            .or()
+            .like(TaxableCountry::getTaxCode, taxableCountry.getTax())
+            .or()
+            .like(TaxableCountry::getTaxName, taxableCountry.getTax());
         }
 
         queryWrapper.eq(TaxableCountry::getStatu, 1);

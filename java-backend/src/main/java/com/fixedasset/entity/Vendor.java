@@ -58,4 +58,16 @@ public class Vendor extends BaseEntity {
     @Schema(description = "Only apply for paging in list api")
     @TableField(exist = false)
     private int limit;
+
+    @Schema(description = "Find by Name or code")
+    @TableField(exist = false)
+    private String name;
+
+    @Schema(description = "Find by Address")
+    @TableField(exist = false)
+    private String place;
+
+    @Schema(description = "Find by contact")
+    @TableField(exist = false)
+    private String contact;
 }

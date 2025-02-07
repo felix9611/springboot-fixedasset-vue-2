@@ -54,4 +54,12 @@ public class TaxableCountry extends BaseEntity{
     @Schema(description = "Only apply for paging in list api")
     @TableField(exist = false)
     private int limit;
+
+    @Schema(description = "Find by Name or code")
+    @TableField(exist = false)
+    private String nameCode;
+
+    @Schema(description = "Find by tax")
+    @TableField(exist = false)
+    private String tax;
 }

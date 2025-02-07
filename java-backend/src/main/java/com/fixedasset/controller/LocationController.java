@@ -80,8 +80,8 @@ public class LocationController extends BaseController {
         Page page = new Page(location.getPage(), location.getLimit());
         LambdaQueryWrapper<Location> queryWrapper = Wrappers.lambdaQuery();
 
-        if (!StringUtils.isEmpty(location.getPlaceCode())) {
-            queryWrapper.like(Location::getPlaceCode, location.getPlaceCode());
+        if (!StringUtils.isEmpty(location.getName())) {
+            queryWrapper.like(Location::getPlaceCode, location.getName()).or().like(Location::getPlaceName, location.getName());
         }
 
         queryWrapper.orderByDesc(true, Location::getPlaceCode);

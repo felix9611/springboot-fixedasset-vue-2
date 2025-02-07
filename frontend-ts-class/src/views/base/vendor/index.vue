@@ -4,15 +4,31 @@
             <el-form :inline="true">
                 <el-form-item>
                     <el-input
-                            v-model="searchForm.vendorCode"
-                            placeholder="Vendor Code"
+                            v-model="searchForm.name"
+                            placeholder="Vendor Code/Name"
                             clearable
                     >
                     </el-input>
-                </el-form-item>     
+                </el-form-item>   
+                <el-form-item>
+                    <el-input
+                            v-model="searchForm.place"
+                            placeholder="Place"
+                            clearable
+                    >
+                    </el-input>
+                </el-form-item> 
+                <el-form-item>
+                    <el-input
+                            v-model="searchForm.contact"
+                            placeholder="Contact"
+                            clearable
+                    >
+                    </el-input>
+                </el-form-item>   
 
                 <el-form-item>
-                    <el-button @click="deptAllList">Find</el-button>
+                    <el-button @click="allList">Find</el-button>
                 </el-form-item>
 
                 <el-form-item>
@@ -230,7 +246,7 @@ export default class vendor extends Vue {
     }
 
     created() {
-        this.deptAllList()
+        this.allList()
     }
 
 
@@ -281,14 +297,14 @@ export default class vendor extends Vue {
                     type: 'success',
                 })
                 this.uploaderDialog = false
-                this.deptAllList()
+                this.allList()
                 this.fileList = []
                 file = undefined
             }
         })
     }
 
-    deptAllList() {
+    allList() {
         axios.post(
             '/base/vendor/listAll',
             this.searchForm
@@ -329,12 +345,12 @@ export default class vendor extends Vue {
 
     handleSizeChange(val: any) {
         this.searchForm.limit = val
-        this.deptAllList()
+        this.allList()
     }
 
     handleCurrentChange(val: any) {
         this.searchForm.page = val
-        this.deptAllList()
+        this.allList()
     }
 
     resetForm(formName: string) {
@@ -360,7 +376,7 @@ export default class vendor extends Vue {
                 console.log(this.editForm)
                 axios.post('/base/vendor/' + (this.editForm.id ? 'update' : 'create'), this.editForm)
                     .then((res: any) => {
-                        this.deptAllList()
+                        this.allList()
                         this.$notify({
                             title: 'Msg',
                             showClose: true,
@@ -385,7 +401,7 @@ export default class vendor extends Vue {
 
     delItem(id: number) {
         axios.delete('/base/vendor/remove/'+ id).then((res: any) => {
-            this.deptAllList()
+            this.allList()
             this.$notify({
                 title: '',
                 showClose: true,
