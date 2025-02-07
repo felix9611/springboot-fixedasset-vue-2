@@ -30,4 +30,8 @@ public class CodeType extends BaseEntity {
     @Schema(description = "Only apply for paging in list api")
     @TableField(exist = false)
     private int limit = 10;
+
+    @Schema(description = "Find by Name or code")
+    @TableField(exist = false)
+    private String name;
 }

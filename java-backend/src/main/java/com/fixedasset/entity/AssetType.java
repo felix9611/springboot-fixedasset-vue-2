@@ -34,4 +34,8 @@ public class AssetType extends BaseEntity {
     @Schema(description = "Only apply for paging in list api")
     @TableField(exist = false)
     private int limit;
+
+    @Schema(description = "Find by Name or code")
+    @TableField(exist = false)
+    private String name;
 }

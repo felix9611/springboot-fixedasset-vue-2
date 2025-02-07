@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fixedasset.common.lang.Result;
+import com.fixedasset.dto.VendorListAndPageRequestDto;
 import com.fixedasset.entity.Vendor;
 import com.fixedasset.service.VendorService;
 
@@ -78,12 +79,22 @@ public class VendorController extends BaseController {
         Page page = new Page(vendor.getPage(), vendor.getLimit());
         LambdaQueryWrapper<Vendor> queryWrapper = Wrappers.lambdaQuery();
 
-        if (StringUtils.isNotBlank(vendor.getVendorCode())){
-            queryWrapper.eq(Vendor::getVendorCode, vendor.getVendorCode());
+        if (StringUtils.isNotBlank(vendor.getName())) {
+            queryWrapper.like(Vendor::getVendorCode, vendor.getName()).or().like(Vendor::getVendorName, vendor.getName());
         }
 
-        if (StringUtils.isNotBlank(vendor.getVendorName())) {
-            queryWrapper.eq(Vendor::getVendorName, vendor.getVendorName());
+        if (StringUtils.isNotBlank(vendor.getPlace())) {
+            queryWrapper.like(Vendor::getAddress, vendor.getPlace());
+        }
+
+        if (StringUtils.isNotBlank(vendor.getContact())) {
+            queryWrapper.like(Vendor::getContactPerson, vendor.getContact())
+                .or()
+                .like(Vendor::getEmail, vendor.getContact())
+                .or()
+                .like(Vendor::getPhone, vendor.getContact())
+                .or()
+                .like(Vendor::getFax, vendor.getContact());
         }
 
         queryWrapper.orderByDesc(true, Vendor::getVendorCode);

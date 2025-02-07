@@ -7,8 +7,8 @@
             <el-form :inline="true">
                 <el-form-item>
                     <el-input
-                            v-model="searchForm.typeCode"
-                            placeholder="Type Code"
+                            v-model="searchForm.name"
+                            placeholder="Code/Name"
                             clearable
                     >
                     </el-input>

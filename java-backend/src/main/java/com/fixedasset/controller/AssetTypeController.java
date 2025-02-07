@@ -32,8 +32,11 @@ public class AssetTypeController extends BaseController {
         Page page = new Page(assetType.getPage(), assetType.getLimit());
         LambdaQueryWrapper<AssetType> queryWrapper = Wrappers.lambdaQuery();
 
-        if(!StringUtils.isEmpty(assetType.getTypeCode())){
-            queryWrapper.like(AssetType::getTypeCode, assetType.getTypeCode());
+        if(!StringUtils.isEmpty(assetType.getName())){
+            queryWrapper
+                .like(AssetType::getTypeCode, assetType.getName())
+                .or()
+                .like(AssetType::getTypeName, assetType.getName());
         }
 
         queryWrapper.orderByDesc(true, AssetType::getTypeCode);
