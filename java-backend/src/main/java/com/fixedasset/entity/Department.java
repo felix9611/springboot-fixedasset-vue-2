@@ -35,4 +35,8 @@ public class Department extends BaseEntity {
     @TableField(exist = false)
     private int limit = 10;
 
+    @Schema(description = "Find by Name or code")
+    @TableField(exist = false)
+    private String name;
+
 }

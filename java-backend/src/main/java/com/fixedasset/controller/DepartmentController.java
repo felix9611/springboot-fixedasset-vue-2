@@ -80,8 +80,11 @@ public class DepartmentController {
         Page page = new Page(department.getPage(), department.getLimit());
         LambdaQueryWrapper<Department> queryWrapper = Wrappers.lambdaQuery();
 
-        if(!StringUtils.isEmpty(department.getDeptCode())){
-            queryWrapper.like(Department::getDeptCode, department.getDeptCode());
+        if(!StringUtils.isEmpty(department.getName())){
+            queryWrapper
+                .like(Department::getDeptCode, department.getName())
+                .or()
+                .like(Department::getDeptName, department.getName());
         }
 
         queryWrapper.orderByDesc(true, Department::getDeptCode);
