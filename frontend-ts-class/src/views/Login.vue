@@ -1,5 +1,66 @@
 <template>
-    <div class="flex w-full h-screen bg-[url('assets/img/background3.jpg')]">
+    <div class="bg-cover w-screen min-h-screen text-white bg-[url('assets/img/background3.jpg')]">
+        <div class="] grid md:grid-cols-1 xl:grid-cols-3 gap-3 p-10">
+            <div class="xl:col-span-2 xl:my-[15rem]">
+                <div>
+                    <div
+                        class="text-center font-bold text-[3rem] md:text-[3rem] lg:text-[3.5rem] xl:text-[4rem] xs:[text-shadow:_0_15px_30px_rgb(99_102_241_/_0.8)]  [text-shadow:_0_8px_10px_rgb(99_102_241_/_0.8)] hover:[text-shadow:_0_10px_15px_#b5edff]"
+                    >
+                        Fixed Asset Management
+                    </div>
+                    <div
+                       class="text-center font-bold text-[1.5rem] md:text-[2rem] lg:text-[2rem] xl:text-[3rem] xs:[text-shadow:_0_15px_30px_rgb(99_102_241_/_0.8)]  [text-shadow:_0_8px_10px_rgb(99_102_241_/_0.8)] hover:[text-shadow:_0_10px_15px_#b5edff]"
+                    >
+                        Take more efficiency in here
+                    </div>
+                </div>
+            </div>
+            <div class="xl:col-span-1 xl:my-[10.5rem]">
+                <div class="bg-white bg-opacity-80 p-6 rounded-x rounded-3xl shadow-lg">
+                    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="grid grid-cols-1 gap-2">
+                        <el-form-item prop="username" class="w-100">
+                            <input
+                                v-model="loginForm.username"
+                                placeholder="Username"
+                                class="text-[1.6rem] placeholder-blue-800 text-black border border-white border-8 w-full rounded-lg"
+                            />
+                        </el-form-item>
+                        <el-form-item prop="password">
+                            <input
+                                v-model="loginForm.password"
+                                type="password"
+                                placeholder="Paasword"
+                                class="text-[1.6rem] placeholder-blue-800 text-black border border-white border-8 w-full rounded-lg"
+                            />
+                        </el-form-item>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="col-span-2">
+                                <input 
+                                    v-model="loginForm.code"
+                                    placeholder="Captcha"
+                                    class="text-[1.6rem] placeholder-blue-800 text-black border border-white border-8 w-full h-full rounded-lg"
+                                />
+                            </div>
+                            <div>
+                                <el-image :src="captchaImg" @click="getCaptcha" class="w-full"></el-image>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-5 py-5">
+                            <button
+                                @click.prevent="submitForm('loginForm')"
+                                class="p-3 bg-[#b5b5b5] bg-opacity-30 hover:bg-opacity-100 rounded-lg text-blue-800 font-bold"
+                            >Login</button>
+                            <button
+                                class="p-3 bg-[#b5b5b5]  bg-opacity-30 hover:bg-opacity-100 rounded-lg text-blue-800 font-bold"
+                                @click.prevent="resetForm('loginForm')"
+                            >Reset</button>
+                        </div>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="flex w-full h-screen bg-[url('assets/img/background3.jpg')]">
          <div class="m-auto bg-white w-[400px] p-6 rounded-xl">
             <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px"
                     class="login-form">
@@ -41,7 +102,7 @@
                 </el-form-item>
             </el-form>
          </div>   
-    </div>
+    </div>-->
 </template>
 
 <script lang="ts">
@@ -62,9 +123,9 @@ export default class Login extends Vue {
     cookiePass: string = ''
     
     loginForm: any = {
-        username: 'admin',
-        password: '111111',
-        code: '111111',
+        username: '',
+        password: '',
+        code: '',
         token: ''
     }
     loginRules =  {
@@ -82,7 +143,7 @@ export default class Login extends Vue {
 
     created() {
         this.getCaptcha()
-        this.getClientIP()
+       // this.getClientIP()
     }
 
     getClientIP() {
@@ -193,18 +254,6 @@ export default class Login extends Vue {
         font-size: 13px;
         text-align: center;
         color: #bfbfbf;
-    }
-
-    .login-code {
-        width: 33%;
-        display: inline-block;
-        height: 38px;
-        float: right;
-
-        img {
-            cursor: pointer;
-            vertical-align: middle;
-        }
     }
     .captchaImg {
         float: left;
