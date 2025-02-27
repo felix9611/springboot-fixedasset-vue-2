@@ -2,6 +2,7 @@ package com.fixedasset.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -41,10 +42,12 @@ public class BudgetList extends BaseEntity {
 
     @Schema(description = "Budget Date Range From ")
     @TableField("budget_from")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime budgetFrom;
 
     @Schema(description = "Budget Date Range To ")
     @TableField("budget_to")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime budgetTo;
 
     @Schema(description = "Budget Status")
