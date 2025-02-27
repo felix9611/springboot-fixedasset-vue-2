@@ -19,7 +19,7 @@ public class BudgetList extends BaseEntity {
 
     @Schema(description = "Location Id")
     @TableField("place_id")
-    private int place_id;
+    private int placeId;
 
     @Schema(description = "Budget No.")
     @TableField("budget_no")
