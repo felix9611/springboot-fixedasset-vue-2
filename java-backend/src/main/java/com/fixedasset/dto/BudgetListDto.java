@@ -17,4 +17,6 @@ public class BudgetListDto extends BudgetList {
     @Transient private String placeName;
 
     @Transient private String placeCode;
+
+    @Transient private String yearMonth;
 }

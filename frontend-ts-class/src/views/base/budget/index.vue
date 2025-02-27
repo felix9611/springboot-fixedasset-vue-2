@@ -180,7 +180,7 @@
                     </el-form-item>
 
                     <el-form-item label="Amount"  prop="amount" label-width="120px">
-                        <el-input v-model="editForm.amount" autocomplete="off">
+                        <el-input v-model="editForm.budgetAmount" autocomplete="off">
                         <template #prepend>$</template>
                         </el-input>
                     </el-form-item>

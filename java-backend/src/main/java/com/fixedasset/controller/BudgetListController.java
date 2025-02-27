@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 @Tag(name = "Budget")
@@ -70,5 +72,21 @@ public class BudgetListController {
 
         Page<BudgetListDto> iPage = budgetListService.newPage(page, queryWrapper);
         return Result.succ(iPage);
+    }
+
+    @Operation(summary = "Total Budget Amount List")
+    @PostMapping("/totalBudgetAmountList")
+    public Result totalBudgetAmountList(@RequestBody BudgetList budgetList) {
+        LambdaQueryWrapper<BudgetList> queryWrapper = Wrappers.lambdaQuery();
+
+        if ( !(budgetList.getBudgetFrom() == null) && !(budgetList.getBudgetTo() == null )) {
+            queryWrapper.between(BudgetList::getBudgetFrom, budgetList.getBudgetFrom(), budgetList.getBudgetTo());
+        }
+
+        queryWrapper.eq(BudgetList::getStatu, 1);
+
+        List<BudgetListDto> list = budgetListService.totalBudgetAmountList(queryWrapper);
+
+        return Result.succ(list);
     }
 }

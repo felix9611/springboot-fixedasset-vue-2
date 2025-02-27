@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.management.RuntimeErrorException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -131,6 +132,10 @@ public class BudgetListServiceImpl extends ServiceImpl<BudgetListMapper, BudgetL
 
     public Page<BudgetListDto> newPage(Page page, LambdaQueryWrapper<BudgetList> queryWrapper){
         return budgetListMapper.pageAndList(page, queryWrapper);
+    }
+
+    public List<BudgetListDto> totalBudgetAmountList(LambdaQueryWrapper<BudgetList> queryWrapper) {
+        return budgetListMapper.totalBudgetAmountList(queryWrapper);
     }
 
     public String numberRandom() {

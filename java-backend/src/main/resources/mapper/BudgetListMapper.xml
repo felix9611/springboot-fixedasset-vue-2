@@ -11,4 +11,16 @@
             LEFT JOIN location AS lo ON bl.place_id = lo.id
         ) AS q ${ew.customSqlSegment}
     </select>
+
+    <select id="totalBudgetAmountList" resultType="com.fixedasset.dto.BudgetListDto">
+        SELECT 
+            sum(budget_amount) AS budgetAmount, 
+            CONCAT(YEAR(budget_from), '-', MONTHNAME(budget_from)) AS yearMonth, 
+            YEAR(budget_from), 
+            Month(budget_from) 
+        FROM fixedasset_springboot_vue_3.budget_list 
+         ${ew.customSqlSegment}
+        GROUP BY CONCAT(YEAR(budget_from), '-', MONTHNAME(budget_from)), YEAR(budget_from), Month(budget_from) 
+ORDER BY YEAR(budget_from), Month(budget_from)  ASC;
+    </select>
 </mapper>
