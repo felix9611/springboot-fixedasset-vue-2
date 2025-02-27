@@ -8,7 +8,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Component
 @Data
@@ -42,13 +44,13 @@ public class BudgetList extends BaseEntity {
 
     @Schema(description = "Budget Date Range From ")
     @TableField("budget_from")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime budgetFrom;
+    // @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Timestamp budgetFrom;
 
     @Schema(description = "Budget Date Range To ")
     @TableField("budget_to")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime budgetTo;
+    // @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Timestamp budgetTo;
 
     @Schema(description = "Budget Status")
     @TableField("budget_status")
