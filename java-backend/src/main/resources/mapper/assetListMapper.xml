@@ -114,10 +114,10 @@
     </select>
 
     <select id="getAssetCostYearMonthFind" resultType="com.fixedasset.dto.AssetCostYearMonthDto"> 
-        SELECT sum(cost) as costs ,CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) as yearMonth FROM fixedasset_springboot_vue_3.asset_list 
+        SELECT sum(cost) as costs ,CONCAT(YEAR(buy_date), '-', MONTHNAME(buy_date)) as yearMonth FROM fixedasset_springboot_vue_3.asset_list 
              ${ew.customSqlSegment} 
-            group by CONCAT(YEAR(buy_date), '-', MONTH(buy_date)) 
-            order by CONCAT(YEAR(buy_date), '-', MONTH(buy_date));
+            group by CONCAT(YEAR(buy_date), '-', MONTHNAME(buy_date)) 
+            order by CONCAT(YEAR(buy_date), '-', MONTHNAME(buy_date));
     </select>
 
     <select id="getAssetYearQtyPlaceFind" resultType="com.fixedasset.dto.AssetYearQtyPlaceDto"> 

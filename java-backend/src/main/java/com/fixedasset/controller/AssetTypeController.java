@@ -1,10 +1,8 @@
 package com.fixedasset.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fixedasset.common.lang.Result;
 import com.fixedasset.entity.AssetType;
 import com.fixedasset.service.AssetTypeService;

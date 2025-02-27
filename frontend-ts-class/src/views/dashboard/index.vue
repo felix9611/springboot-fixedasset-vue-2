@@ -61,6 +61,16 @@
                 </div>
             </div>
 
+            <div class="lg:col-span-full shadow-lg rounded-lg bg-white">
+                <div class="font-bold p-1">
+                    Total Costs vs Total Budget by Year-Month
+                </div>
+                <div class="p-1">
+                    <PlotlyChart v-bind="chartsSetA1" /> 
+                </div>
+            </div>
+
+
             <div class="lg:col-span-5 shadow-lg rounded-lg bg-white">
                 <div class="font-bold p-1">
                     Total Item by type
@@ -143,12 +153,14 @@ import axios from '../../axios'
 import { Component, Vue } from 'vue-property-decorator'
 import ApexChartOne from '../../components/charts/apex/apexOne.vue'
 import ChartJsStackedChart from '@/components/charts/chartJs/StackedChart.vue'
+import PlotlyChart from '@/components/charts/plotyjs/index.vue'
+
 
 @Component({
     components: {
         ApexChartOne,
         ChartJsStackedChart,
-
+        PlotlyChart
     }
 })
 export default class Dashboard extends Vue {
@@ -176,6 +188,57 @@ export default class Dashboard extends Vue {
             (res: any) => {
             this.deptItem = res.data.data
         })
+    }
+
+    mergeLists(costsList: any[], budgetList: any[]) {
+        const mergedMap = new Map<string, any>();
+
+        for (const costItem of costsList) {
+            mergedMap.set(costItem.yearMonth, { ...costItem });
+        }
+
+        for (const budgetItem of budgetList) {
+            if (mergedMap.has(budgetItem.yearMonth)) {
+            Object.assign(mergedMap.get(budgetItem.yearMonth)!, budgetItem);
+            } else {
+            mergedMap.set(budgetItem.yearMonth, { budgetAmount: budgetItem.budgetAmount });
+            }
+        }
+
+        return Array.from(mergedMap.values());
+    }
+
+    get chartsSetA1() {
+
+        const finalList =  this.mergeLists(this.getTotalBudgetList, this.getAssetCostYearMonthData)
+              
+        return {
+            plotyData: [
+                {
+                    name: 'Budget Total',
+                    x: finalList.map((x: any) => x.yearMonth),
+                    y: finalList.map((x: any) => x.budgetAmount),
+                    line: {shape: 'spline'},
+                },
+                {
+                    name: 'Used Costs',
+                    x: finalList.map((x: any) => x.yearMonth),
+                    y: finalList.map((x: any) => x.costs),
+                    line: {shape: 'spline'},
+                }
+            ],
+            plotyLayout: {
+                margin: {
+                    l: 70,
+                    r: 70,
+                    b: 50,
+                    t: 30,
+                    pad: 4
+                },
+                legend: {orientation:"h", xanchor: 'center', x:0.5, y:1 },
+                height: 300
+            }
+        }
     }
 
     // data
@@ -566,6 +629,7 @@ export default class Dashboard extends Vue {
         this.getAssetCostYearMonthFind()
         this.getAssetYearQtyPlaceFind()
         this.getAssetYearCostPlaceFind()
+        this.getTotalBudget()
     }
 
     created() {
@@ -579,6 +643,7 @@ export default class Dashboard extends Vue {
         this.getAssetCostYearMonthFind()
         this.getAssetYearQtyPlaceFind()
         this.getAssetYearCostPlaceFind()
+        this.getTotalBudget()
 
         this.getAllType()
         this.getAlldept()
@@ -696,6 +761,18 @@ export default class Dashboard extends Vue {
                         _res['yearMonth'] = `${_res.years}-${_res.months}`
                     }
                 )
+            }
+        )
+    }
+
+    getTotalBudgetList: any = []
+    getTotalBudget() {
+        axios.post('/base/budget/totalBudgetAmountList', {
+            budgetFrom: this.searchForm.buyDateFrom,
+            budgetTo: this.searchForm.buyDateFrom
+        }).then(
+            (res: any) => {
+                this.getTotalBudgetList = res.data.data
             }
         )
     }

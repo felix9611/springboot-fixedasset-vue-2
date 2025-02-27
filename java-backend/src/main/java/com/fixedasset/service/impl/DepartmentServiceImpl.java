@@ -66,7 +66,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         queryWrapper.eq(Department::getStatu, 1);
         Department checkOne = departmentMapper.selectOne(queryWrapper);
         if (checkOne.getId().equals(department.getId())) {
-
             actionRecordService.createdAction(
                     "Void", 
                     "DELETE", 
@@ -74,7 +73,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
                     department.toString(), 
                     "Success"
             );
-
+            
             departmentMapper.updateById(department);
 
         } else {
