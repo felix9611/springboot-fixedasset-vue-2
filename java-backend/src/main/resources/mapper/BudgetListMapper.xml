@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fixedasset.mapper.BudgetListMapper">
+    <select id="pageAndList" resultType="com.fixedasset.dto.BudgetListDto"> 
+        SELECT * from (
+            SELECT bl.* ,
+            d.dept_name AS deptName, d.dept_code AS deptCode, 
+            lo.place_code AS placeCode, lo.place_name AS placeName 
+            FROM budget_list AS bl 
+            LEFT JOIN department AS d ON bl.dept_id = d.id 
+            LEFT JOIN location AS lo ON bl.place_id = lo.id
+        ) AS q ${ew.customSqlSegment}
+    </select>
+</mapper>

@@ -12,14 +12,28 @@ import java.time.LocalDateTime;
 @Component
 @Data
 @TableName("budget_list")
-public class BudgetList extends BaseEntity{
-    @Schema(description = "Month budget")
-    @TableField("budget_month")
-    private int budgetMonth;
+public class BudgetList extends BaseEntity {
+    @Schema(description = "Department Id")
+    @TableField("dept_id")
+    private int deptId;
 
-    @Schema(description = "Location Name")
-    @TableField("place_code")
+    @Schema(description = "Location Id")
+    @TableField("place_id")
+    private int place_id;
+
+    @Schema(description = "Budget No.")
+    @TableField("budget_no")
+    private String budgetNo;
+
+    @Schema(description = "Budget Name")
+    @TableField("budget_name")
     private String budgetName;
+
+    @Schema(description = "Budget of year")
+    private int year;
+
+    @Schema(description = "Budget of month")
+    private int month;
 
     @Schema(description = "Budget Amount")
     @TableField("budget_amount")
@@ -36,4 +50,16 @@ public class BudgetList extends BaseEntity{
     @Schema(description = "Budget Status")
     @TableField("budget_status")
     private String budgetStatus;
+
+    @Schema(description = "The remark")
+    @TableField("remark")
+    private String remark;
+
+    @Schema(description = "Only apply for paging in list api")
+    @TableField(exist = false)
+    private int page = 1;
+
+    @Schema(description = "Only apply for paging in list api")
+    @TableField(exist = false)
+    private int limit = 10;
 }
