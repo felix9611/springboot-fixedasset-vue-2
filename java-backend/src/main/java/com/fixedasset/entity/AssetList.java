@@ -162,6 +162,18 @@ public class AssetList extends BaseEntity {
     @TableField(exist = false)
     private String buyDateFrom;
 
+    @Schema(description = "Location Data Ids, only for list api for seraching")
+    @TableField(exist = false)
+    private List<Integer> placeIds;
+
+    @Schema(description = "Department Data Ids, only for list api for seraching")
+    @TableField(exist = false)
+    private List<Integer> deptIds;
+
+    @Schema(description = "Asset Type ID")
+    @TableField(exist = false)
+    private List<Integer> typeIds;
+
     @Schema(description = "Only apply for response, files list")
     @TableField(exist = false)
     private List<AssetListFile> assetListFiles;

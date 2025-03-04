@@ -58,6 +58,16 @@ public class AssetListController extends BaseController {
             queryWrapper.eq(AssetList::getDeptId, assetList.getDeptId());
         }
 
+        if (!assetList.getTypeIds().isEmpty()) {
+            queryWrapper.in(AssetList::getTypeId, assetList.getTypeIds());
+        }
+        if (!assetList.getPlaceIds().isEmpty()) {
+            queryWrapper.in(AssetList::getPlaceId, assetList.getPlaceIds());
+        }
+        if (!assetList.getDeptIds().isEmpty()) {
+            queryWrapper.in(AssetList::getDeptId, assetList.getDeptIds());
+        }
+
         queryWrapper.orderByDesc(true, AssetList::getAssetCode);
         queryWrapper.eq(AssetList::getStatu, 1);
         Page<AssetListViewDTO> iPage = assetListService.newPage(page, queryWrapper);

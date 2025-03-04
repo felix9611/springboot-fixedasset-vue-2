@@ -17,9 +17,9 @@ public interface AssetListMapper extends BaseMapper<AssetList> {
 
     List<AssetListViewDTO> pageInWriteOff(@Param("ew") Wrapper<AssetList> queryWrapper);
 
-    int sumCost(@Param("ew") Wrapper<AssetList> queryWrapper);
+    AssetCostYearMonthDto sumCost(@Param("ew") Wrapper<AssetList> queryWrapper);
 
-    int sumCostWithSponsor(@Param("ew") Wrapper<AssetList> queryWrapper);
+    // AssetCostYearMonthDto sumCostWithSponsor(@Param("ew") Wrapper<AssetList> queryWrapper);
 
     List<CostWithDeptDto> getCostWithDept();
 

@@ -7,14 +7,14 @@
                         max-width="500"
                     >
                         <div class="card-content-score">
-                            <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
+                            <div class="text-center text-[1.5rem] text-[midnightblue]">
                                 Total
                             </div>
-                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                            <div class="text-center pt-[10%] text-[1.5rem] text-[midnightblue]">
                                 Used Cost
                             </div>
-                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
-                                HKD ${{ sumTotal }}
+                            <div class="text-center pt-[10%] text-[1.5rem] text-[midnightblue]">
+                                HKD ${{ sumTotal ? sumTotal && sumTotal.costs: 0 }}
                             </div>    
                         </div>
                     </v-card>
@@ -23,14 +23,14 @@
                         max-width="500"
                     >
                         <div class="card-content-score">
-                            <div style="text-align: center;font-size: 1.5rem;color: midnightblue;">
+                            <div class="text-center text-[1.5rem] text-[midnightblue]">
                                 Total with Sponsor
                             </div>
-                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
+                            <div class="text-center pt-[10%] text-[1.5rem] text-[midnightblue]">
                                 Used Cost 
                             </div>
-                            <div style="text-align: center;padding-top: 10%;font-size: 1.5rem;color: midnightblue;">
-                                HKD ${{ sumTotalWithSponsor }}
+                            <div class="text-center pt-[10%] text-[1.5rem] text-[midnightblue]">
+                                HKD ${{ sumTotalWithSponsor ? sumTotalWithSponsor && sumTotalWithSponsor.costs : 0 }}
                             </div>    
                         </div>
                     </v-card> 
@@ -56,7 +56,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-select v-model="searchForm.typeId" placeholder="Select" filterable clearable>
+                    <el-select v-model="searchForm.typeIds" placeholder="Select" filterable clearable multiple collapse-tags>
                         <el-option
                         v-for="item in typeItem"
                         :key="item.id"
@@ -66,7 +66,7 @@
                     </el-select>
                 </el-form-item>  
                 <el-form-item>
-                    <el-select v-model="searchForm.placeId" placeholder="Select" filterable clearable>
+                    <el-select v-model="searchForm.placeIds" placeholder="Select" filterable clearable multiple collapse-tags>
                         <el-option
                         v-for="item in placeItem"
                         :key="item.id"
@@ -76,7 +76,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>
+                    <el-select v-model="searchForm.deptIds" placeholder="Select" filterable clearable multiple collapse-tags>
                         <el-option
                         v-for="item in deptItem"
                         :key="item.id"
@@ -351,8 +351,8 @@ export default class AssetList extends Vue {
 
     customImageMaxSize: number = 3
     delBtlStatu: boolean = true
-    sumTotalWithSponsor: number = 0
-    sumTotal: number = 0
+    sumTotalWithSponsor: any = {}
+    sumTotal: any = {}
 
     total: number = 0
     size: number
@@ -560,6 +560,8 @@ export default class AssetList extends Vue {
     }
 
     assetAllList() {
+        this.sumCostWithSponsor()
+        this.getTotalCost()
         axios.post(
             '/asset/assetList/listAll',
             this.searchForm
@@ -568,10 +570,7 @@ export default class AssetList extends Vue {
                 this.tableData = res.data.data.records
                 this.size = res.data.data.size
                 this.current = res.data.data.current
-                this.total = res.data.data.total
-
-                this.sumCostWithSponsor()
-                this.getTotalCost()
+                this.total = res.data.data.total          
 
                 this.tableData.forEach((re: any) => {
                     const newBuyDate = re.buyDate? moment(new Date(re.buyDate)).format('DD-MM-YYYY HH:MM') : null
