@@ -13,7 +13,7 @@
                     </el-col>
                     <el-col :span="30">
                         <el-form-item label="Type" prop="type" label-width="60px">
-                            <el-select v-model="searchForm.typeId" placeholder="Select" filterable clearable>
+                            <el-select v-model="searchForm.typeIds" placeholder="Select" filterable clearable multiple collapse-tags>
                             <el-option
                                 v-for="typeItems in typeItem"
                                 :key="typeItems.id"
@@ -25,7 +25,7 @@
                     </el-col>
                     <el-col :span="30">
                         <el-form-item label="Department" label-width="100px">
-                            <el-select v-model="searchForm.deptId" placeholder="Select" filterable clearable>
+                            <el-select v-model="searchForm.deptIds" placeholder="Select" filterable clearable multiple collapse-tags>
                                 <el-option
                                 v-for="item in deptItem"
                                 :key="item.id"

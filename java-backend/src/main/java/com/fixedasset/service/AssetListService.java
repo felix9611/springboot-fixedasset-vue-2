@@ -21,9 +21,9 @@ public interface AssetListService extends IService<AssetList> {
 
     void update(AssetList assetList);
 
-    int sumTotal(AssetList assetList);
+    AssetCostYearMonthDto sumTotal(AssetList assetList);
 
-    int sumCostWithSponsor(AssetList assetList);
+    AssetCostYearMonthDto sumCostWithSponsor(AssetList assetList);
 
     AssetList findOne(AssetList assetList);
 

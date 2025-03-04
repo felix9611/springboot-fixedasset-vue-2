@@ -134,7 +134,7 @@
              ${ew.customSqlSegment} group by location.place_name, YEAR(buy_date), MONTH(buy_date) order by YEAR(buy_date), MONTH(buy_date);
     </select>
 
-    <select id="sumCost" resultType="java.lang.Integer"> 
+    <select id="sumCost" resultType="com.fixedasset.dto.AssetCostYearMonthDto"> 
         SELECT sum(cost) as costs FROM asset_list ${ew.customSqlSegment}
     </select>
 
