@@ -6204,7 +6204,7 @@
             },
             "buyDate": {
               "type": "string",
-              "description": "Buy Date"
+              "description": "Purchase Date"
             },
             "description": {
               "type": "string",
@@ -6333,11 +6333,11 @@
             },
             "buyDateTo": {
               "type": "string",
-              "description": "Only apply for paging in list api, Buy Date Range To"
+              "description": "Only apply for paging in list api, Purchase Date Range To"
             },
             "buyDateFrom": {
               "type": "string",
-              "description": "Only apply for paging in list api, Buy Date Range From"
+              "description": "Only apply for paging in list api, Purchase Date Range From"
             },
             "assetListFiles": {
               "type": "array",
@@ -6419,7 +6419,7 @@
             },
             "buyDate": {
               "type": "string",
-              "description": "Buy Date"
+              "description": "Purchase Date"
             },
             "description": {
               "type": "string",

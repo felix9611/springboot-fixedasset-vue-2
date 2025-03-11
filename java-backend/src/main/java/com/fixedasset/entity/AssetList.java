@@ -31,7 +31,7 @@ public class AssetList extends BaseEntity {
     @TableField("unit")
     private String unit;
 
-    @Schema(description = "Buy Date")
+    @Schema(description = "Purchase Date")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @TableField("buy_date")
     private LocalDateTime buyDate;
@@ -154,11 +154,11 @@ public class AssetList extends BaseEntity {
     @TableField(exist = false)
     private int limit;
 
-    @Schema(description = "Only apply for paging in list api, Buy Date Range To")
+    @Schema(description = "Only apply for paging in list api, Purchase Date Range To")
     @TableField(exist = false)
     private String buyDateTo;
 
-    @Schema(description = "Only apply for paging in list api, Buy Date Range From")
+    @Schema(description = "Only apply for paging in list api, Purchase Date Range From")
     @TableField(exist = false)
     private String buyDateFrom;
 

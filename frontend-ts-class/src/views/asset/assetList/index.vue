@@ -128,7 +128,7 @@
             </el-table-column>
             <el-table-column
               prop="buyDate"
-              label="Buy Date"
+              label="Purchase Date"
               width="180">
             </el-table-column>
             <el-table-column
@@ -496,7 +496,7 @@ export default class AssetList extends Vue {
         const { assetCode, assetName, placeName, buyDate, updated } = asset
         this.assetDetail = asset
         const download = moment().format('DD-MM-YYYY HH:MM')
-        this.qrTagContent = `${assetCode}|${assetName}|${placeName}|Buy Date:${buyDate}|Updated At:${updated}|Download Tag:${download}`
+        this.qrTagContent = `${assetCode}|${assetName}|${placeName}|Purchase Date:${buyDate}|Updated At:${updated}|Download Tag:${download}`
     }
  
     sumCostWithSponsor() {
