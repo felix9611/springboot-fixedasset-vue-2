@@ -67,7 +67,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="Buy Date" prop="Dept" label-width="120px">
+      <el-form-item label="Purchase Date" prop="Dept" label-width="120px">
         <el-date-picker
           class="w-full"
           v-model="editForm.buyDate"

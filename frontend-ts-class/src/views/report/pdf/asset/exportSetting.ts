@@ -4,7 +4,7 @@ export const exportExcelHeader1: any = [
   'Type Code',
   'Type Name',
   'Unit',
-  'Buy Date',
+  'Purchase Date',
   'Description',
   'Cost',
   'Serial Number',
@@ -121,6 +121,6 @@ export const pdfColumns: any = [
   { title : 'Type', dataKey: 'Type' },
   { title : 'Department', dataKey: 'deptName' },
   { title : 'Place', dataKey: 'placeName' },
-  { title : 'Buy Date', dataKey: 'buyDate' , type: 'datetime', format: 'MM/DD/YYYY' },
+  { title : 'Purchase Date', dataKey: 'buyDate' , type: 'datetime', format: 'MM/DD/YYYY' },
   { title : 'Cost', dataKey: 'cost' }
 ]

@@ -4,7 +4,7 @@ export const exportExcelHeader1: any = [
   'Type Code',
   'Type Name',
   'Unit',
-  'Buy Date',
+  'Purchase Date',
   'Description',
   'Sponsor',
   'Sponsor Name',

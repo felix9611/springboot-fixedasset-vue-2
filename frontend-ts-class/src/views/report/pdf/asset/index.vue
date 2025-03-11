@@ -49,7 +49,7 @@
                     </el-table-column>
                    <el-table-column
                     prop="buyDate"
-                    label="Buy Date"
+                    label="Purchase Date"
                     width="180">
                     </el-table-column>
                     <el-table-column

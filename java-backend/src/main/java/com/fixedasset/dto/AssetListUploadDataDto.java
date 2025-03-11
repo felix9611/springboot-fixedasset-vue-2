@@ -27,7 +27,7 @@ public class AssetListUploadDataDto {
     @Schema(description = "Unit")
     @Transient private String unit;
 
-    @Schema(description = "Buy Date")
+    @Schema(description = "Purchase Date")
     @Transient private String buyDate;
 
     @Schema(description = "Description")
