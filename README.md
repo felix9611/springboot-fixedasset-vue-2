@@ -2,6 +2,7 @@
 
 <h1>Fixed Asset Management System</h1>
 <p><strong>Spring Boot & Vue.js | Cloud-based Web Application for Asset Management</strong></p>
+<p>NCPL（Non-Commercial Public License）</p>
 
 <h2>🌟 Project Overview</h2>
 <p>This is a full-stack <strong>Fixed Asset Management System</strong> built with <strong>Spring Boot</strong> and <strong>Vue.js</strong>, designed for managing fixed assets within facilities. The system includes:</p>
