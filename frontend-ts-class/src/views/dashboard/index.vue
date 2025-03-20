@@ -3,7 +3,7 @@
         <el-row :gutter="30" class="shadow-lg rounded-lg bg-white pt-6 md:col-span-full lg:col-span-full">
                 <el-form :model="searchForm">
                     <el-col :span="30">
-                        <el-form-item label="Purchase Date" prop="Dept" label-width="100px">
+                        <el-form-item label="Purchase Date" prop="Dept" label-width="150px">
                             <el-date-picker
                             v-model="buyDateForm"
                             type="daterange"
