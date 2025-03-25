@@ -108,7 +108,7 @@ npm run build
 <h2>🌐 Deployment</h2>
 <ul>
   <li><strong>Datebase</strong> Koyeb</li>
-  <li><strong>Backend:</strong> <del>Koyeb (Spring Boot)</del>AWS Clouds(From Mar 24, 2025)</li>
+  <li><strong>Backend:</strong> <del>Koyeb (Spring Boot)</del>  AWS Clouds(From Mar 24, 2025)</li>
   <li><strong>Frontend:</strong> Firebase Hosting</li>
 </ul>
 
