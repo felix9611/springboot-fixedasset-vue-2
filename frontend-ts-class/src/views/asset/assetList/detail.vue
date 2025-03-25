@@ -268,7 +268,12 @@ export default class StockTakeDetail extends Vue {
     this.getAllVendor()
     if (this.$route.params.id) {
       this.editForm.id = Number(this.$route.params.id)
-      this.editHandle()
+      if (this.editForm.id > 0) {
+        
+        this.editHandle()
+      } else {
+        delete this.editForm.id
+      }
     }
     this.getAllTaxesData()
   }
