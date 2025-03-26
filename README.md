@@ -12,8 +12,8 @@
 </ul>
 <p>The system is <strong>cloud-based</strong>, significantly reducing IT infrastructure costs and improving usability, with no installation required.</p>
 
-<del><p>🔗 <strong><a href="https://felix-fixedasset.web.app/login" target="_blank">Online Demo</a></strong></p></del>
-<p>Due of temporary maintenance the demo website, please using same username and password to login to <strong><a href="https://fixedasset-prod-felix9611-d3fc9544.koyeb.app/login" target="_blank">Nest.Js + Angular version/a></strong></p>
+<!--<p>🔗 <strong><a href="https://felix-fixedasset.web.app/login" target="_blank">Online Demo</a></strong></p>-->
+<p>Due of temporary maintenance the demo website, please using same username and password to login to <strong><a href="https://fixedasset-prod-felix9611-d3fc9544.koyeb.app/login" target="_blank">🔗 Nest.Js + Angular version</a></strong></p>
 0
 <p><strong>Username:</strong> <code>Demo</code><br>
 <strong>Password:</strong> <code>888888</code></p>
